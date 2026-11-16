@@ -1,0 +1,152 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-beamer}[2026/10/30 Beamer frames as sections (decision 083)]
+% A frame's \frametitle opens a top-level section; the title box, which beamer typesets after
+% the frame's body, is that section's heading. beamer's own \section and \subsection print
+% nothing on a frame and are no headings (relatex.sty observes no sectioning for beamer).
+\directlua{ltd.beamer = require('relatex-beamer')}
+\AddToHook{cmd/beamer@@frametitle/before}{\directlua{ltd.beamer.frame_title(ltd)}}
+\patchcmd\endbeamer@frameslide{\usebeamertemplate***{frametitle}}
+  {\ltd@beamer@titlebegin\usebeamertemplate***{frametitle}\ltd@beamer@titleend}
+  {}{\PackageWarning{relatex-beamer}{Frame titles are not observed}}
+% A theme may draw the frame title inside a picture (a TikZ node: slides/0022); the title is then no
+% heading but text where it is drawn, and says so (decision 128, d). The title tells the collector
+% when it is set, and the pictures tell it whether one is open around it.
+\def\ltd@beamer@titlebegin{%
+  \directlua{ltd.beamer.title_begin(ltd)}%
+  \global\let\ltd@beamer@title\insertframetitle
+  \ifx\insertframetitle\@empty\else
+    \gdef\insertframetitle{\directlua{ltd.beamer.title_set()}\ltd@beamer@title}%
+  \fi}
+\def\ltd@beamer@titleend{%
+  \global\let\insertframetitle\ltd@beamer@title
+  \directlua{ltd.beamer.title_end(ltd)}}
+\AddToHook{cmd/pgfpicture/before}{\directlua{ltd.beamer.picture(1)}}
+\AddToHook{cmd/endpgfpicture/after}{\directlua{ltd.beamer.picture(-1)}}
+% An item with an overlay specification (\item<2->) is set inside beamer's actionenv: the
+% collector's \@item hook then sees actionenv for the list and passes the item by. The item is
+% observed here instead, under the name of the list it belongs to.
+\newif\ifltd@beamer@overlayitem
+\@for\ltd@env:=itemize,enumerate,description\do{%
+  \expanded{\noexpand\AddToHook{env/\ltd@env/begin}{\def\noexpand\ltd@beamer@list{\ltd@env}}}}
+\AddToHook{cmd/beamer@parseitem/before}{\global\ltd@beamer@overlayitemtrue}
+\AddToHook{cmd/beamer@callorigitem/before}{%
+  \ifltd@beamer@overlayitem
+    \global\ltd@beamer@overlayitemfalse
+    \@ifundefined{ltd@beamer@list}{}{%
+      \if@noparitem\else\if@inlabel\indent\par\fi\fi
+      \directlua{ltd.external_lists.item('\ltd@beamer@list',\number\@listdepth)}}%
+  \fi}
+% A block (block, alertblock, exampleblock, or an author's environment built on beamer's block
+% templates, like Auburn's problock) is a theorem-like structure whose first paragraph is its
+% title box (decision 083, amendment 1). Every block is set through one of beamer's block
+% begin/end templates, which is where it is observed. beamer's theorems and proofs set their
+% block through the theorem begin and proof begin templates: they already are theorem and proof
+% structures, and that inner block is not another one.
+\def\ltd@beamer@family#1{\expandafter\def\csname ltd@beamer@tmpl@#1\endcsname}
+\ltd@beamer@family{block begin}{block}
+\ltd@beamer@family{block alerted begin}{alerted}
+\ltd@beamer@family{block example begin}{example}
+\ltd@beamer@family{block end}{end}
+\ltd@beamer@family{block alerted end}{end}
+\ltd@beamer@family{block example end}{end}
+\ltd@beamer@family{theorem begin}{owner}
+\ltd@beamer@family{proof begin}{owner}
+\let\ltd@beamer@usetemplate\beamer@usebeamertemplatedo
+\def\beamer@usebeamertemplatedo#1{%
+  \ifcsname ltd@beamer@tmpl@#1\endcsname
+    \expandafter\ltd@beamer@observedtemplate
+  \else
+    \expandafter\ltd@beamer@usetemplate
+  \fi{#1}}
+% A block environment opens beamer's actionenv (whose inner environment is altenv) before its
+% template: the block's own name is the environment that opened the actionenv.
+\def\ltd@beamer@env{}
+\AddToHook{env/actionenv/before}{\let\ltd@beamer@env\@currenvir}
+\def\ltd@beamer@blockenv{%
+  \ifnum0\ifx\@currenvir\ltd@beamer@altenv1\fi\ifx\@currenvir\ltd@beamer@actionenv1\fi>0
+    \ltd@beamer@env\else\@currenvir\fi}
+\def\ltd@beamer@altenv{altenv}
+\def\ltd@beamer@actionenv{actionenv}
+\def\ltd@beamer@observedtemplate#1{%
+  \directlua{ltd.beamer.template_begin(ltd,'\csname ltd@beamer@tmpl@#1\endcsname',
+    '\luaescapestring{\ltd@beamer@blockenv}',\ifx\insertblocktitle\@empty false\else true\fi)}%
+  \ltd@beamer@usetemplate{#1}%
+  \directlua{ltd.beamer.template_end(ltd,'\csname ltd@beamer@tmpl@#1\endcsname')}}
+% A theme's page furniture is decoration: the pictures its background, footline and sidebars
+% draw (a slide-sized fill behind the text) are no figures of the slide. Its text stays text. The
+% headline (the miniframes' navigation dots) and a progress bar under a frame title are not yet:
+% without their pictures, a frame title's colour bar is read in the block of the page before
+% (slides 0026, a reading fault they hide). Every form of \usebeamertemplate (with up to three
+% stars) passes through these four commands. A table of contents entry's ornament is decoration
+% too: the rounded inner theme (Madrid, Frankfurt) sets a section number on a shaded ball in a
+% pgfpicture, which was a figure holding the number once TikZ is loaded (slides/0029: 49 undescribed
+% images); the number stays text.
+\@for\ltd@name:=background canvas,background,footline,sidebar left,sidebar right,%
+sidebar canvas left,sidebar canvas right,navigation symbols,section in toc,subsection in toc,%
+subsubsection in toc,section in toc shaded,subsection in toc shaded,subsubsection in toc shaded\do{%
+  \expandafter\let\csname ltd@beamer@furniture@\ltd@name\endcsname\@empty}
+\def\ltd@beamer@furniture#1#2{%
+  \ifcsname ltd@beamer@furniture@#1\endcsname\expandafter\@firstoftwo\else\expandafter\@secondoftwo\fi
+    {\directlua{ltd.graphics.limits.decoration(true)}#2{#1}\directlua{ltd.graphics.limits.decoration(false)}}%
+    {\ltd@beamer@marker{#1}{#2}}}
+% An itemize marker a template draws, with no glyph (the square's rule, the ball's shading:
+% Madrid, Frankfurt), is the item's list marker, not its text (decision 127): the box the template
+% sets is read here and its one painted rule marked with the marker's shape.
+\@for\ltd@name:=itemize item,itemize subitem,itemize subsubitem\do{%
+  \expandafter\let\csname ltd@beamer@marker@\ltd@name\endcsname\@empty}
+\newbox\ltd@beamer@markerbox
+\def\ltd@beamer@marker#1#2{%
+  \ifcsname ltd@beamer@marker@#1\endcsname\expandafter\@firstoftwo\else\expandafter\@secondoftwo\fi
+    {\setbox\ltd@beamer@markerbox\hbox{#2{#1}}%
+     \directlua{ltd.beamer.item_marker(\number\ltd@beamer@markerbox)}%
+     \box\ltd@beamer@markerbox}%
+    {#2{#1}}}
+% A footnote (in a frame, its title, or the title page's \title or \author) sets its body through
+% beamer's \beamer@framefootnotetext or \@mpfootnotetext, which read an overlay specification
+% first, so the kernel's \@footnotetext hook is not installed (relatex-external.sty); both set the
+% body through \@makefntext, observed here as an ordinary note body (decision 127). Inside a body
+% already observed (hyperref's copy) it is that body.
+\AddToHook{cmd/@makefntext/before}
+  {\directlua{ltd_external_notes.copy_body_begin('\luaescapestring{\detokenize\expandafter{\@thefnmark}}')}}
+\AddToHook{cmd/@makefntext/after}{\directlua{ltd_external_notes.body_end()}}
+\def\ltd@beamer@wrap#1{%
+  \expandafter\let\csname ltd@beamer@template@#1\expandafter\endcsname\csname beamer@usebeamertemplate#1\endcsname
+  \expandafter\edef\csname beamer@usebeamertemplate#1\endcsname##1{%
+    \noexpand\ltd@beamer@furniture{##1}\expandafter\noexpand\csname ltd@beamer@template@#1\endcsname}}
+\ltd@beamer@wrap{do}\ltd@beamer@wrap{dos}\ltd@beamer@wrap{doss}\ltd@beamer@wrap{dosss}
+% Covered material (\uncover, \onslide, \visible, \invisible, \pause and an \item's overlay on a
+% slide that does not show it) is typeset between \pgfsys@begininvisible and \pgfsys@endinvisible,
+% which only move it 2000 bp off the page. A marker beside each tells the collector, in shipping
+% order, what is off the sheet (relatex.lua, cover_mark). The glyph map counts the same markers.
+%
+% Literals that move no text (a11y-827, decision 171): the glyph map takes every glyph of a box
+% holding a literal as placed where TeX does not know (relatex-glyph-map.lua literal_box), and
+% LuaTeX reads a token literal's operators back as its field name, so a frame's own colour changes
+% left all its text unknown. TeX marks the literals whose role it knows (relatex.graphic.state):
+% 1 on the literal of one of pgf's colour macros (colour operators only), set only when the
+% protocol is unbuffered and empty, so the literal written is that colour alone; 4 on the two
+% translations of covered material, whose glyphs the cover markers keep unknown. Each mark is
+% scoped by a group around the one macro.
+\directlua{luatexbase.new_attribute('relatex.graphic.state')}
+\def\ltd@beamer@state#1{\begingroup
+  \ifpgfsysprotocol@buffered\else\ifx\pgfsysprotocol@currentprotocol\pgfutil@empty
+    \directlua{tex.setattribute(luatexbase.attributes['relatex.graphic.state'],#1)}\fi\fi}
+\AddToHook{cmd/pgfsys@begininvisible/before}{\ltd@beamer@state{4}}
+\AddToHook{cmd/pgfsys@begininvisible/after}{\endgroup\directlua{ltd.cover_mark(1)}}
+\AddToHook{cmd/pgfsys@endinvisible/before}{\ltd@beamer@state{4}}
+\AddToHook{cmd/pgfsys@endinvisible/after}{\endgroup\directlua{ltd.cover_mark(-1)}}
+\AtBeginDocument{%
+  \@for\ltd@name:=pgfsys@color@unstacked,pgfsys@color@gray@fill,pgfsys@color@gray@stroke,%
+pgfsys@color@rgb@fill,pgfsys@color@rgb@stroke,pgfsys@color@cmyk@fill,pgfsys@color@cmyk@stroke,%
+pgfsys@color@cmy@fill,pgfsys@color@cmy@stroke\do{%
+    % Both patches or neither: a group opened and never closed would break the document.
+    \ifcsname\ltd@name\endcsname
+      \expandafter\ifpatchable\expandafter*\csname\ltd@name\endcsname
+        {\expandafter\pretocmd\csname\ltd@name\endcsname{\ltd@beamer@state{1}}{}{}%
+         \expandafter\apptocmd\csname\ltd@name\endcsname{\endgroup}{}{}}%
+        {\PackageWarning{relatex-beamer}{\ltd@name\space not marked}}%
+    \fi}}

@@ -1,0 +1,46 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-notes}{2026/10/14}{0.1.0}{Native footnote identity experiment}
+\cs_new_protected:Npn \__ltd_notes_install:
+  {
+    \socket_if_plug_assigned:nnF {tagsupport/fnmark}{FEMark}
+      {\PackageError{relatex-notes}{Unsupported~native~footnote~mark~plug}{Use~the~qualified~footnote~implementation.}}
+    \socket_if_plug_assigned:nnF {tagsupport/fntext/begin}{FENote}
+      {\PackageError{relatex-notes}{Unsupported~native~footnote~body~plug}{Use~the~qualified~footnote~implementation.}}
+    \socket_if_plug_assigned:nnF {tagsupport/fntext/end}{FENote}
+      {\PackageError{relatex-notes}{Unsupported~native~footnote~end~plug}{Use~the~qualified~footnote~implementation.}}
+    \socket_if_plug_assigned:nnF {tagsupport/fntext/mark}{FENoteLbl}
+      {\PackageError{relatex-notes}{Unsupported~native~footnote~label~plug}{Use~the~qualified~footnote~implementation.}}
+    \cs_new_eq:Nc \__ltd_notes_mark: {__socket_tagsupport/fnmark_plug_FEMark:w}
+    \cs_new_eq:Nc \__ltd_notes_begin: {__socket_tagsupport/fntext/begin_plug_FENote:w}
+    \cs_new_eq:Nc \__ltd_notes_end: {__socket_tagsupport/fntext/end_plug_FENote:w}
+    \cs_new_eq:Nc \__ltd_notes_number: {__socket_tagsupport/fntext/mark_plug_FENoteLbl:w}
+    \NewTaggingSocketPlug{fnmark}{relatex}
+      {\__ltd_notes_mark: {##1}
+        {\directlua{ltd.notes.mark_begin(\tag_get:n{struct_num},
+          '\luaescapestring{\@thefnmark}',
+          '\bool_if:NTF\l__fnote_autodetect_bool{}{\luaescapestring{\l__fnote_currentlabel_tl}}')}
+         ##2\directlua{ltd.notes.mark_end()}}}
+    \NewTaggingSocketPlug{fntext/begin}{relatex}
+      {\directlua{ltd.notes.body_enter('\luaescapestring{\@thefnmark}')}%
+       \__ltd_notes_begin:
+       \directlua{ltd.notes.body_bind(\tag_get:n{struct_num},
+         {\seq_use:Nn\l__fnote_currentrefs_seq{,}})}}
+    \NewTaggingSocketPlug{fntext/end}{relatex}
+      {\__ltd_notes_end:\directlua{ltd.notes.body_end()}}
+    \NewTaggingSocketPlug{fntext/mark}{relatex}
+      {\__ltd_notes_number: {##1}
+        {\directlua{ltd.notes.number_begin()}##2\directlua{ltd.notes.number_end()}}}
+    \AssignTaggingSocketPlug{fnmark}{relatex}
+    \AssignTaggingSocketPlug{fntext/begin}{relatex}
+    \AssignTaggingSocketPlug{fntext/end}{relatex}
+    \AssignTaggingSocketPlug{fntext/mark}{relatex}
+  }
+\AddToHook{package/relatex/after}
+  {\directlua{assert(ltd~and~ltd.flow, 'Footnote~capture~requires~bridge');
+     ltd.notes = require('relatex-notes')}
+   \AddToHookNext{begindocument/end}{\__ltd_notes_install:}}
+\endinput

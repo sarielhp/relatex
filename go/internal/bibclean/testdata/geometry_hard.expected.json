@@ -1,0 +1,289 @@
+{
+  "converted": 35,
+  "unconverted": 7,
+  "entries": [
+    {
+      "key": "e-fcptc-97",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "as-sagp-94",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "cgmz-hrbgm-05",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "asw-d2cp-97",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "av-ioedp-00",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "b-oafsi-95",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "dgks-asfodop-06",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "acty-iud-09",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "a-dfrp-01",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "e-spnta-02",
+      "type": "incollection",
+      "status": "converted"
+    },
+    {
+      "key": "bc-ocsb-03",
+      "type": "unpublished",
+      "status": "converted"
+    },
+    {
+      "key": "bi-faahf-06",
+      "type": "unpublished",
+      "status": "converted"
+    },
+    {
+      "key": "ahk-spdp-99prog",
+      "type": "unpublished",
+      "status": "unconverted",
+      "reasons": [
+        {
+          "kind": "unknown_command",
+          "name": "\\tt",
+          "field": "note",
+          "detail": "unknown LaTeX command \\tt"
+        },
+        {
+          "kind": "non_plain_macro",
+          "name": "\\tildegen",
+          "field": "note",
+          "detail": "@preamble macro \\tildegen uses \\protect, \\raisebox, \\symbol, \\hspace"
+        }
+      ]
+    },
+    {
+      "key": "dmo-opp33-03",
+      "type": "unpublished",
+      "status": "unconverted",
+      "reasons": [
+        {
+          "kind": "unknown_command",
+          "name": "\\protect",
+          "field": "note",
+          "detail": "unknown LaTeX command \\protect"
+        },
+        {
+          "kind": "non_plain_macro",
+          "name": "\\tildegen",
+          "field": "note",
+          "detail": "@preamble macro \\tildegen uses \\protect, \\raisebox, \\symbol, \\hspace"
+        }
+      ]
+    },
+    {
+      "key": "h-aabp-05",
+      "type": "unpublished",
+      "status": "converted"
+    },
+    {
+      "key": "hk-sckmk-04-old",
+      "type": "unpublished",
+      "status": "converted"
+    },
+    {
+      "key": "pt-pqrpd-11",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "DBLP:conf/wads/2011",
+      "type": "proceedings",
+      "status": "converted"
+    },
+    {
+      "key": "gl-fpamn-04",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "akt-jcdcg-05",
+      "type": "proceedings",
+      "status": "unconverted",
+      "reasons": [
+        {
+          "kind": "text_script",
+          "field": "title",
+          "detail": "_ outside math"
+        }
+      ]
+    },
+    {
+      "key": "ghs-citds-91",
+      "type": "article",
+      "status": "converted"
+    },
+    {
+      "key": "l-ntd-67",
+      "type": "article",
+      "status": "converted"
+    },
+    {
+      "key": "hm-jcps-17",
+      "type": "article",
+      "status": "converted"
+    },
+    {
+      "key": "AS94",
+      "type": "unpublished",
+      "status": "converted"
+    },
+    {
+      "key": "m-aogdc-91-old",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "r-orrrs-99",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "sst-ibkst-01",
+      "type": "article",
+      "status": "converted"
+    },
+    {
+      "key": "a-pldr-83",
+      "type": "article",
+      "status": "unconverted",
+      "reasons": [
+        {
+          "kind": "math_command",
+          "name": "\\bf",
+          "field": "title",
+          "detail": "math command \\bf in ${\\bf R}\\sp{n}$"
+        },
+        {
+          "kind": "math_command",
+          "name": "\\sp",
+          "field": "title",
+          "detail": "math command \\sp in ${\\bf R}\\sp{n}$"
+        }
+      ]
+    },
+    {
+      "key": "a-kstg-00",
+      "type": "phdthesis",
+      "status": "converted"
+    },
+    {
+      "key": "t-ssps-00",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "aks-osn-83",
+      "type": "inproceedings",
+      "status": "unconverted",
+      "reasons": [
+        {
+          "kind": "math_command",
+          "name": "\\log",
+          "field": "title",
+          "detail": "math command \\log in $O(n \\log n)$"
+        }
+      ]
+    },
+    {
+      "key": "h-cha-96-old",
+      "type": "inproceedings",
+      "status": "unconverted",
+      "reasons": [
+        {
+          "kind": "math_command",
+          "name": "\\epsilon",
+          "field": "title",
+          "detail": "math command \\epsilon in $n^{1-\\epsilon}$"
+        }
+      ]
+    },
+    {
+      "key": "am-dsd-03",
+      "type": "unpublished",
+      "status": "converted"
+    },
+    {
+      "key": "bar-pc-96",
+      "type": "unpublished",
+      "status": "converted"
+    },
+    {
+      "key": "l-grg-09",
+      "type": "unpublished",
+      "status": "converted"
+    },
+    {
+      "key": "cdellt-wydwpt-08-conf",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "s-opgfg-91",
+      "type": "book",
+      "status": "converted"
+    },
+    {
+      "key": "hv-asfl-02",
+      "type": "unpublished",
+      "status": "converted"
+    },
+    {
+      "key": "m-aagsp-9",
+      "type": "techreport",
+      "status": "converted"
+    },
+    {
+      "key": "k-vcdlp-12",
+      "type": "misc",
+      "status": "unconverted",
+      "reasons": [
+        {
+          "kind": "unknown_command",
+          "name": "\\allowbreak",
+          "field": "note",
+          "detail": "unknown LaTeX command \\allowbreak"
+        }
+      ]
+    },
+    {
+      "key": "rs-iassb-98",
+      "type": "inproceedings",
+      "status": "converted"
+    },
+    {
+      "key": "w-afm-14",
+      "type": "misc",
+      "status": "converted"
+    }
+  ]
+}

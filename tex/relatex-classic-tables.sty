@@ -1,0 +1,18 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-classic-tables}{2026/10/15}{0.1.0}{Guarded ordinary-kernel table rule widths}
+% Select only from an eligible ordinary control whose dependency inventory
+% establishes that array.sty was absent. Native tagging loads array itself.
+% Classic tabular rules overlap their neighbours; array rules occupy width.
+\cs_new_nopar:Npn \__ltd_classic_expected_arrayrule:
+  {\@addtopreamble\vline}
+\cs_if_eq:NNTF \@arrayrule \__ltd_classic_expected_arrayrule:
+  {\cs_set_nopar:Npn \@arrayrule
+    {\@addtopreamble{\hskip-.5\arrayrulewidth
+      \vline\hskip-.5\arrayrulewidth}}}
+  {\PackageError{relatex-classic-tables}{Unsupported~native~array~rule}
+    {Use~the~qualified~array~rule~protocol.}}
+\endinput

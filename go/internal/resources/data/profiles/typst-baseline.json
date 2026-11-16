@@ -1,0 +1,1266 @@
+{
+  "schema_version": "typst-acceptance-1",
+  "typst": "typst 0.15.1 (unknown commit)",
+  "projects": "rewritten",
+  "totals": {
+    "judged": 39,
+    "passed": 32,
+    "failed": 7,
+    "invariants": {
+      "counts": 7
+    },
+    "coverage_min": 0.9786,
+    "unchecked": 0,
+    "carried": 0
+  },
+  "papers": {
+    "slides/0005": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.06,
+      "seconds": 0.3,
+      "pages": {
+        "latex": 38,
+        "typst": 7
+      },
+      "coverage": 1.0,
+      "labels": [
+        0,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        0,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T093458-1475386-03729f",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "slides/0007": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.06,
+      "seconds": 0.2,
+      "pages": {
+        "latex": 36,
+        "typst": 9
+      },
+      "coverage": 1.0,
+      "labels": [
+        0,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        0,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T145401-415380-209054",
+      "source_commit": "c681989a",
+      "anchors_from": "export.json"
+    },
+    "slides/0013": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.1,
+      "seconds": 0.5,
+      "pages": {
+        "latex": 66,
+        "typst": 18
+      },
+      "coverage": 1.0,
+      "labels": [
+        0,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        0,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T145401-415372-945a8a",
+      "source_commit": "c681989a",
+      "anchors_from": "export.json"
+    },
+    "slides/0014": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.08,
+      "seconds": 0.4,
+      "pages": {
+        "latex": 39,
+        "typst": 9
+      },
+      "coverage": 1.0,
+      "labels": [
+        0,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        0,
+        0
+      ],
+      "citations": [
+        2,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T144410-198538-435b83",
+      "source_commit": "b5247b62",
+      "anchors_from": "export.json"
+    },
+    "slides/0019": {
+      "status": "failed",
+      "failed": [
+        "counts"
+      ],
+      "compile_seconds": 0.06,
+      "seconds": 0.3,
+      "pages": {
+        "latex": 32,
+        "typst": 9
+      },
+      "coverage": 1.0,
+      "labels": [
+        3,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        0,
+        0
+      ],
+      "citations": [
+        4,
+        0
+      ],
+      "counts_differ": [
+        "figures"
+      ],
+      "run": "20261113T093458-1475394-bdbabd",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "slides/0020": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.06,
+      "seconds": 0.3,
+      "pages": {
+        "latex": 45,
+        "typst": 11
+      },
+      "coverage": 0.995,
+      "labels": [
+        0,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        0,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T145401-415376-e6906d",
+      "source_commit": "c681989a",
+      "anchors_from": "export.json"
+    },
+    "slides/0027": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.14,
+      "seconds": 0.5,
+      "pages": {
+        "latex": 61,
+        "typst": 16
+      },
+      "coverage": 0.9979,
+      "labels": [
+        2,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        2,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T153345-1000090-f21ae9",
+      "source_commit": "31868e53",
+      "anchors_from": "export.json"
+    },
+    "slides/0029": {
+      "status": "failed",
+      "failed": [
+        "counts"
+      ],
+      "compile_seconds": 0.12,
+      "seconds": 0.6,
+      "pages": {
+        "latex": 49,
+        "typst": 18
+      },
+      "coverage": 1.0,
+      "labels": [
+        0,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        0,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+        "theorems"
+      ],
+      "run": "20261113T145401-415378-80f2f2",
+      "source_commit": "c681989a",
+      "anchors_from": "export.json"
+    },
+    "papers/0073": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.41,
+      "seconds": 1.5,
+      "pages": {
+        "latex": 36,
+        "typst": 44
+      },
+      "coverage": 0.9976,
+      "labels": [
+        42,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        36,
+        0
+      ],
+      "citations": [
+        37,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094011-1483888-fc6acc",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers/0146": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.34,
+      "seconds": 0.9,
+      "pages": {
+        "latex": 12,
+        "typst": 20
+      },
+      "coverage": 0.9957,
+      "labels": [
+        25,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        22,
+        0
+      ],
+      "citations": [
+        54,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094011-1483887-efb201",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers/0191": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.32,
+      "seconds": 1.2,
+      "pages": {
+        "latex": 27,
+        "typst": 35
+      },
+      "coverage": 0.9966,
+      "labels": [
+        47,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        44,
+        0
+      ],
+      "citations": [
+        14,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T143007-47023-46840a",
+      "source_commit": "b5247b62",
+      "anchors_from": "export.json"
+    },
+    "papers2/0310": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.2,
+      "seconds": 0.7,
+      "pages": {
+        "latex": 12,
+        "typst": 19
+      },
+      "coverage": 0.994,
+      "labels": [
+        44,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        44,
+        0
+      ],
+      "citations": [
+        22,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094258-1488087-c2467f",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers2/0320": {
+      "status": "failed",
+      "failed": [
+        "counts"
+      ],
+      "compile_seconds": 0.32,
+      "seconds": 1.4,
+      "pages": {
+        "latex": 34,
+        "typst": 43
+      },
+      "coverage": 0.9968,
+      "labels": [
+        38,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        38,
+        0
+      ],
+      "citations": [
+        117,
+        0
+      ],
+      "counts_differ": [
+        "theorems"
+      ],
+      "run": "20261113T134223-3726880-1e6d99",
+      "source_commit": "ee503ad4",
+      "anchors_from": "export.json"
+    },
+    "papers2/0344": {
+      "status": "failed",
+      "failed": [
+        "counts"
+      ],
+      "compile_seconds": 0.3,
+      "seconds": 1.3,
+      "pages": {
+        "latex": 36,
+        "typst": 29
+      },
+      "coverage": 0.9908,
+      "labels": [
+        67,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        63,
+        0
+      ],
+      "citations": [
+        39,
+        0
+      ],
+      "counts_differ": [
+        "theorems"
+      ],
+      "run": "20261113T094258-1488090-487001",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers2/0442": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.26,
+      "seconds": 1.2,
+      "pages": {
+        "latex": 37,
+        "typst": 27
+      },
+      "coverage": 0.9936,
+      "labels": [
+        31,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        30,
+        0
+      ],
+      "citations": [
+        40,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094258-1488092-1d0896",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers2/0464": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.46,
+      "seconds": 2.7,
+      "pages": {
+        "latex": 11,
+        "typst": 20
+      },
+      "coverage": 0.9953,
+      "labels": [
+        27,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        27,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094258-1488094-f073e4",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers2/0469": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.12,
+      "seconds": 0.5,
+      "pages": {
+        "latex": 28,
+        "typst": 13
+      },
+      "coverage": 0.9972,
+      "labels": [
+        21,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        21,
+        0
+      ],
+      "citations": [
+        11,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094258-1488096-12aeb2",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers3/0615": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.61,
+      "seconds": 1.6,
+      "pages": {
+        "latex": 20,
+        "typst": 29
+      },
+      "coverage": 0.9939,
+      "labels": [
+        25,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        22,
+        0
+      ],
+      "citations": [
+        61,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094521-1492574-ad9273",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers3/0765": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.63,
+      "seconds": 2.7,
+      "pages": {
+        "latex": 67,
+        "typst": 77
+      },
+      "coverage": 0.9879,
+      "labels": [
+        104,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        104,
+        0
+      ],
+      "citations": [
+        50,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094521-1492576-63428c",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers3/0786": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.32,
+      "seconds": 1.6,
+      "pages": {
+        "latex": 20,
+        "typst": 26
+      },
+      "coverage": 0.9964,
+      "labels": [
+        53,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        51,
+        0
+      ],
+      "citations": [
+        76,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094521-1492578-036844",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers4/1107": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.14,
+      "seconds": 0.6,
+      "pages": {
+        "latex": 11,
+        "typst": 20
+      },
+      "coverage": 0.989,
+      "labels": [
+        17,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        16,
+        0
+      ],
+      "citations": [
+        74,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094827-1495546-8a73c3",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers5/1262": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.36,
+      "seconds": 1.3,
+      "pages": {
+        "latex": 29,
+        "typst": 36
+      },
+      "coverage": 0.9979,
+      "labels": [
+        64,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        53,
+        0
+      ],
+      "citations": [
+        39,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T094911-1496461-c8cfb9",
+      "source_commit": "d0ef9731",
+      "anchors_from": "export.json"
+    },
+    "papers5/1355": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.59,
+      "seconds": 3.3,
+      "pages": {
+        "latex": 17,
+        "typst": 36
+      },
+      "coverage": 0.9786,
+      "labels": [
+        151,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        111,
+        0
+      ],
+      "citations": [
+        27,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T144007-84517-c6173d",
+      "source_commit": "b5247b62",
+      "anchors_from": "export.json"
+    },
+    "papers/0051": {
+      "status": "failed",
+      "failed": [
+        "counts"
+      ],
+      "compile_seconds": 0.24,
+      "seconds": 0.9,
+      "pages": {
+        "latex": 18,
+        "typst": 18
+      },
+      "coverage": 0.9911,
+      "labels": [
+        34,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        34,
+        0
+      ],
+      "citations": [
+        22,
+        0
+      ],
+      "counts_differ": [
+        "theorems"
+      ],
+      "run": "20261112T154442-346370-20ce43",
+      "source_commit": "f2cef8eb",
+      "anchors_from": "export.json"
+    },
+    "papers/0060": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.83,
+      "seconds": 3.0,
+      "pages": {
+        "latex": 46,
+        "typst": 49
+      },
+      "coverage": 0.9965,
+      "labels": [
+        41,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        31,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261112T154523-347929-83a2b8",
+      "source_commit": "f2cef8eb",
+      "anchors_from": "export.json"
+    },
+    "papers/0210": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.26,
+      "seconds": 0.9,
+      "pages": {
+        "latex": 10,
+        "typst": 17
+      },
+      "coverage": 0.9992,
+      "labels": [
+        31,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        30,
+        0
+      ],
+      "citations": [
+        32,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T144950-292491-9685d5",
+      "source_commit": "34ee0968",
+      "anchors_from": "export.json"
+    },
+    "papers2/0245": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.46,
+      "seconds": 2.1,
+      "pages": {
+        "latex": 50,
+        "typst": 37
+      },
+      "coverage": 0.9958,
+      "labels": [
+        110,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        100,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261112T162056-642754-dd4f4e",
+      "source_commit": "f2cef8eb",
+      "anchors_from": "export.json"
+    },
+    "papers3/0563": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.16,
+      "seconds": 0.5,
+      "pages": {
+        "latex": 13,
+        "typst": 12
+      },
+      "coverage": 0.9965,
+      "labels": [
+        29,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        28,
+        0
+      ],
+      "citations": [
+        23,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261112T172009-1530967-040ef6",
+      "source_commit": "773828a5",
+      "anchors_from": "export.json"
+    },
+    "papers3/0837": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.38,
+      "seconds": 1.2,
+      "pages": {
+        "latex": 27,
+        "typst": 21
+      },
+      "coverage": 0.9932,
+      "labels": [
+        24,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        24,
+        0
+      ],
+      "citations": [
+        42,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261112T174233-1628017-1da41c",
+      "source_commit": "773828a5",
+      "anchors_from": "export.json"
+    },
+    "papers4/1019": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.16,
+      "seconds": 0.5,
+      "pages": {
+        "latex": 8,
+        "typst": 15
+      },
+      "coverage": 0.9979,
+      "labels": [
+        20,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        18,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261112T180759-1857982-da5534",
+      "source_commit": "c96f667f",
+      "anchors_from": "export.json"
+    },
+    "papers4/1108": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.27,
+      "seconds": 1.3,
+      "pages": {
+        "latex": 15,
+        "typst": 15
+      },
+      "coverage": 0.9975,
+      "labels": [
+        13,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        13,
+        0
+      ],
+      "citations": [
+        15,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261112T181747-1947887-2675b9",
+      "source_commit": "c96f667f",
+      "anchors_from": "export.json"
+    },
+    "papers4/1144": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 1.16,
+      "seconds": 3.5,
+      "pages": {
+        "latex": 22,
+        "typst": 28
+      },
+      "coverage": 0.9951,
+      "labels": [
+        46,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        46,
+        0
+      ],
+      "citations": [
+        0,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261112T203451-2670769-1cfbf4",
+      "source_commit": "40d1a512",
+      "anchors_from": "export.json"
+    },
+    "papers5/1405": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 1.35,
+      "seconds": 4.1,
+      "pages": {
+        "latex": 24,
+        "typst": 33
+      },
+      "coverage": 0.9961,
+      "labels": [
+        94,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        70,
+        0
+      ],
+      "citations": [
+        46,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261113T145026-305611-6f63c7",
+      "source_commit": "34ee0968",
+      "anchors_from": "export.json"
+    },
+    "books/0001": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.32,
+      "seconds": 1.1,
+      "pages": {
+        "latex": 44,
+        "typst": 43
+      },
+      "coverage": 0.9933,
+      "labels": [
+        14,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        10,
+        0
+      ],
+      "citations": [
+        13,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261112T041632-2126532-70af17",
+      "source_commit": "a3211dae",
+      "anchors_from": "export.json"
+    },
+    "books/0002": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 0.26,
+      "seconds": 1.1,
+      "pages": {
+        "latex": 41,
+        "typst": 30
+      },
+      "coverage": 0.99,
+      "labels": [
+        63,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        58,
+        0
+      ],
+      "citations": [
+        13,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261110T085435-494696-f98cdd",
+      "source_commit": "85553ec3",
+      "anchors_from": "export.json"
+    },
+    "books/0003": {
+      "status": "failed",
+      "failed": [
+        "counts"
+      ],
+      "compile_seconds": 6.52,
+      "seconds": 33.2,
+      "pages": {
+        "latex": 854,
+        "typst": 703
+      },
+      "coverage": 0.9896,
+      "labels": [
+        1064,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        169,
+        0
+      ],
+      "citations": [
+        307,
+        0
+      ],
+      "counts_differ": [
+        "theorems"
+      ],
+      "run": "20261113T062947-3098195-344d1b",
+      "source_commit": "9ec22b55",
+      "anchors_from": "export.json"
+    },
+    "books/0004": {
+      "status": "failed",
+      "failed": [
+        "counts"
+      ],
+      "compile_seconds": 4.3,
+      "seconds": 20.4,
+      "pages": {
+        "latex": 590,
+        "typst": 444
+      },
+      "coverage": 0.9896,
+      "labels": [
+        532,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        84,
+        0
+      ],
+      "citations": [
+        133,
+        0
+      ],
+      "counts_differ": [
+        "theorems"
+      ],
+      "run": "20261110T090046-513925-544283",
+      "source_commit": "85553ec3",
+      "anchors_from": "export.json"
+    },
+    "books/0006": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 3.1,
+      "seconds": 18.8,
+      "pages": {
+        "latex": 468,
+        "typst": 394
+      },
+      "coverage": 0.9927,
+      "labels": [
+        327,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        163,
+        0
+      ],
+      "citations": [
+        7,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261110T090833-530744-de1c3b",
+      "source_commit": "85553ec3",
+      "anchors_from": "export.json"
+    },
+    "books/0007": {
+      "status": "passed",
+      "failed": [
+
+      ],
+      "compile_seconds": 4.77,
+      "seconds": 24.1,
+      "pages": {
+        "latex": 492,
+        "typst": 456
+      },
+      "coverage": 0.9941,
+      "labels": [
+        1035,
+        0
+      ],
+      "unresolved_references": 0,
+      "numbers": [
+        895,
+        0
+      ],
+      "citations": [
+        119,
+        0
+      ],
+      "counts_differ": [
+
+      ],
+      "run": "20261110T090923-532856-0b39a8",
+      "source_commit": "85553ec3",
+      "anchors_from": "export.json"
+    }
+  }
+}

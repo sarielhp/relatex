@@ -1,0 +1,936 @@
+{
+  "formulas": [
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "(n+1)!"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">(</mo><mi>𝑛</mi><mo lspace=\"0.222em\" rspace=\"0.222em\">+</mo><mn>1</mn><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo><mo lspace=\"0\" rspace=\"0\">!</mo></math>",
+      "intents": [
+        "factorial"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow><mo lspace='0' rspace='0' stretchy='false'>(</mo><mi>𝑛</mi><mo lspace='0.222em' rspace='0.222em'>+</mo><mn>1</mn><mo lspace='0' rspace='0' stretchy='false'>)</mo></mrow><mo intent='factorial' lspace='0' rspace='0'>!</mo></mrow><annotation encoding='application/x-tex'>(n+1)!</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "A^T"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msup><mi>𝐴</mi><mi>𝑇</mi></msup></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><msup><mi>𝐴</mi><mi>𝑇</mi></msup></mrow><annotation encoding='application/x-tex'>A^T</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "A^\\top"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msup><mi>𝐴</mi><mi>⊤</mi></msup></math>",
+      "intents": [
+        "transpose($a1)",
+        "top"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><msup intent='transpose($a1)'><mi arg='a1'>𝐴</mi><mi intent='top'>⊤</mi></msup></mrow><annotation encoding='application/x-tex'>A^\\top</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "A^{-1}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msup><mi>𝐴</mi><mrow><mo lspace=\"0\" rspace=\"0\">−</mo><mn>1</mn></mrow></msup></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><msup><mi>𝐴</mi><mrow><mo lspace='0' rspace='0'>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding='application/x-tex'>A^{-1}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "B^{\\mathrm{T}} C"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msup><mi>𝐵</mi><mi mathvariant=\"normal\">T</mi></msup><mi>𝐶</mi></math>",
+      "intents": [
+        "transpose($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><msup intent='transpose($a1)'><mi arg='a1'>𝐵</mi><mi mathvariant='normal'>T</mi></msup><mi>𝐶</mi></mrow><annotation encoding='application/x-tex'>B^{\\mathrm{T}} C</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "O(n^2)"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>𝑂</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">(</mo><msup><mi>𝑛</mi><mn>2</mn></msup><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mi>𝑂</mi><mrow><mo lspace='0' rspace='0' stretchy='false'>(</mo><msup><mi>𝑛</mi><mn>2</mn></msup><mo lspace='0' rspace='0' stretchy='false'>)</mo></mrow></mrow><annotation encoding='application/x-tex'>O(n^2)</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "[a, b)"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">[</mo><mi>𝑎</mi><mo lspace=\"0\" rspace=\"0.167em\">,</mo><mi>𝑏</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mo lspace='0' rspace='0' stretchy='false'>[</mo><mi>𝑎</mi><mo lspace='0' rspace='0.167em'>,</mo><mi>𝑏</mi><mo lspace='0' rspace='0' stretchy='false'>)</mo></mrow><annotation encoding='application/x-tex'>[a, b)</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\E[X]"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>𝔼</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">[</mo><mi>𝑋</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">]</mo></math>",
+      "intents": [
+        "expected-value"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mi intent='expected-value'>𝔼</mi><mrow><mo lspace='0' rspace='0' stretchy='false'>[</mo><mi>𝑋</mi><mo lspace='0' rspace='0' stretchy='false'>]</mo></mrow></mrow><annotation encoding='application/x-tex'>\\E[X]</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\PP(B)"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi mathvariant=\"normal\">ℙ</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">(</mo><mi>𝐵</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo></math>",
+      "intents": [
+        "probability"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mi intent='probability'>ℙ</mi><mrow><mo lspace='0' rspace='0' stretchy='false'>(</mo><mi>𝐵</mi><mo lspace='0' rspace='0' stretchy='false'>)</mo></mrow></mrow><annotation encoding='application/x-tex'>\\PP(B)</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\Pr[X = 1]"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow><mi mathvariant=\"normal\">P</mi><mi mathvariant=\"normal\">r</mi></mrow><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">[</mo><mi>𝑋</mi><mo lspace=\"0.278em\" rspace=\"0.278em\">=</mo><mn>1</mn><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">]</mo></math>",
+      "intents": [
+        "probability"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow><mi intent='probability'>Pr</mi></mrow><mo>⁡</mo><mrow><mo lspace='0' rspace='0' stretchy='false'>[</mo><mi>𝑋</mi><mo lspace='0.278em' rspace='0.278em'>=</mo><mn>1</mn><mo lspace='0' rspace='0' stretchy='false'>]</mo></mrow></mrow><annotation encoding='application/x-tex'>\\Pr[X = 1]</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\Prob(A)"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow><mi mathvariant=\"normal\">P</mi><mi mathvariant=\"normal\">r</mi></mrow><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">(</mo><mi>𝐴</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo></math>",
+      "intents": [
+        "probability"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow><mi intent='probability'>Pr</mi></mrow><mo>⁡</mo><mrow><mo lspace='0' rspace='0' stretchy='false'>(</mo><mi>𝐴</mi><mo lspace='0' rspace='0' stretchy='false'>)</mo></mrow></mrow><annotation encoding='application/x-tex'>\\Prob(A)</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\absv*{\\frac{a}{b}}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow/><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mfrac><mi>𝑎</mi><mi>𝑏</mi></mfrac><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo></mrow></math>",
+      "intents": [
+        "absolute-value($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow/><mrow><mrow intent='absolute-value($a1)'><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo><mfrac arg='a1'><mi>𝑎</mi><mi>𝑏</mi></mfrac><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo></mrow></mrow></mrow><annotation encoding='application/x-tex'>\\absv*{\\frac{a}{b}}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\absv*{x} + |y|"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow/><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mi>𝑥</mi><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo></mrow><mo lspace=\"0.222em\" rspace=\"0\">+</mo><mo lspace=\"0.222em\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝑦</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow/><mrow><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo><mi>𝑥</mi><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo></mrow><mo lspace='0.222em' rspace='0'>+</mo><mo lspace='0.222em' rspace='0' stretchy='false'>|</mo><mi>𝑦</mi><mo lspace='0' rspace='0' stretchy='false'>|</mo></mrow><annotation encoding='application/x-tex'>\\absv*{x} + |y|</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\absv[\\Bigg]{x} + \\absv{z}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mpadded depth=\"12.453452pt\" height=\"17.434772pt\" width=\"3.320875pt\"><mpadded depth=\"0pt\" height=\"0pt\" lspace=\"0.000000pt\" voffset=\"0.000000pt\" width=\"0pt\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mspace depth=\"0.000000pt\" height=\"29.887799pt\" width=\"0.000000pt\"/><mspace width=\"0.000pt\"/></mrow></mpadded></mpadded><mi>𝑥</mi><mpadded depth=\"12.453452pt\" height=\"17.434772pt\" width=\"3.320875pt\"><mpadded depth=\"0pt\" height=\"0pt\" lspace=\"0.000000pt\" voffset=\"0.000000pt\" width=\"0pt\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mspace depth=\"0.000000pt\" height=\"29.887799pt\" width=\"0.000000pt\"/><mspace width=\"0.000pt\"/></mrow></mpadded></mpadded><mo lspace=\"0.222em\" rspace=\"0\">+</mo><mo lspace=\"0.222em\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝑧</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo></math>",
+      "intents": [
+        "absolute-value($a1)",
+        "absolute-value($a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='absolute-value($a1)'><mpadded depth='12.453452pt' height='17.434772pt' width='3.320875pt'><mpadded depth='0pt' height='0pt' lspace='0.000000pt' voffset='0.000000pt' width='0pt'><mrow><mo fence='true' lspace='0' maxsize='29.888224pt' minsize='29.888224pt' rspace='0' symmetric='true'>|</mo><mspace depth='0.000000pt' height='29.887799pt' width='0.000000pt'/><mspace width='0.000pt'/></mrow></mpadded></mpadded><mi arg='a1'>𝑥</mi><mpadded depth='12.453452pt' height='17.434772pt' width='3.320875pt'><mpadded depth='0pt' height='0pt' lspace='0.000000pt' voffset='0.000000pt' width='0pt'><mrow><mo fence='true' lspace='0' maxsize='29.888224pt' minsize='29.888224pt' rspace='0' symmetric='true'>|</mo><mspace depth='0.000000pt' height='29.887799pt' width='0.000000pt'/><mspace width='0.000pt'/></mrow></mpadded></mpadded></mrow><mo lspace='0.222em' rspace='0'>+</mo><mrow intent='absolute-value($a2)'><mo lspace='0.222em' rspace='0' stretchy='false'>|</mo><mi arg='a2'>𝑧</mi><mo lspace='0' rspace='0' stretchy='false'>|</mo></mrow></mrow><annotation encoding='application/x-tex'>\\absv[\\Bigg]{x} + \\absv{z}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\absv[\\big]{y}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mpadded depth=\"3.486985pt\" height=\"8.468305pt\" width=\"3.320875pt\"><mpadded depth=\"0pt\" height=\"0pt\" lspace=\"0.000000pt\" voffset=\"0.000000pt\" width=\"0pt\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mspace depth=\"0.000000pt\" height=\"11.955123pt\" width=\"0.000000pt\"/><mspace width=\"0.000pt\"/></mrow></mpadded></mpadded><mi>𝑦</mi><mpadded depth=\"3.486985pt\" height=\"8.468305pt\" width=\"3.320875pt\"><mpadded depth=\"0pt\" height=\"0pt\" lspace=\"0.000000pt\" voffset=\"0.000000pt\" width=\"0pt\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mspace depth=\"0.000000pt\" height=\"11.955123pt\" width=\"0.000000pt\"/><mspace width=\"0.000pt\"/></mrow></mpadded></mpadded></math>",
+      "intents": [
+        "absolute-value($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='absolute-value($a1)'><mpadded depth='3.486985pt' height='8.468305pt' width='3.320875pt'><mpadded depth='0pt' height='0pt' lspace='0.000000pt' voffset='0.000000pt' width='0pt'><mrow><mo fence='true' lspace='0' maxsize='11.95529pt' minsize='11.95529pt' rspace='0' symmetric='true'>|</mo><mspace depth='0.000000pt' height='11.955123pt' width='0.000000pt'/><mspace width='0.000pt'/></mrow></mpadded></mpadded><mi arg='a1'>𝑦</mi><mpadded depth='3.486985pt' height='8.468305pt' width='3.320875pt'><mpadded depth='0pt' height='0pt' lspace='0.000000pt' voffset='0.000000pt' width='0pt'><mrow><mo fence='true' lspace='0' maxsize='11.95529pt' minsize='11.95529pt' rspace='0' symmetric='true'>|</mo><mspace depth='0.000000pt' height='11.955123pt' width='0.000000pt'/><mspace width='0.000pt'/></mrow></mpadded></mpadded></mrow></mrow><annotation encoding='application/x-tex'>\\absv[\\big]{y}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\absv{x}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝑥</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo></math>",
+      "intents": [
+        "absolute-value($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='absolute-value($a1)'><mo lspace='0' rspace='0' stretchy='false'>|</mo><mi arg='a1'>𝑥</mi><mo lspace='0' rspace='0' stretchy='false'>|</mo></mrow></mrow><annotation encoding='application/x-tex'>\\absv{x}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\abs{\\frac{a}{b}} + \\abs{y}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mfrac><mi>𝑎</mi><mi>𝑏</mi></mfrac><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo></mrow><mo lspace=\"0.222em\" rspace=\"0.222em\">+</mo><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mi>𝑦</mi><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo></mrow></math>",
+      "intents": [
+        "absolute-value($a1)",
+        "absolute-value($a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow><mrow intent='absolute-value($a1)'><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo><mfrac arg='a1'><mi>𝑎</mi><mi>𝑏</mi></mfrac><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo></mrow></mrow><mo lspace='0.222em' rspace='0.222em'>+</mo><mrow><mrow intent='absolute-value($a2)'><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo><mi arg='a2'>𝑦</mi><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo></mrow></mrow></mrow><annotation encoding='application/x-tex'>\\abs{\\frac{a}{b}} + \\abs{y}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\abs{x}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mi>𝑥</mi><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo></math>",
+      "intents": [
+        "absolute-value($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='absolute-value($a1)'><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo><mi arg='a1'>𝑥</mi><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo></mrow></mrow><annotation encoding='application/x-tex'>\\abs{x}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\binom{n}{k}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\">(</mo><mfrac linethickness=\"0.000000pt\"><mi>𝑛</mi><mi>𝑘</mi></mfrac><mo lspace=\"0\" rspace=\"0\">)</mo></math>",
+      "intents": [
+        "binomial-coefficient($a1,$a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='binomial-coefficient($a1,$a2)'><mo lspace='0' rspace='0'>(</mo><mfrac linethickness='0.000000pt'><mi arg='a1'>𝑛</mi><mi arg='a2'>𝑘</mi></mfrac><mo lspace='0' rspace='0'>)</mo></mrow></mrow><annotation encoding='application/x-tex'>\\binom{n}{k}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\braket{\\phi}{\\psi}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟨</mo><mi>𝜙</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝜓</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟩</mo></math>",
+      "intents": [
+        "inner-product($a1,$a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='inner-product($a1,$a2)'><mo lspace='0' rspace='0' stretchy='false'>⟨</mo><mi arg='a1'>𝜙</mi><mo lspace='0' rspace='0' stretchy='false'>|</mo><mi arg='a2'>𝜓</mi><mo lspace='0' rspace='0' stretchy='false'>⟩</mo></mrow></mrow><annotation encoding='application/x-tex'>\\braket{\\phi}{\\psi}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\bra{\\phi}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟨</mo><mi>𝜙</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo></math>",
+      "intents": [
+        "bra($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='bra($a1)'><mo lspace='0' rspace='0' stretchy='false'>⟨</mo><mi arg='a1'>𝜙</mi><mo lspace='0' rspace='0' stretchy='false'>|</mo></mrow></mrow><annotation encoding='application/x-tex'>\\bra{\\phi}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\bra{\\phi} A \\ket{\\psi}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟨</mo><mi>𝜙</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝐴</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝜓</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟩</mo></math>",
+      "intents": [
+        "bra($a2)",
+        "ket($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='bra($a2)'><mo lspace='0' rspace='0' stretchy='false'>⟨</mo><mi arg='a2'>𝜙</mi><mo lspace='0' rspace='0' stretchy='false'>|</mo></mrow><mi>𝐴</mi><mrow intent='ket($a1)'><mo lspace='0' rspace='0' stretchy='false'>|</mo><mi arg='a1'>𝜓</mi><mo lspace='0' rspace='0' stretchy='false'>⟩</mo></mrow></mrow><annotation encoding='application/x-tex'>\\bra{\\phi} A \\ket{\\psi}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\card{S}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝑆</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo></math>",
+      "intents": [
+        "cardinality($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='cardinality($a1)'><mo lspace='0' rspace='0' stretchy='false'>|</mo><mi arg='a1'>𝑆</mi><mo lspace='0' rspace='0' stretchy='false'>|</mo></mrow></mrow><annotation encoding='application/x-tex'>\\card{S}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\ceil{n/2}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⌈</mo><mi>𝑛</mi><mo lspace=\"0\" rspace=\"0\">/</mo><mn>2</mn><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⌉</mo></math>",
+      "intents": [
+        "ceiling($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='ceiling($a1)'><mo lspace='0' rspace='0' stretchy='false'>⌈</mo><mrow arg='a1'><mi>𝑛</mi><mo lspace='0' rspace='0'>/</mo><mn>2</mn></mrow><mo lspace='0' rspace='0' stretchy='false'>⌉</mo></mrow></mrow><annotation encoding='application/x-tex'>\\ceil{n/2}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\dbinom{m}{j}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mrow><mo lspace=\"0\" rspace=\"0\">(</mo><mfrac linethickness=\"0.000000pt\"><mi>𝑚</mi><mi>𝑗</mi></mfrac><mo lspace=\"0\" rspace=\"0\">)</mo></mrow></mstyle></math>",
+      "intents": [
+        "binomial-coefficient($a1,$a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mstyle displaystyle='true' scriptlevel='0'><mrow><mrow intent='binomial-coefficient($a1,$a2)'><mo lspace='0' rspace='0'>(</mo><mfrac linethickness='0.000000pt'><mi arg='a1'>𝑚</mi><mi arg='a2'>𝑗</mi></mfrac><mo lspace='0' rspace='0'>)</mo></mrow></mrow></mstyle></mrow><annotation encoding='application/x-tex'>\\dbinom{m}{j}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\fcomp*{x}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow/><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mi>𝑥</mi><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo></mrow></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow/><mrow><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo><mi>𝑥</mi><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo></mrow></mrow><annotation encoding='application/x-tex'>\\fcomp*{x}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\floor{x/2}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⌊</mo><mi>𝑥</mi><mo lspace=\"0\" rspace=\"0\">/</mo><mn>2</mn><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⌋</mo></math>",
+      "intents": [
+        "floor($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='floor($a1)'><mo fence='true' lspace='0' rspace='0' symmetric='true'>⌊</mo><mrow arg='a1'><mi>𝑥</mi><mo lspace='0' rspace='0'>/</mo><mn>2</mn></mrow><mo fence='true' lspace='0' rspace='0' symmetric='true'>⌋</mo></mrow></mrow><annotation encoding='application/x-tex'>\\floor{x/2}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\frac{\\mathrm{d}^2 y}{\\mathrm{d} x^2}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mfrac><mrow><msup><mi mathvariant=\"normal\">d</mi><mn>2</mn></msup><mi>𝑦</mi></mrow><mrow><mi mathvariant=\"normal\">d</mi><msup><mi>𝑥</mi><mn>2</mn></msup></mrow></mfrac></math>",
+      "intents": [
+        "derivative($a1,$a2,2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mfrac intent='derivative($a1,$a2,2)'><mrow><msup><mi mathvariant='normal'>d</mi><mn>2</mn></msup><mi arg='a1'>𝑦</mi></mrow><mrow><mi mathvariant='normal'>d</mi><msup><mi arg='a2'>𝑥</mi><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding='application/x-tex'>\\frac{\\mathrm{d}^2 y}{\\mathrm{d} x^2}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\frac{\\partial f}{\\partial x}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mfrac><mrow><mo lspace=\"0\" rspace=\"0\">∂</mo><mi>𝑓</mi></mrow><mrow><mo lspace=\"0\" rspace=\"0\">∂</mo><mi>𝑥</mi></mrow></mfrac></math>",
+      "intents": [
+        "partial-derivative($a1,$a2,1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mfrac intent='partial-derivative($a1,$a2,1)'><mrow><mo lspace='0' rspace='0'>∂</mo><mi arg='a1'>𝑓</mi></mrow><mrow><mo lspace='0' rspace='0'>∂</mo><mi arg='a2'>𝑥</mi></mrow></mfrac></mrow><annotation encoding='application/x-tex'>\\frac{\\partial f}{\\partial x}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\frac{\\partial^2 f}{\\partial x \\partial y}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mfrac><mrow><msup><mo lspace=\"0\" rspace=\"0\">∂</mo><mn>2</mn></msup><mi>𝑓</mi></mrow><mrow><mo lspace=\"0\" rspace=\"0\">∂</mo><mi>𝑥</mi><mo lspace=\"0\" rspace=\"0\">∂</mo><mi>𝑦</mi></mrow></mfrac></math>",
+      "intents": [
+        "partial-derivative($a1,$a2,1,$a3,1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mfrac intent='partial-derivative($a1,$a2,1,$a3,1)'><mrow><msup><mo lspace='0' rspace='0'>∂</mo><mn>2</mn></msup><mi arg='a1'>𝑓</mi></mrow><mrow><mo lspace='0' rspace='0'>∂</mo><mi arg='a2'>𝑥</mi><mo lspace='0' rspace='0'>∂</mo><mi arg='a3'>𝑦</mi></mrow></mfrac></mrow><annotation encoding='application/x-tex'>\\frac{\\partial^2 f}{\\partial x \\partial y}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\frac{\\partial^2 u}{\\partial t^2}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mfrac><mrow><msup><mo lspace=\"0\" rspace=\"0\">∂</mo><mn>2</mn></msup><mi>𝑢</mi></mrow><mrow><mo lspace=\"0\" rspace=\"0\">∂</mo><msup><mi>𝑡</mi><mn>2</mn></msup></mrow></mfrac></math>",
+      "intents": [
+        "partial-derivative($a1,$a2,2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mfrac intent='partial-derivative($a1,$a2,2)'><mrow><msup><mo lspace='0' rspace='0'>∂</mo><mn>2</mn></msup><mi arg='a1'>𝑢</mi></mrow><mrow><mo lspace='0' rspace='0'>∂</mo><msup><mi arg='a2'>𝑡</mi><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding='application/x-tex'>\\frac{\\partial^2 u}{\\partial t^2}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\frac{dy}{dx}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mfrac><mrow><mi>𝑑</mi><mi>𝑦</mi></mrow><mrow><mi>𝑑</mi><mi>𝑥</mi></mrow></mfrac></math>",
+      "intents": [
+        "derivative($a1,$a2,1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mfrac intent='derivative($a1,$a2,1)'><mrow><mi>𝑑</mi><mi arg='a1'>𝑦</mi></mrow><mrow><mi>𝑑</mi><mi arg='a2'>𝑥</mi></mrow></mfrac></mrow><annotation encoding='application/x-tex'>\\frac{dy}{dx}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\frac{d}{dx} f"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mfrac><mi>𝑑</mi><mrow><mi>𝑑</mi><mi>𝑥</mi></mrow></mfrac><mi>𝑓</mi></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mfrac><mi>𝑑</mi><mrow><mi>𝑑</mi><mi>𝑥</mi></mrow></mfrac><mi>𝑓</mi></mrow><annotation encoding='application/x-tex'>\\frac{d}{dx} f</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\gen{a, b}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟨</mo><mi>𝑎</mi><mo lspace=\"0\" rspace=\"0.167em\">,</mo><mi>𝑏</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟩</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mo lspace='0' rspace='0' stretchy='false'>⟨</mo><mi>𝑎</mi><mo lspace='0' rspace='0.167em'>,</mo><mi>𝑏</mi><mo lspace='0' rspace='0' stretchy='false'>⟩</mo></mrow><annotation encoding='application/x-tex'>\\gen{a, b}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\inner*{\\frac{x}{2}, y}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow/><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⟨</mo><mfrac><mi>𝑥</mi><mn>2</mn></mfrac><mo lspace=\"0\" rspace=\"0.167em\">,</mo><mi>𝑦</mi><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⟩</mo></mrow></math>",
+      "intents": [
+        "inner-product($a1,$a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow/><mrow><mrow intent='inner-product($a1,$a2)'><mo fence='true' lspace='0' rspace='0' symmetric='true'>⟨</mo><mfrac arg='a1'><mi>𝑥</mi><mn>2</mn></mfrac><mo lspace='0' rspace='0.167em'>,</mo><mi arg='a2'>𝑦</mi><mo fence='true' lspace='0' rspace='0' symmetric='true'>⟩</mo></mrow></mrow></mrow><annotation encoding='application/x-tex'>\\inner*{\\frac{x}{2}, y}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\inner[\\big]{a, b}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mpadded depth=\"3.486985pt\" height=\"8.468290pt\" width=\"4.704587pt\"><mpadded depth=\"0pt\" height=\"0pt\" lspace=\"0.000000pt\" voffset=\"0.000000pt\" width=\"0pt\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⟨</mo><mspace depth=\"0.000000pt\" height=\"11.955123pt\" width=\"0.000000pt\"/><mspace width=\"0.000pt\"/></mrow></mpadded></mpadded><mi>𝑎</mi><mo lspace=\"0\" rspace=\"0.167em\">,</mo><mi>𝑏</mi><mpadded depth=\"3.486985pt\" height=\"8.468290pt\" width=\"4.704587pt\"><mpadded depth=\"0pt\" height=\"0pt\" lspace=\"0.000000pt\" voffset=\"0.000000pt\" width=\"0pt\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⟩</mo><mspace depth=\"0.000000pt\" height=\"11.955123pt\" width=\"0.000000pt\"/><mspace width=\"0.000pt\"/></mrow></mpadded></mpadded></math>",
+      "intents": [
+        "inner-product($a1,$a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='inner-product($a1,$a2)'><mpadded depth='3.486985pt' height='8.468290pt' width='4.704587pt'><mpadded depth='0pt' height='0pt' lspace='0.000000pt' voffset='0.000000pt' width='0pt'><mrow><mo fence='true' lspace='0' maxsize='11.955275pt' minsize='11.955275pt' rspace='0' symmetric='true'>⟨</mo><mspace depth='0.000000pt' height='11.955123pt' width='0.000000pt'/><mspace width='0.000pt'/></mrow></mpadded></mpadded><mi arg='a1'>𝑎</mi><mo lspace='0' rspace='0.167em'>,</mo><mi arg='a2'>𝑏</mi><mpadded depth='3.486985pt' height='8.468290pt' width='4.704587pt'><mpadded depth='0pt' height='0pt' lspace='0.000000pt' voffset='0.000000pt' width='0pt'><mrow><mo fence='true' lspace='0' maxsize='11.955275pt' minsize='11.955275pt' rspace='0' symmetric='true'>⟩</mo><mspace depth='0.000000pt' height='11.955123pt' width='0.000000pt'/><mspace width='0.000pt'/></mrow></mpadded></mpadded></mrow></mrow><annotation encoding='application/x-tex'>\\inner[\\big]{a, b}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\inner{u, v}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟨</mo><mi>𝑢</mi><mo lspace=\"0\" rspace=\"0.167em\">,</mo><mi>𝑣</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟩</mo></math>",
+      "intents": [
+        "inner-product($a1,$a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='inner-product($a1,$a2)'><mo lspace='0' rspace='0' stretchy='false'>⟨</mo><mi arg='a1'>𝑢</mi><mo lspace='0' rspace='0.167em'>,</mo><mi arg='a2'>𝑣</mi><mo lspace='0' rspace='0' stretchy='false'>⟩</mo></mrow></mrow><annotation encoding='application/x-tex'>\\inner{u, v}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\inner{u}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟨</mo><mi>𝑢</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟩</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mo lspace='0' rspace='0' stretchy='false'>⟨</mo><mi>𝑢</mi><mo lspace='0' rspace='0' stretchy='false'>⟩</mo></mrow><annotation encoding='application/x-tex'>\\inner{u}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\ip*{x}{y}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow/><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⟨</mo><mi>𝑥</mi><mo lspace=\"0\" rspace=\"0.167em\">,</mo><mi>𝑦</mi><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⟩</mo></mrow></math>",
+      "intents": [
+        "inner-product($a1,$a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow/><mrow><mrow intent='inner-product($a1,$a2)'><mo fence='true' lspace='0' rspace='0' symmetric='true'>⟨</mo><mi arg='a1'>𝑥</mi><mo lspace='0' rspace='0.167em'>,</mo><mi arg='a2'>𝑦</mi><mo fence='true' lspace='0' rspace='0' symmetric='true'>⟩</mo></mrow></mrow></mrow><annotation encoding='application/x-tex'>\\ip*{x}{y}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\ip{u}{v}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟨</mo><mi>𝑢</mi><mo lspace=\"0\" rspace=\"0.167em\">,</mo><mi>𝑣</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟩</mo></math>",
+      "intents": [
+        "inner-product($a1,$a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='inner-product($a1,$a2)'><mo lspace='0' rspace='0' stretchy='false'>⟨</mo><mi arg='a1'>𝑢</mi><mo lspace='0' rspace='0.167em'>,</mo><mi arg='a2'>𝑣</mi><mo lspace='0' rspace='0' stretchy='false'>⟩</mo></mrow></mrow><annotation encoding='application/x-tex'>\\ip{u}{v}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\ket{\\psi}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝜓</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟩</mo></math>",
+      "intents": [
+        "ket($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='ket($a1)'><mo lspace='0' rspace='0' stretchy='false'>|</mo><mi arg='a1'>𝜓</mi><mo lspace='0' rspace='0' stretchy='false'>⟩</mo></mrow></mrow><annotation encoding='application/x-tex'>\\ket{\\psi}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\ket{\\psi} + \\abs{x}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝜓</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟩</mo><mo lspace=\"0.222em\" rspace=\"0.222em\">+</mo><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mi>𝑥</mi><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo></mrow></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mo lspace='0' rspace='0' stretchy='false'>|</mo><mi>𝜓</mi><mo lspace='0' rspace='0' stretchy='false'>⟩</mo><mo lspace='0.222em' rspace='0.222em'>+</mo><mrow><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo><mi>𝑥</mi><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo></mrow></mrow><annotation encoding='application/x-tex'>\\ket{\\psi} + \\abs{x}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\ket{\\psi} + |x|"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝜓</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟩</mo><mo lspace=\"0.222em\" rspace=\"0\">+</mo><mo lspace=\"0.222em\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝑥</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mo lspace='0' rspace='0' stretchy='false'>|</mo><mi>𝜓</mi><mo lspace='0' rspace='0' stretchy='false'>⟩</mo><mo lspace='0.222em' rspace='0'>+</mo><mo lspace='0.222em' rspace='0' stretchy='false'>|</mo><mi>𝑥</mi><mo lspace='0' rspace='0' stretchy='false'>|</mo></mrow><annotation encoding='application/x-tex'>\\ket{\\psi} + |x|</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\lVert w \\rVert"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">‖</mo><mi>𝑤</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">‖</mo></math>",
+      "intents": [
+        "norm($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='norm($a1)'><mo lspace='0' rspace='0' stretchy='false'>‖</mo><mi arg='a1'>𝑤</mi><mo lspace='0' rspace='0' stretchy='false'>‖</mo></mrow></mrow><annotation encoding='application/x-tex'>\\lVert w \\rVert</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\lceil s\\rceil + 1"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⌈</mo><mi>𝑠</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⌉</mo><mo lspace=\"0.222em\" rspace=\"0.222em\">+</mo><mn>1</mn></math>",
+      "intents": [
+        "ceiling($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow><mrow intent='ceiling($a1)'><mo lspace='0' rspace='0' stretchy='false'>⌈</mo><mi arg='a1'>𝑠</mi><mo lspace='0' rspace='0' stretchy='false'>⌉</mo></mrow></mrow><mo lspace='0.222em' rspace='0.222em'>+</mo><mn>1</mn></mrow><annotation encoding='application/x-tex'>\\lceil s\\rceil + 1</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\left| z \\right|"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo><mi>𝑧</mi><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">|</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo><mi>𝑧</mi><mo fence='true' lspace='0' rspace='0' symmetric='true'>|</mo></mrow><annotation encoding='application/x-tex'>\\left| z \\right|</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\lfloor t \\rfloor"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⌊</mo><mi>𝑡</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⌋</mo></math>",
+      "intents": [
+        "floor($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='floor($a1)'><mo lspace='0' rspace='0' stretchy='false'>⌊</mo><mi arg='a1'>𝑡</mi><mo lspace='0' rspace='0' stretchy='false'>⌋</mo></mrow></mrow><annotation encoding='application/x-tex'>\\lfloor t \\rfloor</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\lvert y \\rvert"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝑦</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mo lspace='0' rspace='0' stretchy='false'>|</mo><mi>𝑦</mi><mo lspace='0' rspace='0' stretchy='false'>|</mo></mrow><annotation encoding='application/x-tex'>\\lvert y \\rvert</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\mathbf{M}^{\\mathsf{T}}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msup><mi>𝐌</mi><mi>𝖳</mi></msup></math>",
+      "intents": [
+        "transpose($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><msup intent='transpose($a1)'><mi arg='a1'>𝐌</mi><mi>𝖳</mi></msup></mrow><annotation encoding='application/x-tex'>\\mathbf{M}^{\\mathsf{T}}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\mathcal{O}(n \\log n)"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>𝒪</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">(</mo><mi>𝑛</mi><mspace width=\"0.167em\"/><mrow><mi mathvariant=\"normal\">l</mi><mi mathvariant=\"normal\">o</mi><mi mathvariant=\"normal\">g</mi></mrow><mspace width=\"0.167em\"/><mi>𝑛</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mi>𝒪</mi><mrow><mo lspace='0' rspace='0' stretchy='false'>(</mo><mi>𝑛</mi><mspace width='0.167em'/><mrow><mi>log</mi></mrow><mo>⁡</mo><mspace width='0.167em'/><mi>𝑛</mi><mo lspace='0' rspace='0' stretchy='false'>)</mo></mrow></mrow><annotation encoding='application/x-tex'>\\mathcal{O}(n \\log n)</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\norm{v}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">‖</mo><mi>𝑣</mi><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">‖</mo></math>",
+      "intents": [
+        "norm($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='norm($a1)'><mo fence='true' lspace='0' rspace='0' symmetric='true'>‖</mo><mi arg='a1'>𝑣</mi><mo fence='true' lspace='0' rspace='0' symmetric='true'>‖</mo></mrow></mrow><annotation encoding='application/x-tex'>\\norm{v}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\nrm*{\\frac{u}{2}}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow/><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">‖</mo><mfrac><mi>𝑢</mi><mn>2</mn></mfrac><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">‖</mo></mrow></math>",
+      "intents": [
+        "norm($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow/><mrow><mrow intent='norm($a1)'><mo fence='true' lspace='0' rspace='0' symmetric='true'>‖</mo><mfrac arg='a1'><mi>𝑢</mi><mn>2</mn></mfrac><mo fence='true' lspace='0' rspace='0' symmetric='true'>‖</mo></mrow></mrow></mrow><annotation encoding='application/x-tex'>\\nrm*{\\frac{u}{2}}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\nrm[\\Big]{w}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mpadded depth=\"6.475807pt\" height=\"11.457127pt\" width=\"5.534817pt\"><mpadded depth=\"0pt\" height=\"0pt\" lspace=\"0.000000pt\" voffset=\"0.000000pt\" width=\"0pt\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">‖</mo><mspace depth=\"0.000000pt\" height=\"17.932676pt\" width=\"0.000000pt\"/><mspace width=\"0.000pt\"/></mrow></mpadded></mpadded><mi>𝑤</mi><mpadded depth=\"6.475807pt\" height=\"11.457127pt\" width=\"5.534817pt\"><mpadded depth=\"0pt\" height=\"0pt\" lspace=\"0.000000pt\" voffset=\"0.000000pt\" width=\"0pt\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">‖</mo><mspace depth=\"0.000000pt\" height=\"17.932676pt\" width=\"0.000000pt\"/><mspace width=\"0.000pt\"/></mrow></mpadded></mpadded></math>",
+      "intents": [
+        "norm($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='norm($a1)'><mpadded depth='6.475807pt' height='11.457127pt' width='5.534817pt'><mpadded depth='0pt' height='0pt' lspace='0.000000pt' voffset='0.000000pt' width='0pt'><mrow><mo fence='true' lspace='0' maxsize='17.932934pt' minsize='17.932934pt' rspace='0' symmetric='true'>‖</mo><mspace depth='0.000000pt' height='17.932676pt' width='0.000000pt'/><mspace width='0.000pt'/></mrow></mpadded></mpadded><mi arg='a1'>𝑤</mi><mpadded depth='6.475807pt' height='11.457127pt' width='5.534817pt'><mpadded depth='0pt' height='0pt' lspace='0.000000pt' voffset='0.000000pt' width='0pt'><mrow><mo fence='true' lspace='0' maxsize='17.932934pt' minsize='17.932934pt' rspace='0' symmetric='true'>‖</mo><mspace depth='0.000000pt' height='17.932676pt' width='0.000000pt'/><mspace width='0.000pt'/></mrow></mpadded></mpadded></mrow></mrow><annotation encoding='application/x-tex'>\\nrm[\\Big]{w}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\nrm{v}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">‖</mo><mi>𝑣</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">‖</mo></math>",
+      "intents": [
+        "norm($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='norm($a1)'><mo lspace='0' rspace='0' stretchy='false'>‖</mo><mi arg='a1'>𝑣</mi><mo lspace='0' rspace='0' stretchy='false'>‖</mo></mrow></mrow><annotation encoding='application/x-tex'>\\nrm{v}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\pceil*{\\frac{n}{2}}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow/><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⌈</mo><mfrac><mi>𝑛</mi><mn>2</mn></mfrac><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⌉</mo></mrow></math>",
+      "intents": [
+        "ceiling($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow/><mrow><mrow intent='ceiling($a1)'><mo fence='true' lspace='0' rspace='0' symmetric='true'>⌈</mo><mfrac arg='a1'><mi>𝑛</mi><mn>2</mn></mfrac><mo fence='true' lspace='0' rspace='0' symmetric='true'>⌉</mo></mrow></mrow></mrow><annotation encoding='application/x-tex'>\\pceil*{\\frac{n}{2}}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\pfloor[\\big]{x}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mpadded depth=\"3.486985pt\" height=\"8.468290pt\" width=\"4.704587pt\"><mpadded depth=\"0pt\" height=\"0pt\" lspace=\"0.000000pt\" voffset=\"0.000000pt\" width=\"0pt\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⌊</mo><mspace depth=\"0.000000pt\" height=\"11.955123pt\" width=\"0.000000pt\"/><mspace width=\"0.000pt\"/></mrow></mpadded></mpadded><mi>𝑥</mi><mpadded depth=\"3.486985pt\" height=\"8.468290pt\" width=\"4.704587pt\"><mpadded depth=\"0pt\" height=\"0pt\" lspace=\"0.000000pt\" voffset=\"0.000000pt\" width=\"0pt\"><mrow><mo fence=\"true\" lspace=\"0\" rspace=\"0\" symmetric=\"true\">⌋</mo><mspace depth=\"0.000000pt\" height=\"11.955123pt\" width=\"0.000000pt\"/><mspace width=\"0.000pt\"/></mrow></mpadded></mpadded></math>",
+      "intents": [
+        "floor($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='floor($a1)'><mpadded depth='3.486985pt' height='8.468290pt' width='4.704587pt'><mpadded depth='0pt' height='0pt' lspace='0.000000pt' voffset='0.000000pt' width='0pt'><mrow><mo fence='true' lspace='0' maxsize='11.955275pt' minsize='11.955275pt' rspace='0' symmetric='true'>⌊</mo><mspace depth='0.000000pt' height='11.955123pt' width='0.000000pt'/><mspace width='0.000pt'/></mrow></mpadded></mpadded><mi arg='a1'>𝑥</mi><mpadded depth='3.486985pt' height='8.468290pt' width='4.704587pt'><mpadded depth='0pt' height='0pt' lspace='0.000000pt' voffset='0.000000pt' width='0pt'><mrow><mo fence='true' lspace='0' maxsize='11.955275pt' minsize='11.955275pt' rspace='0' symmetric='true'>⌋</mo><mspace depth='0.000000pt' height='11.955123pt' width='0.000000pt'/><mspace width='0.000pt'/></mrow></mpadded></mpadded></mrow></mrow><annotation encoding='application/x-tex'>\\pfloor[\\big]{x}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\pfloor{y}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⌊</mo><mi>𝑦</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⌋</mo></math>",
+      "intents": [
+        "floor($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='floor($a1)'><mo lspace='0' rspace='0' stretchy='false'>⌊</mo><mi arg='a1'>𝑦</mi><mo lspace='0' rspace='0' stretchy='false'>⌋</mo></mrow></mrow><annotation encoding='application/x-tex'>\\pfloor{y}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\sin^{-1} x"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msup><mrow><mi mathvariant=\"normal\">s</mi><mi mathvariant=\"normal\">i</mi><mi mathvariant=\"normal\">n</mi></mrow><mrow><mo lspace=\"0\" rspace=\"0\">−</mo><mn>1</mn></mrow></msup><mspace width=\"0.167em\"/><mi>𝑥</mi></math>",
+      "intents": [
+        "inverse($a1)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><msup intent='inverse($a1)'><mrow arg='a1'><mrow><mi>sin</mi></mrow></mrow><mrow><mo lspace='0' rspace='0'>−</mo><mn>1</mn></mrow></msup><mo>⁡</mo><mspace width='0.167em'/><mi>𝑥</mi></mrow><annotation encoding='application/x-tex'>\\sin^{-1} x</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\sum_{i=1}^n i"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><munderover><mo lspace=\"0\" movablelimits=\"true\" rspace=\"0.167em\">∑</mo><mrow><mi>𝑖</mi><mo lspace=\"0\" rspace=\"0\">=</mo><mn>1</mn></mrow><mi>𝑛</mi></munderover><mi>𝑖</mi></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><munderover><mo lspace='0' movablelimits='true' rspace='0.167em'>∑</mo><mrow><mi>𝑖</mi><mo lspace='0' rspace='0'>=</mo><mn>1</mn></mrow><mi>𝑛</mi></munderover><mi>𝑖</mi></mrow><annotation encoding='application/x-tex'>\\sum_{i=1}^n i</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\tbinom{n}{2}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\">(</mo><mfrac linethickness=\"0.000000pt\"><mi>𝑛</mi><mn>2</mn></mfrac><mo lspace=\"0\" rspace=\"0\">)</mo></math>",
+      "intents": [
+        "binomial-coefficient($a1,$a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mrow intent='binomial-coefficient($a1,$a2)'><mo lspace='0' rspace='0'>(</mo><mfrac linethickness='0.000000pt'><mi arg='a1'>𝑛</mi><mn arg='a2'>2</mn></mfrac><mo lspace='0' rspace='0'>)</mo></mrow></mrow><annotation encoding='application/x-tex'>\\tbinom{n}{2}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\{ y : y < 1\\}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">{</mo><mi>𝑦</mi><mo lspace=\"0.278em\" rspace=\"0.278em\">:</mo><mi>𝑦</mi><mo lspace=\"0.278em\" rspace=\"0.278em\">&lt;</mo><mn>1</mn><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">}</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mo lspace='0' rspace='0' stretchy='false'>{</mo><mi>𝑦</mi><mo lspace='0.278em' rspace='0.278em'>:</mo><mi>𝑦</mi><mo lspace='0.278em' rspace='0.278em'>&lt;</mo><mn>1</mn><mo lspace='0' rspace='0' stretchy='false'>}</mo></mrow><annotation encoding='application/x-tex'>\\{ y : y &lt; 1\\}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\{x \\mid x > 0\\}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">{</mo><mi>𝑥</mi><mo lspace=\"0.278em\" rspace=\"0.278em\" stretchy=\"false\">|</mo><mi>𝑥</mi><mo lspace=\"0.278em\" rspace=\"0.278em\">&gt;</mo><mn>0</mn><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">}</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mo lspace='0' rspace='0' stretchy='false'>{</mo><mi>𝑥</mi><mo lspace='0.278em' rspace='0.278em' stretchy='false'>|</mo><mi>𝑥</mi><mo lspace='0.278em' rspace='0.278em'>&gt;</mo><mn>0</mn><mo lspace='0' rspace='0' stretchy='false'>}</mo></mrow><annotation encoding='application/x-tex'>\\{x \\mid x &gt; 0\\}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "\\|u\\|"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>‖</mi><mi>𝑢</mi><mi>‖</mi></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mi>‖</mi><mi>𝑢</mi><mi>‖</mi></mrow><annotation encoding='application/x-tex'>\\|u\\|</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "a \\bmod m"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>𝑎</mi><mspace width=\"-0.222em\"/><mspace width=\"0.278em\"/><mspace width=\"0.222em\"/><mrow><mi mathvariant=\"normal\">m</mi><mi mathvariant=\"normal\">o</mi><mi mathvariant=\"normal\">d</mi></mrow><mspace width=\"0.278em\"/><mspace width=\"-0.222em\"/><mspace width=\"0.222em\"/><mi>𝑚</mi></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mi>𝑎</mi><mspace style='margin-inline-start:-0.222em' width='0pt'/><mspace width='0.278em'/><mspace width='0.222em'/><mrow><mi>mod</mi></mrow><mspace width='0.278em'/><mspace style='margin-inline-start:-0.222em' width='0pt'/><mspace width='0.222em'/><mi>𝑚</mi></mrow><annotation encoding='application/x-tex'>a \\bmod m</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "a \\equiv b \\pmod{m}"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>𝑎</mi><mo lspace=\"0.278em\" rspace=\"0.278em\">≡</mo><mi>𝑏</mi><mspace width=\"0.444em\"/><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">(</mo><mrow><mi mathvariant=\"normal\">m</mi><mi mathvariant=\"normal\">o</mi><mi mathvariant=\"normal\">d</mi></mrow><mspace width=\"0.333em\"/><mi>𝑚</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mi>𝑎</mi><mo lspace='0.278em' rspace='0.278em'>≡</mo><mi>𝑏</mi><mspace width='0.444em'/><mrow><mo lspace='0' rspace='0' stretchy='false'>(</mo><mrow><mi>mod</mi></mrow><mspace width='0.333em'/><mi>𝑚</mi><mo lspace='0' rspace='0' stretchy='false'>)</mo></mrow></mrow><annotation encoding='application/x-tex'>a \\equiv b \\pmod{m}</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "f^{-1}(y)"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msup><mi>𝑓</mi><mrow><mo lspace=\"0\" rspace=\"0\">−</mo><mn>1</mn></mrow></msup><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">(</mo><mi>𝑦</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><msup><mi>𝑓</mi><mrow><mo lspace='0' rspace='0'>−</mo><mn>1</mn></mrow></msup><mrow><mo lspace='0' rspace='0' stretchy='false'>(</mo><mi>𝑦</mi><mo lspace='0' rspace='0' stretchy='false'>)</mo></mrow></mrow><annotation encoding='application/x-tex'>f^{-1}(y)</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "n!"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>𝑛</mi><mo lspace=\"0\" rspace=\"0\">!</mo></math>",
+      "intents": [
+        "factorial"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mi>𝑛</mi><mo intent='factorial' lspace='0' rspace='0'>!</mo></mrow><annotation encoding='application/x-tex'>n!</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "n!!"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>𝑛</mi><mo lspace=\"0\" rspace=\"0\">!</mo><mo lspace=\"0\" rspace=\"0\">!</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mi>𝑛</mi><mo lspace='0' rspace='0'>!</mo><mo lspace='0' rspace='0'>!</mo></mrow><annotation encoding='application/x-tex'>n!!</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "x = \\binom{a+b}{c} y"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>𝑥</mi><mo lspace=\"0.278em\" rspace=\"0.278em\">=</mo><mrow><mo lspace=\"0\" rspace=\"0\">(</mo><mfrac linethickness=\"0.000000pt\"><mrow><mi>𝑎</mi><mo lspace=\"0\" rspace=\"0\">+</mo><mi>𝑏</mi></mrow><mi>𝑐</mi></mfrac><mo lspace=\"0\" rspace=\"0\">)</mo></mrow><mi>𝑦</mi></math>",
+      "intents": [
+        "binomial-coefficient($a1,$a2)"
+      ],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mi>𝑥</mi><mo lspace='0.278em' rspace='0.278em'>=</mo><mrow><mrow intent='binomial-coefficient($a1,$a2)'><mo lspace='0' rspace='0'>(</mo><mfrac linethickness='0.000000pt'><mrow arg='a1'><mrow><mi>𝑎</mi><mo lspace='0' rspace='0'>+</mo><mi>𝑏</mi></mrow></mrow><mi arg='a2'>𝑐</mi></mfrac><mo lspace='0' rspace='0'>)</mo></mrow></mrow><mi>𝑦</mi></mrow><annotation encoding='application/x-tex'>x = \\binom{a+b}{c} y</annotation></semantics></math>"
+    },
+    {
+      "tex": {
+        "form": "inline",
+        "status": "verified",
+        "text": "|\\psi\\rangle"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">|</mo><mi>𝜓</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">⟩</mo></math>",
+      "intents": [],
+      "projected": "<math xmlns='http://www.w3.org/1998/Math/MathML'><semantics><mrow><mo lspace='0' rspace='0' stretchy='false'>|</mo><mi>𝜓</mi><mo lspace='0' rspace='0' stretchy='false'>⟩</mo></mrow><annotation encoding='application/x-tex'>|\\psi\\rangle</annotation></semantics></math>"
+    }
+  ],
+  "math_macros": {
+    "E": {
+      "body": "\\mathbb {E}",
+      "parameters": 0
+    },
+    "PP": {
+      "body": "\\mathbb {P}",
+      "parameters": 0
+    },
+    "Prob": {
+      "body": "\\Pr",
+      "parameters": 0
+    },
+    "abs": {
+      "body": "\\left |#1\\right |",
+      "parameters": 1
+    },
+    "absv": {
+      "body": "\\mathopen\\lvert #1\\mathclose\\rvert",
+      "paired": {
+        "after": "",
+        "before": "",
+        "close": "\\rvert",
+        "inner": "#1",
+        "open": "\\lvert"
+      },
+      "parameters": 1
+    },
+    "bra": {
+      "body": "\\langle #1 |",
+      "parameters": 1
+    },
+    "braket": {
+      "body": "\\langle #1 | #2 \\rangle",
+      "parameters": 2
+    },
+    "card": {
+      "body": "\\lvert #1\\rvert",
+      "parameters": 1
+    },
+    "ceil": {
+      "body": "\\lceil #1 \\rceil",
+      "parameters": 1
+    },
+    "fcomp": {
+      "body": "\\mathopen\\lvert #1\\mathclose\\rvert",
+      "paired": {
+        "after": "",
+        "before": "",
+        "close": "\\rvert",
+        "inner": "#1",
+        "open": "\\lvert"
+      },
+      "parameters": 1
+    },
+    "floor": {
+      "body": "\\left \\lfloor #1 \\right \\rfloor",
+      "parameters": 1
+    },
+    "gen": {
+      "body": "\\mathopen\\langle #1\\mathclose\\rangle",
+      "paired": {
+        "after": "",
+        "before": "",
+        "close": "\\rangle",
+        "inner": "#1",
+        "open": "\\langle"
+      },
+      "parameters": 1
+    },
+    "inner": {
+      "body": "\\mathopen\\langle #1\\mathclose\\rangle",
+      "paired": {
+        "after": "",
+        "before": "",
+        "close": "\\rangle",
+        "inner": "#1",
+        "open": "\\langle"
+      },
+      "parameters": 1
+    },
+    "ip": {
+      "body": "\\mathopen\\langle #1, #2\\mathclose\\rangle",
+      "paired": {
+        "after": "",
+        "before": "",
+        "close": "\\rangle",
+        "inner": "#1, #2",
+        "open": "\\langle"
+      },
+      "parameters": 2
+    },
+    "ket": {
+      "body": "| #1 \\rangle",
+      "parameters": 1
+    },
+    "norm": {
+      "body": "\\left \\| #1 \\right \\|",
+      "parameters": 1
+    },
+    "nrm": {
+      "body": "\\mathopen\\lVert #1\\mathclose\\rVert",
+      "paired": {
+        "after": "",
+        "before": "",
+        "close": "\\rVert",
+        "inner": "#1",
+        "open": "\\lVert"
+      },
+      "parameters": 1
+    },
+    "pceil": {
+      "body": "\\mathopen\\lceil #1\\mathclose\\rceil",
+      "paired": {
+        "after": "",
+        "before": "",
+        "close": "\\rceil",
+        "inner": "#1",
+        "open": "\\lceil"
+      },
+      "parameters": 1
+    },
+    "pfloor": {
+      "body": "\\mathopen\\lfloor #1\\mathclose\\rfloor",
+      "paired": {
+        "after": "",
+        "before": "",
+        "close": "\\rfloor",
+        "inner": "#1",
+        "open": "\\lfloor"
+      },
+      "parameters": 1
+    }
+  }
+}

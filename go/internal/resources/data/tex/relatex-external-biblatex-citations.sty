@@ -1,0 +1,44 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-external-biblatex-citations}[2026/10/23 Native biblatex evidence]
+\directlua{ltd.citations = require('relatex-external-biblatex-citations');ltd.flow.citations = ltd.citations}
+\makeatletter
+% The label biblatex prints for an entry: labelnumber (numeric) or labelalpha+extraalpha
+% (alphabetic), both optionally prefixed.
+\def\ltd@blx@printlabel{%
+  \iffieldundef{labelnumber}%
+    {\thefield{labelprefix}\thefield{labelalpha}\thefield{extraalpha}}%
+    {\thefield{labelprefix}\thefield{labelnumber}}}
+% One entry per cite command, with the keys the source asks for.
+\AddToHookWithArguments{cmd/blx@citeloop/before}[relatex-biblatex-citations]{%
+  \directlua{ltd.citations.biblatex_begin('\luaescapestring{\detokenize{#1}}')}}
+% The keys that are actually printed, in printed order.
+\AddToHook{cmd/blx@thecitesort/after}[relatex-biblatex-citations]{%
+  \directlua{ltd.citations.biblatex_sorted('\luaescapestring{\blx@tempb}')}}
+% One printed key: its data is loaded, so its label is readable.
+\gappto\blx@hook@citekey{%
+  \edef\ltd@blx@label{\ltd@blx@printlabel}%
+  \directlua{ltd.citations.biblatex_key('\luaescapestring{\thefield{entrykey}}',
+    '\luaescapestring{\ltd@blx@label}')}}
+\AddToHook{cmd/blx@citeprint/after}[relatex-biblatex-citations]{%
+  \directlua{ltd.citations.biblatex_link_end()}}
+\AddToHook{cmd/blx@citeloop@i/after}[relatex-biblatex-citations]{%
+  \directlua{ltd.citations.biblatex_finish()}}
+% One bibliography list; every printed item is inside it.
+\AddToHook{cmd/blx@bibliography/before}[relatex-biblatex-citations]{%
+  \directlua{ltd.citations.bibliography_begin()}}
+\AddToHook{cmd/blx@endbibliography/after}[relatex-biblatex-citations]{%
+  \directlua{ltd.citations.bibliography_end()}}
+\AddToHook{cmd/blx@bibitem/before}[relatex-biblatex-citations]{%
+  \directlua{ltd.citations.reserve()}}
+\AddToHook{cmd/blx@bibitem/after}[relatex-biblatex-citations]{%
+  \directlua{ltd.citations.reserve_end()}}
+\gappto\blx@hook@bibitem{%
+  \edef\ltd@blx@label{\ltd@blx@printlabel}%
+  \directlua{ltd.citations.biblatex_entry('\luaescapestring{\thefield{entrykey}}',
+    '\luaescapestring{\ltd@blx@label}')}}
+\makeatother
+\endinput

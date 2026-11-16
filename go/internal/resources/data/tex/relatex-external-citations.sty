@@ -1,0 +1,45 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-external-citations}[2026/10/15 Native Natbib evidence]
+\directlua{ltd.citations = require('relatex-external-citations');ltd.flow.citations = ltd.citations}
+% \ltd@citex@hook{NAME}{LUA BEGIN}: observe a call of the macro NAME, which takes natbib's \@citex
+% arguments [#1][#2]#3.
+\def\ltd@citex@hook#1#2{%
+  \AddToHookWithArguments{cmd/#1/before}{%
+    \directlua{ltd.citations.#2('\luaescapestring{\detokenize{##3}}')}}%
+  \AddToHook{cmd/#1/after}{\directlua{ltd.citations.finish_call()}}}
+% Natbib assigns its actual citex alias during begin-document initialization.
+% achemso's natmove (superscript mode) replaces \@citex by an argument-free dispatcher, \nmv@citex,
+% which calls natbib's \@citex, saved as \nmv@citex@nat, at once or after the punctuation it moves.
+% \citenum calls natbib's numeric citex directly; a \cite running it inside an observed call
+% (a class whose \@citex calls it) is observed once.
+\AddToHook{begindocument/end}[relatex-citations]{%
+  \ifx\@citex\nmv@citex
+    \ltd@citex@hook{nmv@citex@nat}{begin}%
+  \else
+    \ltd@citex@hook{@citex}{begin}%
+  \fi
+  \ifdefined\NAT@citexnum
+    \ltd@citex@hook{NAT@citexnum}{begin_direct}%
+  \fi
+  \AddToHookWithArguments{cmd/NAT@sort@cites/after}{%
+    \directlua{ltd.citations.sorted(token.get_macro('NAT@cite@list'))}}%
+  \AddToHookWithArguments{cmd/hyper@natlinkstart/before}{%
+    \directlua{ltd.citations.link_begin('\luaescapestring{#1}')}}%
+  \AddToHook{cmd/hyper@natlinkend/after}{\directlua{ltd.citations.link_end()}}%
+  \AddToHookWithArguments{cmd/@lbibitem/before}{%
+    \directlua{ltd.citations.entry('\luaescapestring{#2}')}}%
+  \AddToHookWithArguments{cmd/NAT@anchor/before}{%
+    \directlua{ltd.citations.anchor('\luaescapestring{#1}','\luaescapestring{#2}')}}}
+\AddToHook{env/thebibliography/begin}{\directlua{ltd.citations.bibliography_begin()}}
+\AddToHook{env/thebibliography/after}{\directlua{ltd.citations.bibliography_end()}}
+% REVTeX's bibliographies (\begin{mcitethebibliography}, REVTeX 4's \begin{references}) call
+% \thebibliography directly.
+\AddToHook{env/references/begin}{\directlua{ltd.citations.bibliography_begin()}}
+\AddToHook{env/references/after}{\directlua{ltd.citations.bibliography_end()}}
+\AddToHook{env/mcitethebibliography/begin}{\directlua{ltd.citations.bibliography_begin()}}
+\AddToHook{env/mcitethebibliography/after}{\directlua{ltd.citations.bibliography_end()}}
+\endinput

@@ -1,0 +1,512 @@
+{
+  "schema_version": "paper-0.2",
+  "profile": "paper-reading-diagnostic-v2",
+  "status": "diagnostic",
+  "qualified": false,
+  "identity": {
+    "id": "corpus",
+    "input_sha256": "9bfa843fbea430326a538d54f8e287666a6671c0289b99e55137a497ba199295"
+  },
+  "root": "n-04eb95a791d33b0af2439b99153c315f480b54b940781d723b5aeacbb1114916",
+  "nodes": {
+    "n-c13ac3b69454ecd1d02b9edd0940880b2b0c85bc8343d87a445a62e89b90b4f2": {
+      "id": "n-c13ac3b69454ecd1d02b9edd0940880b2b0c85bc8343d87a445a62e89b90b4f2",
+      "type": "list_item",
+      "children": [
+        "n-9f124c36dec940670e06fcb99ce869968ad6df7fb3464fab3f47a856f925c44c"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:4",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-e9de3149541613ea15d3127d010d17d93c7eb4deaad6d031673ad53bc5518bef": {
+      "id": "n-e9de3149541613ea15d3127d010d17d93c7eb4deaad6d031673ad53bc5518bef",
+      "type": "list_item",
+      "children": [
+        "n-98468f60a0948eea1bd91ddb16cab0ca87c68e920658b0536ae5ed7b16ae214b"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:5",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-663e689efabef8549f95779534df1ce0a10bcf9fb9584a0075ca5bb5da64d97c": {
+      "id": "n-663e689efabef8549f95779534df1ce0a10bcf9fb9584a0075ca5bb5da64d97c",
+      "type": "unordered_list",
+      "children": [
+        "n-c13ac3b69454ecd1d02b9edd0940880b2b0c85bc8343d87a445a62e89b90b4f2",
+        "n-e9de3149541613ea15d3127d010d17d93c7eb4deaad6d031673ad53bc5518bef"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:3",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-3f97686b94db543c13adf047f579cd42f004c38b53c5391073f24b3a04591d7c": {
+      "id": "n-3f97686b94db543c13adf047f579cd42f004c38b53c5391073f24b3a04591d7c",
+      "type": "list_item",
+      "children": [
+        "n-ac70ad8e4f7d7093b97f976a75c12e0f93e3b3aea03182babcd113edd04add43"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:7",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-8ff4cfcfb73e80435b6f041573d04b2c627cc1274bcb48fb4f2eff576b2202d4": {
+      "id": "n-8ff4cfcfb73e80435b6f041573d04b2c627cc1274bcb48fb4f2eff576b2202d4",
+      "type": "list_item",
+      "children": [
+        "n-d84ae8d0dea05710c0e75a11d3afd2ee2da4413f18e32e1d72697a4c7631e86e"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:10",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-3e2f41b293874239374bb0083f10077e6311da285cbb6ce114079c3bba3611c1": {
+      "id": "n-3e2f41b293874239374bb0083f10077e6311da285cbb6ce114079c3bba3611c1",
+      "type": "list_item",
+      "children": [
+        "n-3e273bbae46f97e7beda70df3134049d8ccec1156004c53d72de80d22575f263"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:11",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-fd72bc19a5e70382033f6586da92e38faca66b2ef155a5799c5e092f5c6f56b7": {
+      "id": "n-fd72bc19a5e70382033f6586da92e38faca66b2ef155a5799c5e092f5c6f56b7",
+      "type": "ordered_list",
+      "children": [
+        "n-8ff4cfcfb73e80435b6f041573d04b2c627cc1274bcb48fb4f2eff576b2202d4",
+        "n-3e2f41b293874239374bb0083f10077e6311da285cbb6ce114079c3bba3611c1"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:9",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-acb374e59f438b3214a597d45a8d30e4ae0ae883ed15cad63c1f6e8fb4c2803d": {
+      "id": "n-acb374e59f438b3214a597d45a8d30e4ae0ae883ed15cad63c1f6e8fb4c2803d",
+      "type": "list_item",
+      "children": [
+        "n-8bb0c223000428c3ad472bf77770c86ca314dac83881cf5323a6559dcc362281",
+        "n-fd72bc19a5e70382033f6586da92e38faca66b2ef155a5799c5e092f5c6f56b7"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:8",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-65e9bebabdb5e6b829ca82d0980862dc496ec172fe010aa85e4bc1c3a1f7030c": {
+      "id": "n-65e9bebabdb5e6b829ca82d0980862dc496ec172fe010aa85e4bc1c3a1f7030c",
+      "type": "ordered_list",
+      "children": [
+        "n-3f97686b94db543c13adf047f579cd42f004c38b53c5391073f24b3a04591d7c",
+        "n-acb374e59f438b3214a597d45a8d30e4ae0ae883ed15cad63c1f6e8fb4c2803d"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:6",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-a837fdb0f23e6c2501f91c1883577531f3b2c1182490615620e30f7c4b9b0b59": {
+      "id": "n-a837fdb0f23e6c2501f91c1883577531f3b2c1182490615620e30f7c4b9b0b59",
+      "type": "section",
+      "children": [
+        "n-cad85c6affde7bdc1f96254e1ab9d70f544cc85a0a56b6ac40f4a48f1570e671",
+        "n-663e689efabef8549f95779534df1ce0a10bcf9fb9584a0075ca5bb5da64d97c",
+        "n-65e9bebabdb5e6b829ca82d0980862dc496ec172fe010aa85e4bc1c3a1f7030c",
+        "n-b39a815d1760b56bae056d30d1689c86b3b0e1f3e2284b3cdd469febba788eff"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:1",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-04eb95a791d33b0af2439b99153c315f480b54b940781d723b5aeacbb1114916": {
+      "id": "n-04eb95a791d33b0af2439b99153c315f480b54b940781d723b5aeacbb1114916",
+      "type": "document",
+      "children": [
+        "n-a837fdb0f23e6c2501f91c1883577531f3b2c1182490615620e30f7c4b9b0b59"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:0",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-cad85c6affde7bdc1f96254e1ab9d70f544cc85a0a56b6ac40f4a48f1570e671": {
+      "id": "n-cad85c6affde7bdc1f96254e1ab9d70f544cc85a0a56b6ac40f4a48f1570e671",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b1",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "1 Lists",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman12-Bold",
+            "generic": "serif",
+            "shape": "n",
+            "series": "bx",
+            "size_sp": 943718,
+            "encoding": "TU",
+            "font_id": 17
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-9f124c36dec940670e06fcb99ce869968ad6df7fb3464fab3f47a856f925c44c": {
+      "id": "n-9f124c36dec940670e06fcb99ce869968ad6df7fb3464fab3f47a856f925c44c",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b2",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "• First bullet.",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        }
+      ]
+    },
+    "n-98468f60a0948eea1bd91ddb16cab0ca87c68e920658b0536ae5ed7b16ae214b": {
+      "id": "n-98468f60a0948eea1bd91ddb16cab0ca87c68e920658b0536ae5ed7b16ae214b",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b3",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "• Second bullet.",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        }
+      ]
+    },
+    "n-ac70ad8e4f7d7093b97f976a75c12e0f93e3b3aea03182babcd113edd04add43": {
+      "id": "n-ac70ad8e4f7d7093b97f976a75c12e0f93e3b3aea03182babcd113edd04add43",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b4",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "1. First step.",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        }
+      ]
+    },
+    "n-8bb0c223000428c3ad472bf77770c86ca314dac83881cf5323a6559dcc362281": {
+      "id": "n-8bb0c223000428c3ad472bf77770c86ca314dac83881cf5323a6559dcc362281",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b5",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "2. Second step, with substeps:",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        }
+      ]
+    },
+    "n-d84ae8d0dea05710c0e75a11d3afd2ee2da4413f18e32e1d72697a4c7631e86e": {
+      "id": "n-d84ae8d0dea05710c0e75a11d3afd2ee2da4413f18e32e1d72697a4c7631e86e",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b6",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "(a) a substep;",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        }
+      ]
+    },
+    "n-3e273bbae46f97e7beda70df3134049d8ccec1156004c53d72de80d22575f263": {
+      "id": "n-3e273bbae46f97e7beda70df3134049d8ccec1156004c53d72de80d22575f263",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b7",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "(b) another substep.",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        }
+      ]
+    },
+    "n-b39a815d1760b56bae056d30d1689c86b3b0e1f3e2284b3cdd469febba788eff": {
+      "id": "n-b39a815d1760b56bae056d30d1689c86b3b0e1f3e2284b3cdd469febba788eff",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b8",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Steps",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        },
+        {
+          "type": "reference",
+          "text": " 1",
+          "label": "item:first",
+          "target": "n-ac70ad8e4f7d7093b97f976a75c12e0f93e3b3aea03182babcd113edd04add43",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        },
+        {
+          "type": "text",
+          "text": " and",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        },
+        {
+          "type": "reference",
+          "text": " 2b",
+          "label": "item:sub",
+          "target": "n-3e273bbae46f97e7beda70df3134049d8ccec1156004c53d72de80d22575f263",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        },
+        {
+          "type": "text",
+          "text": ".",
+          "style": {
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "generic": "serif",
+            "shape": "n",
+            "series": "m",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_id": 15
+          }
+        }
+      ]
+    }
+  },
+  "main_block_order": [
+    "n-cad85c6affde7bdc1f96254e1ab9d70f544cc85a0a56b6ac40f4a48f1570e671",
+    "n-9f124c36dec940670e06fcb99ce869968ad6df7fb3464fab3f47a856f925c44c",
+    "n-98468f60a0948eea1bd91ddb16cab0ca87c68e920658b0536ae5ed7b16ae214b",
+    "n-ac70ad8e4f7d7093b97f976a75c12e0f93e3b3aea03182babcd113edd04add43",
+    "n-8bb0c223000428c3ad472bf77770c86ca314dac83881cf5323a6559dcc362281",
+    "n-d84ae8d0dea05710c0e75a11d3afd2ee2da4413f18e32e1d72697a4c7631e86e",
+    "n-3e273bbae46f97e7beda70df3134049d8ccec1156004c53d72de80d22575f263",
+    "n-b39a815d1760b56bae056d30d1689c86b3b0e1f3e2284b3cdd469febba788eff"
+  ],
+  "note_order": [
+
+  ],
+  "block_order": [
+    "n-cad85c6affde7bdc1f96254e1ab9d70f544cc85a0a56b6ac40f4a48f1570e671",
+    "n-9f124c36dec940670e06fcb99ce869968ad6df7fb3464fab3f47a856f925c44c",
+    "n-98468f60a0948eea1bd91ddb16cab0ca87c68e920658b0536ae5ed7b16ae214b",
+    "n-ac70ad8e4f7d7093b97f976a75c12e0f93e3b3aea03182babcd113edd04add43",
+    "n-8bb0c223000428c3ad472bf77770c86ca314dac83881cf5323a6559dcc362281",
+    "n-d84ae8d0dea05710c0e75a11d3afd2ee2da4413f18e32e1d72697a4c7631e86e",
+    "n-3e273bbae46f97e7beda70df3134049d8ccec1156004c53d72de80d22575f263",
+    "n-b39a815d1760b56bae056d30d1689c86b3b0e1f3e2284b3cdd469febba788eff"
+  ],
+  "labels": {
+    "item:first": {
+      "target": "n-ac70ad8e4f7d7093b97f976a75c12e0f93e3b3aea03182babcd113edd04add43",
+      "number": "1",
+      "status": "verified"
+    },
+    "item:sub": {
+      "target": "n-3e273bbae46f97e7beda70df3134049d8ccec1156004c53d72de80d22575f263",
+      "number": "2b",
+      "status": "verified"
+    }
+  },
+  "metadata": {
+    "status": "unavailable"
+  },
+  "assets": {
+    "status": "unverified"
+  },
+  "unverified_requirements": [
+    "ordinary_fidelity",
+    "independent_content",
+    "independent_math",
+    "metadata",
+    "assets",
+    "typed_lists",
+    "citations",
+    "text_style"
+  ],
+  "citations": {
+    "status": "projected",
+    "qualified": false,
+    "entries": [
+
+    ],
+    "calls": [
+
+    ],
+    "links": [
+
+    ]
+  },
+  "external_links": {
+    "schema_version": "external-links-1",
+    "items": {
+    }
+  }
+}

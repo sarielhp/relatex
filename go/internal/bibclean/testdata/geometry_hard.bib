@@ -1,0 +1,428 @@
+% Selected real hard cases from geometry.bib for bibclean fixture tests.
+@comment{Selected geometry.bib test fixture}
+
+@preamble{" \providecommand{\CNFX}[1]{ {\em{\textrm{(#1)}}}} "}
+@preamble{ " \providecommand{\tildegen}{{\protect\raisebox{-0.1cm}{\symbol{'176}\hspace{-0.03cm}}}} " }
+@preamble{ " \providecommand{\SarielWWWPapersAddr}{http://sarielhp.org/p/} " }
+@preamble{ " \providecommand{\SarielWWWPapers}{http://sarielhp.org/p/} " }
+@preamble{ " \providecommand{\urlSarielPaper}[1]{\href{\SarielWWWPapersAddr/#1}{\SarielWWWPapers{}/#1}} " }
+@preamble{ " \providecommand{\Badoiu}{B\u{a}doiu} " }
+@preamble{ " \providecommand{\Barany}{B{\'a}r{\'a}ny} " }
+@preamble{ " \providecommand{\Bronimman}{Br{\"o}nnimann} " }
+@preamble{ " \providecommand{\Erdos}{Erd{\H o}s} " }
+@preamble{ " \providecommand{\Gartner}{G{\"a}rtner} " }
+@preamble{ " \providecommand{\Matousek}{Matou{\v s}ek} " }
+@preamble{ " \providecommand{\Merigot}{M{\'{}e}rigot} " }
+@PREAMBLE{ " \providecommand{\Hastad}{H\r{a}stad\xspace} "}
+@preamble{" \providecommand{\CNFCCCG}{\CNFX{CCCG}} "}
+@preamble{" \providecommand{\CNFBROADNETS}{\CNFX{BROADNETS}} "}
+@preamble{" \providecommand{\CNFFSTTCS}{\CNFX{FSTTCS}} "}
+@preamble{" \providecommand{\CNFIJCAI}{\CNFX{IJCAI}} "}
+@preamble{" \providecommand{\CNFINFOCOM}{\CNFX{INFOCOM}} " }
+@preamble{" \providecommand{\CNFIPCO}{\CNFX{IPCO}} "}
+@preamble{" \providecommand{\CNFISAAC}{\CNFX{ISAAC}} "}
+@preamble{" \providecommand{\CNFLICS}{\CNFX{LICS}} "}
+@preamble{" \providecommand{\CNFPODS}{\CNFX{PODS}} "}
+@preamble{" \providecommand{\CNFSWAT}{\CNFX{SWAT}} " }
+@preamble{" \providecommand{\CNFWADS}{\CNFX{WADS}} "}
+
+@string{LNCS = "Lect. Notes in Comp. Sci."}
+@string{IJCGA  = "Int. J. Comput. Geom. Appl."}
+@string{DCG    = "Discrete Comput. Geom."}
+@string{SODA_1994 = "Proc. 5th ACM-SIAM Sympos. Discrete Algs. {\em(SODA)}"}
+@string{SODA_1997 = "Proc. 8th ACM-SIAM Sympos. Discrete Algs. {\em(SODA)}"}
+@string{SODA_2005 = "Proc. 16th ACM-SIAM Sympos. Discrete Algs. {\em(SODA)}"}
+@string{SOCG_1995 = "Proc. 11th Annu.  Sympos. Comput. Geom. {\em(SoCG)}"}
+@string{SOCG_1997 = "Proc. 13th Annu.  Sympos. Comput. Geom. {\em(SoCG)}"}
+@string{SOCG_1999 = "Proc. 15th Annu.  Sympos. Comput. Geom. {\em(SoCG)}"}
+@string{SOCG_2000 = "Proc. 16th Annu.  Sympos. Comput. Geom. {\em(SoCG)}"}
+@string{SOCG_2008 = "Proc. 24th Annu.  Sympos. Comput. Geom. {\em(SoCG)}"}
+@string{LICS_2006 = "Proc. 21st Annu. IEEE Sympos. Logic Comp. Sci.\CNFLICS"}
+@string{PODS_2000 = "Proc. 19th ACM Sympos. Principles Database Syst.\CNFPODS"}
+@string{PODS_2001 = "Proc. 20th ACM Sympos. Principles Data\-base Syst.\CNFPODS"}
+@string{PODS_2009 = "Proc. 28th ACM Sympos. Principles Database Syst.\CNFPODS"}
+@string{WADS_2011 = "Proc. 12th Workshop Algorithms Data Struct.\CNFWADS"}
+@string{JCDCG_2004   = "Proc. Japan Conf. Discrete. Comput. Geom."}
+@string{STOC_1983 = "Proc. 15th Annu. ACM Sympos. Theory Comput. {\em(STOC)}"}
+@string{STOC_1991 = "Proc. 23rd Annu. ACM Sympos. Theory Comput. {\em(STOC)}"}
+@string{STOC_1998 = "Proc. 30th Annu. ACM Sympos. Theory Comput. {\em(STOC)}"}
+@string{FOCS_1996 = "Proc. 37th Annu. IEEE Sympos. Found. Comput. Sci. {\em(FOCS)}"}
+@string{ISAAC_2000 = 
+        "Proc. 11th Annu. Internat. Sympos. Algorithms Comput.\CNFISAAC"}
+
+@inproceedings{e-fcptc-97,
+  author       = {D. Eppstein},
+  title        = {Faster construction of planar two-centers},
+  year         = 1997,
+  booktitle    = SODA_1997
+}
+
+@inproceedings{as-sagp-94,
+  year         = 1994,
+  booktitle    = SODA_1994,
+  pages        = {24--33},
+  keywords     = {triangulation, ray shooting}
+}
+
+@inproceedings{cgmz-hrbgm-05,
+  author       = {Chan, H. T-H and Gupta, A. and Maggs, B. M. and Zhou, S.},
+  title        = {On Hierarchical Routing in Bounded Growth Metrics},
+  year         = 2005,
+  booktitle    = SODA_2005
+}
+
+@inproceedings{asw-d2cp-97,
+  author       = {P. K. Agarwal and M. Sharir and E. Welzl},
+  title        = {The Discrete {$2$}-Center Problem},
+  year         = 1997,
+  booktitle    = SOCG_1997,
+  pages        = {147--155}
+}
+
+@InProceedings{av-ioedp-00,
+  author       = {L. Arge and J. Vahrenhold},
+  title        = {{I/O}-Efficient Dynamic Planar Point Location},
+  year         = 2000,
+  booktitle    = SOCG_2000,
+  pages        = {191--200}
+}
+
+@inproceedings{b-oafsi-95,
+  author       = {I. J. Balaban},
+  title        = {An Optimal Algorithm for Finding Segment Intersections},
+  year         = 1995,
+  booktitle    = SOCG_1995,
+  pages        = {211--219}
+}
+
+@InProceedings{dgks-asfodop-06,
+  author       = {A. Dawar and M. Grohe and S. Kreutzer and N. Schweikardt},
+  title        = {Approximation schemes for first-order definable optimisation
+                  problems},
+  year         = 2006,
+  booktitle    = LICS_2006,
+  pages        = {411--420}
+}
+
+@inproceedings{acty-iud-09,
+  author       = {P. K. Agarwal and {S.-W.} Cheng and Y. Tao and K. Yi},
+  title        = {Indexing uncertain data},
+  year         = 2009,
+  booktitle    = PODS_2009,
+  pages        = {137--146}
+}
+
+@InProceedings{a-dfrp-01,
+  author       = {D. Achlioptas},
+  title        = {Database-friendly random projections},
+  year         = 2001,
+  booktitle    = PODS_2001,
+  pages        = {274--281},
+  annote       = {A replacement of JL that uses only -1, 0, 1}
+}
+
+@InCollection{e-spnta-02,
+  author       = {G. Elekes},
+  title        = {Sums versus products in Number Theory, Algebra and
+                  {\Erdos{}} Geometry --- a survey},
+  year         = 2002,
+  booktitle    = {Paul {\Erdos{}} and his Mathematics II},
+  pages        = {241--290},
+  publisher    = {Bolyai Math. Soc.}
+}
+
+@unpublished{bc-ocsb-03,
+  author       = {M. \Badoiu{} and K. L. Clarkson},
+  title        = {Optimal Coresets for Balls},
+  year         = 2003,
+  url          = {http://cm.bell-labs.com/who/clarkson/coresets2.pdf},
+  note         = {\url{http://cm.bell-labs.com/who/clarkson/coresets2.pdf}}
+}
+
+@Unpublished{bi-faahf-06,
+  author       = {M. \Badoiu{} and P. Indyk},
+  title        = {Fast approximation algorithms for the hyperplace fitting
+                  problem},
+  year         = 2006,
+  note         = {manuscript}
+}
+
+@Unpublished{ahk-spdp-99prog,
+  author       = {P. K. Agarwal and S. {Har{-}Peled} and M. Karia},
+  title        = {Shortest path --- demo program},
+  year         = 1999,
+  note         = {{\tt http://www.cs} {\tt .duke.edu/\tildegen{}} {\tt
+                  {sariel/papers/99/nav/nav.html}}}
+}
+
+@Unpublished{dmo-opp33-03,
+  title        = {The Open Problems Project. {Problem 33}: Sum of Square Roots},
+  year         = 2003,
+  note         = {\href{http://cs.smith.edu/~orourke/TOPP/P33.html}
+                  {http://cs.smith.edu/\protect{\tildegen}orourke/TOPP/P33.html}},
+  key          = {OPP}
+}
+
+@Unpublished{h-aabp-05,
+  author       = {S. {Har{-}Peled}},
+  title        = {Approximation Algorithm for the Beltway Problem},
+  year         = 2005,
+  note         = {\urlSarielPaper{05/l1\_fitting/}}
+}
+
+@Unpublished{hk-sckmk-04-old,
+  author       = {S. {Har{-}Peled} and A. Kushal},
+  title        = {Smaller Coresets for {$k$}-Median and $k$-Means Clustering},
+  year         = 2004,
+  note         = {\urlSarielPaper{04/small\_coreset/}}
+}
+
+@inproceedings{pt-pqrpd-11,
+  author       = {J. Pach and G. Tardos},
+  title        = {Piercing Quasi-Rectangles: On a Problem of Danzer and Rogers},
+  year         = 2011,
+  booktitle    = WADS_2011,
+  pages        = {654},
+  crossref     = {DBLP:conf/wads/2011}
+}
+
+@proceedings{DBLP:conf/wads/2011,
+  year         = 2011,
+  booktitle    = {Proc. 12th Workshop Algorithms Data Struct.},
+  volume       = 6844,
+  publisher    = {Springer},
+  editor       = {F. Dehne and J. Iacono and J.-R. Sack},
+  series       = LNCS
+}
+
+@inproceedings{gl-fpamn-04,
+  author       = {M. Grantson and C. Levcopoulos},
+  title        = {A Fixed Parameter Algorithm for the Minimum Number Convex
+                  Partition Problem},
+  year         = 2004,
+  booktitle    = JCDCG_2004,
+  pages        = {83--94},
+  crossref     = {akt-jcdcg-05}
+}
+
+@proceedings{akt-jcdcg-05,
+  title        = {JCDCG_2004},
+  year         = 2005,
+  volume       = 3742,
+  publisher    = {Springer},
+  editor       = {J. Akiyama and M. Kano and X. Tan},
+  series       = LNCS
+}
+
+@article{ghs-citds-91,
+  author       = {L. J. Guibas and J. Hershberger and J. Snoeyink},
+  title        = {Compact interval trees: a data structure for convex hulls},
+  year         = 1991,
+  journal      = IJCGA,
+  volume       = 1,
+  number       = 1,
+  pages        = {1--22},
+  url          = {http://portal.acm.org/citation.cfm?id=320195&coll=portal&dl=ACM&CFID=11111111&CFTOKEN=2222222&ret=1#},
+  keywords     = {data structures, convex hull, lower bounds, common tangents}
+}
+
+@article{l-ntd-67,
+  author       = {D. G. Larman},
+  title        = {A new theory of dimension},
+  year         = 1967,
+  journal      = {Proc. London Math. Soc.},
+  volume       = 17,
+  pages        = {178--192},
+  mrnumber     = {34 \#3540},
+  mrclass      = {54.70},
+  mrreviewer   = {E. Nunnally}
+}
+
+@ARTICLE{hm-jcps-17,
+  author       = {{Har{-}Peled}, Sariel and {Jones}, Mitchell},
+  title        = {{Journey to the Center of the Point Set}},
+  year         = 2017,
+  journal      = {arXiv e-prints},
+  pages        = {arXiv:1712.02949},
+  month        = dec,
+  archiveprefix = {arXiv},
+  eprint       = {1712.02949},
+  primaryclass = {cs.CG},
+  adsnote      = {Provided by the SAO/NASA Astrophysics Data System},
+  adsurl       = {https://ui.adsabs.harvard.edu/\#abs/2017arXiv171202949H},
+  eid          = {arXiv:1712.02949},
+  keywords     = {Computer Science - Computational Geometry}
+}
+
+@unpublished{AS94,
+  author       = {B. Aronov and M. Sharir},
+  title        = {The common exterior of convex polygons in the plane},
+  year         = 1996,
+  note         = {to appear in {\em CGTA}}
+}
+
+@inproceedings{m-aogdc-91-old,
+  author       = {J. Matou{\v s}ek},
+  title        = {Approximations and optimal geometric divide-and-conquer},
+  year         = 1991,
+  booktitle    = STOC_1991,
+  pages        = {505--511},
+  note         = {Also to appear in {\em J. Comput. Syst. Sci.}},
+  keywords     = {approximations, {VC}-dimension, shatter function,
+                  derandomization, cutting, partition}
+}
+
+@inproceedings{r-orrrs-99,
+  author       = {E. A. Ramos},
+  title        = {On Range Reporting, Ray Shooting and \emph{k}-Level
+                  Construction},
+  year         = 1999,
+  booktitle    = SOCG_1999,
+  pages        = {390--399},
+  doi          = {10.1145/304893.304993}
+}
+
+@article{sst-ibkst-01,
+  author       = {Micha Sharir and Shakhar Smorodinsky and G{\'{a}}bor Tardos},
+  title        = {An Improved Bound for \emph{k}-Sets in Three Dimensions},
+  year         = 2001,
+  journal      = DCG,
+  volume       = 26,
+  number       = 2,
+  pages        = {195--204},
+  doi          = {10.1007/s00454-001-0005-3},
+  url          = {http://dx.doi.org/10.1007/s00454-001-0005-3}
+}
+
+@article{a-pldr-83,
+  author       = {P. Assouad},
+  title        = {Plongements lipschitziens dans {${\bf R}\sp{n}$}},
+  year         = 1983,
+  journal      = {Bull. Soc. Math. France},
+  volume       = 111,
+  number       = 4,
+  pages        = {429--448},
+  issn         = {0037-9484},
+  mrnumber     = {86f:54050},
+  coden        = {BSMFAA},
+  fjournal     = {Bulletin de la Soci\'et\'e Math\'ematique de France},
+  mrclass      = {54E40 (54F45)},
+  mrreviewer   = {S. J. Taylor}
+}
+
+@phdthesis{a-kstg-00,
+  author       = {A. Andrzejak},
+  title        = {On $k$-Sets and their Generalizations},
+  year         = 2000,
+  school       = {Inst. f\"ur Theoretische Informatik, ETH Zurich},
+  type         = {Ph.{D}. Thesis}
+}
+
+@inproceedings{t-ssps-00,
+  author       = {X. Tan},
+  title        = {Searching a Simple Polygon by a {$k$}-Searcher},
+  year         = 2000,
+  booktitle    = ISAAC_2000,
+  pages        = {503--514}
+}
+
+@inproceedings{aks-osn-83,
+  author       = {M. Ajtai and J. Koml{\'o}s and E. Szemer{\'e}di},
+  title        = {An {$O(n \log n)$} Sorting Network},
+  year         = 1983,
+  booktitle    = STOC_1983,
+  pages        = {1--9}
+}
+
+@InProceedings{h-cha-96-old,
+  author       = {J. H{\r a}stad},
+  title        = {Clique is Hard to Approximate Within {$n^{1-\epsilon}$}},
+  year         = 1996,
+  booktitle    = FOCS_1996,
+  pages        = {627--636}
+}
+
+@unpublished{am-dsd-03,
+  author       = {P. K. Agarwal and J. Matou\v{s}ek},
+  title        = {Discretizing the space of directions},
+  note         = {in preparation}
+}
+
+@Unpublished{bar-pc-96,
+  author       = {I. B{\'a}r{\'a}ny},
+  title        = {personal communication},
+  year         = 1996
+}
+
+@Unpublished{l-grg-09,
+  author       = {L. Lov{\'a}sz},
+  title        = {Geometric Representations of Graphs},
+  year         = 2009,
+  note         = {\url{http://www.cs.elte.hu/~lovasz/geomrep.pdf}}
+}
+
+@inproceedings{cdellt-wydwpt-08-conf,
+  author       = {E. W. Chambers and E. C. de Verdi\`{e}re and J. Erickson and
+                  S. Lazard and F. Lazarus and S. Thite},
+  title        = {Walking your dog in the woods in polynomial time},
+  year         = 2008,
+  booktitle    = SOCG_2008,
+  pages        = {101--109},
+  doi          = {10.1145/1377676.1377694},
+  isbn         = {978-1-60558-071-5},
+  acmid        = {1377694},
+  keywords     = {geodesic leash map, homotopic fr\'{e}chet distance},
+  location     = {College Park, MD, USA},
+  numpages     = {9}
+}
+
+@book{s-opgfg-91,
+  author       = {J. Stolfi},
+  title        = {Oriented Projective Geometry: A Framework for Geometric
+                  Computations},
+  year         = 1991,
+  publisher    = {Academic Press},
+  keywords     = {oriented projective geometry, duality, convexity,
+                  Pl{\"u}cker coordinates}
+}
+
+@unpublished{hv-asfl-02,
+  author       = {P. K. Agarwal and S.~{Har{-}Peled} and K. R.~Varadarajan},
+  title        = {Approximate Shape Fitting via Linearization},
+  year         = 2002,
+  note         = {manuscript}
+}
+
+@techreport{m-aagsp-9,
+  author       = {J. S. B. Mitchell},
+  title        = {Approximation Algorithms for Geometric Separation Problems},
+  year         = 1993,
+  month        = jul,
+  institution  = {Department of Applied Mathematics, SUNY Stony Brook, NY}
+}
+
+@Misc{k-vcdlp-12,
+  author       = {J. Kyn{\v c}l},
+  title        = {{V}apnik-{C}hervonenkis dimension of lines in the plane},
+  year         = 2012,
+  month        = jun,
+  note         = {\href{http://mathoverflow.net/questions/98412/vapnik-chervonenkis-dimension-of-lines-in-the-plane}{http://mathoverflow.net/\allowbreak{}questions/\allowbreak{}98412/vapnik-chervonenkis-dimension-of-lines-in-the-plane}}
+}
+
+@inproceedings{rs-iassb-98,
+  author       = {S. Rao and W. D. Smith},
+  title        = {Improved approximation schemes for geometric graphs via
+                  ``spanners'' and ``banyans''},
+  year         = 1998,
+  booktitle    = STOC_1998,
+  pages        = {540--550}
+}
+
+@misc{w-afm-14,
+  author       = {Wikipedia},
+  title        = {Atomic force microscopy --- Wikipedia{,} The Free
+                  Encyclopedia},
+  year         = 2014,
+  url          = {http://en.wikipedia.org/w/index.php?title=Atomic_force_microscopy}
+}
+

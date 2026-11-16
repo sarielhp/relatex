@@ -1,0 +1,71 @@
+{
+  "type": "object",
+  "required": [
+    "status",
+    "qualified",
+    "pdf_sha256",
+    "helper_sha256",
+    "tables"
+  ],
+  "properties": {
+    "status": {
+      "const": "native_paint_verified"
+    },
+    "qualified": {
+      "const": false
+    },
+    "pdf_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "helper_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "page",
+          "color",
+          "rules",
+          "glyphs",
+          "grid_sha256",
+          "trace_sha256"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "color": {
+            "const": "rgb(0, 0, 0)"
+          },
+          "rules": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "glyphs": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "grid_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "trace_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

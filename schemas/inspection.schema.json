@@ -1,0 +1,3426 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Experimental inspection 0.6, NOT document IR v1",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.6"
+    },
+    "status": {
+      "const": "experimental"
+    },
+    "order_basis": {
+      "type": "string"
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "candidate",
+          "entity",
+          "type",
+          "text",
+          "first",
+          "last",
+          "seen_glyphs",
+          "pages"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "candidate": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "entity": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "type": {
+            "enum": [
+              "paragraph",
+              "section",
+              "theorem",
+              "proof",
+              "footnote",
+              "unordered_list",
+              "ordered_list",
+              "list_item",
+              "code"
+            ]
+          },
+          "text": {
+            "type": "string"
+          },
+          "first": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "last": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "seen_glyphs": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pages": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "discarded_candidates": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "seq",
+          "kind",
+          "name",
+          "number",
+          "entity"
+        ],
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "kind": {
+            "const": "label"
+          },
+          "name": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "entity": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "counter": {
+            "type": "string"
+          },
+          "anchor": {
+            "type": "string"
+          },
+          "formula": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "target_entity": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "math_environment": {
+            "type": "string"
+          },
+          "math_row": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "math": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "seq",
+          "kind",
+          "mathml",
+          "entity",
+          "retention",
+          "provenance"
+        ],
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "kind": {
+            "const": "math"
+          },
+          "mathml": {
+            "type": "string"
+          },
+          "entity": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "retention": {
+            "const": "unresolved"
+          },
+          "provenance": {
+            "enum": [
+              "converted-hook",
+              "luamml-mlist",
+              "latex-lab-file"
+            ]
+          },
+          "formula": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "source": {
+            "type": "object",
+            "required": [
+              "file",
+              "line",
+              "end_line"
+            ],
+            "properties": {
+              "file": {
+                "type": "string"
+              },
+              "line": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "end_line": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "group": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "environment": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "math_retention": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "unresolved",
+            "unavailable"
+          ]
+        },
+        "occurrences": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "formula",
+              "fragments",
+              "pages"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "formula": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "fragments": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "pages": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "discarded_candidates": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "trial_fragments": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "code"
+            ]
+          }
+        },
+        "choice_discards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "seq",
+              "kind",
+              "code",
+              "source",
+              "choice",
+              "formula",
+              "chosen_style",
+              "discarded_fragments",
+              "kept_fragments"
+            ]
+          }
+        }
+      },
+      "required": [
+        "status",
+        "occurrences",
+        "discarded_candidates",
+        "trial_fragments",
+        "diagnostics"
+      ],
+      "additionalProperties": false
+    },
+    "reading": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "unresolved",
+            "unavailable"
+          ]
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "paragraph",
+                  "section",
+                  "theorem",
+                  "proof",
+                  "display_math",
+                  "footnote"
+                ]
+              },
+              "owner": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "entity": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "pages": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "title_spans": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "item_marker": {
+                "type": "object",
+                "required": [
+                  "shape"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "shape": {
+                    "enum": [
+                      "square",
+                      "disc"
+                    ]
+                  },
+                  "color": {
+                    "type": "string",
+                    "pattern": "^#[0-9a-f]{6}$"
+                  }
+                }
+              },
+              "content": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "const": "text"
+                        },
+                        "text": {
+                          "type": "string"
+                        },
+                        "style": {
+                          "type": "object",
+                          "required": [
+                            "source",
+                            "font_id",
+                            "font_name",
+                            "size_sp",
+                            "encoding",
+                            "family",
+                            "series",
+                            "shape",
+                            "generic"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "source": {
+                              "enum": ["nfss-font-id", "unobserved-tex-font-id"]
+                            },
+                            "font_id": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "size_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "font_name": {
+                              "type": "string"
+                            },
+                            "encoding": {
+                              "type": "string"
+                            },
+                            "family": {
+                              "type": "string"
+                            },
+                            "series": {
+                              "type": "string"
+                            },
+                            "shape": {
+                              "type": "string"
+                            },
+                            "generic": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "citation": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "citation_link": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "bibliography_entry": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "external_link": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "color": {
+                          "type": "string",
+                          "pattern": "^#[0-9a-f]{6}$"
+                        },
+                        "lang": {
+                          "type": "string",
+                          "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+                        },
+                        "glyph_name": {
+                          "type": "string"
+                        },
+                        "decoration": {
+                          "enum": ["underline", "strike"]
+                        },
+                        "line_break": {
+                          "const": true
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "text"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "const": "reference"
+                        },
+                        "text": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "reference": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "target": {
+                          "type": "string"
+                        },
+                        "target_block": {
+                          "type": "string"
+                        },
+                        "target_row": {
+                          "type": "string"
+                        },
+                        "target_page_total": {
+                          "type": "string"
+                        },
+                        "style": {
+                          "type": "object",
+                          "required": [
+                            "source",
+                            "font_id",
+                            "font_name",
+                            "size_sp",
+                            "encoding",
+                            "family",
+                            "series",
+                            "shape",
+                            "generic"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "source": {
+                              "enum": ["nfss-font-id", "unobserved-tex-font-id"]
+                            },
+                            "font_id": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "size_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "font_name": {
+                              "type": "string"
+                            },
+                            "encoding": {
+                              "type": "string"
+                            },
+                            "family": {
+                              "type": "string"
+                            },
+                            "series": {
+                              "type": "string"
+                            },
+                            "shape": {
+                              "type": "string"
+                            },
+                            "generic": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "citation": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "citation_link": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "bibliography_entry": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "external_link": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "color": {
+                          "type": "string",
+                          "pattern": "^#[0-9a-f]{6}$"
+                        },
+                        "lang": {
+                          "type": "string",
+                          "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+                        },
+                        "glyph_name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "text",
+                        "id",
+                        "reference",
+                        "target"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "const": "math"
+                        },
+                        "occurrence": {
+                          "type": "string"
+                        },
+                        "formula": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "citation": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "citation_link": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "bibliography_entry": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "display": {
+                          "const": true
+                        },
+                        "external_link": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "link": {
+                          "type": "object",
+                          "required": ["target"],
+                          "additionalProperties": false,
+                          "properties": {
+                            "target": { "type": "string" },
+                            "target_block": { "type": "string" },
+                            "target_row": { "type": "string" },
+                            "target_page_total": { "type": "string" }
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "occurrence",
+                        "formula"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "id",
+                        "symbol",
+                        "name"
+                      ],
+                      "properties": {
+                        "type": {
+                          "const": "symbol"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "symbol": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "name": {
+                          "enum": [
+                            "qed_open_square",
+                            "qed"
+                          ]
+                        },
+                        "text": {
+                          "type": "string"
+                        },
+                        "image": {
+                          "type": "object",
+                          "required": [
+                            "type",
+                            "id",
+                            "filename",
+                            "sha256",
+                            "graphic_use",
+                            "width_sp",
+                            "height_sp"
+                          ],
+                          "properties": {
+                            "type": {
+                              "const": "image"
+                            }
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "id",
+                        "graphic",
+                        "page",
+                        "region_sp",
+                        "depth_sp"
+                      ],
+                      "properties": {
+                        "type": {
+                          "const": "rendered_graphic"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "graphic": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "page": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "region_sp": {
+                          "type": "array",
+                          "minItems": 4,
+                          "maxItems": 4,
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "depth_sp": {
+                          "type": "integer"
+                        },
+                        "external_link": {
+                          "type": "integer",
+                          "minimum": 1
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "text",
+                        "mark",
+                        "id"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "const": "note_reference"
+                        },
+                        "text": {
+                          "type": "string"
+                        },
+                        "mark": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "target_block": {
+                          "type": "string"
+                        },
+                        "style": {
+                          "type": "object",
+                          "required": [
+                            "source",
+                            "font_id",
+                            "font_name",
+                            "size_sp",
+                            "encoding",
+                            "family",
+                            "series",
+                            "shape",
+                            "generic"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "source": {
+                              "enum": ["nfss-font-id", "unobserved-tex-font-id"]
+                            },
+                            "font_id": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "size_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "font_name": {
+                              "type": "string"
+                            },
+                            "encoding": {
+                              "type": "string"
+                            },
+                            "family": {
+                              "type": "string"
+                            },
+                            "series": {
+                              "type": "string"
+                            },
+                            "shape": {
+                              "type": "string"
+                            },
+                            "generic": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "external_link": {
+                          "type": "integer",
+                          "minimum": 1
+                        }
+                      }
+                    },
+                    {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "type",
+                            "id",
+                            "filename",
+                            "sha256",
+                            "graphic_use",
+                            "bytes",
+                            "pixel_width",
+                            "pixel_height",
+                            "width_sp",
+                            "height_sp"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "type": {
+                              "const": "image"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "filename": {
+                              "type": "string"
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            },
+                            "graphic_use": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "bytes": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "pixel_width": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "pixel_height": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "width_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "height_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "type",
+                            "id",
+                            "filename",
+                            "sha256",
+                            "graphic_use",
+                            "bytes",
+                            "width_sp",
+                            "height_sp",
+                            "mime_type",
+                            "placement",
+                            "depth_sp"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "type": {
+                              "const": "image"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "filename": {
+                              "type": "string"
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            },
+                            "graphic_use": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "bytes": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "width_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "height_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "mime_type": {
+                              "enum": [
+                                "image/png",
+                                "image/jpeg",
+                                "application/pdf"
+                              ]
+                            },
+                            "depth_sp": {
+                              "type": "integer"
+                            },
+                            "placement": {
+                              "type": "object"
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "type",
+                            "id",
+                            "filename",
+                            "sha256",
+                            "bytes",
+                            "width_sp",
+                            "height_sp",
+                            "mime_type",
+                            "placement",
+                            "depth_sp",
+                            "rendered_from"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "type": {
+                              "const": "image"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "filename": {
+                              "type": "string"
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            },
+                            "bytes": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "width_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "height_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "mime_type": {
+                              "enum": [
+                                "image/png",
+                                "image/jpeg",
+                                "application/pdf"
+                              ]
+                            },
+                            "depth_sp": {
+                              "type": "integer"
+                            },
+                            "placement": {
+                              "type": "object"
+                            },
+                            "rendered_from": {
+                              "type": "object",
+                              "required": [
+                                "page",
+                                "graphic"
+                              ],
+                              "additionalProperties": false,
+                              "properties": {
+                                "page": {
+                                  "type": "integer",
+                                  "minimum": 1
+                                },
+                                "graphic": {
+                                  "type": "integer",
+                                  "minimum": 1
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "type",
+                            "id",
+                            "filename",
+                            "sha256",
+                            "bytes",
+                            "width_sp",
+                            "height_sp",
+                            "mime_type",
+                            "placement",
+                            "depth_sp",
+                            "external_link"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "type": {
+                              "const": "image"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "filename": {
+                              "const": "relatex-logos/orcid.pdf"
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            },
+                            "bytes": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "width_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "height_sp": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "mime_type": {
+                              "const": "application/pdf"
+                            },
+                            "depth_sp": {
+                              "type": "integer"
+                            },
+                            "placement": {
+                              "type": "object"
+                            },
+                            "external_link": {
+                              "type": "integer",
+                              "minimum": 1
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "id",
+                        "grid"
+                      ],
+                      "properties": {
+                        "type": {
+                          "const": "table_grid"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "grid": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "required": [
+                                "preamble",
+                                "width_sp",
+                                "rows",
+                                "horizontal_borders"
+                              ],
+                              "properties": {
+                                "preamble": {
+                                  "type": "string"
+                                },
+                                "width_sp": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "maximum": 1073741823
+                                },
+                                "rows": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "required": [
+                                        "text",
+                                        "width_sp",
+                                        "borders",
+                                        "height_sp",
+                                        "depth_sp",
+                                        "font_size_sp"
+                                      ],
+                                      "properties": {
+                                        "text": {
+                                          "type": "string"
+                                        },
+                                        "width_sp": {
+                                          "type": "integer",
+                                          "minimum": 1,
+                                          "maximum": 1073741823
+                                        },
+                                        "borders": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "width": {
+                                                "type": "integer",
+                                                "minimum": 1,
+                                                "maximum": 1073741823
+                                              },
+                                              "height": {
+                                                "type": "integer",
+                                                "minimum": 0,
+                                                "maximum": 1073741823
+                                              },
+                                              "depth": {
+                                                "type": "integer",
+                                                "minimum": 0,
+                                                "maximum": 1073741823
+                                              },
+                                              "x": {
+                                                "type": "integer",
+                                                "minimum": -1073741823,
+                                                "maximum": 1073741823
+                                              }
+                                            },
+                                            "required": [
+                                              "width",
+                                              "height",
+                                              "depth",
+                                              "x"
+                                            ],
+                                            "additionalProperties": false
+                                          }
+                                        },
+                                        "height_sp": {
+                                          "type": "integer",
+                                          "minimum": 0,
+                                          "maximum": 1073741823
+                                        },
+                                        "depth_sp": {
+                                          "type": "integer",
+                                          "minimum": 0,
+                                          "maximum": 1073741823
+                                        },
+                                        "font_size_sp": {
+                                          "type": "integer",
+                                          "minimum": 1,
+                                          "maximum": 1073741823
+                                        },
+                                        "runs": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "required": [
+                                              "text"
+                                            ],
+                                            "additionalProperties": false,
+                                            "properties": {
+                                              "text": {
+                                                "type": "string"
+                                              },
+                                              "style": {
+                                                "type": "object",
+                                                "required": [
+                                                  "source",
+                                                  "font_id",
+                                                  "font_name",
+                                                  "size_sp",
+                                                  "encoding",
+                                                  "family",
+                                                  "series",
+                                                  "shape",
+                                                  "generic"
+                                                ],
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                  "source": {
+                                                    "enum": ["nfss-font-id", "unobserved-tex-font-id"]
+                                                  },
+                                                  "font_id": {
+                                                    "type": "integer",
+                                                    "minimum": 1
+                                                  },
+                                                  "size_sp": {
+                                                    "type": "integer",
+                                                    "minimum": 1
+                                                  },
+                                                  "font_name": {
+                                                    "type": "string"
+                                                  },
+                                                  "encoding": {
+                                                    "type": "string"
+                                                  },
+                                                  "family": {
+                                                    "type": "string"
+                                                  },
+                                                  "series": {
+                                                    "type": "string"
+                                                  },
+                                                  "shape": {
+                                                    "type": "string"
+                                                  },
+                                                  "generic": {
+                                                    "type": "string"
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      "additionalProperties": false
+                                    }
+                                  }
+                                },
+                                "horizontal_borders": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "width": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 1073741823
+                                      },
+                                      "height": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 1073741823
+                                      },
+                                      "depth": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 1073741823
+                                      },
+                                      "after_row": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 1073741823
+                                      }
+                                    },
+                                    "required": [
+                                      "width",
+                                      "height",
+                                      "depth",
+                                      "after_row"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "required": [
+                                "schema_version",
+                                "row_count",
+                                "column_count",
+                                "cells"
+                              ],
+                              "properties": {
+                                "schema_version": {
+                                  "const": "table-2"
+                                },
+                                "row_count": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "maximum": 1073741823
+                                },
+                                "column_count": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "maximum": 1073741823
+                                },
+                                "cells": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "required": [
+                                      "id",
+                                      "row",
+                                      "column",
+                                      "rowspan",
+                                      "colspan",
+                                      "content"
+                                    ],
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "row": {
+                                        "type": "integer",
+                                        "minimum": 0
+                                      },
+                                      "column": {
+                                        "type": "integer",
+                                        "minimum": 0
+                                      },
+                                      "rowspan": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 1073741823
+                                      },
+                                      "colspan": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 1073741823
+                                      },
+                                      "content": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object"
+                                        }
+                                      },
+                                      "alignment": {
+                                        "enum": [
+                                          "l",
+                                          "c",
+                                          "r",
+                                          "left",
+                                          "center",
+                                          "right"
+                                        ]
+                                      },
+                                      "vertical_align": {
+                                        "enum": [
+                                          "top",
+                                          "middle",
+                                          "bottom"
+                                        ]
+                                      },
+                                      "width_sp": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 1073741823
+                                      },
+                                      "height_sp": {
+                                        "type": "integer"
+                                      },
+                                      "depth_sp": {
+                                        "type": "integer"
+                                      },
+                                      "fill": {
+                                        "type": "string",
+                                        "pattern": "^#[0-9a-f]{6}$"
+                                      }
+                                    }
+                                  }
+                                },
+                                "width_sp": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "maximum": 1073741823
+                                },
+                                "column_widths_sp": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 1073741823
+                                  }
+                                },
+                                "native_fragments": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object"
+                                  }
+                                },
+                                "header_rows": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "integer",
+                                    "minimum": 0
+                                  }
+                                },
+                                "footer_rows": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "integer",
+                                    "minimum": 0
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "width_sp",
+                        "height_sp",
+                        "depth_sp"
+                      ],
+                      "properties": {
+                        "type": {
+                          "const": "rule"
+                        },
+                        "width_sp": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "height_sp": {
+                          "type": "integer"
+                        },
+                        "depth_sp": {
+                          "type": "integer"
+                        },
+                        "color": {
+                          "type": "string",
+                          "pattern": "^#[0-9a-f]{6}$"
+                        },
+                        "margin_left_sp": {
+                          "type": "integer"
+                        },
+                        "margin_right_sp": {
+                          "type": "integer"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "owner",
+              "entity",
+              "pages",
+              "content"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "number": {
+                    "type": "string"
+                  },
+                  "block": {
+                    "type": "string"
+                  },
+                  "anchor": {
+                    "type": "string"
+                  },
+                  "row": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "label",
+                  "number",
+                  "block",
+                  "anchor"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "kind",
+                  "label",
+                  "number",
+                  "count",
+                  "anchor",
+                  "pdf_sha256"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "document_page_total"
+                  },
+                  "label": {
+                    "const": "TotPages"
+                  },
+                  "number": {
+                    "type": "string"
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100000
+                  },
+                  "anchor": {
+                    "type": "string"
+                  },
+                  "pdf_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "discarded_references": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "code"
+            ]
+          }
+        },
+        "discarded_symbols": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "math_rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "occurrence": {
+                "type": "string"
+              },
+              "formula": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "index": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "mathml_path": {
+                "type": "string"
+              },
+              "tag": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "const": null
+                  }
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "occurrence",
+              "formula",
+              "index",
+              "mathml_path",
+              "tag"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "structure": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "verified",
+                "unavailable"
+              ]
+            },
+            "nodes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "role": {
+                    "enum": [
+                      "document",
+                      "section",
+                      "theorem",
+                      "proof",
+                      "footnote",
+                      "unordered_list",
+                      "ordered_list",
+                      "list_item",
+                      "code"
+                    ]
+                  },
+                  "content": {
+                    "type": "array",
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "block": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "block"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "structure": {
+                              "type": "integer",
+                              "minimum": 0
+                            }
+                          },
+                          "required": [
+                            "structure"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "role",
+                  "content"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "discarded_entities": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "displaced": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "status",
+            "nodes",
+            "discarded_entities"
+          ],
+          "additionalProperties": false
+        },
+        "notes": {
+          "type": "object",
+          "required": [
+            "status",
+            "notes",
+            "discarded_notes",
+            "discarded_marks",
+            "diagnostics"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "verified",
+                "unresolved"
+              ]
+            },
+            "notes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "entity",
+                  "parent",
+                  "number",
+                  "blocks",
+                  "labels",
+                  "structure",
+                  "callsites"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "entity": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "parent": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "number": {
+                    "type": "string"
+                  },
+                  "blocks": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "enum": [
+                            "paragraph",
+                            "section",
+                            "theorem",
+                            "proof",
+                            "display_math",
+                            "footnote"
+                          ]
+                        },
+                        "owner": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "entity": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "pages": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "minimum": 1
+                          }
+                        },
+                        "title_spans": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "item_marker": {
+                          "type": "object",
+                          "required": [
+                            "shape"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "shape": {
+                              "enum": [
+                                "square",
+                                "disc"
+                              ]
+                            },
+                            "color": {
+                              "type": "string",
+                              "pattern": "^#[0-9a-f]{6}$"
+                            }
+                          }
+                        },
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "text"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  },
+                                  "style": {
+                                    "type": "object",
+                                    "required": [
+                                      "source",
+                                      "font_id",
+                                      "font_name",
+                                      "size_sp",
+                                      "encoding",
+                                      "family",
+                                      "series",
+                                      "shape",
+                                      "generic"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "source": {
+                                        "enum": ["nfss-font-id", "unobserved-tex-font-id"]
+                                      },
+                                      "font_id": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "size_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "font_name": {
+                                        "type": "string"
+                                      },
+                                      "encoding": {
+                                        "type": "string"
+                                      },
+                                      "family": {
+                                        "type": "string"
+                                      },
+                                      "series": {
+                                        "type": "string"
+                                      },
+                                      "shape": {
+                                        "type": "string"
+                                      },
+                                      "generic": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "citation": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "citation_link": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "bibliography_entry": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "external_link": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "color": {
+                                    "type": "string",
+                                    "pattern": "^#[0-9a-f]{6}$"
+                                  },
+                                  "lang": {
+                                    "type": "string",
+                                    "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+                                  },
+                                  "glyph_name": {
+                                    "type": "string"
+                                  },
+                                  "decoration": {
+                                    "enum": ["underline", "strike"]
+                                  },
+                                  "line_break": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "text"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "reference"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "reference": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "target": {
+                                    "type": "string"
+                                  },
+                                  "target_block": {
+                                    "type": "string"
+                                  },
+                                  "target_row": {
+                                    "type": "string"
+                                  },
+                                  "target_page_total": {
+                                    "type": "string"
+                                  },
+                                  "style": {
+                                    "type": "object",
+                                    "required": [
+                                      "source",
+                                      "font_id",
+                                      "font_name",
+                                      "size_sp",
+                                      "encoding",
+                                      "family",
+                                      "series",
+                                      "shape",
+                                      "generic"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "source": {
+                                        "enum": ["nfss-font-id", "unobserved-tex-font-id"]
+                                      },
+                                      "font_id": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "size_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "font_name": {
+                                        "type": "string"
+                                      },
+                                      "encoding": {
+                                        "type": "string"
+                                      },
+                                      "family": {
+                                        "type": "string"
+                                      },
+                                      "series": {
+                                        "type": "string"
+                                      },
+                                      "shape": {
+                                        "type": "string"
+                                      },
+                                      "generic": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "citation": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "citation_link": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "bibliography_entry": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "external_link": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "color": {
+                                    "type": "string",
+                                    "pattern": "^#[0-9a-f]{6}$"
+                                  },
+                                  "lang": {
+                                    "type": "string",
+                                    "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+                                  },
+                                  "glyph_name": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "text",
+                                  "id",
+                                  "reference",
+                                  "target"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "math"
+                                  },
+                                  "occurrence": {
+                                    "type": "string"
+                                  },
+                                  "formula": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "citation": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "citation_link": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "bibliography_entry": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "external_link": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "link": {
+                                    "type": "object",
+                                    "required": ["target"],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "target": { "type": "string" },
+                                      "target_block": { "type": "string" },
+                                      "target_row": { "type": "string" },
+                                      "target_page_total": { "type": "string" }
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "occurrence",
+                                  "formula"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "type",
+                                  "id",
+                                  "symbol",
+                                  "name"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "const": "symbol"
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "symbol": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "name": {
+                                    "enum": [
+                                      "qed_open_square",
+                                      "qed"
+                                    ]
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  },
+                                  "image": {
+                                    "type": "object",
+                                    "required": [
+                                      "type",
+                                      "id",
+                                      "filename",
+                                      "sha256",
+                                      "graphic_use",
+                                      "width_sp",
+                                      "height_sp"
+                                    ],
+                                    "properties": {
+                                      "type": {
+                                        "const": "image"
+                                      }
+                                    }
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "type",
+                                  "id",
+                                  "graphic",
+                                  "page",
+                                  "region_sp",
+                                  "depth_sp"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "const": "rendered_graphic"
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "graphic": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "page": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "region_sp": {
+                                    "type": "array",
+                                    "minItems": 4,
+                                    "maxItems": 4,
+                                    "items": {
+                                      "type": "integer"
+                                    }
+                                  },
+                                  "depth_sp": {
+                                    "type": "integer"
+                                  },
+                                  "external_link": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "type",
+                                  "text",
+                                  "mark",
+                                  "id"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "type": {
+                                    "const": "note_reference"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  },
+                                  "mark": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "note": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "target_block": {
+                                    "type": "string"
+                                  },
+                                  "style": {
+                                    "type": "object",
+                                    "required": [
+                                      "source",
+                                      "font_id",
+                                      "font_name",
+                                      "size_sp",
+                                      "encoding",
+                                      "family",
+                                      "series",
+                                      "shape",
+                                      "generic"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "source": {
+                                        "enum": ["nfss-font-id", "unobserved-tex-font-id"]
+                                      },
+                                      "font_id": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "size_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "font_name": {
+                                        "type": "string"
+                                      },
+                                      "encoding": {
+                                        "type": "string"
+                                      },
+                                      "family": {
+                                        "type": "string"
+                                      },
+                                      "series": {
+                                        "type": "string"
+                                      },
+                                      "shape": {
+                                        "type": "string"
+                                      },
+                                      "generic": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "external_link": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  }
+                                }
+                              },
+                              {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "required": [
+                                      "type",
+                                      "id",
+                                      "filename",
+                                      "sha256",
+                                      "graphic_use",
+                                      "bytes",
+                                      "pixel_width",
+                                      "pixel_height",
+                                      "width_sp",
+                                      "height_sp"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "type": {
+                                        "const": "image"
+                                      },
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "filename": {
+                                        "type": "string"
+                                      },
+                                      "sha256": {
+                                        "type": "string",
+                                        "pattern": "^[0-9a-f]{64}$"
+                                      },
+                                      "graphic_use": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "bytes": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "pixel_width": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "pixel_height": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "width_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "height_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "required": [
+                                      "type",
+                                      "id",
+                                      "filename",
+                                      "sha256",
+                                      "graphic_use",
+                                      "bytes",
+                                      "width_sp",
+                                      "height_sp",
+                                      "mime_type",
+                                      "placement",
+                                      "depth_sp"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "type": {
+                                        "const": "image"
+                                      },
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "filename": {
+                                        "type": "string"
+                                      },
+                                      "sha256": {
+                                        "type": "string",
+                                        "pattern": "^[0-9a-f]{64}$"
+                                      },
+                                      "graphic_use": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "bytes": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "width_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "height_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "mime_type": {
+                                        "enum": [
+                                          "image/png",
+                                          "image/jpeg",
+                                          "application/pdf"
+                                        ]
+                                      },
+                                      "depth_sp": {
+                                        "type": "integer"
+                                      },
+                                      "placement": {
+                                        "type": "object"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "required": [
+                                      "type",
+                                      "id",
+                                      "filename",
+                                      "sha256",
+                                      "bytes",
+                                      "width_sp",
+                                      "height_sp",
+                                      "mime_type",
+                                      "placement",
+                                      "depth_sp",
+                                      "rendered_from"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "type": {
+                                        "const": "image"
+                                      },
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "filename": {
+                                        "type": "string"
+                                      },
+                                      "sha256": {
+                                        "type": "string",
+                                        "pattern": "^[0-9a-f]{64}$"
+                                      },
+                                      "bytes": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "width_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "height_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "mime_type": {
+                                        "enum": [
+                                          "image/png",
+                                          "image/jpeg",
+                                          "application/pdf"
+                                        ]
+                                      },
+                                      "depth_sp": {
+                                        "type": "integer"
+                                      },
+                                      "placement": {
+                                        "type": "object"
+                                      },
+                                      "rendered_from": {
+                                        "type": "object",
+                                        "required": [
+                                          "page",
+                                          "graphic"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "page": {
+                                            "type": "integer",
+                                            "minimum": 1
+                                          },
+                                          "graphic": {
+                                            "type": "integer",
+                                            "minimum": 1
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "required": [
+                                      "type",
+                                      "id",
+                                      "filename",
+                                      "sha256",
+                                      "bytes",
+                                      "width_sp",
+                                      "height_sp",
+                                      "mime_type",
+                                      "placement",
+                                      "depth_sp",
+                                      "external_link"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "type": {
+                                        "const": "image"
+                                      },
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "filename": {
+                                        "const": "relatex-logos/orcid.pdf"
+                                      },
+                                      "sha256": {
+                                        "type": "string",
+                                        "pattern": "^[0-9a-f]{64}$"
+                                      },
+                                      "bytes": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "width_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "height_sp": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      },
+                                      "mime_type": {
+                                        "const": "application/pdf"
+                                      },
+                                      "depth_sp": {
+                                        "type": "integer"
+                                      },
+                                      "placement": {
+                                        "type": "object"
+                                      },
+                                      "external_link": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "type",
+                                  "id",
+                                  "grid"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "const": "table_grid"
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "grid": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "required": [
+                                          "preamble",
+                                          "width_sp",
+                                          "rows",
+                                          "horizontal_borders"
+                                        ],
+                                        "properties": {
+                                          "preamble": {
+                                            "type": "string"
+                                          },
+                                          "width_sp": {
+                                            "type": "integer",
+                                            "minimum": 1,
+                                            "maximum": 1073741823
+                                          },
+                                          "rows": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "array",
+                                              "items": {
+                                                "type": "object",
+                                                "required": [
+                                                  "text",
+                                                  "width_sp",
+                                                  "borders",
+                                                  "height_sp",
+                                                  "depth_sp",
+                                                  "font_size_sp"
+                                                ],
+                                                "properties": {
+                                                  "text": {
+                                                    "type": "string"
+                                                  },
+                                                  "width_sp": {
+                                                    "type": "integer",
+                                                    "minimum": 1,
+                                                    "maximum": 1073741823
+                                                  },
+                                                  "borders": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "width": {
+                                                          "type": "integer",
+                                                          "minimum": 1,
+                                                          "maximum": 1073741823
+                                                        },
+                                                        "height": {
+                                                          "type": "integer",
+                                                          "minimum": 0,
+                                                          "maximum": 1073741823
+                                                        },
+                                                        "depth": {
+                                                          "type": "integer",
+                                                          "minimum": 0,
+                                                          "maximum": 1073741823
+                                                        },
+                                                        "x": {
+                                                          "type": "integer",
+                                                          "minimum": -1073741823,
+                                                          "maximum": 1073741823
+                                                        }
+                                                      },
+                                                      "required": [
+                                                        "width",
+                                                        "height",
+                                                        "depth",
+                                                        "x"
+                                                      ],
+                                                      "additionalProperties": false
+                                                    }
+                                                  },
+                                                  "height_sp": {
+                                                    "type": "integer",
+                                                    "minimum": 0,
+                                                    "maximum": 1073741823
+                                                  },
+                                                  "depth_sp": {
+                                                    "type": "integer",
+                                                    "minimum": 0,
+                                                    "maximum": 1073741823
+                                                  },
+                                                  "font_size_sp": {
+                                                    "type": "integer",
+                                                    "minimum": 1,
+                                                    "maximum": 1073741823
+                                                  },
+                                                  "runs": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "object",
+                                                      "required": [
+                                                        "text"
+                                                      ],
+                                                      "additionalProperties": false,
+                                                      "properties": {
+                                                        "text": {
+                                                          "type": "string"
+                                                        },
+                                                        "style": {
+                                                          "type": "object",
+                                                          "required": [
+                                                            "source",
+                                                            "font_id",
+                                                            "font_name",
+                                                            "size_sp",
+                                                            "encoding",
+                                                            "family",
+                                                            "series",
+                                                            "shape",
+                                                            "generic"
+                                                          ],
+                                                          "additionalProperties": false,
+                                                          "properties": {
+                                                            "source": {
+                                                              "enum": ["nfss-font-id", "unobserved-tex-font-id"]
+                                                            },
+                                                            "font_id": {
+                                                              "type": "integer",
+                                                              "minimum": 1
+                                                            },
+                                                            "size_sp": {
+                                                              "type": "integer",
+                                                              "minimum": 1
+                                                            },
+                                                            "font_name": {
+                                                              "type": "string"
+                                                            },
+                                                            "encoding": {
+                                                              "type": "string"
+                                                            },
+                                                            "family": {
+                                                              "type": "string"
+                                                            },
+                                                            "series": {
+                                                              "type": "string"
+                                                            },
+                                                            "shape": {
+                                                              "type": "string"
+                                                            },
+                                                            "generic": {
+                                                              "type": "string"
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                },
+                                                "additionalProperties": false
+                                              }
+                                            }
+                                          },
+                                          "horizontal_borders": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "object",
+                                              "properties": {
+                                                "width": {
+                                                  "type": "integer",
+                                                  "minimum": 1,
+                                                  "maximum": 1073741823
+                                                },
+                                                "height": {
+                                                  "type": "integer",
+                                                  "minimum": 0,
+                                                  "maximum": 1073741823
+                                                },
+                                                "depth": {
+                                                  "type": "integer",
+                                                  "minimum": 0,
+                                                  "maximum": 1073741823
+                                                },
+                                                "after_row": {
+                                                  "type": "integer",
+                                                  "minimum": 0,
+                                                  "maximum": 1073741823
+                                                }
+                                              },
+                                              "required": [
+                                                "width",
+                                                "height",
+                                                "depth",
+                                                "after_row"
+                                              ],
+                                              "additionalProperties": false
+                                            }
+                                          }
+                                        },
+                                        "additionalProperties": false
+                                      },
+                                      {
+                                        "type": "object",
+                                        "required": [
+                                          "schema_version",
+                                          "row_count",
+                                          "column_count",
+                                          "cells"
+                                        ],
+                                        "properties": {
+                                          "schema_version": {
+                                            "const": "table-2"
+                                          },
+                                          "row_count": {
+                                            "type": "integer",
+                                            "minimum": 1,
+                                            "maximum": 1073741823
+                                          },
+                                          "column_count": {
+                                            "type": "integer",
+                                            "minimum": 1,
+                                            "maximum": 1073741823
+                                          },
+                                          "cells": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "object",
+                                              "required": [
+                                                "id",
+                                                "row",
+                                                "column",
+                                                "rowspan",
+                                                "colspan",
+                                                "content"
+                                              ],
+                                              "properties": {
+                                                "id": {
+                                                  "type": "string"
+                                                },
+                                                "row": {
+                                                  "type": "integer",
+                                                  "minimum": 0
+                                                },
+                                                "column": {
+                                                  "type": "integer",
+                                                  "minimum": 0
+                                                },
+                                                "rowspan": {
+                                                  "type": "integer",
+                                                  "minimum": 1,
+                                                  "maximum": 1073741823
+                                                },
+                                                "colspan": {
+                                                  "type": "integer",
+                                                  "minimum": 1,
+                                                  "maximum": 1073741823
+                                                },
+                                                "content": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "object"
+                                                  }
+                                                },
+                                                "alignment": {
+                                                  "enum": [
+                                                    "l",
+                                                    "c",
+                                                    "r",
+                                                    "left",
+                                                    "center",
+                                                    "right"
+                                                  ]
+                                                },
+                                                "vertical_align": {
+                                                  "enum": [
+                                                    "top",
+                                                    "middle",
+                                                    "bottom"
+                                                  ]
+                                                },
+                                                "width_sp": {
+                                                  "type": "integer",
+                                                  "minimum": 1,
+                                                  "maximum": 1073741823
+                                                },
+                                                "height_sp": {
+                                                  "type": "integer"
+                                                },
+                                                "depth_sp": {
+                                                  "type": "integer"
+                                                },
+                                                "fill": {
+                                                  "type": "string",
+                                                  "pattern": "^#[0-9a-f]{6}$"
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "width_sp": {
+                                            "type": "integer",
+                                            "minimum": 1,
+                                            "maximum": 1073741823
+                                          },
+                                          "column_widths_sp": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "integer",
+                                              "minimum": 1,
+                                              "maximum": 1073741823
+                                            }
+                                          },
+                                          "native_fragments": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "object"
+                                            }
+                                          },
+                                          "header_rows": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "integer",
+                                              "minimum": 0
+                                            }
+                                          },
+                                          "footer_rows": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "integer",
+                                              "minimum": 0
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "type",
+                                  "width_sp",
+                                  "height_sp",
+                                  "depth_sp"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "const": "rule"
+                                  },
+                                  "width_sp": {
+                                    "type": "integer",
+                                    "minimum": 1
+                                  },
+                                  "height_sp": {
+                                    "type": "integer"
+                                  },
+                                  "depth_sp": {
+                                    "type": "integer"
+                                  },
+                                  "color": {
+                                    "type": "string",
+                                    "pattern": "^#[0-9a-f]{6}$"
+                                  },
+                                  "margin_left_sp": {
+                                    "type": "integer"
+                                  },
+                                  "margin_right_sp": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "additionalProperties": false
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "owner",
+                        "entity",
+                        "pages",
+                        "content"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "structure": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "verified",
+                          "unavailable"
+                        ]
+                      },
+                      "nodes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "role": {
+                              "enum": [
+                                "document",
+                                "section",
+                                "theorem",
+                                "proof",
+                                "footnote",
+                                "unordered_list",
+                                "ordered_list",
+                                "list_item",
+                                "code"
+                              ]
+                            },
+                            "content": {
+                              "type": "array",
+                              "items": {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "block": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "block"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "structure": {
+                                        "type": "integer",
+                                        "minimum": 0
+                                      }
+                                    },
+                                    "required": [
+                                      "structure"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "role",
+                            "content"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "discarded_entities": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0
+                        }
+                      },
+                      "displaced": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "status",
+                      "nodes",
+                      "discarded_entities"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "labels": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "text",
+                        "block"
+                      ],
+                      "properties": {
+                        "style": {
+                          "type": "object"
+                        },
+                        "text": {
+                          "type": "string"
+                        },
+                        "block": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "callsites": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "block",
+                        "mark"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "block": {
+                          "type": "string"
+                        },
+                        "mark": {
+                          "type": "integer",
+                          "minimum": 1
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
+                }
+              }
+            },
+            "discarded_notes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "discarded_marks": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "diagnostics": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "code"
+                ]
+              }
+            }
+          }
+        },
+        "nested_math": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "math_references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "occurrence",
+              "content"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "occurrence": {
+                "type": "string"
+              },
+              "content": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "id",
+                    "reference",
+                    "text",
+                    "target"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "const": "reference"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "reference": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "target": {
+                      "type": "string"
+                    },
+                    "target_block": {
+                      "type": "string"
+                    },
+                    "target_row": {
+                      "type": "string"
+                    },
+                    "target_page_total": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "status",
+        "blocks",
+        "targets",
+        "discarded_references",
+        "diagnostics",
+        "discarded_symbols",
+        "math_rows",
+        "structure"
+      ],
+      "additionalProperties": false
+    },
+    "citation_retention": {
+      "type": "object",
+      "required": [
+        "status",
+        "qualified",
+        "scope",
+        "executed_calls",
+        "retained_calls",
+        "unretained_calls",
+        "hyperlink_executions",
+        "bibliography_entries",
+        "retained_entries",
+        "retained_citation_slots",
+        "retained_bibliography_slots",
+        "calls",
+        "entries",
+        "links",
+        "discarded_calls",
+        "diagnostics"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "unresolved"
+          ]
+        },
+        "qualified": {
+          "const": false
+        },
+        "scope": {
+          "type": "string"
+        },
+        "executed_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retained_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unretained_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hyperlink_executions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "bibliography_entries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retained_entries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retained_citation_slots": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retained_bibliography_slots": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "calls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "keys",
+              "targets",
+              "ranges"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "keys": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "targets": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "ranges": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "owner",
+                    "first",
+                    "last",
+                    "page"
+                  ],
+                  "properties": {
+                    "owner": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "first": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "last": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "page": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "citation_link": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "key",
+              "number",
+              "ranges"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "key": {
+                "type": "string"
+              },
+              "number": {
+                "type": "string"
+              },
+              "ranges": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "owner",
+                    "first",
+                    "last",
+                    "page"
+                  ],
+                  "properties": {
+                    "owner": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "first": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "last": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "page": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "citation_link": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "citation",
+              "entry",
+              "key",
+              "number"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "citation": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "entry": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "key": {
+                "type": "string"
+              },
+              "number": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "discarded_calls": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "code"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "external_link_collection": {
+      "const": "hyperref-execution-1"
+    },
+    "citation_degraded": {
+      "type": "string"
+    },
+    "semantics": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "heading",
+              "theorem",
+              "equation",
+              "float"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "order_basis",
+    "blocks",
+    "discarded_candidates",
+    "labels",
+    "math",
+    "diagnostics",
+    "math_retention",
+    "reading"
+  ],
+  "additionalProperties": false
+}

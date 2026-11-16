@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          # The release toolchain, not go.mod's minimum: compressed bundles are pinned to its compress/flate output.
+          go-version: "1.27.4"
+          cache-dependency-path: go/go.sum
+      # The release commits carry the staged resources; regenerate them to be sure they match the sources.
+      - name: Stage resources
+        run: go run -C go ./cmd/stageresources
+      - name: Build
+        working-directory: go
+        run: go build ./...
+      # Tests that need TeX Live, bubblewrap, MuPDF or other external programs skip when those are absent.
+      # The runner's Chrome cannot start in its sandbox; the browser checks run in the development gates.
+      - name: Test
+        working-directory: go
+        env:
+          RELATEX_CHROMIUM: /nonexistent
+        run: go test ./...

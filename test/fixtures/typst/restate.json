@@ -1,0 +1,596 @@
+{
+  "schema_version": "paper-0.2",
+  "profile": "paper-reading-diagnostic-v2",
+  "status": "diagnostic",
+  "qualified": false,
+  "identity": {
+    "id": "corpus",
+    "input_sha256": "3798f604f40d2f23123b58e74a8fba99fe5bac33ccbe4a6a115812326a360f29"
+  },
+  "root": "n-183f407106d990f81afd7b9601e2b67f8a8cc6fe5309bde85fcbfd9d182c4c5e",
+  "nodes": {
+    "n-c8e981e18d5d57ac5e9e143d60f0b3d3e15b21d09e3484f466c14758ba87a5d8": {
+      "id": "n-c8e981e18d5d57ac5e9e143d60f0b3d3e15b21d09e3484f466c14758ba87a5d8",
+      "type": "theorem",
+      "children": [
+        "n-6f7f219304c9c4bac300caf4d4543fd12411921c4478f6bf10e2665ca01d1b38"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:3",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "theorem",
+        "entity": 3,
+        "environment": "restatable",
+        "title": "Lemma",
+        "counter": "lemma",
+        "numbered": true,
+        "counter_register": 333745
+      }
+    },
+    "n-79b32e703372a7d065e8f636220de1b51b2df9327d214d5e5bb69f20518a48a7": {
+      "id": "n-79b32e703372a7d065e8f636220de1b51b2df9327d214d5e5bb69f20518a48a7",
+      "type": "theorem",
+      "children": [
+        "n-86661ea26962df72d68ad919df66be11837278d67f0a61c333c89b7a4df8271d"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:4",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "theorem",
+        "entity": 4,
+        "environment": "lemma",
+        "title": "Lemma",
+        "counter": "lemma",
+        "numbered": true,
+        "counter_register": 333745
+      }
+    },
+    "n-b806ccf5be6cb00f822345fe3768bd32c352b883a8443cf4ee248395bbc0936a": {
+      "id": "n-b806ccf5be6cb00f822345fe3768bd32c352b883a8443cf4ee248395bbc0936a",
+      "type": "section",
+      "children": [
+        "n-3b6b6bd35001f09f3b7a6bff87f262e7fd18504cbc229141d0814aa870d7edfc",
+        "n-c8e981e18d5d57ac5e9e143d60f0b3d3e15b21d09e3484f466c14758ba87a5d8",
+        "n-79b32e703372a7d065e8f636220de1b51b2df9327d214d5e5bb69f20518a48a7"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:1",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-35b7bedffb5cb990e6f4f9d354fe16cd5fea7487cc3d8abf7fc60dd16b5ee47e": {
+      "id": "n-35b7bedffb5cb990e6f4f9d354fe16cd5fea7487cc3d8abf7fc60dd16b5ee47e",
+      "type": "theorem",
+      "children": [
+        "n-47bb5e2b6cb931800cbaaffd0f28d7c9acf0258a51aea61af6f2a8583e0422dc"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:7",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "theorem",
+        "entity": 7,
+        "environment": "document",
+        "title": "Lemma",
+        "counter": "lemma",
+        "numbered": true,
+        "counter_register": 333744
+      }
+    },
+    "n-ca62ff155edfd38e07e0072dafb535060919c47fd7f4d6371b58b6a7d1b644f3": {
+      "id": "n-ca62ff155edfd38e07e0072dafb535060919c47fd7f4d6371b58b6a7d1b644f3",
+      "type": "proof",
+      "children": [
+        "n-cd0d5f2872588ccaa9657909b07069068f835ea199ac51468cbda367329f22e7"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:8",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-5f6c8d7a102fe0f082812eb6d26af1383426e53319555590f1e8b48b431bcf51": {
+      "id": "n-5f6c8d7a102fe0f082812eb6d26af1383426e53319555590f1e8b48b431bcf51",
+      "type": "theorem",
+      "children": [
+        "n-6de33f2ab73b3ecf554ab3f72cf0b6c0655047b919aadd96a29beda01a4739ab"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:9",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "theorem",
+        "entity": 9,
+        "environment": "lemma",
+        "title": "Lemma",
+        "counter": "lemma",
+        "numbered": true,
+        "counter_register": 333745
+      }
+    },
+    "n-5205291e8e503335fa08e8d5b7d388a17d37e7d8c248d86fc3ab7e204eacaea8": {
+      "id": "n-5205291e8e503335fa08e8d5b7d388a17d37e7d8c248d86fc3ab7e204eacaea8",
+      "type": "section",
+      "children": [
+        "n-307d784e43a2ee167011344dfcb58a951f244a12e278f141ce1fd551081e82a8",
+        "n-35b7bedffb5cb990e6f4f9d354fe16cd5fea7487cc3d8abf7fc60dd16b5ee47e",
+        "n-ca62ff155edfd38e07e0072dafb535060919c47fd7f4d6371b58b6a7d1b644f3",
+        "n-5f6c8d7a102fe0f082812eb6d26af1383426e53319555590f1e8b48b431bcf51"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:5",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 5,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-183f407106d990f81afd7b9601e2b67f8a8cc6fe5309bde85fcbfd9d182c4c5e": {
+      "id": "n-183f407106d990f81afd7b9601e2b67f8a8cc6fe5309bde85fcbfd9d182c4c5e",
+      "type": "document",
+      "children": [
+        "n-b806ccf5be6cb00f822345fe3768bd32c352b883a8443cf4ee248395bbc0936a",
+        "n-5205291e8e503335fa08e8d5b7d388a17d37e7d8c248d86fc3ab7e204eacaea8"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:0",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-3b6b6bd35001f09f3b7a6bff87f262e7fd18504cbc229141d0814aa870d7edfc": {
+      "id": "n-3b6b6bd35001f09f3b7a6bff87f262e7fd18504cbc229141d0814aa870d7edfc",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b1",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "1 Statements",
+          "style": {
+            "generic": "serif",
+            "font_id": 17,
+            "shape": "n",
+            "series": "bx",
+            "family": "lmr",
+            "font_name": "LMRoman12-Bold",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 943718
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-6f7f219304c9c4bac300caf4d4543fd12411921c4478f6bf10e2665ca01d1b38": {
+      "id": "n-6f7f219304c9c4bac300caf4d4543fd12411921c4478f6bf10e2665ca01d1b38",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b2",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Lemma 1.",
+          "style": {
+            "generic": "serif",
+            "font_id": 19,
+            "shape": "n",
+            "series": "bx",
+            "family": "lmr",
+            "font_name": "LMRoman10-Bold",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": " A key statement.",
+          "style": {
+            "generic": "serif",
+            "font_id": 18,
+            "shape": "it",
+            "series": "m",
+            "family": "lmr",
+            "font_name": "LMRoman10-Italic",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        }
+      ]
+    },
+    "n-86661ea26962df72d68ad919df66be11837278d67f0a61c333c89b7a4df8271d": {
+      "id": "n-86661ea26962df72d68ad919df66be11837278d67f0a61c333c89b7a4df8271d",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b3",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Lemma 2.",
+          "style": {
+            "generic": "serif",
+            "font_id": 19,
+            "shape": "n",
+            "series": "bx",
+            "family": "lmr",
+            "font_name": "LMRoman10-Bold",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": " Another lemma.",
+          "style": {
+            "generic": "serif",
+            "font_id": 18,
+            "shape": "it",
+            "series": "m",
+            "family": "lmr",
+            "font_name": "LMRoman10-Italic",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        }
+      ]
+    },
+    "n-307d784e43a2ee167011344dfcb58a951f244a12e278f141ce1fd551081e82a8": {
+      "id": "n-307d784e43a2ee167011344dfcb58a951f244a12e278f141ce1fd551081e82a8",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b4",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "2 Proofs",
+          "style": {
+            "generic": "serif",
+            "font_id": 17,
+            "shape": "n",
+            "series": "bx",
+            "family": "lmr",
+            "font_name": "LMRoman12-Bold",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 943718
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 5,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-47bb5e2b6cb931800cbaaffd0f28d7c9acf0258a51aea61af6f2a8583e0422dc": {
+      "id": "n-47bb5e2b6cb931800cbaaffd0f28d7c9acf0258a51aea61af6f2a8583e0422dc",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b5",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Lemma 1.",
+          "style": {
+            "generic": "serif",
+            "font_id": 19,
+            "shape": "n",
+            "series": "bx",
+            "family": "lmr",
+            "font_name": "LMRoman10-Bold",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": " A key statement.",
+          "style": {
+            "generic": "serif",
+            "font_id": 18,
+            "shape": "it",
+            "series": "m",
+            "family": "lmr",
+            "font_name": "LMRoman10-Italic",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        }
+      ]
+    },
+    "n-cd0d5f2872588ccaa9657909b07069068f835ea199ac51468cbda367329f22e7": {
+      "id": "n-cd0d5f2872588ccaa9657909b07069068f835ea199ac51468cbda367329f22e7",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b6",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": " Proof.",
+          "style": {
+            "generic": "serif",
+            "font_id": 18,
+            "shape": "it",
+            "series": "m",
+            "family": "lmr",
+            "font_name": "LMRoman10-Italic",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": " By Lemma",
+          "style": {
+            "generic": "serif",
+            "font_id": 15,
+            "shape": "n",
+            "series": "m",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "reference",
+          "text": " 2",
+          "label": "lem:other",
+          "target": "n-86661ea26962df72d68ad919df66be11837278d67f0a61c333c89b7a4df8271d",
+          "style": {
+            "generic": "serif",
+            "font_id": 15,
+            "shape": "n",
+            "series": "m",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": ".",
+          "style": {
+            "generic": "serif",
+            "font_id": 15,
+            "shape": "n",
+            "series": "m",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "symbol",
+          "name": "qed_open_square"
+        }
+      ]
+    },
+    "n-6de33f2ab73b3ecf554ab3f72cf0b6c0655047b919aadd96a29beda01a4739ab": {
+      "id": "n-6de33f2ab73b3ecf554ab3f72cf0b6c0655047b919aadd96a29beda01a4739ab",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b7",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Lemma 3.",
+          "style": {
+            "generic": "serif",
+            "font_id": 19,
+            "shape": "n",
+            "series": "bx",
+            "family": "lmr",
+            "font_name": "LMRoman10-Bold",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": " A third lemma, after",
+          "style": {
+            "generic": "serif",
+            "font_id": 18,
+            "shape": "it",
+            "series": "m",
+            "family": "lmr",
+            "font_name": "LMRoman10-Italic",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "reference",
+          "text": " 1",
+          "label": "lem:key",
+          "target": "n-6f7f219304c9c4bac300caf4d4543fd12411921c4478f6bf10e2665ca01d1b38",
+          "style": {
+            "generic": "serif",
+            "font_id": 18,
+            "shape": "it",
+            "series": "m",
+            "family": "lmr",
+            "font_name": "LMRoman10-Italic",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": ".",
+          "style": {
+            "generic": "serif",
+            "font_id": 18,
+            "shape": "it",
+            "series": "m",
+            "family": "lmr",
+            "font_name": "LMRoman10-Italic",
+            "encoding": "TU",
+            "source": "nfss-font-id",
+            "size_sp": 655360
+          }
+        }
+      ]
+    }
+  },
+  "main_block_order": [
+    "n-3b6b6bd35001f09f3b7a6bff87f262e7fd18504cbc229141d0814aa870d7edfc",
+    "n-6f7f219304c9c4bac300caf4d4543fd12411921c4478f6bf10e2665ca01d1b38",
+    "n-86661ea26962df72d68ad919df66be11837278d67f0a61c333c89b7a4df8271d",
+    "n-307d784e43a2ee167011344dfcb58a951f244a12e278f141ce1fd551081e82a8",
+    "n-47bb5e2b6cb931800cbaaffd0f28d7c9acf0258a51aea61af6f2a8583e0422dc",
+    "n-cd0d5f2872588ccaa9657909b07069068f835ea199ac51468cbda367329f22e7",
+    "n-6de33f2ab73b3ecf554ab3f72cf0b6c0655047b919aadd96a29beda01a4739ab"
+  ],
+  "note_order": [
+
+  ],
+  "block_order": [
+    "n-3b6b6bd35001f09f3b7a6bff87f262e7fd18504cbc229141d0814aa870d7edfc",
+    "n-6f7f219304c9c4bac300caf4d4543fd12411921c4478f6bf10e2665ca01d1b38",
+    "n-86661ea26962df72d68ad919df66be11837278d67f0a61c333c89b7a4df8271d",
+    "n-307d784e43a2ee167011344dfcb58a951f244a12e278f141ce1fd551081e82a8",
+    "n-47bb5e2b6cb931800cbaaffd0f28d7c9acf0258a51aea61af6f2a8583e0422dc",
+    "n-cd0d5f2872588ccaa9657909b07069068f835ea199ac51468cbda367329f22e7",
+    "n-6de33f2ab73b3ecf554ab3f72cf0b6c0655047b919aadd96a29beda01a4739ab"
+  ],
+  "labels": {
+    "thmt@@keylemma@data": {
+      "target": "n-3b6b6bd35001f09f3b7a6bff87f262e7fd18504cbc229141d0814aa870d7edfc",
+      "number": "\\def \\theequation {\\@arabic {\\c@equation }}\\def \\theHequation {(restate \\theHthmt@dummyctr )0}\\setcounter {equation}{0}",
+      "status": "verified"
+    },
+    "thmt@@keylemma": {
+      "target": "n-6f7f219304c9c4bac300caf4d4543fd12411921c4478f6bf10e2665ca01d1b38",
+      "number": "1",
+      "status": "verified"
+    },
+    "lem:key": {
+      "target": "n-6f7f219304c9c4bac300caf4d4543fd12411921c4478f6bf10e2665ca01d1b38",
+      "number": "1",
+      "status": "verified"
+    },
+    "lem:other": {
+      "target": "n-86661ea26962df72d68ad919df66be11837278d67f0a61c333c89b7a4df8271d",
+      "number": "2",
+      "status": "verified"
+    },
+    "lem:third": {
+      "target": "n-6de33f2ab73b3ecf554ab3f72cf0b6c0655047b919aadd96a29beda01a4739ab",
+      "number": "3",
+      "status": "verified"
+    }
+  },
+  "metadata": {
+    "status": "unavailable"
+  },
+  "assets": {
+    "status": "unverified"
+  },
+  "unverified_requirements": [
+    "ordinary_fidelity",
+    "independent_content",
+    "independent_math",
+    "metadata",
+    "assets",
+    "typed_lists",
+    "citations",
+    "text_style"
+  ],
+  "citations": {
+    "status": "projected",
+    "qualified": false,
+    "entries": [
+
+    ],
+    "calls": [
+
+    ],
+    "links": [
+
+    ]
+  },
+  "external_links": {
+    "schema_version": "external-links-1",
+    "items": {
+    }
+  }
+}

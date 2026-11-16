@@ -1,0 +1,89 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-kernel-tables}[2026/10/16 Kernel tabular evidence without loading array]
+\RequirePackage{relatex-rich-tables}
+% \dimexpr also reads a \tabcolsep a paper redefined as a macro (\renewcommand{\tabcolsep}{2.5pt}).
+\protected\def\ltdKernelCellBegin#1{\directlua{ltd.tables.modern.core_begin('#1',\number\dimexpr\tabcolsep\relax)}}
+\protected\def\ltdKernelCellEnd{\directlua{ltd.tables.modern.core_end()}}
+\ExplSyntaxOn
+\tl_new:N \l__ltd_kernel_preamble_tl
+\tl_new:N \l__ltd_kernel_replacement_tl
+\cs_generate_variant:Nn \tl_replace_all:Nnn { NnV }
+\cs_new_protected:Npn \ltd_kernel_instrument:nn #1#2 {
+  \directlua{ltd.tables.modern.core_column()}
+  % Kernel l/c/r templates are one brace group; token-list replacement does not
+  % enter that group. Instrument its contents, preserving the original grouping.
+  \str_if_eq:nnTF {#2}{grouped}
+    {\tl_set:Nx \l__ltd_kernel_preamble_tl {\tl_item:Nn \@preamble {-1}}}
+    {\tl_set_eq:NN \l__ltd_kernel_preamble_tl \@preamble}
+  \tl_set:Nx \l__ltd_kernel_replacement_tl {
+    \exp_not:N \ltdKernelCellBegin {#1}
+    \exp_not:n {\ignorespaces\@sharp\ltdKernelCellEnd\unskip}
+  }
+  \tl_replace_all:NnV \l__ltd_kernel_preamble_tl
+    {\ignorespaces\@sharp\unskip} \l__ltd_kernel_replacement_tl
+  \tl_set:Nx \l__ltd_kernel_replacement_tl {
+    \exp_not:N \ltdKernelCellBegin {p}
+    \exp_not:n {\ignorespaces\@sharp\ltdKernelCellEnd\@endpbox}
+  }
+  \tl_replace_all:NnV \l__ltd_kernel_preamble_tl
+    {\ignorespaces\@sharp\@endpbox} \l__ltd_kernel_replacement_tl
+  \str_if_eq:nnTF {#2}{grouped}
+    {\tl_set:Nx \@preamble {\tl_range:Nnn \@preamble {1}{-2}{\exp_not:V \l__ltd_kernel_preamble_tl}}}
+    {\cs_set_eq:NN \@preamble \l__ltd_kernel_preamble_tl}
+}
+\cs_new_eq:NN \ltd_kernel_tabclassz: \@tabclassz
+\cs_set_protected:Npn \@tabclassz {
+  \ltd_kernel_tabclassz:
+  \cs_if_exist:NTF \adl@putlrc
+    {\directlua{ltd.tables.modern.core_column()}}
+    {\ltd_kernel_instrument:nn {\ifcase\@chnum c\or l\or r\fi}{grouped}}
+}
+% arydshln builds each cell as \adl@putlrc{\@sharp\unskip}, expanded into a brace group inside
+% \@preamble, where token-list replacement cannot reach it: mark the cell in the box itself.
+\cs_if_exist:NT \adl@putlrc {
+  \cs_set:Npn \adl@putlrc #1 {
+    \setbox \adl@box \hbox {
+      \ltdKernelCellBegin {\ifcase\@chnum c\or l\or r\fi} #1 \ltdKernelCellEnd }
+    \adl@colhtdp \unhbox \adl@box
+  }
+}
+\cs_new_eq:NN \ltd_kernel_classv: \@classv
+\cs_set_protected:Npn \@classv {
+  \ltd_kernel_classv:
+  \ltd_kernel_instrument:nn {p}{flat}
+}
+% REVTeX 4 without array swaps in its own copies of the kernel's column builders at the start of the
+% document (\switch@tabular: \@tabclassz@ltx, \@classv@ltx). They build the same cell bodies, so the
+% wrappers above go around them again; otherwise no cell has an identity (fourth cohort 1038).
+\cs_new_eq:NN \ltd_kernel_tabclassz_wrapper: \@tabclassz
+\cs_new_eq:NN \ltd_kernel_classv_wrapper: \@classv
+\AddToHook{begindocument/end}[relatex-revtex4-tables]{
+  \cs_if_exist:NT \@tabclassz@ltx
+    {
+      \cs_if_eq:NNT \@tabclassz \@tabclassz@ltx
+        {
+          \cs_set_eq:NN \ltd_kernel_tabclassz: \@tabclassz@ltx
+          \cs_set_eq:NN \@tabclassz \ltd_kernel_tabclassz_wrapper:
+        }
+    }
+  \cs_if_exist:NT \@classv@ltx
+    {
+      \cs_if_eq:NNT \@classv \@classv@ltx
+        {
+          \cs_set_eq:NN \ltd_kernel_classv: \@classv@ltx
+          \cs_set_eq:NN \@classv \ltd_kernel_classv_wrapper:
+        }
+    }
+}
+\ExplSyntaxOff
+\AddToHook{cmd/@mkpream/after}[relatex-kernel-table]{\directlua{ltd.tables.modern.core_preamble_end()}}
+\AddToHookWithArguments{cmd/@multispan/after}[relatex-kernel-table]{%
+  \directlua{ltd.tables.modern.core_span(tonumber('\luaescapestring{#1}'))}}
+% A row ended by \\ before its last column; longtable ends rows with its own macro.
+\AddToHook{cmd/@xtabularcr/before}[relatex-kernel-table]{\directlua{ltd.tables.modern.core_row_end()}}
+\AddToHook{cmd/LT@tabularcr/before}[relatex-kernel-table]{\directlua{ltd.tables.modern.core_row_end()}}
+\endinput

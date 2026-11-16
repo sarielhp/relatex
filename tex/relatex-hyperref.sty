@@ -1,0 +1,73 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-hyperref}{2026/10/15}{0.1.0}{Guarded classic AMS link colors}
+% The metadata driver changes classic Hyperref's default palette. Seed native
+% options before author options, then restore the actual package-option record.
+% Explicit native colorschemes select native behavior without this adapter.
+\bool_new:N \g__ltd_hyp_compat_bool
+\bool_new:N \l__ltd_hyp_scheme_bool
+\tl_new:N \g__ltd_hyp_original_options_tl
+\tl_new:N \l__ltd_hyp_options_tl
+\prop_const_from_keyval:Nn \c__ltd_hyp_primary_prop
+  {linkcolor=[rgb]{1,0,0},filecolor=[rgb]{0,1,1},urlcolor=[rgb]{1,0,1},
+   menucolor=[rgb]{1,0,0},runcolor=[rgb]{0,1,1},
+   linkbordercolor=[rgb]{1,0,0},filebordercolor=[rgb]{0,.5,.5},
+   urlbordercolor=[rgb]{0,1,1},menubordercolor=[rgb]{1,0,0},runbordercolor=[rgb]{0,.7,.7}}
+\cs_new_protected:Npn \__ltd_hyp_option:n #1
+  {\tl_put_right:Nn \l__ltd_hyp_options_tl {,#1}
+   \str_if_eq:nnT {#1}{colorscheme}{\bool_set_true:N\l__ltd_hyp_scheme_bool}}
+\cs_new_protected:Npn \__ltd_hyp_option:nn #1#2
+  {\tl_put_right:Nn \l__ltd_hyp_options_tl {,#1={#2}}
+   \str_case:nn {#1}
+     {{colorscheme}{\bool_set_true:N\l__ltd_hyp_scheme_bool}
+      {allcolors}{\tl_put_right:Nn\l__ltd_hyp_options_tl{,citecolor={#2}}}
+      {allbordercolors}{\tl_put_right:Nn\l__ltd_hyp_options_tl{,citebordercolor={#2}}}}}
+\cs_new_protected:Npn \__ltd_hyp_prepare:
+  {\__ltd_ams_main_class:T
+    {\tl_gset_eq:Nc \g__ltd_hyp_original_options_tl {opt@hyperref.sty}
+     \tl_clear:N \l__ltd_hyp_options_tl
+     \bool_set_false:N \l__ltd_hyp_scheme_bool
+     \exp_args:NNNV \keyval_parse:NNn \__ltd_hyp_option:n \__ltd_hyp_option:nn
+       \g__ltd_hyp_original_options_tl
+     \bool_if:NF \l__ltd_hyp_scheme_bool
+       {\bool_gset_true:N \g__ltd_hyp_compat_bool
+        \tl_gset:ce {opt@hyperref.sty}
+          {colorscheme=primary-colors,linkcolor=red,filecolor=cyan,urlcolor=magenta,
+           menucolor=red,runcolor=cyan,citecolor=green,citebordercolor=[rgb]{0,1,0}
+           \exp_not:V\l__ltd_hyp_options_tl}}}}
+\cs_new_protected:Npn \__ltd_hyp_finish:
+  {\bool_if:NT \g__ltd_hyp_compat_bool
+    {\tl_gset_eq:cN {opt@hyperref.sty} \g__ltd_hyp_original_options_tl
+     \bool_set_true:N \l_tmpa_bool
+     \int_compare:nNnF
+       {\prop_count:c{c__hyp_colorscheme_primary-colors_prop}}={\prop_count:N\c__ltd_hyp_primary_prop}
+       {\bool_set_false:N\l_tmpa_bool}
+     \prop_map_inline:Nn \c__ltd_hyp_primary_prop
+       {\prop_get:cnN {c__hyp_colorscheme_primary-colors_prop}{##1}\l_tmpa_tl
+        \tl_if_eq:NnF\l_tmpa_tl{##2}{\bool_set_false:N\l_tmpa_bool}}
+     % Construct comparison keys with the native keys API, retaining its module
+     % string catcodes as well as the exact meta-key tokens.
+     \keys_define:nn{hyp}
+       {__ltd_expected_allcolors .meta:n=
+          {,urlcolor=##1,linkcolor=##1,runcolor=##1,filecolor=##1,menucolor=##1},
+        __ltd_expected_allborders .meta:n=
+          {,linkbordercolor=##1,urlbordercolor=##1,filebordercolor=##1,menubordercolor=##1,runbordercolor=##1}}
+     \cs_if_eq:ccF {key~code~>~hyp/allcolors}{key~code~>~hyp/__ltd_expected_allcolors}
+       {\bool_set_false:N\l_tmpa_bool}
+     \cs_if_eq:ccF {key~code~>~hyp/allbordercolors}{key~code~>~hyp/__ltd_expected_allborders}
+       {\bool_set_false:N\l_tmpa_bool}
+     \bool_if:NTF\l_tmpa_bool
+       {\cs_new_eq:Nc\__ltd_hyp_allcolors:n{key~code~>~hyp/allcolors}
+        \cs_new_eq:Nc\__ltd_hyp_allborders:n{key~code~>~hyp/allbordercolors}
+        \cs_set_protected:cpn {key~code~>~hyp/allcolors} ##1
+          {\__ltd_hyp_allcolors:n{##1}\keys_set:nn{hyp}{citecolor={##1}}}
+        \cs_set_protected:cpn {key~code~>~hyp/allbordercolors} ##1
+          {\__ltd_hyp_allborders:n{##1}\keys_set:nn{hyp}{citebordercolor={##1}}}}
+       {\PackageError{relatex-hyperref}{Unsupported~native~Hyperref~color~defaults}
+         {Use~the~qualified~native~definition.}}}}
+\AddToHook{file/hgeneric-testphase.def/before}[relatex-hyperref]{\__ltd_hyp_prepare:}
+\AddToHook{file/hgeneric-testphase.def/after}[relatex-hyperref]{\__ltd_hyp_finish:}
+\endinput

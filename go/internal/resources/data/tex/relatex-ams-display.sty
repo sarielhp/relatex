@@ -1,0 +1,47 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-ams-display}{2026/10/15}{0.1.0}{Guarded AMS display page depth}
+% The native cancelling below-display skips erase the last display's depth
+% before the real post-display penalty. Ordinary column boxing subtracts that
+% depth; native boxing instead spreads the extra height over finite page glue.
+\cs_new_protected:Npn \__ltd_ams_expected_display_end:
+  {\para_raw_end:
+   \l__math_tmpa_skip \lastskip
+   \tag_socket_use:n{math/display/formula/end}
+   \nobreak
+   \skip_vertical:n { -\l__math_tmpa_skip }
+   \penalty \g__math_postdisplaypenalty_int
+   \skip_vertical:n { -\tex_parskip:D }
+   \skip_vertical:n { \g__math_skip_sign_tl \l__math_tmpa_skip }
+   \@domathendpetrue
+   \@doendpe}
+\dim_new:N \l__ltd_ams_display_depth_dim
+\cs_new_protected:Npn \__ltd_ams_display_end:
+  {\para_raw_end:
+   \l__math_tmpa_skip \lastskip
+   \dim_set:Nn \l__ltd_ams_display_depth_dim
+     {\dim_max:nn{0pt}{\dim_min:nn{\prevdepth}{\maxdepth}}}
+   \tag_socket_use:n{math/display/formula/end}
+   \nobreak
+   \skip_vertical:n { -\l__math_tmpa_skip }
+   % Only a break at this penalty retains the negative compensation. Without
+   % a break the two rigid skips cancel, preserving the native continuation.
+   \skip_vertical:n { -\l__ltd_ams_display_depth_dim }
+   \penalty \g__math_postdisplaypenalty_int
+   \skip_vertical:n { \l__ltd_ams_display_depth_dim }
+   \skip_vertical:n { -\tex_parskip:D }
+   \skip_vertical:n { \g__math_skip_sign_tl \l__math_tmpa_skip }
+   \@domathendpetrue
+   \@doendpe}
+\cs_new_protected:Npn \__ltd_ams_install_display:
+  {\__ltd_ams_main_class:T
+    {\cs_if_exist:NT \__math_tag_dollardollar_display_end:
+      {\cs_if_eq:NNTF \__math_tag_dollardollar_display_end: \__ltd_ams_expected_display_end:
+        {\cs_set_eq:NN \__math_tag_dollardollar_display_end: \__ltd_ams_display_end:}
+        {\PackageError{relatex-ams-display}{Unsupported~native~display~end}
+          {Use~the~qualified~native~display~protocol.}}}}}
+\AddToHook{class/amsart/after}[relatex-ams-display]{\__ltd_ams_install_display:}
+\endinput

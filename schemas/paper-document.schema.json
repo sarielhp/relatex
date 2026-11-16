@@ -1,0 +1,1133 @@
+{
+  "title": "General diagnostic paper reading IR; never a qualified conversion",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "profile",
+    "identity",
+    "metadata",
+    "root",
+    "block_order",
+    "nodes",
+    "labels",
+    "assets",
+    "status",
+    "qualified",
+    "main_block_order",
+    "note_order",
+    "unverified_requirements"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "paper-0.1",
+        "paper-0.2"
+      ]
+    },
+    "profile": {
+      "enum": [
+        "paper-reading-diagnostic-v1",
+        "paper-reading-diagnostic-v2"
+      ]
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "id",
+        "input_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "input_sha256": {
+          "type": "string"
+        }
+      }
+    },
+    "metadata": {
+      "oneOf": [
+        {
+          "const": {
+            "status": "unavailable"
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "partial"
+            },
+            "source_page_total": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "status",
+            "source_page_total"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "root": {
+      "type": "string"
+    },
+    "block_order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "nodes": {
+      "type": "object"
+    },
+    "labels": {
+      "type": "object"
+    },
+    "language": {
+      "type": "object",
+      "required": [
+        "tag",
+        "source"
+      ],
+      "properties": {
+        "tag": {
+          "type": "string",
+          "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+        },
+        "source": {
+          "enum": [
+            "babel",
+            "polyglossia",
+            "class_option",
+            "metadata",
+            "detected",
+            "default"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "object",
+          "required": [
+            "words",
+            "hits",
+            "runner_up",
+            "runner_up_hits",
+            "script_words"
+          ],
+          "properties": {
+            "words": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "hits": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "runner_up": {
+              "type": "string"
+            },
+            "runner_up_hits": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "script_words": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "assets": {
+      "oneOf": [
+        {
+          "const": {
+            "status": "unverified"
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "status",
+            "items"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "const": "source_verified"
+            },
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "status": {
+      "const": "diagnostic"
+    },
+    "qualified": {
+      "const": false
+    },
+    "main_block_order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "note_order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unverified_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "citations": {
+      "type": "object",
+      "required": [
+        "status",
+        "qualified",
+        "calls",
+        "entries",
+        "links"
+      ],
+      "properties": {
+        "status": {
+          "const": "projected"
+        },
+        "qualified": {
+          "const": false
+        },
+        "calls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "keys",
+              "targets"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "keys": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "targets": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "key",
+              "number",
+              "blocks"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "key": {
+                "type": "string"
+              },
+              "number": {
+                "type": "string"
+              },
+              "blocks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "citation",
+              "key",
+              "number",
+              "entry"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "citation": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "key": {
+                "type": "string"
+              },
+              "number": {
+                "type": "string"
+              },
+              "entry": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "table_paint": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "status",
+            "qualified",
+            "pdf_sha256",
+            "helper_sha256",
+            "tables"
+          ],
+          "properties": {
+            "status": {
+              "const": "native_paint_verified"
+            },
+            "qualified": {
+              "const": false
+            },
+            "pdf_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "helper_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "tables": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "page",
+                  "color",
+                  "rules",
+                  "glyphs",
+                  "grid_sha256",
+                  "trace_sha256"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "color": {
+                    "const": "rgb(0, 0, 0)"
+                  },
+                  "rules": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "glyphs": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "grid_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "trace_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "schema_version",
+            "status",
+            "qualified",
+            "pdf_sha256",
+            "helper_sha256",
+            "tables"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "schema_version": {
+              "const": "table-paint-2"
+            },
+            "status": {
+              "const": "native_paint_verified"
+            },
+            "qualified": {
+              "const": false
+            },
+            "pdf_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "helper_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "tables": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "color",
+                  "grid_sha256",
+                  "fragments"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "color": {
+                    "const": "rgb(0, 0, 0)"
+                  },
+                  "grid_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "fragments": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "page",
+                        "trace_sha256",
+                        "glyphs",
+                        "rules",
+                        "maximum_error_bp"
+                      ],
+                      "properties": {
+                        "page": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "trace_sha256": {
+                          "type": "string",
+                          "pattern": "^[0-9a-f]{64}$"
+                        },
+                        "glyphs": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "rules": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "maximum_error_bp": {
+                          "minimum": 0
+                        },
+                        "origin_bp": {
+                          "type": "array"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "schema_version",
+            "status",
+            "qualified",
+            "pdf_sha256",
+            "helper_sha256",
+            "tables",
+            "font_encodings"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "schema_version": {
+              "const": "table-paint-3"
+            },
+            "status": {
+              "const": "native_paint_verified"
+            },
+            "qualified": {
+              "const": false
+            },
+            "pdf_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "helper_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "tables": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "color",
+                  "grid_sha256",
+                  "fragments"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "color": {
+                    "const": "rgb(0, 0, 0)"
+                  },
+                  "grid_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "fragments": {
+                    "type": "array",
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "page",
+                            "trace_sha256",
+                            "glyphs",
+                            "rules",
+                            "maximum_error_bp",
+                            "origin_bp",
+                            "position_model",
+                            "maximum_residual_bp",
+                            "glyph_bindings",
+                            "rule_bindings"
+                          ],
+                          "properties": {
+                            "page": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "trace_sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            },
+                            "glyphs": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "rules": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "maximum_error_bp": {
+                              "minimum": 0
+                            },
+                            "origin_bp": {
+                              "type": "array"
+                            },
+                            "position_model": {
+                              "const": "luatex-horizontal-tj-1"
+                            },
+                            "maximum_residual_bp": {
+                              "minimum": 0,
+                              "maximum": 0.01
+                            },
+                            "glyph_bindings": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "required": [
+                                  "native",
+                                  "pdf"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "native": {
+                                    "type": "integer",
+                                    "minimum": 0
+                                  },
+                                  "pdf": {
+                                    "type": "object",
+                                    "required": [
+                                      "id",
+                                      "text",
+                                      "baseline",
+                                      "width",
+                                      "font",
+                                      "size",
+                                      "safe"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      },
+                                      "baseline": {
+                                        "type": "array"
+                                      },
+                                      "width": {
+                                      },
+                                      "font": {
+                                        "type": "string"
+                                      },
+                                      "size": {
+                                        "minimum": 0
+                                      },
+                                      "safe": {
+                                        "const": true
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "rule_bindings": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "required": [
+                                  "native",
+                                  "pdf"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "native": {
+                                    "type": "integer",
+                                    "minimum": 0
+                                  },
+                                  "pdf": {
+                                    "type": "object",
+                                    "required": [
+                                      "id",
+                                      "rect",
+                                      "safe"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "rect": {
+                                        "type": "array"
+                                      },
+                                      "safe": {
+                                        "const": true
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "page",
+                            "trace_sha256",
+                            "glyphs",
+                            "rules",
+                            "maximum_error_bp"
+                          ],
+                          "properties": {
+                            "page": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "trace_sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            },
+                            "glyphs": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "rules": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "maximum_error_bp": {
+                              "minimum": 0
+                            },
+                            "origin_bp": {
+                              "type": "array"
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "font_encodings": {
+              "type": "object"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "schema_version",
+            "status",
+            "qualified",
+            "pdf_sha256",
+            "helper_sha256",
+            "tables",
+            "font_encodings",
+            "font_bindings"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "schema_version": {
+              "const": "table-paint-4"
+            },
+            "status": {
+              "const": "native_paint_verified"
+            },
+            "qualified": {
+              "const": false
+            },
+            "pdf_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "helper_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "tables": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "color",
+                  "grid_sha256",
+                  "fragments"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "color": {
+                    "const": "rgb(0, 0, 0)"
+                  },
+                  "grid_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "fragments": {
+                    "type": "array",
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "page",
+                            "trace_sha256",
+                            "glyphs",
+                            "rules",
+                            "maximum_error_bp",
+                            "origin_bp",
+                            "position_model",
+                            "maximum_residual_bp",
+                            "glyph_bindings",
+                            "rule_bindings"
+                          ],
+                          "properties": {
+                            "page": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "trace_sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            },
+                            "glyphs": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "rules": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "maximum_error_bp": {
+                              "minimum": 0
+                            },
+                            "origin_bp": {
+                              "type": "array"
+                            },
+                            "position_model": {
+                              "const": "luatex-horizontal-tj-1"
+                            },
+                            "maximum_residual_bp": {
+                              "minimum": 0,
+                              "maximum": 0.01
+                            },
+                            "glyph_bindings": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "required": [
+                                  "native",
+                                  "pdf"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "native": {
+                                    "type": "integer",
+                                    "minimum": 0
+                                  },
+                                  "pdf": {
+                                    "type": "object",
+                                    "required": [
+                                      "id",
+                                      "text",
+                                      "baseline",
+                                      "width",
+                                      "font",
+                                      "size",
+                                      "safe"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      },
+                                      "baseline": {
+                                        "type": "array"
+                                      },
+                                      "width": {
+                                      },
+                                      "font": {
+                                        "type": "string"
+                                      },
+                                      "size": {
+                                        "minimum": 0
+                                      },
+                                      "safe": {
+                                        "const": true
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "rule_bindings": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "required": [
+                                  "native",
+                                  "pdf"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "native": {
+                                    "type": "integer",
+                                    "minimum": 0
+                                  },
+                                  "pdf": {
+                                    "type": "object",
+                                    "required": [
+                                      "id",
+                                      "rect",
+                                      "safe"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "rect": {
+                                        "type": "array"
+                                      },
+                                      "safe": {
+                                        "const": true
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "page",
+                            "trace_sha256",
+                            "glyphs",
+                            "rules",
+                            "maximum_error_bp"
+                          ],
+                          "properties": {
+                            "page": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "trace_sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            },
+                            "glyphs": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "rules": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "maximum_error_bp": {
+                              "minimum": 0
+                            },
+                            "origin_bp": {
+                              "type": "array"
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "font_encodings": {
+              "type": "object"
+            },
+            "font_bindings": {
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "fonts": {
+      "type": "object"
+    },
+    "frontmatter": {
+      "type": "object"
+    },
+    "page_decorations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+"ink_adjustments": {
+  "type": "object",
+  "required": ["schema_version", "theme", "method", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "ink-adjustments-1" },
+    "theme": { "const": "light" },
+    "method": { "const": "oklch-lightness-bisection" },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ink", "adjusted", "background", "minimum_ratio", "ratio", "adjusted_ratio"],
+        "additionalProperties": false,
+        "properties": {
+          "ink": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+          "adjusted": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+          "background": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+          "fill": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+          "minimum_ratio": { "const": 4.5 },
+          "ratio": { "minimum": 1 },
+          "adjusted_ratio": { "minimum": 1 }
+        }
+      }
+    }
+  }
+},
+    "text_paint": {
+      "type": "object"
+    },
+    "external_links": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "items"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "external-links-1"
+        },
+        "items": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "index": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "anchors",
+        "indexes"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "index-1"
+        },
+        "anchors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "block", "span", "page", "key"],
+            "properties": {
+              "id": {"type": "string"},
+              "block": {"type": "string"},
+              "span": {"type": "integer", "minimum": 0},
+              "page": {"type": "string"},
+              "key": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "indexes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["source", "status", "entries"],
+            "properties": {
+              "source": {"type": "string"},
+              "status": {"enum": ["aligned", "unaligned"]},
+              "entries": {"type": "array", "items": {"type": "object"}}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "math_macros": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "parameters",
+          "body"
+        ],
+        "properties": {
+          "parameters": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9
+          },
+          "body": {
+            "type": "string"
+          },
+          "text_mode": {
+            "const": true
+          },
+          "paired": {
+            "type": "object",
+            "required": [
+              "before",
+              "open",
+              "close",
+              "after",
+              "inner"
+            ],
+            "properties": {
+              "before": {
+                "type": "string"
+              },
+              "open": {
+                "type": "string"
+              },
+              "close": {
+                "type": "string"
+              },
+              "after": {
+                "type": "string"
+              },
+              "inner": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "math_packages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "colour_captions": {
+      "description": "The author's attestations of captions that name colours (decision 188): key to the sha256 of the caption text.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "math_speech": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+# Licence map, REUSE 3.x format (https://reuse.software). relatex is GPL-3.0-or-later, except
+# tex/ (the TeX/LuaTeX collector), which is under the LaTeX Project Public License 1.3c, and the
+# third-party files below, which keep their own licences. Later annotations override earlier ones.
+# The licence texts are in LICENSES/. Source files do not carry per-file SPDX headers, except the
+# files of tex/ (the LPPL asks for the notice in each file).
+version = 1
+SPDX-PackageName = "relatex"
+SPDX-PackageDownloadLocation = "https://github.com/sarielhp/relatex"
+
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "relatex authors"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = "tex/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "relatex authors"
+SPDX-License-Identifier = "LPPL-1.3c"
+
+# Vendored Typst packages: licences as declared in each package's typst.toml, texts in the package.
+[[annotations]]
+path = "profiles/typst-vendor/bullseye/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "the package authors"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "profiles/typst-vendor/citegeist/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "the package authors"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "profiles/typst-vendor/pergamon/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "the package authors"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "profiles/typst-vendor/nth/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "the package authors"
+SPDX-License-Identifier = "MIT-0"
+
+[[annotations]]
+path = "profiles/typst-vendor/oxifmt/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "the package authors"
+SPDX-License-Identifier = "MIT OR Apache-2.0"
+
+# axe-core (Deque Systems), licence text in lib/relatex/axe.LICENSE.
+[[annotations]]
+path = ["lib/relatex/axe.min.js", "lib/relatex/axe.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Deque Systems, Inc."
+SPDX-License-Identifier = "MPL-2.0"
+
+# The math accent font and its GUST Font License (lib/relatex/fonts/math-accents/GUST-FONT-LICENSE.txt).
+[[annotations]]
+path = "lib/relatex/fonts/math-accents/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "the GUST e-foundry and the font authors"
+SPDX-License-Identifier = "LicenseRef-GUST-FONT-LICENSE"
+
+# The ORCID iD icon, embedded in the PDF that relatex writes beside an ORCID identifier. ORCID's brand
+# guidelines permit the iD icon beside ORCID identifiers (https://info.orcid.org/brand-guidelines/).
+[[annotations]]
+path = "go/internal/assets/orcid.pdf"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "ORCID, Inc."
+SPDX-License-Identifier = "LicenseRef-ORCID-brand"

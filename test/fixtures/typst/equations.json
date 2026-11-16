@@ -1,0 +1,1014 @@
+{
+  "schema_version": "paper-0.2",
+  "profile": "paper-reading-diagnostic-v2",
+  "status": "diagnostic",
+  "qualified": false,
+  "identity": {
+    "id": "corpus",
+    "input_sha256": "efae3409f06a0ac04ca95b13174388bb5b3352873f9e4f9f633e82df213bf0f5"
+  },
+  "root": "n-543689d1909b21c9066e8e99a35068d74d4538902accbdebd001ac2dea34b43a",
+  "nodes": {
+    "n-ef46be2897a08936b8774d4d0a42136d5b35ce0da4dcc1e585ab4b79808a0892": {
+      "id": "n-ef46be2897a08936b8774d4d0a42136d5b35ce0da4dcc1e585ab4b79808a0892",
+      "type": "section",
+      "children": [
+        "n-c39a38e7a9a458a3acb366698be7836eed2d97fae7048ffd5882cef109722bdb",
+        "n-265ab5d6fb467db555b939aa057c4da7102efe47f241e71b19bb9bec1395218e",
+        "n-f9b62743904759bddac0be9125476d209f59df4f4c06059ba26584dc2ab30fe3",
+        "n-b694070c8d111957961b364cdabae4c7adae5acc41402323ded2fc056215f4ef",
+        "n-1bc76a0bcb8211334cdf93aebe25b7dc92c027d38044b519714f7f9d4321a379",
+        "n-96bd6502a696b4f71ec373805add696ad8ca5792b4f95e239010c366b8f5e093",
+        "n-c8333a81812bdcd63d5ff46101cfdb40b2aa4f59c4987aebbe6d57472b97efa7",
+        "n-ced6afb6c68d51cf0c87a7e454159f7d1170897da5d3d8561df680ec85126476",
+        "n-cb73626dc1a09276ff97907403120c0c49984bcd1a50fccbc113a8d91e26fb50",
+        "n-9d939f694ec8d9188d7ae9459cc1529c901b3993ae333e0c24ee4b0b1df09490",
+        "n-97050e24bb97ed0927756be6ba7ec5788f4ed0ed9358c8cfe691f0bb5361f929",
+        "n-2e9f656028ae40a285ad2a38f5c4cef9d743fb87e6d51a22169604930ff1d1b0",
+        "n-fc936907190ea1ac1e8921fbae8b1187ecf41d3b34368cd3881f654db8726c04",
+        "n-2611cefb48b15d9a9c970e58652b393cf67f894053190dabddf892d74a9ca559",
+        "n-20d4556465ac6e06f53fc0d610dea3a7c36bad9f99ff20f106e84a011452bb48",
+        "n-c39be4566a91a3bd09179813290e17c47142ed9a3726c5ed51d190166bc329d9",
+        "n-4b6eea790ff508a95b53d97f00e7abe98d577a0c9fe29a24893eb52300f6ea31"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:1",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-543689d1909b21c9066e8e99a35068d74d4538902accbdebd001ac2dea34b43a": {
+      "id": "n-543689d1909b21c9066e8e99a35068d74d4538902accbdebd001ac2dea34b43a",
+      "type": "document",
+      "children": [
+        "n-ef46be2897a08936b8774d4d0a42136d5b35ce0da4dcc1e585ab4b79808a0892"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:0",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-c39a38e7a9a458a3acb366698be7836eed2d97fae7048ffd5882cef109722bdb": {
+      "id": "n-c39a38e7a9a458a3acb366698be7836eed2d97fae7048ffd5882cef109722bdb",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b1",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "1 Equations",
+          "style": {
+            "font_id": 17,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman12-Bold",
+            "size_sp": 943718,
+            "series": "bx"
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-265ab5d6fb467db555b939aa057c4da7102efe47f241e71b19bb9bec1395218e": {
+      "id": "n-265ab5d6fb467db555b939aa057c4da7102efe47f241e71b19bb9bec1395218e",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b2",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "A numbered equation",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        }
+      ]
+    },
+    "n-f9b62743904759bddac0be9125476d209f59df4f4c06059ba26584dc2ab30fe3": {
+      "id": "n-f9b62743904759bddac0be9125476d209f59df4f4c06059ba26584dc2ab30fe3",
+      "type": "display_math",
+      "children": [
+        "n-6027d81649e5f62c493d0ccaa97959a644f568695ca2120dcbfbd8c6dfe55e20"
+      ],
+      "provenance": {
+        "inspection_key": "b3",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "math",
+          "node": "n-6027d81649e5f62c493d0ccaa97959a644f568695ca2120dcbfbd8c6dfe55e20"
+        }
+      ],
+      "semantics": {
+        "kind": "equation",
+        "entity": 3,
+        "environment": "equation"
+      }
+    },
+    "n-b694070c8d111957961b364cdabae4c7adae5acc41402323ded2fc056215f4ef": {
+      "id": "n-b694070c8d111957961b364cdabae4c7adae5acc41402323ded2fc056215f4ef",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b4",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "(1)",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "equation",
+        "entity": 3,
+        "environment": "equation"
+      }
+    },
+    "n-1bc76a0bcb8211334cdf93aebe25b7dc92c027d38044b519714f7f9d4321a379": {
+      "id": "n-1bc76a0bcb8211334cdf93aebe25b7dc92c027d38044b519714f7f9d4321a379",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b5",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "and an unnumbered one",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        }
+      ]
+    },
+    "n-96bd6502a696b4f71ec373805add696ad8ca5792b4f95e239010c366b8f5e093": {
+      "id": "n-96bd6502a696b4f71ec373805add696ad8ca5792b4f95e239010c366b8f5e093",
+      "type": "display_math",
+      "children": [
+        "n-641f9a2571e258075409ec54791952ac8b229ca8c36971e1b75e99bcef87f1f6"
+      ],
+      "provenance": {
+        "inspection_key": "b6",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "math",
+          "node": "n-641f9a2571e258075409ec54791952ac8b229ca8c36971e1b75e99bcef87f1f6"
+        }
+      ],
+      "semantics": {
+        "kind": "equation",
+        "entity": 4,
+        "environment": "equation*"
+      }
+    },
+    "n-c8333a81812bdcd63d5ff46101cfdb40b2aa4f59c4987aebbe6d57472b97efa7": {
+      "id": "n-c8333a81812bdcd63d5ff46101cfdb40b2aa4f59c4987aebbe6d57472b97efa7",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b7",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "and an alignment",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        }
+      ]
+    },
+    "n-ced6afb6c68d51cf0c87a7e454159f7d1170897da5d3d8561df680ec85126476": {
+      "id": "n-ced6afb6c68d51cf0c87a7e454159f7d1170897da5d3d8561df680ec85126476",
+      "type": "display_math",
+      "children": [
+        "n-c8b05bb449b00bc103306c295befab0975c23a2ab70eec2ad59fd00e7f68c780"
+      ],
+      "provenance": {
+        "inspection_key": "b8",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "math",
+          "node": "n-c8b05bb449b00bc103306c295befab0975c23a2ab70eec2ad59fd00e7f68c780"
+        }
+      ],
+      "semantics": {
+        "kind": "equation",
+        "entity": 5,
+        "environment": "align"
+      }
+    },
+    "n-cb73626dc1a09276ff97907403120c0c49984bcd1a50fccbc113a8d91e26fb50": {
+      "id": "n-cb73626dc1a09276ff97907403120c0c49984bcd1a50fccbc113a8d91e26fb50",
+      "type": "display_math",
+      "children": [
+        "n-322265ce3979d9067d25c175720b1b26624b0857b3709805e489e9e3cdbf5571"
+      ],
+      "provenance": {
+        "inspection_key": "b9",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "math",
+          "node": "n-322265ce3979d9067d25c175720b1b26624b0857b3709805e489e9e3cdbf5571"
+        }
+      ],
+      "semantics": {
+        "kind": "equation",
+        "entity": 5,
+        "environment": "align"
+      }
+    },
+    "n-9d939f694ec8d9188d7ae9459cc1529c901b3993ae333e0c24ee4b0b1df09490": {
+      "id": "n-9d939f694ec8d9188d7ae9459cc1529c901b3993ae333e0c24ee4b0b1df09490",
+      "type": "display_math",
+      "children": [
+        "n-824b5932b58cc48cec6ea43729c64fc3ee8401ad60680805ca72dd75833661f5"
+      ],
+      "provenance": {
+        "inspection_key": "b10",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "math",
+          "node": "n-824b5932b58cc48cec6ea43729c64fc3ee8401ad60680805ca72dd75833661f5"
+        }
+      ],
+      "semantics": {
+        "kind": "equation",
+        "entity": 5,
+        "environment": "align"
+      }
+    },
+    "n-97050e24bb97ed0927756be6ba7ec5788f4ed0ed9358c8cfe691f0bb5361f929": {
+      "id": "n-97050e24bb97ed0927756be6ba7ec5788f4ed0ed9358c8cfe691f0bb5361f929",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b11",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "and a tagged one",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        }
+      ]
+    },
+    "n-2e9f656028ae40a285ad2a38f5c4cef9d743fb87e6d51a22169604930ff1d1b0": {
+      "id": "n-2e9f656028ae40a285ad2a38f5c4cef9d743fb87e6d51a22169604930ff1d1b0",
+      "type": "display_math",
+      "children": [
+        "n-f1e4a91ec9f95796fb0918b5a333270ff6aba9783788952a95ec775d8fe0b38e"
+      ],
+      "provenance": {
+        "inspection_key": "b12",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "math",
+          "node": "n-f1e4a91ec9f95796fb0918b5a333270ff6aba9783788952a95ec775d8fe0b38e"
+        }
+      ],
+      "semantics": {
+        "kind": "equation",
+        "entity": 6,
+        "environment": "equation"
+      }
+    },
+    "n-fc936907190ea1ac1e8921fbae8b1187ecf41d3b34368cd3881f654db8726c04": {
+      "id": "n-fc936907190ea1ac1e8921fbae8b1187ecf41d3b34368cd3881f654db8726c04",
+      "type": "paragraph",
+      "children": [
+        "n-3178e70a6c01242a7acd82ecb60b3a4b30c03b87fcc70c8e70155b6aa37af62a"
+      ],
+      "provenance": {
+        "inspection_key": "b13",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "(",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "math",
+          "node": "n-3178e70a6c01242a7acd82ecb60b3a4b30c03b87fcc70c8e70155b6aa37af62a"
+        },
+        {
+          "type": "text",
+          "text": ")",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "equation",
+        "entity": 6,
+        "environment": "equation"
+      }
+    },
+    "n-2611cefb48b15d9a9c970e58652b393cf67f894053190dabddf892d74a9ca559": {
+      "id": "n-2611cefb48b15d9a9c970e58652b393cf67f894053190dabddf892d74a9ca559",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b14",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "and a gathered pair",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        }
+      ]
+    },
+    "n-20d4556465ac6e06f53fc0d610dea3a7c36bad9f99ff20f106e84a011452bb48": {
+      "id": "n-20d4556465ac6e06f53fc0d610dea3a7c36bad9f99ff20f106e84a011452bb48",
+      "type": "display_math",
+      "children": [
+        "n-fb4ff1534c47843c58e9fe18eebc638e2882548df77caa46f19b9f6a6e0a0c8e"
+      ],
+      "provenance": {
+        "inspection_key": "b15",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "math",
+          "node": "n-fb4ff1534c47843c58e9fe18eebc638e2882548df77caa46f19b9f6a6e0a0c8e"
+        }
+      ],
+      "semantics": {
+        "kind": "equation",
+        "entity": 7,
+        "environment": "gather"
+      }
+    },
+    "n-c39be4566a91a3bd09179813290e17c47142ed9a3726c5ed51d190166bc329d9": {
+      "id": "n-c39be4566a91a3bd09179813290e17c47142ed9a3726c5ed51d190166bc329d9",
+      "type": "display_math",
+      "children": [
+        "n-83a211aca20581bfcda68491e0a6c0fd910756d5568b14fde9c01b3e409cbf43"
+      ],
+      "provenance": {
+        "inspection_key": "b16",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "math",
+          "node": "n-83a211aca20581bfcda68491e0a6c0fd910756d5568b14fde9c01b3e409cbf43"
+        }
+      ],
+      "semantics": {
+        "kind": "equation",
+        "entity": 7,
+        "environment": "gather"
+      }
+    },
+    "n-4b6eea790ff508a95b53d97f00e7abe98d577a0c9fe29a24893eb52300f6ea31": {
+      "id": "n-4b6eea790ff508a95b53d97f00e7abe98d577a0c9fe29a24893eb52300f6ea31",
+      "type": "paragraph",
+      "children": [
+        "n-816fceacc1d1144e10505e5f526888cba07e4dae355a2b06f6980d2edab25f75"
+      ],
+      "provenance": {
+        "inspection_key": "b17",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "By (",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "reference",
+          "text": "1",
+          "label": "eq:one",
+          "target": "n-f9b62743904759bddac0be9125476d209f59df4f4c06059ba26584dc2ab30fe3",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "text",
+          "text": "), (",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "reference",
+          "text": "2",
+          "label": "eq:f",
+          "target": "n-c5625b39dfa3663d37edabe23d4748c9639c6d38103cf7509365e6ec11b182d1",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "text",
+          "text": "), (",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "reference",
+          "text": "3",
+          "label": "eq:h",
+          "target": "n-0d31c0daba89d0fd197d2b69b7ea84cb17613eb192951a7db8dd4092bf5591b7",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "text",
+          "text": "), (",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "math",
+          "node": "n-816fceacc1d1144e10505e5f526888cba07e4dae355a2b06f6980d2edab25f75"
+        },
+        {
+          "type": "text",
+          "text": "), (",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "reference",
+          "text": "4",
+          "label": "eq:u",
+          "target": "n-f25cb28cbdd832ad046d4769837670cb0a58811c0d602b5fef811f76b4431a49",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "text",
+          "text": ") and equation",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "reference",
+          "text": " 1",
+          "label": "eq:one",
+          "target": "n-f9b62743904759bddac0be9125476d209f59df4f4c06059ba26584dc2ab30fe3",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        },
+        {
+          "type": "text",
+          "text": ".",
+          "style": {
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "generic": "serif",
+            "shape": "n",
+            "encoding": "TU",
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "size_sp": 655360,
+            "series": "m"
+          }
+        }
+      ]
+    },
+    "n-6027d81649e5f62c493d0ccaa97959a644f568695ca2120dcbfbd8c6dfe55e20": {
+      "id": "n-6027d81649e5f62c493d0ccaa97959a644f568695ca2120dcbfbd8c6dfe55e20",
+      "type": "math",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "m1",
+        "source_hint": "unavailable"
+      },
+      "mathml": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow/><msup><mi>𝑎</mi><mn>2</mn></msup><mo lspace=\"0.222em\" rspace=\"0.222em\">+</mo><msup><mi>𝑏</mi><mn>2</mn></msup><mo lspace=\"0.278em\" rspace=\"0.278em\">=</mo><msup><mi>𝑐</mi><mn>2</mn></msup></math>",
+      "tex": {
+        "status": "unavailable"
+      }
+    },
+    "n-641f9a2571e258075409ec54791952ac8b229ca8c36971e1b75e99bcef87f1f6": {
+      "id": "n-641f9a2571e258075409ec54791952ac8b229ca8c36971e1b75e99bcef87f1f6",
+      "type": "math",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "m2",
+        "source_hint": "unavailable"
+      },
+      "mathml": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>𝑥</mi><mo lspace=\"0.278em\" rspace=\"0.278em\">=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></math>",
+      "tex": {
+        "status": "unavailable"
+      }
+    },
+    "n-c5625b39dfa3663d37edabe23d4748c9639c6d38103cf7509365e6ec11b182d1": {
+      "id": "n-c5625b39dfa3663d37edabe23d4748c9639c6d38103cf7509365e6ec11b182d1",
+      "type": "math_row",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "m3.r1",
+        "source_hint": "unavailable"
+      },
+      "index": 1,
+      "tag": "(2)",
+      "mathml_path": "/math/mtable/mtr[1]"
+    },
+    "n-c8b05bb449b00bc103306c295befab0975c23a2ab70eec2ad59fd00e7f68c780": {
+      "id": "n-c8b05bb449b00bc103306c295befab0975c23a2ab70eec2ad59fd00e7f68c780",
+      "type": "math",
+      "children": [
+        "n-c5625b39dfa3663d37edabe23d4748c9639c6d38103cf7509365e6ec11b182d1"
+      ],
+      "provenance": {
+        "inspection_key": "m3",
+        "source_hint": "unavailable"
+      },
+      "mathml": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mtable class=\"align\"><mtr><mtd intent=\":equation-label\"><mtext>(2)</mtext></mtd><mtd columnalign=\"right\"><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mrow><mi>𝑓</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">(</mo><mi>𝑥</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo></mrow></mstyle></mrow></mtd><mtd columnalign=\"left\"><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mrow><mo lspace=\"0.278em\" rspace=\"0.278em\">=</mo><msup><mi>𝑥</mi><mn>2</mn></msup><mo lspace=\"0.222em\" rspace=\"0.222em\">+</mo><mn>1</mn></mrow></mstyle></mrow></mtd></mtr></mtable></math>",
+      "tex": {
+        "status": "unavailable"
+      }
+    },
+    "n-d67663b8c57d24e09b9619e18e0a2e74681949137ee636a4021f8d92f227410d": {
+      "id": "n-d67663b8c57d24e09b9619e18e0a2e74681949137ee636a4021f8d92f227410d",
+      "type": "math_row",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "m4.r1",
+        "source_hint": "unavailable"
+      },
+      "index": 1,
+      "tag": "",
+      "mathml_path": "/math/mtable/mtr[1]"
+    },
+    "n-322265ce3979d9067d25c175720b1b26624b0857b3709805e489e9e3cdbf5571": {
+      "id": "n-322265ce3979d9067d25c175720b1b26624b0857b3709805e489e9e3cdbf5571",
+      "type": "math",
+      "children": [
+        "n-d67663b8c57d24e09b9619e18e0a2e74681949137ee636a4021f8d92f227410d"
+      ],
+      "provenance": {
+        "inspection_key": "m4",
+        "source_hint": "unavailable"
+      },
+      "mathml": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mtable class=\"align\"><mtr><mtd intent=\":equation-label\"><mtext></mtext></mtd><mtd columnalign=\"right\"><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mrow><mi>𝑔</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">(</mo><mi>𝑥</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo></mrow></mstyle></mrow></mtd><mtd columnalign=\"left\"><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mrow><mo lspace=\"0.278em\" rspace=\"0.278em\">=</mo><msqrt><mi>𝑥</mi></msqrt></mrow></mstyle></mrow></mtd></mtr></mtable></math>",
+      "tex": {
+        "status": "unavailable"
+      }
+    },
+    "n-0d31c0daba89d0fd197d2b69b7ea84cb17613eb192951a7db8dd4092bf5591b7": {
+      "id": "n-0d31c0daba89d0fd197d2b69b7ea84cb17613eb192951a7db8dd4092bf5591b7",
+      "type": "math_row",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "m5.r1",
+        "source_hint": "unavailable"
+      },
+      "index": 1,
+      "tag": "(3)",
+      "mathml_path": "/math/mtable/mtr[1]"
+    },
+    "n-824b5932b58cc48cec6ea43729c64fc3ee8401ad60680805ca72dd75833661f5": {
+      "id": "n-824b5932b58cc48cec6ea43729c64fc3ee8401ad60680805ca72dd75833661f5",
+      "type": "math",
+      "children": [
+        "n-0d31c0daba89d0fd197d2b69b7ea84cb17613eb192951a7db8dd4092bf5591b7"
+      ],
+      "provenance": {
+        "inspection_key": "m5",
+        "source_hint": "unavailable"
+      },
+      "mathml": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mtable class=\"align\"><mtr><mtd intent=\":equation-label\"><mtext>(3)</mtext></mtd><mtd columnalign=\"right\"><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mrow><mi>ℎ</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">(</mo><mi>𝑥</mi><mo lspace=\"0\" rspace=\"0\" stretchy=\"false\">)</mo></mrow></mstyle></mrow></mtd><mtd columnalign=\"left\"><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mrow><mo lspace=\"0.278em\" rspace=\"0\">=</mo><munderover><mo lspace=\"0.278em\" movablelimits=\"true\" rspace=\"0.167em\">∑</mo><mrow><mi>𝑖</mi><mo lspace=\"0\" rspace=\"0\">=</mo><mn>1</mn></mrow><mi>𝑛</mi></munderover><msub><mi>𝑥</mi><mi>𝑖</mi></msub></mrow></mstyle></mrow></mtd></mtr></mtable></math>",
+      "tex": {
+        "status": "unavailable"
+      }
+    },
+    "n-f1e4a91ec9f95796fb0918b5a333270ff6aba9783788952a95ec775d8fe0b38e": {
+      "id": "n-f1e4a91ec9f95796fb0918b5a333270ff6aba9783788952a95ec775d8fe0b38e",
+      "type": "math",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "m6",
+        "source_hint": "unavailable"
+      },
+      "mathml": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow/><msup><mi>𝑒</mi><mrow><mi>𝑖</mi><mi>𝜋</mi></mrow></msup><mo lspace=\"0.222em\" rspace=\"0.222em\">+</mo><mn>1</mn><mo lspace=\"0.278em\" rspace=\"0.278em\">=</mo><mn>0</mn></math>",
+      "tex": {
+        "status": "unavailable"
+      }
+    },
+    "n-3178e70a6c01242a7acd82ecb60b3a4b30c03b87fcc70c8e70155b6aa37af62a": {
+      "id": "n-3178e70a6c01242a7acd82ecb60b3a4b30c03b87fcc70c8e70155b6aa37af62a",
+      "type": "math",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "m7",
+        "source_hint": "unavailable"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\">*</mo></math>",
+      "tex": {
+        "status": "unavailable"
+      }
+    },
+    "n-f25cb28cbdd832ad046d4769837670cb0a58811c0d602b5fef811f76b4431a49": {
+      "id": "n-f25cb28cbdd832ad046d4769837670cb0a58811c0d602b5fef811f76b4431a49",
+      "type": "math_row",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "m8.r1",
+        "source_hint": "unavailable"
+      },
+      "index": 1,
+      "tag": "(4)",
+      "mathml_path": "/math/mtable/mtr[1]"
+    },
+    "n-fb4ff1534c47843c58e9fe18eebc638e2882548df77caa46f19b9f6a6e0a0c8e": {
+      "id": "n-fb4ff1534c47843c58e9fe18eebc638e2882548df77caa46f19b9f6a6e0a0c8e",
+      "type": "math",
+      "children": [
+        "n-f25cb28cbdd832ad046d4769837670cb0a58811c0d602b5fef811f76b4431a49"
+      ],
+      "provenance": {
+        "inspection_key": "m8",
+        "source_hint": "unavailable"
+      },
+      "mathml": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mtable class=\"gather\"><mtr><mtd intent=\":equation-label\"><mtext>(4)</mtext></mtd><mtd columnalign=\"center\"><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mrow><mi>𝑢</mi><mo lspace=\"0.278em\" rspace=\"0.278em\">=</mo><mi>𝑣</mi></mrow></mstyle></mrow></mtd></mtr></mtable></math>",
+      "tex": {
+        "status": "unavailable"
+      }
+    },
+    "n-83a211aca20581bfcda68491e0a6c0fd910756d5568b14fde9c01b3e409cbf43": {
+      "id": "n-83a211aca20581bfcda68491e0a6c0fd910756d5568b14fde9c01b3e409cbf43",
+      "type": "math",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "m9",
+        "source_hint": "unavailable"
+      },
+      "mathml": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mtable class=\"gather\"><mtr><mtd intent=\":equation-label\"><mtext>(5)</mtext></mtd><mtd columnalign=\"center\"><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mrow><mi>𝑤</mi><mo lspace=\"0.278em\" rspace=\"0.278em\">=</mo><mi>𝑧</mi></mrow></mstyle></mrow></mtd></mtr></mtable></math>",
+      "tex": {
+        "status": "unavailable"
+      }
+    },
+    "n-816fceacc1d1144e10505e5f526888cba07e4dae355a2b06f6980d2edab25f75": {
+      "id": "n-816fceacc1d1144e10505e5f526888cba07e4dae355a2b06f6980d2edab25f75",
+      "type": "math",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "m10",
+        "source_hint": "unavailable"
+      },
+      "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo lspace=\"0\" rspace=\"0\">*</mo></math>",
+      "tex": {
+        "status": "unavailable"
+      }
+    }
+  },
+  "main_block_order": [
+    "n-c39a38e7a9a458a3acb366698be7836eed2d97fae7048ffd5882cef109722bdb",
+    "n-265ab5d6fb467db555b939aa057c4da7102efe47f241e71b19bb9bec1395218e",
+    "n-f9b62743904759bddac0be9125476d209f59df4f4c06059ba26584dc2ab30fe3",
+    "n-b694070c8d111957961b364cdabae4c7adae5acc41402323ded2fc056215f4ef",
+    "n-1bc76a0bcb8211334cdf93aebe25b7dc92c027d38044b519714f7f9d4321a379",
+    "n-96bd6502a696b4f71ec373805add696ad8ca5792b4f95e239010c366b8f5e093",
+    "n-c8333a81812bdcd63d5ff46101cfdb40b2aa4f59c4987aebbe6d57472b97efa7",
+    "n-ced6afb6c68d51cf0c87a7e454159f7d1170897da5d3d8561df680ec85126476",
+    "n-cb73626dc1a09276ff97907403120c0c49984bcd1a50fccbc113a8d91e26fb50",
+    "n-9d939f694ec8d9188d7ae9459cc1529c901b3993ae333e0c24ee4b0b1df09490",
+    "n-97050e24bb97ed0927756be6ba7ec5788f4ed0ed9358c8cfe691f0bb5361f929",
+    "n-2e9f656028ae40a285ad2a38f5c4cef9d743fb87e6d51a22169604930ff1d1b0",
+    "n-fc936907190ea1ac1e8921fbae8b1187ecf41d3b34368cd3881f654db8726c04",
+    "n-2611cefb48b15d9a9c970e58652b393cf67f894053190dabddf892d74a9ca559",
+    "n-20d4556465ac6e06f53fc0d610dea3a7c36bad9f99ff20f106e84a011452bb48",
+    "n-c39be4566a91a3bd09179813290e17c47142ed9a3726c5ed51d190166bc329d9",
+    "n-4b6eea790ff508a95b53d97f00e7abe98d577a0c9fe29a24893eb52300f6ea31"
+  ],
+  "note_order": [
+
+  ],
+  "block_order": [
+    "n-c39a38e7a9a458a3acb366698be7836eed2d97fae7048ffd5882cef109722bdb",
+    "n-265ab5d6fb467db555b939aa057c4da7102efe47f241e71b19bb9bec1395218e",
+    "n-f9b62743904759bddac0be9125476d209f59df4f4c06059ba26584dc2ab30fe3",
+    "n-b694070c8d111957961b364cdabae4c7adae5acc41402323ded2fc056215f4ef",
+    "n-1bc76a0bcb8211334cdf93aebe25b7dc92c027d38044b519714f7f9d4321a379",
+    "n-96bd6502a696b4f71ec373805add696ad8ca5792b4f95e239010c366b8f5e093",
+    "n-c8333a81812bdcd63d5ff46101cfdb40b2aa4f59c4987aebbe6d57472b97efa7",
+    "n-ced6afb6c68d51cf0c87a7e454159f7d1170897da5d3d8561df680ec85126476",
+    "n-cb73626dc1a09276ff97907403120c0c49984bcd1a50fccbc113a8d91e26fb50",
+    "n-9d939f694ec8d9188d7ae9459cc1529c901b3993ae333e0c24ee4b0b1df09490",
+    "n-97050e24bb97ed0927756be6ba7ec5788f4ed0ed9358c8cfe691f0bb5361f929",
+    "n-2e9f656028ae40a285ad2a38f5c4cef9d743fb87e6d51a22169604930ff1d1b0",
+    "n-fc936907190ea1ac1e8921fbae8b1187ecf41d3b34368cd3881f654db8726c04",
+    "n-2611cefb48b15d9a9c970e58652b393cf67f894053190dabddf892d74a9ca559",
+    "n-20d4556465ac6e06f53fc0d610dea3a7c36bad9f99ff20f106e84a011452bb48",
+    "n-c39be4566a91a3bd09179813290e17c47142ed9a3726c5ed51d190166bc329d9",
+    "n-4b6eea790ff508a95b53d97f00e7abe98d577a0c9fe29a24893eb52300f6ea31"
+  ],
+  "labels": {
+    "sec:eq": {
+      "target": "n-c39a38e7a9a458a3acb366698be7836eed2d97fae7048ffd5882cef109722bdb",
+      "number": "1",
+      "status": "verified"
+    },
+    "eq:one": {
+      "target": "n-f9b62743904759bddac0be9125476d209f59df4f4c06059ba26584dc2ab30fe3",
+      "number": "1",
+      "status": "verified"
+    },
+    "eq:star": {
+      "target": "n-2e9f656028ae40a285ad2a38f5c4cef9d743fb87e6d51a22169604930ff1d1b0",
+      "number": "{$\\ast $}",
+      "status": "verified"
+    },
+    "eq:f": {
+      "target": "n-c5625b39dfa3663d37edabe23d4748c9639c6d38103cf7509365e6ec11b182d1",
+      "number": "2",
+      "status": "verified"
+    },
+    "eq:h": {
+      "target": "n-0d31c0daba89d0fd197d2b69b7ea84cb17613eb192951a7db8dd4092bf5591b7",
+      "number": "3",
+      "status": "verified"
+    },
+    "eq:u": {
+      "target": "n-f25cb28cbdd832ad046d4769837670cb0a58811c0d602b5fef811f76b4431a49",
+      "number": "4",
+      "status": "verified"
+    }
+  },
+  "metadata": {
+    "status": "unavailable"
+  },
+  "assets": {
+    "status": "unverified"
+  },
+  "unverified_requirements": [
+    "ordinary_fidelity",
+    "independent_content",
+    "independent_math",
+    "metadata",
+    "assets",
+    "typed_lists",
+    "citations",
+    "text_style"
+  ],
+  "citations": {
+    "status": "projected",
+    "qualified": false,
+    "entries": [
+
+    ],
+    "calls": [
+
+    ],
+    "links": [
+
+    ]
+  },
+  "external_links": {
+    "schema_version": "external-links-1",
+    "items": {
+    }
+  }
+}

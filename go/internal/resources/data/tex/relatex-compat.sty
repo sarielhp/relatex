@@ -1,0 +1,258 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+% relatex-compat: the engine compatibility layer for sources written for pdfLaTeX or XeLaTeX
+% (decision 082). The wrapper loads it before the author's main file, and only for a source whose
+% scan found what LuaLaTeX lacks; each option is one shim, and the scan records which ones it chose.
+%   pdftex    pdfTeX's primitive names (\pdfoutput, \pdfliteral, \pdfstrcmp, ...) as LuaTeX's own,
+%             so xypdf, \pdfoutput=1 and the like work; \pdftexversion stays undefined, so iftex,
+%             ifpdf and the author's own engine tests still see LuaTeX.
+%   xetex     XeTeX's line-breaking and character-class primitives as inert registers; xunicode
+%             (the TU encoding already covers it) is taken as loaded; xltxtra gets its logos.
+%   fontspec  \setmainfont and its kin load fontspec when used before it (an engine branch that
+%             forgot it under LuaTeX).
+%   t1text    the T1 text encoding, as pdfLaTeX's papers had it: an 8-bit font family (times, mathptmx,
+%             txfonts: ptm, txr) has no TU shapes, so under LuaLaTeX's TU default it fell back to Latin Modern
+%             regular, bold and italic included; in T1 it is the font the author chose.
+%             Typewriter text keeps TU's look (no dash or quote ligatures, straight quotes) and so does \textellipsis.
+%   inputenc  an 8-bit input encoding (latin1, latin9, cp1252/ansinew), whose files the build re-encoded to
+%             UTF-8 (decision 143): inputenc is taken as loaded with that option, \inputencoding switches
+%             nothing, and an 8-bit font encoding gets luainputenc's UTF-8 mapping (as textmap).
+%   textmap   an 8-bit font encoding the source chose (fontenc T1, OT1) gets luainputenc's UTF-8 mapping: LuaTeX passes
+%             typed characters (U+2019, U+00DF) to the font unmapped, where pdfLaTeX's inputenc mapped them to
+%             the encoding's slots (decision 143).
+%   microtype microtype's spacing and kerning features, which only pdfTeX has, are switched off with a
+%             warning instead of an error (microtype does switch them off; decision 143).
+%   hyperref  hyperref's DVI driver options (dvipdfmx, dvips, hypertex, ...), which stop LuaLaTeX in PDF mode,
+%             are dropped from hyperref's options with a warning; hyperref then picks its LuaTeX driver, as it
+%             does after the error (decision 143, amendment 1).
+% Every definition is made only where the name is still undefined; nothing changes for a name the
+% format or a package already provides.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{relatex-compat}[2026/10/30 v0.1 relatex engine compatibility]
+\newif\ifrelatex@compat@pdftex
+\newif\ifrelatex@compat@xetex
+\newif\ifrelatex@compat@fontspec
+\newif\ifrelatex@compat@ttext
+\newif\ifrelatex@compat@inputenc
+\newif\ifrelatex@compat@fontmap
+\newif\ifrelatex@compat@microtype
+\newif\ifrelatex@compat@hyperref
+\DeclareOption{pdftex}{\relatex@compat@pdftextrue}
+\DeclareOption{xetex}{\relatex@compat@xetextrue}
+\DeclareOption{fontspec}{\relatex@compat@fontspectrue}
+\DeclareOption{t1text}{\relatex@compat@ttexttrue}
+\DeclareOption{inputenc}{\relatex@compat@inputenctrue\relatex@compat@fontmaptrue}
+\DeclareOption{textmap}{\relatex@compat@fontmaptrue}
+\DeclareOption{microtype}{\relatex@compat@microtypetrue}
+\DeclareOption{hyperref}{\relatex@compat@hyperreftrue}
+\ProcessOptions\relax
+
+% \relatex@compat@let\name\primitive: \let only when \name is undefined.
+\def\relatex@compat@let#1#2{\ifdefined#1\else\let#1#2\fi}
+% \relatex@compat@cslet{name}{primitive}: the same by name, for conditionals.
+\def\relatex@compat@cslet#1#2{%
+  \ifcsname#1\endcsname\else\expandafter\let\csname#1\expandafter\endcsname\csname#2\endcsname\fi}
+% \relatex@compat@def\name{body}: \protected\def only when \name is undefined.
+\def\relatex@compat@def#1{\ifdefined#1\expandafter\@gobble\else\expandafter\relatex@compat@define\expandafter#1\fi}
+\def\relatex@compat@define#1#2{\protected\def#1{#2}}
+% \relatex@compat@edef\name{body}: \protected\edef only when \name is undefined.
+\def\relatex@compat@edef#1{\ifdefined#1\expandafter\@gobble\else\expandafter\relatex@compat@edefine\expandafter#1\fi}
+\def\relatex@compat@edefine#1#2{\protected\edef#1{#2}}
+
+\ifrelatex@compat@pdftex
+  % The names luatex85.sty (LaTeX Project, LPPL) maps, less \pdftexversion and \pdftexrevision:
+  % defining those would make iftex report pdfTeX and send the source down its pdfTeX branch.
+  \relatex@compat@let\pdfpagewidth\pagewidth
+  \relatex@compat@let\pdfpageheight\pageheight
+  \relatex@compat@let\pdfadjustspacing\adjustspacing
+  \relatex@compat@let\pdfprotrudechars\protrudechars
+  \relatex@compat@let\pdfnoligatures\ignoreligaturesinfont
+  \relatex@compat@let\pdffontexpand\expandglyphsinfont
+  \relatex@compat@let\pdfcopyfont\copyfont
+  \relatex@compat@let\pdfxform\saveboxresource
+  \relatex@compat@let\pdflastxform\lastsavedboxresourceindex
+  \relatex@compat@let\pdfrefxform\useboxresource
+  \relatex@compat@let\pdfximage\saveimageresource
+  \relatex@compat@let\pdflastximage\lastsavedimageresourceindex
+  \relatex@compat@let\pdflastximagepages\lastsavedimageresourcepages
+  \relatex@compat@let\pdfrefximage\useimageresource
+  \relatex@compat@let\pdfsavepos\savepos
+  \relatex@compat@let\pdflastxpos\lastxpos
+  \relatex@compat@let\pdflastypos\lastypos
+  \relatex@compat@let\pdfoutput\outputmode
+  \relatex@compat@let\pdfdraftmode\draftmode
+  \relatex@compat@let\pdfpxdimen\pxdimen
+  \relatex@compat@let\pdfinsertht\insertht
+  \relatex@compat@let\pdfnormaldeviate\normaldeviate
+  \relatex@compat@let\pdfuniformdeviate\uniformdeviate
+  \relatex@compat@let\pdfsetrandomseed\setrandomseed
+  \relatex@compat@let\pdfrandomseed\randomseed
+  \relatex@compat@let\pdfprimitive\primitive
+  % Conditionals by name: a skipped block must not see them, or its \fi would be miscounted.
+  \relatex@compat@cslet{ifpdfprimitive}{ifprimitive}
+  \relatex@compat@cslet{ifpdfabsnum}{ifabsnum}
+  \relatex@compat@cslet{ifpdfabsdim}{ifabsdim}
+  \relatex@compat@def\pdflastlink{\numexpr\pdffeedback lastlink\relax}
+  \relatex@compat@def\pdfretval{\numexpr\pdffeedback retval\relax}
+  \relatex@compat@def\pdflastobj{\numexpr\pdffeedback lastobj\relax}
+  \relatex@compat@def\pdflastannot{\numexpr\pdffeedback lastannot\relax}
+  \relatex@compat@def\pdfliteral{\pdfextension literal}
+  \relatex@compat@def\pdfcolorstack{\pdfextension colorstack}
+  \relatex@compat@def\pdfsetmatrix{\pdfextension setmatrix}
+  \relatex@compat@def\pdfsave{\pdfextension save\relax}
+  \relatex@compat@def\pdfrestore{\pdfextension restore\relax}
+  \relatex@compat@def\pdfobj{\pdfextension obj }
+  \relatex@compat@def\pdfrefobj{\pdfextension refobj }
+  \relatex@compat@def\pdfannot{\pdfextension annot }
+  \relatex@compat@def\pdfstartlink{\pdfextension startlink }
+  \relatex@compat@def\pdfendlink{\pdfextension endlink\relax}
+  \relatex@compat@def\pdfoutline{\pdfextension outline }
+  \relatex@compat@def\pdfdest{\pdfextension dest }
+  \relatex@compat@def\pdfinfo{\pdfextension info }
+  \relatex@compat@def\pdfcatalog{\pdfextension catalog }
+  \relatex@compat@def\pdfnames{\pdfextension names }
+  \relatex@compat@def\pdfmapfile{\pdfextension mapfile }
+  \relatex@compat@def\pdfmapline{\pdfextension mapline }
+  \relatex@compat@def\pdftrailer{\pdfextension trailer }
+  \relatex@compat@edef\pdfcompresslevel{\pdfvariable compresslevel}
+  \relatex@compat@edef\pdfobjcompresslevel{\pdfvariable objcompresslevel}
+  \relatex@compat@edef\pdfdecimaldigits{\pdfvariable decimaldigits}
+  \relatex@compat@edef\pdfimageresolution{\pdfvariable imageresolution}
+  \relatex@compat@edef\pdfpkresolution{\pdfvariable pkresolution}
+  \relatex@compat@edef\pdfinclusioncopyfonts{\pdfvariable inclusioncopyfonts}
+  \relatex@compat@edef\pdfinclusionerrorlevel{\pdfvariable inclusionerrorlevel}
+  \relatex@compat@edef\pdfsuppresswarningpagegroup{\pdfvariable suppresswarningpagegroup}
+  \relatex@compat@edef\pdfminorversion{\pdfvariable minorversion}
+  % pdfTeX's older names of the same two parameters, which current pdfTeX still reads.
+  \relatex@compat@edef\pdfoptionpdfminorversion{\pdfvariable minorversion}
+  \relatex@compat@edef\pdfoptionpdfinclusionerrorlevel{\pdfvariable inclusionerrorlevel}
+  \relatex@compat@edef\pdfhorigin{\pdfvariable horigin}
+  \relatex@compat@edef\pdfvorigin{\pdfvariable vorigin}
+  \relatex@compat@edef\pdfpagesattr{\pdfvariable pagesattr}
+  \relatex@compat@edef\pdfpageattr{\pdfvariable pageattr}
+  \relatex@compat@edef\pdfpageresources{\pdfvariable pageresources}
+  \relatex@compat@edef\pdfpkmode{\pdfvariable pkmode}
+  {\outputmode=1 \ifdefined\pdfcreationdate\else\xdef\pdfcreationdate{\pdffeedback creationdate}\fi}
+  % The expandable pdfTeX primitives, through pdftexcmds (Heiko Oberdiek, LPPL).
+  \RequirePackage{pdftexcmds}
+  \relatex@compat@let\pdfstrcmp\pdf@strcmp
+  \relatex@compat@let\pdfshellescape\pdf@shellescape
+  \relatex@compat@let\pdfresettimer\pdf@resettimer
+  \relatex@compat@let\pdfelapsedtime\pdf@elapsedtime
+\fi
+
+\ifrelatex@compat@xetex
+  % Inert registers for XeTeX's typesetting parameters (\XeTeXrevision stays undefined).
+  \ifdefined\XeTeXlinebreakskip\else\newskip\XeTeXlinebreakskip\fi
+  \ifdefined\XeTeXlinebreakpenalty\else\newcount\XeTeXlinebreakpenalty\fi
+  \ifdefined\XeTeXinterchartokenstate\else\newcount\XeTeXinterchartokenstate\fi
+  \ifdefined\XeTeXdashbreakstate\else\newcount\XeTeXdashbreakstate\fi
+  \ifdefined\XeTeXuseglyphmetrics\else\newcount\XeTeXuseglyphmetrics\fi
+  \ifdefined\XeTeXtracingfonts\else\newcount\XeTeXtracingfonts\fi
+  \ifdefined\XeTeXupwardsmode\else\newcount\XeTeXupwardsmode\fi
+  % \XeTeXlinebreaklocale "zh" and \XeTeXinputencoding "utf8": the quoted name is dropped.
+  \ifdefined\XeTeXlinebreaklocale\else\def\XeTeXlinebreaklocale"#1"{}\fi
+  \ifdefined\XeTeXinputencoding\else\def\XeTeXinputencoding"#1"{}\fi
+  \ifdefined\XeTeXdefaultencoding\else\def\XeTeXdefaultencoding"#1"{}\fi
+  % \XeTeXcharclass `x = 1 and \XeTeXinterchartoks 0 1 = {...}: read and dropped.
+  \ifdefined\XeTeXcharclass\else\def\XeTeXcharclass#1={\count@=}\fi
+  \ifdefined\XeTeXinterchartoks\else\def\XeTeXinterchartoks#1#{\toks@}\fi
+  % xunicode maps LICR to Unicode for XeTeX; LuaLaTeX's TU encoding already does.
+  \@namedef{ver@xunicode.sty}{2026/10/30 relatex-compat stand-in}
+  % xltxtra under LuaTeX loads only fontspec; its documents still use metalogo's \XeLaTeX.
+  \AddToHook{package/xltxtra/after}{\RequirePackage{metalogo}}
+\fi
+
+\ifrelatex@compat@fontspec
+  % Stand-ins that load fontspec and run the real command; fontspec's own loading removes them.
+  \def\relatex@compat@font#1{%
+    \ifdefined#1\else
+      \protected\def#1{\RequirePackage{fontspec}#1}%
+      \AddToHook{package/fontspec/before}{\let#1\@undefined}%
+    \fi}
+  \relatex@compat@font\setmainfont
+  \relatex@compat@font\setsansfont
+  \relatex@compat@font\setmonofont
+  \relatex@compat@font\newfontfamily
+  \relatex@compat@font\defaultfontfeatures
+\fi
+
+\ifrelatex@compat@ttext
+  \RequirePackage[T1]{fontenc}
+  % LuaTeX reads UTF-8 as characters: typed quotes and dashes (U+2019...) reach the 8-bit font
+  % unmapped (Missing character). luainputenc maps them to their T1 slots, as inputenc did.
+  \RequirePackage[utf8]{luainputenc}
+  % Typewriter text as TU had it: where the typewriter family is Latin Modern (the T1 build would use
+  % ec-lmtt, with TeX dash and quote ligatures and curly quotes), \ttfamily and \tt select the TU
+  % encoding, so the text commands and the font are TU's own, with no slot mapping.
+  \def\relatex@compat@lmtt{lmtt}
+  \def\relatex@compat@tuttext{%
+    \ifx\f@family\relatex@compat@lmtt\fontencoding{TU}\selectfont\fi}
+  \AddToHook{cmd/ttfamily/after}{\relatex@compat@tuttext}
+  \AddToHook{cmd/tt/after}{\relatex@compat@tuttext}
+  % \textellipsis (also what a typed U+2026 and text-mode \dots become): T1 has no such glyph and
+  % draws three spaced periods; TU's U+2026 glyph of the same family is what the TU build showed.
+  \DeclareTextCommand{\textellipsis}{T1}{{\fontencoding{TU}\selectfont\char"2026 }}
+\fi
+
+\ifrelatex@compat@inputenc
+  % The source's files are UTF-8 now; inputenc refuses LuaTeX for any other option, so it is taken as
+  % loaded with the options it was asked for (no option clash), and \inputencoding switches nothing.
+  \@namedef{ver@inputenc.sty}{2026/11/14 relatex-compat stand-in (the source was re-encoded to UTF-8)}
+  \@namedef{opt@inputenc.sty}{utf8,utf8x,ascii,latin1,latin9,cp1252,ansinew}
+  \def\relatex@compat@noencoding#1{}
+  \let\inputencoding\relatex@compat@noencoding
+\fi
+
+\ifrelatex@compat@fontmap
+  % An 8-bit font encoding: LuaTeX passes UTF-8 characters to the font unmapped (U+00AB would print the
+  % T1 slot 0xAB); luainputenc maps them to the encoding's slots, as inputenc did.
+  \def\relatex@compat@fontmap{%
+    \RequirePackage[utf8]{luainputenc}%
+    \ifrelatex@compat@inputenc\let\inputencoding\relatex@compat@noencoding\fi}
+  \AddToHook{package/fontenc/after}{\relatex@compat@fontmap}
+\fi
+
+% microtype-luatex.def's error for a pdfTeX-only feature, as a warning; the feature is off either way. Defined
+% outside the option's conditional: its \fi closes a \csname-made test that a skipped branch would not count.
+\def\relatex@compat@microtype{%
+  \def\MT@error@doesnt@work##1{%
+    \csname ifMT@##1\endcsname
+      \MT@warning{The ##1 feature only works with pdftex. Switching it off}%
+      \csname MT@##1false\endcsname
+      \MT@let@nc{MT@##1}\relax
+    \fi}}
+\ifrelatex@compat@microtype
+  \AddToHook{package/microtype/after}{\relatex@compat@microtype}
+\fi
+
+% hyperref's DVI driver options (those hyperref checks with \HyOpt@CheckDvi): under LuaTeX in PDF mode hyperref
+% stops with "Wrong DVI mode driver option", then ignores the option and autodetects hluatex. The options
+% are removed from hyperref's own option list before it loads, so it goes straight to that driver. A class
+% option (\documentclass[dvips]) is left alone: it also selects the DVI backend and the build fails as before.
+\ExplSyntaxOn
+\clist_const:Nn \c__relatex_compat_dvi_drivers_clist
+  { nativepdf, dvipdfm, dvipdfmx, pdfmark, dvips, hypertex, dviwindo, dvipsone, textures, ps2pdf }
+\cs_new_protected:Npn \__relatex_compat_drop_dvi_drivers:N #1
+  {
+    \clist_map_inline:Nn \c__relatex_compat_dvi_drivers_clist
+      {
+        \clist_if_in:NnT #1 {##1}
+          {
+            \PackageWarningNoLine { relatex-compat }
+              { hyperref's~DVI~driver~option~`##1'~dropped:~LuaLaTeX~writes~PDF }
+            \clist_gremove_all:Nn #1 {##1}
+          }
+      }
+  }
+\cs_generate_variant:Nn \__relatex_compat_drop_dvi_drivers:N { c }
+\legacy_if:nT { relatex@compat@hyperref }
+  {
+    \AddToHook { package/hyperref/before }
+      { \__relatex_compat_drop_dvi_drivers:c { opt@hyperref.sty } }
+  }
+\ExplSyntaxOff
+\endinput

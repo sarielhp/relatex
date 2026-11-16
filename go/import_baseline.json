@@ -1,0 +1,4 @@
+{
+  "comment": "Forbidden Go imports that exist today (decision 102), from-package => imported packages. Empty since the modular-outputs cleanup: every package keeps its layer. tools/import_guard.rb refuses a new forbidden import and a baseline that gains an entry against HEAD, and asks to remove an entry once its import is gone; after removing imports, regenerate with tools/import_guard.rb --baseline.",
+  "edges": {}
+}

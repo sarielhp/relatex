@@ -1,0 +1,300 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex}[2026/10/13 v0.6.1 feasibility collector]
+\directlua{ltd = require('relatex')}
+\AddToHook{cmd/selectfont/after}{\directlua{ltd.text_symbols.observe()}}
+\AddToHook{cmd/@use@text@encoding/after}{\directlua{ltd.text_symbols.observe()}}
+% An accent set in a font NFSS never selected (\font\dos=cmti10) uses the live encoding's
+% slots there, as LaTeX does: the current font is observed under that encoding.
+\AddToHook{cmd/add@accent/before}{\directlua{ltd.text_symbols.observe()}}
+% A command after-hook can enter a delegated argument scanner (IEEEtran,
+% \@startsection, \secdef). Consume the public s/o/m arguments before invoking
+% the final class/package definition, and replay the original tokens unchanged.
+% Install at document start so preamble and begin-document definitions are kept.
+\AddToHook{begindocument/end}{%
+  \directlua{ltd.start()}%
+  % beamer's sectioning prints nothing on a frame: its frames are the sections (relatex-beamer).
+  \@ifclassloaded{beamer}{}{%
+  \@ifclassloaded{acmart}{\ltd@nativeheadings}{%
+  \@ifundefined{ltd@external@ams}{\ltd@genericheadings}{\ltd@amsheadings}}%
+  \ltd@chapterheadings}}
+% Chapters and parts (book, report, memoir, amsbook) never reach \@startsection: a chapter's
+% heading is what \@makechapterhead or \@makeschapterhead typesets, a part's runs from \@part
+% or \@spart to \@endpart. The matter commands close every open part and chapter.
+\newcommand{\ltd@chapterheadings}{%
+  \@ifundefined{@makechapterhead}{}{%
+    \directlua{ltd.chapter_levels()}%
+    \ltd@chapterhead{@makechapterhead}\ltd@chapterhead{@makeschapterhead}%
+    \@ifundefined{@endpart}{}{%
+      \@ifundefined{@part}{}{\AddToHook{cmd/@part/before}{\directlua{ltd.heading('part',false,false)}}}%
+      \@ifundefined{@spart}{}{\AddToHook{cmd/@spart/before}{\directlua{ltd.heading('part',false,false)}}}%
+      \AddToHook{cmd/@endpart/before}{\directlua{ltd.heading('part',true,false)}}}%
+    \ltd@matterhook{frontmatter}\ltd@matterhook{mainmatter}\ltd@matterhook{backmatter}}}
+% A chapter head is wrapped around its one argument, not given command hooks: titlesec defines
+% \@makechapterhead and \@makeschapterhead without parameters, ending in \ttl@startargs, which
+% reads the title from the call site (an after-hook there lands among its arguments and is
+% read as the title, or breaks it: "Argument of \hook_use:nnw has an extra }").
+\newcommand{\ltd@chapterhead}[1]{\@ifundefined{#1}{}{\ltd@chapterhead@wrap{#1}}}
+\newcommand{\ltd@chapterhead@wrap}[1]{%
+  \expandafter\NewCommandCopy\csname ltd@orig@#1\expandafter\endcsname\csname #1\endcsname
+  \expandafter\long\expandafter\def\csname #1\endcsname##1{%
+    \directlua{ltd.heading('chapter',false,false)}%
+    \csname ltd@orig@#1\endcsname{##1}%
+    \directlua{ltd.heading('chapter',true,false)}}}
+\newcommand{\ltd@matterhook}[1]{%
+  \@ifundefined{#1}{}{\AddToHook{cmd/#1/after}{\directlua{ltd.matter()}}}}
+% AASTeX 5 (aastex.cls) typesets the title page from the first \@startsection when the paper
+% never calls \maketitle (\@startsection@hook is \maketitle@trigger until \maketitle disarms it).
+% It runs before the heading is observed, so the title and authors are not read as the heading.
+\def\ltd@aastex@trigger{\maketitle@trigger}
+\newcommand{\ltd@pendingtitle}{\ifx\@startsection@hook\ltd@aastex@trigger\maketitle@trigger\fi}
+\newcommand{\ltd@sectionheadings}{%
+  \NewCommandCopy\ltd@section\section
+  \RenewDocumentCommand\section{s o m}{%
+    \ltd@pendingtitle
+    \directlua{ltd.section_begin()}%
+    \IfBooleanTF{##1}
+      {\ltd@section*{##3}}
+      {\IfNoValueTF{##2}{\ltd@section{##3}}{\ltd@section[##2]{##3}}}%
+    \directlua{ltd.section_end()}}}
+\newcommand{\ltd@titlesecheadings}{%
+  \ltd@titlesec@level{section}\ltd@titlesec@level{subsection}\ltd@titlesec@level{subsubsection}}
+\newcommand{\ltd@titlesec@level}[1]{%
+  \expandafter\NewCommandCopy\csname ltd@orig@#1\expandafter\endcsname\csname #1\endcsname
+  \expandafter\RenewDocumentCommand\csname #1\endcsname{s o m}{%
+    \directlua{ltd.section_begin('#1')}%
+    \IfBooleanTF{##1}
+      {\csname ltd@orig@#1\endcsname*{##3}}
+      {\IfNoValueTF{##2}{\csname ltd@orig@#1\endcsname{##3}}{\csname ltd@orig@#1\endcsname[##2]{##3}}}%
+    \directlua{ltd.section_end()}}}
+% External collection observes every \@startsection level (article, IEEEtran,
+% revtex, elsart), so subsection and run-in labels have an owning heading.
+% Classes whose \section bypasses \@startsection keep the \section wrapper.
+\ExplSyntaxOn
+% With amsthm or amsmath the \@startsection levels are observed, unless \section bypasses
+% \@startsection (titlesec): then \section itself is.
+\cs_new_protected:Npn \ltd@amsheadings
+  {
+    \cs_if_exist:NT \section
+      {
+        \exp_args:Nee \tl_if_in:nnTF { \cs_replacement_spec:N \section } { \token_to_str:N \@startsection }
+          { \ltd@legacyacmheadings }
+          { \__ltd_section_levels: }
+      }
+  }
+% titlesec sets every sectioning level with its own routine, which never reaches
+% \@startsection: each public level is observed itself. Other classes keep \section wrapped
+% and their lower levels observed at \@startsection.
+\cs_new_protected:Npn \__ltd_section_levels:
+  {
+    \exp_args:Nee \tl_if_in:nnTF { \cs_replacement_spec:N \section } { \token_to_str:N \ttl@straightclass }
+      { \ltd@titlesecheadings }
+      { \ltd@sectionheadings \ltd@subheadings }
+  }
+% A class without \section (slides) has no headings to observe.
+\cs_new_protected:Npn \ltd@genericheadings
+  { \cs_if_exist:NT \section { \__ltd_generic_headings: } }
+\cs_new_protected:Npn \__ltd_generic_headings:
+  {
+    \str_if_eq:eeTF { \directlua{tex.sprint(os.getenv('RELATEX_STRATEGY')~or~'')} } { external }
+      {
+        \exp_args:Nee \tl_if_in:nnTF { \cs_replacement_spec:N \section } { \token_to_str:N \@startsection }
+          { \ltd@legacyacmheadings }
+          { \__ltd_section_levels: }
+      }
+      { \ltd@sectionheadings }
+  }
+\ExplSyntaxOff
+% ACM checks that its public heading commands remain unchanged. Observe the
+% native parser after argument scanning instead of replacing those commands.
+\newcommand{\ltd@nativeheadings}{%
+  \@ifundefined{ParseLaTeXeHeading}{\ltd@legacyacmheadings}{%
+    \AddToHookWithArguments{cmd/ParseLaTeXeHeading/before}[relatex-section]{%
+      \directlua{ltd.heading('\luaescapestring{##1}',false,\csname __ltd_acm_runin:n\endcsname{##1})}}%
+    \AddToHookWithArguments{cmd/ParseLaTeXeHeading/after}[relatex-section]{%
+      \directlua{ltd.heading('\luaescapestring{##1}',true,\csname __ltd_acm_runin:n\endcsname{##1})}}}}
+\newcommand{\ltd@legacyacmheadings}{%
+  \NewCommandCopy\ltd@startsection\@startsection
+  \RenewDocumentCommand\@startsection{mmmmmm s o m}{%
+    \ltd@pendingtitle
+    \directlua{ltd.heading('\luaescapestring{##1}-@startsection',false,
+      \ifdim\glueexpr##5\relax>\z@ false\else true\fi)}%
+    \IfBooleanTF{##7}
+      {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}*{##9}}
+      {\IfNoValueTF{##8}
+        {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}{##9}}
+        {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}[##8]{##9}}}%
+    \directlua{ltd.heading('\luaescapestring{##1}-@startsection',true,
+      \ifdim\glueexpr##5\relax>\z@ false\else true\fi)}}}
+% A class whose \section reaches \@startsection only through its own wrappers (cvpr:
+% \@ifstar\cvprsect) keeps the \section wrapper; its lower levels still go through the
+% kernel \@startsection, so those are observed there (a section level is not, or it would
+% be observed twice).
+\newcommand{\ltd@subheadings}{%
+  \@ifundefined{@startsection}{}{%
+    \NewCommandCopy\ltd@startsection\@startsection
+    \RenewDocumentCommand\@startsection{mmmmmm s o m}{%
+      \ltd@pendingtitle
+      \ifnum##2>\@ne\directlua{ltd.heading('\luaescapestring{##1}-@startsection',false,
+        \ifdim\glueexpr##5\relax>\z@ false\else true\fi)}\fi
+      \IfBooleanTF{##7}
+        {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}*{##9}}
+        {\IfNoValueTF{##8}
+          {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}{##9}}
+          {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}[##8]{##9}}}%
+      \ifnum##2>\@ne\directlua{ltd.heading('\luaescapestring{##1}-@startsection',true,
+        \ifdim\glueexpr##5\relax>\z@ false\else true\fi)}\fi}}%
+  \@ifundefined{scr@startsection}{}{\ltd@komaheadings}}
+% KOMA-Script's classes set every level with their own \scr@startsection (the kernel's six
+% arguments; a negative afterskip runs in), which never reaches \@startsection (fourth cohort
+% 875: its subsections were paragraphs). The levels below \section are observed there.
+\newcommand{\ltd@komaheadings}{%
+  \NewCommandCopy\ltd@scrstartsection\scr@startsection
+  \RenewDocumentCommand\scr@startsection{mmmmmm s o m}{%
+    \ifnum##2>\@ne\directlua{ltd.heading('\luaescapestring{##1}-@startsection',false,
+      \ifdim\glueexpr##5\relax<\z@ true\else false\fi)}\fi
+    \IfBooleanTF{##7}
+      {\ltd@scrstartsection{##1}{##2}{##3}{##4}{##5}{##6}*{##9}}
+      {\IfNoValueTF{##8}
+        {\ltd@scrstartsection{##1}{##2}{##3}{##4}{##5}{##6}{##9}}
+        {\ltd@scrstartsection{##1}{##2}{##3}{##4}{##5}{##6}[##8]{##9}}}%
+    \ifnum##2>\@ne\directlua{ltd.heading('\luaescapestring{##1}-@startsection',true,
+      \ifdim\glueexpr##5\relax<\z@ true\else false\fi)}\fi}}
+% A display's tag is marked as such (approved 2026-11-10): amsmath's \maketag@@@ (every \tag, \tag* and
+% automatic number) and the kernel's \@eqnnum (equation and eqnarray without amsmath). An \eqref formats its
+% number through \tagform@ as well; inside it nothing is marked. Wrapped once every package has set them.
+\AddToHook{begindocument/end}[relatex-equation-tags]{%
+  \ifdefined\maketag@@@
+    \let\ltd@maketag@@@\maketag@@@
+    \def\maketag@@@#1{\directlua{ltd.equation_tag(true)}\ltd@maketag@@@{#1}\directlua{ltd.equation_tag(false)}}%
+  \fi
+  \ifdefined\@eqnnum
+    \let\ltd@eqnnum\@eqnnum
+    \def\@eqnnum{\directlua{ltd.equation_tag(true)}\ltd@eqnnum\directlua{ltd.equation_tag(false)}}%
+  \fi
+  \ifdefined\eqref
+    \let\ltd@eqref\eqref
+    \protected\def\eqref#1{\directlua{ltd.equation_reference(true)}\ltd@eqref{#1}\directlua{ltd.equation_reference(false)}}%
+  \fi}
+% A run-in heading's deferred title (\@svsechd) is marked as the heading's own text.
+\def\ltd@runinwrap#1{%
+  \@ifundefined{@svsechd}{}{%
+    \edef\@svsechd{\noexpand\directlua{ltd.runin_begin(#1)}\unexpanded\expandafter{\@svsechd}%
+      \noexpand\directlua{ltd.runin_end()}}}}
+\AddToHook{env/theorem/begin}{\directlua{ltd.enter('theorem')}}
+\AddToHook{env/theorem/after}{\directlua{ltd.leave('theorem')}}
+% Proofs (plans/proof-marks.md, phase 1): `proof` and, from \begin{document}, every environment whose name
+% says proof; a wrapper around `proof` is one proof (ltd.proof_begin).
+\AddToHook{env/proof/begin}{\directlua{ltd.proof_begin()}}
+\AddToHook{env/proof/end}{\directlua{ltd.flow.proof_ending(true)}}
+\AddToHook{env/proof/after}{\directlua{ltd.proof_end()}}
+\AddToHook{begindocument/end}{\directlua{ltd.proof_environments()}}
+\RequirePackage{relatex-theorems}
+\def\ltd@labelhook#1{%
+  \AddToHookWithArguments{cmd/#1/before}[relatex-label]{%
+    \ltd@unlesscaptionplaceholder{%
+    % Expand as \protected@edef does: a robust \protect\rm in \@currentlabel (jaa's
+    % {\protect\rm {1.}1}) stays a command name instead of executing font code.
+    \begingroup\let\protect\noexpand
+    \directlua{ltd.label('\luaescapestring{##1}', '\luaescapestring{\@currentlabel}',
+      '\luaescapestring{\@currentcounter}', '\luaescapestring{\@currentHref}',
+      '\luaescapestring{\@currenvir}', \ifcsname row@\endcsname\number\row@\else 0\fi)}%
+    \endgroup}}}
+\ltd@labelhook{label}
+% cleveref replaces \label at begin-document with an argument-free dispatcher that calls
+% the saved one-argument original (\cref@old@label); a #1 hook on the dispatcher would
+% stop the paper. Before the command hooks are installed, move the observer there.
+\ExplSyntaxOn
+% With caption, a \label before \caption has no number: \@currentlabel is the
+% placeholder \caption@xref (unsafe to expand) and the ordinary PDF prints "??".
+% Record no label; references to it stay unresolved.
+\cs_new_protected:Npn \ltd@unlesscaptionplaceholder #1
+  { \tl_if_in:NnF \@currentlabel { \caption@xref } {#1} }
+\cs_new:Npn \__ltd_one_argument:n #1
+  { \bool_lazy_and_p:nn { \cs_if_exist_p:c {#1} } { \str_if_eq_p:ee { \exp_args:Nc \cs_argument_spec:N {#1} } { \c_hash_str 1 } } }
+\AddToHook{begindocument}
+  {
+    \bool_if:nF { \__ltd_one_argument:n {label} }
+      {
+        \RemoveFromHook {cmd/label/before} [relatex-label]
+        \bool_if:nT { \__ltd_one_argument:n {cref@old@label} } { \ltd@labelhook {cref@old@label} }
+      }
+  }
+\ExplSyntaxOff
+\AddToHookWithArguments{luamml/converted}{%
+  \directlua{ltd.math('\luaescapestring{#1}')}}
+% The page's printed number is \thepage as the page ships, the value \label writes for \pageref
+% (expanded as \protected@write expands it); reading it adds nothing to the page.
+\AddToHook{shipout/before}{\protected@edef\ltd@thepage{\thepage}%
+  \directlua{ltd.shipout(tex.box['ShipoutBox'], '\luaescapestring{\unexpanded\expandafter{\ltd@thepage}}')}%
+  \ltd@textblocks}
+% textpos's absolute textblocks of this page, painted at the foreground or background hook (relatex.lua,
+% M.textblock); relative textpos, discarded content and a page without textblocks read nothing.
+% The test of \ifTP@displayholdbox sits in its own macro: skipped while textpos is not loaded, an undefined
+% \if... would not count as a conditional and unbalance the \fi.
+\def\ltd@textblocks{\ifdefined\TP@holdbox\expandafter\ltd@textblocks@\fi}
+\def\ltd@textblocks@{\ifTP@displayholdbox\ifvoid\TP@holdbox\else
+  \directlua{ltd.textblock(\number\TP@holdbox)}\fi\fi}
+% The stream ends with the run, not at enddocument/end: TeX's own \end can still ship
+% a last page with material left on the page (revtex, two-column endings).
+\directlua{luatexbase.add_to_callback('stop_run', function() ltd.finish() end, 'relatex.finish')}
+% An output routine can run while the next display's attributes are active.
+% Existing page boxes keep their node attributes; freshly built headers and
+% footers must not inherit that display's formula identity.
+\AddToHook{cmd/@outputpage/before}[relatex-page-math]{%
+  \directlua{if ltd then ltd.page_begin() end}}
+\AddToHook{cmd/@outputpage/after}[relatex-page-math]{%
+  \directlua{if ltd then ltd.page_end() end}}
+% lineno's margin numbers are page decoration, like a folio: each is set by \makeLineNumber in a
+% zero-width box beside its line, by the output routine (\MakeLineNo) or after an
+% \internallinenumbers paragraph (\makeinternalLinenumbers), outside \@outputpage, so their glyphs
+% read as the line's text (papers4/1081: an alltt listing's code lines ended in "1", " 2", ...).
+% \makeLineNumber is re-\let by \linenumbers, \pagewiselinenumbers and the like, so the two call
+% sites are wrapped instead. A listing's own numbers (listings numbers=left) are not lineno's.
+\ExplSyntaxOn
+\cs_new_protected:Npn \ltd@lineno@number
+  { \directlua{ltd.page_begin()} \makeLineNumber \directlua{ltd.page_end()} }
+\cs_new_protected:Npn \__ltd_lineno_wrap:N #1
+  {
+    \cs_if_exist:NT #1
+      {
+        \tl_set:No \l_tmpa_tl {#1}
+        \regex_replace_all:nnN { \c{makeLineNumber} } { \c{ltd@lineno@number} } \l_tmpa_tl
+        \cs_set_nopar:Npe #1 { \exp_not:V \l_tmpa_tl }
+      }
+  }
+\@ifpackageloaded{lineno}
+  { \__ltd_lineno_wrap:N \MakeLineNo \__ltd_lineno_wrap:N \makeinternalLinenumbers }
+  {}
+\ExplSyntaxOff
+% Document language (decision 080): babel's switches (\selectlanguage, \foreignlanguage,
+% otherlanguage, otherlanguage*) run its afterextras hook; polyglossia's (also \textlang and
+% \text<language>) run \polyglossia@language@switched. Each marks the following glyphs with the
+% language now current. The language current once \begin{document} is complete (after
+% polyglossia selects its default language there) is the document's.
+\newcommand\ltd@language@sync{%
+  \ifdefined\languagename
+    \directlua{if ltd.flow then ltd.flow.language_sync('\luaescapestring{\languagename}') end}%
+  \fi}
+% The collector loads at begindocument/before, after both packages.
+\@ifpackageloaded{babel}{\ifdefined\AddBabelHook\AddBabelHook{relatex}{afterextras}{\ltd@language@sync}\fi}{}
+\@ifpackageloaded{polyglossia}{\g@addto@macro\polyglossia@language@switched{\ltd@language@sync}}{}
+\newcommand\ltd@language@main{%
+  \@ifpackageloaded{polyglossia}{\def\ltd@language@source{polyglossia}}
+    {\@ifpackageloaded{babel}{\def\ltd@language@source{babel}}{\def\ltd@language@source{none}}}%
+  \ifdefined\languagename\let\ltd@language@name\languagename\else\let\ltd@language@name\@empty\fi
+  \ifx\@classoptionslist\relax\let\ltd@language@options\@empty\else\let\ltd@language@options\@classoptionslist\fi
+  % \DocumentMetadata{lang=…} (decision 096): the tagging project's document/lang property.
+  \ifdefined\GetDocumentProperties\edef\ltd@language@metadata{\GetDocumentProperties{document/lang}}%
+  \else\let\ltd@language@metadata\@empty\fi
+  \directlua{if ltd.flow then ltd.flow.language_main('\luaescapestring{\ltd@language@name}',
+    '\ltd@language@source', '\luaescapestring{\ltd@language@options}',
+    '\luaescapestring{\ltd@language@metadata}') end}}
+\AddToHook{begindocument/end}[relatex/language]{\ltd@language@main}
+\DeclareHookRule{begindocument/end}{relatex/language}{after}{relatex}
+\DeclareHookRule{begindocument/end}{relatex/language}{after}{polyglossia}
+\@ifclassloaded{acmart}{\RequirePackage{relatex-acm-artifacts}}{}
+\endinput

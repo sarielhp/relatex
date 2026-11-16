@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,mathtools}
+\DeclarePairedDelimiter{\absv}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\pceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter\pfloor{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\nrm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\fcomp}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\inner}{\langle}{\rangle}
+\DeclarePairedDelimiter{\gen}{\langle}{\rangle}
+\DeclarePairedDelimiterX{\ip}[2]{\langle}{\rangle}{#1, #2}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\card}[1]{\lvert #1\rvert}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\Pr}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\ket}[1]{| #1 \rangle}
+\newcommand{\bra}[1]{\langle #1 |}
+\newcommand{\braket}[2]{\langle #1 | #2 \rangle}
+\begin{document}
+Abs $\abs{x}$, $\abs{\frac{a}{b}} + \abs{y}$, $\absv{x}$, $\lvert y \rvert$, $\left| z \right|$, card $\card{S}$, norm $\norm{v}$,
+$\lVert w \rVert$, $\|u\|$, floor $\floor{x/2}$, $\lfloor t \rfloor$, ceil $\ceil{n/2}$, $\lceil s\rceil + 1$.
+Binom $\binom{n}{k}$ and $\tbinom{n}{2}$ and $\dbinom{m}{j}$ and $x = \binom{a+b}{c} y$.
+Derivative $\frac{d}{dx} f$, $\frac{dy}{dx}$, $\frac{\partial f}{\partial x}$, $\frac{\partial^2 u}{\partial t^2}$,
+$\frac{\partial^2 f}{\partial x \partial y}$, $\frac{\mathrm{d}^2 y}{\mathrm{d} x^2}$.
+Transpose $A^T$, $A^\top$, $\mathbf{M}^{\mathsf{T}}$, $B^{\mathrm{T}} C$; inverse $f^{-1}(y)$, $A^{-1}$, $\sin^{-1} x$.
+Mod $a \equiv b \pmod{m}$, $a \bmod m$. Factorial $n!$, $(n+1)!$, $n!!$. Big-O $O(n^2)$, $\mathcal{O}(n \log n)$.
+Probability $\Pr[X = 1]$, $\E[X]$, $\Prob(A)$, $\PP(B)$. Set $\{x \mid x > 0\}$, $\{ y : y < 1\}$.
+Interval $[a, b)$. Sum $\sum_{i=1}^n i$.
+Dirac: ket $\ket{\psi}$, bra $\bra{\phi}$, braket $\braket{\phi}{\psi}$, bra-operator-ket $\bra{\phi} A \ket{\psi}$,
+bare $|\psi\rangle$,
+Paired: $\absv*{\frac{a}{b}}$, $\absv[\big]{y}$, $\absv[\Bigg]{x} + \absv{z}$, $\pceil*{\frac{n}{2}}$, $\pfloor[\big]{x}$,
+$\pfloor{y}$, $\nrm{v}$, $\nrm*{\frac{u}{2}}$, $\nrm[\Big]{w}$, $\fcomp*{x}$, $\inner{u, v}$, $\inner*{\frac{x}{2}, y}$,
+$\inner[\big]{a, b}$, $\inner{u}$, $\gen{a, b}$, $\ip{u}{v}$, $\ip*{x}{y}$, $\absv*{x} + |y|$, a ket beside a bare bar $\ket{\psi} + |x|$, a ket beside an absolute value from its macro $\ket{\psi} + \abs{x}$.
+\end{document}

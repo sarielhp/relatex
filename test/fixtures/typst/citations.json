@@ -1,0 +1,535 @@
+{
+  "schema_version": "paper-0.2",
+  "profile": "paper-reading-diagnostic-v2",
+  "status": "diagnostic",
+  "qualified": false,
+  "identity": {
+    "id": "corpus",
+    "input_sha256": "2cfc23db38b45778ac98a792b21ef3d18b0fa3133f31a2f03a99fd1a65abacd4"
+  },
+  "root": "n-e725a870488886e52730d9a7c69baaf29ce2836ce70eac0be6fd395561418a79",
+  "nodes": {
+    "n-ea6ca1ff03639df3f48e20bb702a5e3da54f8350015afd004cf495a6dde8aacb": {
+      "id": "n-ea6ca1ff03639df3f48e20bb702a5e3da54f8350015afd004cf495a6dde8aacb",
+      "type": "section",
+      "children": [
+        "n-fb99068be236af4e20b2b99701f37d4e8ce3207ac859328640a5980df7a55dac",
+        "n-0d706407aea43c4629e0cd094d77cbaaea048f0bfc237dca3bccfbf347fdec49"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:1",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-5bb64a4e48911535745b418f2c3d558225f0f7d9d050ad90110548163647c0ea": {
+      "id": "n-5bb64a4e48911535745b418f2c3d558225f0f7d9d050ad90110548163647c0ea",
+      "type": "section",
+      "children": [
+        "n-bfd4556b4cc56c5a0cf83827c629feb4a0ee0a931e389146ea6cf3889e5565a1",
+        "n-9af98dd0ff8ebf50c4fd21e593615be7034a54788328378a9adc124e14b6817e",
+        "n-8ff09e07aae4a827c255d864b269b5a4ac231458f00dd3fa154c4ea2ce0cccc5",
+        "n-06dd535fb9479a6c8d987d022514f991157a9e74251cf2fa0b23ada8c99eaee2",
+        "n-60cec4e4b8cc60cb9b02c1d95aad40e6a247680c6d1d2caaad5e5677c8bc5165"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:3",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 3,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-e725a870488886e52730d9a7c69baaf29ce2836ce70eac0be6fd395561418a79": {
+      "id": "n-e725a870488886e52730d9a7c69baaf29ce2836ce70eac0be6fd395561418a79",
+      "type": "document",
+      "children": [
+        "n-ea6ca1ff03639df3f48e20bb702a5e3da54f8350015afd004cf495a6dde8aacb",
+        "n-5bb64a4e48911535745b418f2c3d558225f0f7d9d050ad90110548163647c0ea"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:0",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-fb99068be236af4e20b2b99701f37d4e8ce3207ac859328640a5980df7a55dac": {
+      "id": "n-fb99068be236af4e20b2b99701f37d4e8ce3207ac859328640a5980df7a55dac",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b1",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "1 Citations",
+          "style": {
+            "font_name": "LMRoman12-Bold",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "bx",
+            "source": "nfss-font-id",
+            "font_id": 17,
+            "shape": "n",
+            "size_sp": 943718
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-0d706407aea43c4629e0cd094d77cbaaea048f0bfc237dca3bccfbf347fdec49": {
+      "id": "n-0d706407aea43c4629e0cd094d77cbaaea048f0bfc237dca3bccfbf347fdec49",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b2",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "One",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": " [1]",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          },
+          "citation": 1
+        },
+        {
+          "type": "text",
+          "text": ", two",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": " [1, 2]",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          },
+          "citation": 2
+        },
+        {
+          "type": "text",
+          "text": ", a range",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": " [1–4]",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          },
+          "citation": 3
+        },
+        {
+          "type": "text",
+          "text": " and with a note",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          }
+        },
+        {
+          "type": "text",
+          "text": " [3, p. 3]",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          },
+          "citation": 4
+        },
+        {
+          "type": "text",
+          "text": ".",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          }
+        }
+      ]
+    },
+    "n-bfd4556b4cc56c5a0cf83827c629feb4a0ee0a931e389146ea6cf3889e5565a1": {
+      "id": "n-bfd4556b4cc56c5a0cf83827c629feb4a0ee0a931e389146ea6cf3889e5565a1",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b3",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "References",
+          "style": {
+            "font_name": "LMRoman12-Bold",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "bx",
+            "source": "nfss-font-id",
+            "font_id": 17,
+            "shape": "n",
+            "size_sp": 943718
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 3,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-9af98dd0ff8ebf50c4fd21e593615be7034a54788328378a9adc124e14b6817e": {
+      "id": "n-9af98dd0ff8ebf50c4fd21e593615be7034a54788328378a9adc124e14b6817e",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b4",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "[1] A. Alpha, The first paper, 2001.",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          },
+          "bibliography_entry": 1
+        }
+      ]
+    },
+    "n-8ff09e07aae4a827c255d864b269b5a4ac231458f00dd3fa154c4ea2ce0cccc5": {
+      "id": "n-8ff09e07aae4a827c255d864b269b5a4ac231458f00dd3fa154c4ea2ce0cccc5",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b5",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "[2] B. Beta, The second paper, 2002.",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          },
+          "bibliography_entry": 2
+        }
+      ]
+    },
+    "n-06dd535fb9479a6c8d987d022514f991157a9e74251cf2fa0b23ada8c99eaee2": {
+      "id": "n-06dd535fb9479a6c8d987d022514f991157a9e74251cf2fa0b23ada8c99eaee2",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b6",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "[3] C. Gamma, The third paper, 2003.",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          },
+          "bibliography_entry": 3
+        }
+      ]
+    },
+    "n-60cec4e4b8cc60cb9b02c1d95aad40e6a247680c6d1d2caaad5e5677c8bc5165": {
+      "id": "n-60cec4e4b8cc60cb9b02c1d95aad40e6a247680c6d1d2caaad5e5677c8bc5165",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b7",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "[4] D. Delta, The fourth paper, 2004.",
+          "style": {
+            "font_name": "LMRoman10-Regular",
+            "family": "lmr",
+            "generic": "serif",
+            "encoding": "TU",
+            "series": "m",
+            "source": "nfss-font-id",
+            "font_id": 15,
+            "shape": "n",
+            "size_sp": 655360
+          },
+          "bibliography_entry": 4
+        }
+      ]
+    }
+  },
+  "main_block_order": [
+    "n-fb99068be236af4e20b2b99701f37d4e8ce3207ac859328640a5980df7a55dac",
+    "n-0d706407aea43c4629e0cd094d77cbaaea048f0bfc237dca3bccfbf347fdec49",
+    "n-bfd4556b4cc56c5a0cf83827c629feb4a0ee0a931e389146ea6cf3889e5565a1",
+    "n-9af98dd0ff8ebf50c4fd21e593615be7034a54788328378a9adc124e14b6817e",
+    "n-8ff09e07aae4a827c255d864b269b5a4ac231458f00dd3fa154c4ea2ce0cccc5",
+    "n-06dd535fb9479a6c8d987d022514f991157a9e74251cf2fa0b23ada8c99eaee2",
+    "n-60cec4e4b8cc60cb9b02c1d95aad40e6a247680c6d1d2caaad5e5677c8bc5165"
+  ],
+  "note_order": [
+
+  ],
+  "block_order": [
+    "n-fb99068be236af4e20b2b99701f37d4e8ce3207ac859328640a5980df7a55dac",
+    "n-0d706407aea43c4629e0cd094d77cbaaea048f0bfc237dca3bccfbf347fdec49",
+    "n-bfd4556b4cc56c5a0cf83827c629feb4a0ee0a931e389146ea6cf3889e5565a1",
+    "n-9af98dd0ff8ebf50c4fd21e593615be7034a54788328378a9adc124e14b6817e",
+    "n-8ff09e07aae4a827c255d864b269b5a4ac231458f00dd3fa154c4ea2ce0cccc5",
+    "n-06dd535fb9479a6c8d987d022514f991157a9e74251cf2fa0b23ada8c99eaee2",
+    "n-60cec4e4b8cc60cb9b02c1d95aad40e6a247680c6d1d2caaad5e5677c8bc5165"
+  ],
+  "labels": {
+  },
+  "metadata": {
+    "status": "unavailable"
+  },
+  "assets": {
+    "status": "unverified"
+  },
+  "unverified_requirements": [
+    "ordinary_fidelity",
+    "independent_content",
+    "independent_math",
+    "metadata",
+    "assets",
+    "typed_lists",
+    "citations",
+    "text_style"
+  ],
+  "citations": {
+    "status": "projected",
+    "qualified": false,
+    "entries": [
+      {
+        "id": 1,
+        "key": "alpha",
+        "number": "1",
+        "blocks": [
+          "n-9af98dd0ff8ebf50c4fd21e593615be7034a54788328378a9adc124e14b6817e"
+        ]
+      },
+      {
+        "id": 2,
+        "key": "beta",
+        "number": "2",
+        "blocks": [
+          "n-8ff09e07aae4a827c255d864b269b5a4ac231458f00dd3fa154c4ea2ce0cccc5"
+        ]
+      },
+      {
+        "id": 3,
+        "key": "gamma",
+        "number": "3",
+        "blocks": [
+          "n-06dd535fb9479a6c8d987d022514f991157a9e74251cf2fa0b23ada8c99eaee2"
+        ]
+      },
+      {
+        "id": 4,
+        "key": "delta",
+        "number": "4",
+        "blocks": [
+          "n-60cec4e4b8cc60cb9b02c1d95aad40e6a247680c6d1d2caaad5e5677c8bc5165"
+        ]
+      }
+    ],
+    "calls": [
+      {
+        "id": 1,
+        "keys": [
+          "alpha"
+        ],
+        "targets": [
+          1
+        ]
+      },
+      {
+        "id": 2,
+        "keys": [
+          "alpha",
+          "beta"
+        ],
+        "targets": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": 3,
+        "keys": [
+          "alpha",
+          "beta",
+          "gamma",
+          "delta"
+        ],
+        "targets": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "id": 4,
+        "keys": [
+          "gamma"
+        ],
+        "targets": [
+          3
+        ]
+      }
+    ],
+    "links": [
+
+    ]
+  },
+  "external_links": {
+    "schema_version": "external-links-1",
+    "items": {
+    }
+  }
+}

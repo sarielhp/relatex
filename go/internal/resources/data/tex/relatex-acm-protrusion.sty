@@ -1,0 +1,62 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-acm-protrusion}{2026/10/15}{0.1.0}{Observed ACM protrusion compatibility}
+% The native number-box destination prevents automatic margin protrusion.
+% Keep that destination and the original box width, deriving the ordinary kern
+% only for its known zero-extent prefix and the live selected number font.
+\cs_if_exist:NT \MT@get@prot
+  {\cs_set_protected:Npn \__ltd_profile_protrusion:
+    {\int_compare:nNnT {\protrudechars}>{0}
+      {\directlua{require('relatex-protrusion').heading(tex.box['@tempboxa'])}}}}
+% The pinned microtype item patch targets legacy @item; native lists use the
+% parsed item handler instead. Preserve its entire known body and append the
+% same first-body-glyph operation only when that microtype patch is active.
+\cs_new_protected:Npn \__ltd_acm_expected_item:n #1
+  {\@inmatherr\item
+   \cs_if_free:NTF \__block_item_instance:n
+     {\@latex@error{Lonely~\string\item--perhaps~a~missing~list~environment}\@ehc}
+     {\if@endpe\par\fi
+      \legacy_if:nTF{@newlist}
+        {\__kernel_list_item_begin:\hook_use:n{item/before}\legacy_if_gset_false:n{@newlist}}
+        {\__block_inter_item:}
+      \tl_if_novalue:nTF{#1}{\__block_item_instance:n{}}{\__block_item_instance:n{#1}}
+      \bool_if:NTF\g__block_label_standalone_bool
+        {\bool_gset_false:N\g__block_label_standalone_bool
+         \leavevmode\box_use_drop:N\g__block_labels_box\par\legacy_if_gset_true:n{@nobreak}}
+        {\legacy_if_gset_true:n{@inlabel}}
+      \ignorespaces}}
+\cs_new_protected:Npn \__ltd_acm_item:n #1
+  {\__ltd_acm_expected_item:n{#1}\leftprotrusion}
+% LaTeX 2026-11-01 passes a blank optional label on as label={}.
+\cs_new_protected:Npn \__ltd_acm_expected_current_item:n #1
+  {\@inmatherr\item
+   \cs_if_free:NTF \__block_item_instance:n
+     {\@latex@error{Lonely~\string\item--perhaps~a~missing~list~environment}\@ehc}
+     {\if@endpe\par\fi
+      \legacy_if:nTF{@newlist}
+        {\__kernel_list_item_begin:\hook_use:n{item/before}\legacy_if_gset_false:n{@newlist}}
+        {\__block_inter_item:}
+      \tl_if_novalue:nTF{#1}{\__block_item_instance:n{}}
+        {\tl_if_blank:nTF{#1}{\__block_item_instance:n{label={}}}{\__block_item_instance:n{#1}}}
+      \bool_if:NTF\g__block_label_standalone_bool
+        {\bool_gset_false:N\g__block_label_standalone_bool
+         \leavevmode\box_use_drop:N\g__block_labels_box\par\legacy_if_gset_true:n{@nobreak}}
+        {\legacy_if_gset_true:n{@inlabel}}
+      \ignorespaces}}
+\cs_new_protected:Npn \__ltd_acm_current_item:n #1
+  {\__ltd_acm_expected_current_item:n{#1}\leftprotrusion}
+\cs_new_protected:Npn \__ltd_acm_install_item:
+  {\cs_if_eq:cNTF{item~code}\__ltd_acm_expected_item:n
+    {\cs_gset_eq:cN{item~code}\__ltd_acm_item:n}
+    {\cs_if_eq:cNT{item~code}\__ltd_acm_expected_current_item:n
+      {\cs_gset_eq:cN{item~code}\__ltd_acm_current_item:n}}}
+\AddToHook{begindocument/end}[relatex-acm-item-protrusion]
+  {\cs_if_exist:NT\MT@patches@applied
+    {\cs_if_eq:NNF\MT@patches@applied\@gobble
+      {\clist_if_in:NnT\MT@patches@applied{item}
+        {\__ltd_acm_install_item:}}}}
+\endinput
+

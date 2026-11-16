@@ -1,0 +1,162 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-amsmath}[2026/10/14 v0.1.0 guarded AMS measurements and legacy operators]
+% Opt-in adaptation of the pinned AMS accent implementation. Only boxes used
+% for measuring accent depth/skew are trials; visible math keeps its attributes.
+\def\ltd@expectedaccent#1#2#3#4#5{%
+  \ifmmode
+    \gdef\macc@tmp{\macc@depth\@ne}%
+    \setbox\z@\hbox{%
+      \let\mathaccentV\macc@test
+      \let\use@mathgroup\@gobbletwo \let\select@group\@gobblethree
+      \frozen@everymath{}$#5$%
+    }%
+    \macc@tmp
+    \ifnum\macc@depth=\@ne
+      \global\let\macc@nucleus\@empty
+      \mathaccent"\accentclass@
+    \else
+      \@xp\macc@nested
+    \fi
+    #2#3#4{#5}%
+    \macc@nucleus
+  \else
+    \@xp\nonmatherr@\csname#1\endcsname
+  \fi
+}
+\def\ltd@expectednestedaccent#1#2{%
+  \begingroup
+  \let\macc@style#1\relax
+  \def\macc@palette##1{##1\macc@style}%
+  \advance\macc@depth\m@ne
+  \ifnum\macc@depth=\z@
+    \gdef\macc@nucleus{#2}%
+    \setbox\z@\hbox{$#1#2\@empty{}\macc@skewchar$}%
+    \setbox\tw@\hbox{$#1#2\@empty\macc@skewchar$}%
+    \dimen@\tw@\wd\tw@ \advance\dimen@-\tw@\wd\z@
+    \xdef\macc@kerna{\the\dimen@\relax}%
+    \setbox4\hbox{$#1#2\acc@check\@empty$}%
+    \global\setbox\@ne\hbox to\wd4{}%
+    \ht\@ne\ht4 \dp\@ne\dp4
+    \xdef\macc@kernb{\the\wd4\relax}%
+    \mathaccent\macc@code{\box\@ne\kern\macc@kerna}%
+  \else
+    \mathaccent\macc@code{\let\macc@adjust\@empty #1#2\@empty}%
+    \macc@adjust
+  \fi
+  \endgroup
+}
+\def\ltd@accenttrial{%
+  \let\ifmeasuring@\iftrue
+  \ifcsname luamml_flag_ignore:\endcsname
+    \csname luamml_flag_ignore:\endcsname
+  \fi}
+\def\ltd@expectedmeasure#1#2#3{\setbox#1\hbox{%
+  \m@th$#2#3$}}
+\def\ltd@measure#1#2#3{\setbox#1\hbox{%
+  \ltd@accenttrial\m@th$#2#3$}}
+\def\ltd@widthtrial#1#2#3{%
+  \let\@mathmeasure\ltd@expectedmeasure
+  \ltd@measure#1{#2}{#3}}
+\def\ltd@installwide{%
+  \ifcsname symAMSb\endcsname
+    \edef\ltd@expectedwidehat##1{\noexpand\@mathmeasure\z@\textstyle{##1}%
+      \noexpand\ifdim\noexpand\wd\z@>\tw@ em%
+      \mathaccent"0\hexnumber@\symAMSb 5B{##1}%
+      \noexpand\else\mathaccent"0362{##1}\noexpand\fi}%
+    \edef\ltd@expectedwidetilde##1{\noexpand\@mathmeasure\z@\textstyle{##1}%
+      \noexpand\ifdim\noexpand\wd\z@>\tw@ em%
+      \mathaccent"0\hexnumber@\symAMSb 5D{##1}%
+      \noexpand\else\mathaccent"0365{##1}\noexpand\fi}%
+    \ifx\widehat\ltd@expectedwidehat
+      \ifx\widetilde\ltd@expectedwidetilde
+        \let\ltd@originalwidehat\widehat
+        \let\ltd@originalwidetilde\widetilde
+        \def\widehat##1{\begingroup\let\@mathmeasure\ltd@widthtrial
+          \ltd@originalwidehat{##1}\endgroup}%
+        \def\widetilde##1{\begingroup\let\@mathmeasure\ltd@widthtrial
+          \ltd@originalwidetilde{##1}\endgroup}%
+      \else
+        \PackageError{relatex-amsmath}{Unsupported AMS widetilde definition}{Use pinned AMS fonts.}%
+      \fi
+    \else
+      \PackageError{relatex-amsmath}{Unsupported AMS widehat definition}{Use pinned AMS fonts.}%
+    \fi
+  \fi}
+\def\ltd@accent#1#2#3#4#5{%
+  \ifmmode
+    \gdef\macc@tmp{\macc@depth\@ne}%
+    \setbox\z@\hbox{%
+      \let\mathaccentV\macc@test
+      \let\use@mathgroup\@gobbletwo \let\select@group\@gobblethree
+      \ltd@accenttrial
+      \frozen@everymath{}$#5$%
+    }%
+    \macc@tmp
+    \ifnum\macc@depth=\@ne
+      \global\let\macc@nucleus\@empty
+      \mathaccent"\accentclass@
+    \else
+      \@xp\macc@nested
+    \fi
+    #2#3#4{#5}%
+    \macc@nucleus
+  \else
+    \@xp\nonmatherr@\csname#1\endcsname
+  \fi
+}
+\def\ltd@nestedaccent#1#2{%
+  \begingroup
+  \let\macc@style#1\relax
+  \def\macc@palette##1{##1\macc@style}%
+  \advance\macc@depth\m@ne
+  \ifnum\macc@depth=\z@
+    \gdef\macc@nucleus{#2}%
+    \setbox\z@\hbox{\ltd@accenttrial$#1#2\@empty{}\macc@skewchar$}%
+    \setbox\tw@\hbox{\ltd@accenttrial$#1#2\@empty\macc@skewchar$}%
+    \dimen@\tw@\wd\tw@ \advance\dimen@-\tw@\wd\z@
+    \xdef\macc@kerna{\the\dimen@\relax}%
+    \setbox4\hbox{\ltd@accenttrial$#1#2\acc@check\@empty$}%
+    \global\setbox\@ne\hbox to\wd4{}%
+    \ht\@ne\ht4 \dp\@ne\dp4
+    \xdef\macc@kernb{\the\wd4\relax}%
+    \mathaccent\macc@code{\box\@ne\kern\macc@kerna}%
+  \else
+    \mathaccent\macc@code{\let\macc@adjust\@empty #1#2\@empty}%
+    \macc@adjust
+  \fi
+  \endgroup
+}
+\AddToHook{begindocument/before}[relatex-amsmath]{%
+  \ifx\mathaccentV\ltd@expectedaccent
+    \ifx\macc@a\ltd@expectednestedaccent
+      \let\mathaccentV\ltd@accent
+      \let\macc@a\ltd@nestedaccent
+      \ifx\@mathmeasure\ltd@expectedmeasure
+        \ltd@installwide
+      \else
+        \PackageError{relatex-amsmath}{Unsupported AMS measurement definition}%
+          {Use the pinned AMS math implementation.}%
+      \fi
+    \else
+      \PackageError{relatex-amsmath}{Unsupported AMS nested accent definition}%
+        {Use the pinned AMS math implementation.}%
+    \fi
+  \else
+    \PackageError{relatex-amsmath}{Unsupported AMS accent definition}%
+      {Use the pinned AMS math implementation.}%
+  \fi}
+% latex-lab installs its OML/OMS mappings during begin-document setup. Add the
+% missing OMX mapping afterwards; Unicode slots beyond the table stay intact.
+\AddToHook{begindocument/end}[relatex-legacy-operators]{%
+  \directlua{if ltd and ltd.math_bridge then ltd.math_bridge.enable_choices() end}%
+  \@ifundefined{RegisterFamilyMapping}{}{%
+    \@ifundefined{symlargesymbols}{}{\RegisterFamilyMapping\symlargesymbols{omx}}%
+    \@ifundefined{symoperators}{}{%
+      \directlua{require('relatex-amsmath').legacy_operators(\number\symoperators)}}%
+    \@ifundefined{symAMSb}{}{%
+      \directlua{require('relatex-amsmath').blackboard_letters(\number\symAMSb)}}}}
+\endinput

@@ -1,0 +1,105 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-profile}{2026/10/13}{0.1.0}{Pinned M1 PDF fidelity profile}
+% The block template suppresses a theorem's extra space by assigning partopsep.
+% Preserve the caller's value for the body and nested proofs, after the template
+% has computed this environment's effective top and bottom skips.
+\skip_new:N \l__ltd_profile_partopsep_skip
+\AddToHook{cmd/ParseLaTeXeTheoremlike/before}[relatex-inherit]
+  {\skip_set_eq:NN \l__ltd_profile_partopsep_skip \partopsep}
+\AddToHook{cmd/ParseLaTeXeTheoremlike/after}[relatex-inherit]
+  {\skip_set_eq:NN \partopsep \l__ltd_profile_partopsep_skip}
+
+% Adapt the pinned sec/title/hang plug: one heading MC span includes the number.
+% Splitting number and title into separate BT/ET runs changes Poppler's spacing.
+% Keep the same box, indentation, paragraph bookkeeping, and heading structure.
+% This deliberately omits the PDF's separate section-number child structure;
+% the independent collector still records the engine's label and number.
+\cs_new_protected:Npn \__ltd_profile_protrusion: {}
+\cs_new_protected:Npn \__ltd_profile_heading:nNnn #1 #2 #3 #4
+  {
+    \pdf_purify:nN {#4} \l__tag_sec_tmpa_tl
+    \tag_struct_begin:n
+      {tag=\UseStructureName{sec/#1/title},title-o={\l__tag_sec_tmpa_tl}}
+    \__tag_gincr_para_begin_int:
+    \setbox\@tempboxa\hbox{{#3}}
+    \bool_set_false:N \l__tag_para_bool
+    \hangindent\wd\@tempboxa\noindent
+    \bool_set_true:N \l__tag_para_bool
+    \tag_mc_begin:n {}
+    \tag_mc_reset_box:N \@tempboxa
+    \__ltd_profile_protrusion:
+    \box\@tempboxa
+  }
+\NewTaggingSocketPlug{sec/title/hang}{relatex}
+  {\__ltd_profile_heading:nNnn #1}
+\AssignTaggingSocketPlug{sec/title/hang}{relatex}
+
+% LaTeX 2026-11-01 no longer uses that socket. Its hang layout sets the number
+% in \@tempboxa, over the left margin of a parshape, and the title after it,
+% each in its own MC; numbers (heading and theorem) are child structures; and
+% each run of separators ends with \pdffakespace. Keep the same PDF as above:
+% one MC for the number box and the title, no number child structures, and no
+% fake spaces the untagged document lacks. The collector still records the
+% engine's label and number.
+\tl_new:N \l__ltd_profile_format_tl
+\tl_new:N \l__ltd_profile_template_tl
+\cs_new_protected:Npn \__ltd_profile_hang_format:n #1
+  {\tag_mc_begin:n {}
+   \tag_mc_reset_box:N \@tempboxa
+   \__ltd_profile_protrusion:
+   #1
+   \tag_mc_end:}
+% Only an untouched (identity) heading format of a hang heading is replaced.
+\cs_new_protected:Npn \__ltd_profile_heading_instance:n #1
+  {\prop_get:cnNT {\c__template_values_root_tl heading/#1}{headformat-instance}\l__ltd_profile_format_tl
+    {\prop_get:cnNT {\c__template_values_root_tl headformat/\l__ltd_profile_format_tl}{from~template}
+       \l__ltd_profile_template_tl
+      {\str_if_eq:VnT \l__ltd_profile_template_tl {hang}
+        {\prop_get:cnNT {\c__template_values_root_tl heading/#1}{heading-format}\l__ltd_profile_format_tl
+          {\tl_if_eq:NnT \l__ltd_profile_format_tl {##1}
+            {\EditInstance{heading}{#1}{heading-format=\__ltd_profile_hang_format:n{##1}}}}}}}}
+\cs_new_protected:Npn \__ltd_profile_order:nnn #1#2#3
+  {\str_case:nn {#1}
+     {{head}{\tl_clear:N \l__head_number_tag_tl}
+      {block}{\tl_clear:N \l__block_number_tag_tl}}
+   \__ltd_profile_kernel_order:nnn {#1}{#2}{#3}}
+\cs_new:Npn \__ltd_profile_expected_separators:
+  {\tl_if_empty:NF \g__template_collected_separators_tl
+     {\__template_debug_typeout:n {\@spaces using~ collected~ separator~ data }
+      \__template_open_mc_if_necessary:n {\@spaces opening~ mc~ for~ separator }
+      \g__template_collected_separators_tl
+      \mode_if_horizontal:T \pdffakespace
+      \tl_gclear:N \g__template_collected_separators_tl}}
+\cs_new:Npn \__ltd_profile_separators:
+  {\tl_if_empty:NF \g__template_collected_separators_tl
+     {\__template_debug_typeout:n {\@spaces using~ collected~ separator~ data }
+      \__template_open_mc_if_necessary:n {\@spaces opening~ mc~ for~ separator }
+      \g__template_collected_separators_tl
+      \tl_gclear:N \g__template_collected_separators_tl}}
+\cs_if_exist:NT \template_process_order_clist:nnn
+  {\cs_if_eq:NNTF \__template_insert_collected_separators: \__ltd_profile_expected_separators:
+     {\cs_set_eq:NN \__template_insert_collected_separators: \__ltd_profile_separators:}
+     {\PackageError{relatex-profile}{Unsupported~native~separator~code}
+       {Use~the~pinned~native~definition.}}
+   \cs_new_eq:NN \__ltd_profile_kernel_order:nnn \template_process_order_clist:nnn
+   \cs_set_eq:NN \template_process_order_clist:nnn \__ltd_profile_order:nnn}
+\cs_if_exist:NT \ParseLaTeXeHeading
+  {\AddToHookWithArguments{cmd/ParseLaTeXeHeading/before}[relatex-profile]
+     {\__ltd_profile_heading_instance:n {#1}}}
+% LaTeX 2026-11-01 also ends the remark style's title with an italic
+% correction (#1\/), which amsthm's remark style and the kernel before do not
+% set. Restore only that exact default; preamble choices keep precedence.
+\cs_new_protected:Npn \__ltd_profile_remark_title:n #1
+  {\prop_if_exist:cT {\c__template_values_root_tl thmstyle/#1}
+    {\prop_get:cnNT {\c__template_values_root_tl thmstyle/#1}{title-format}\l__ltd_profile_format_tl
+      {\tl_if_eq:NnT \l__ltd_profile_format_tl {##1\/}
+        {\EditInstance{thmstyle}{#1}{title-format=##1}}}}}
+\cs_if_exist:NT \ParseLaTeXeTheoremlike
+  {\__ltd_profile_remark_title:n {remark}
+   \__ltd_profile_remark_title:n {remark-swap}}
+\@ifclassloaded{acmart}{\RequirePackage{relatex-acm-protrusion}}{}
+\endinput

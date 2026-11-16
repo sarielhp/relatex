@@ -1,0 +1,85 @@
+{
+  "papers": 100,
+  "errors": {
+  },
+  "all": {
+    "formulas": 54909,
+    "located": 0.9681,
+    "verified": 0.9445
+  },
+  "inline": {
+    "formulas": 49477,
+    "located": 0.9678,
+    "verified": 0.9499
+  },
+  "display": {
+    "formulas": 5432,
+    "located": 0.9711,
+    "verified": 0.8954
+  },
+  "reasons": {
+    "math.source_unlocated": 1387,
+    "math.source_differs": 1293,
+    "math.source_rows_differ": 338,
+    "math.source_missing": 14,
+    "math.source_outside_paper": 13
+  },
+  "markdown": {
+    "author_tex": 46070,
+    "written": 47773,
+    "unconverted": 65,
+    "pandoc_mismatch": {
+    }
+  },
+  "labels": {
+    "checked": 1105,
+    "disagreeing": 4
+  },
+  "katex_filtered": {
+    "textsc": 754,
+    "mathbbm": 115,
+    "Tilde": 62,
+    "eqno": 60,
+    "mbox": 48,
+    "mathds": 35,
+    "Bar": 10,
+    "centering": 8,
+    "k": 6,
+    "upmu": 5,
+    "qedhere": 4,
+    "vspace": 4,
+    "n": 2,
+    "sp": 2,
+    "sb": 2,
+    "e": 2,
+    "E": 1,
+    "y": 1,
+    "hfill": 1,
+    "X": 1,
+    "ac": 1,
+    "ensuremath": 1,
+    "Vec": 1
+  },
+  "lowest_verified": {
+    "0030": 0.0,
+    "0014": 0.0588,
+    "0203": 0.4789,
+    "0134": 0.4831,
+    "0122": 0.542,
+    "0211": 0.5517,
+    "0017": 0.5833,
+    "0052": 0.6552,
+    "0166": 0.6587,
+    "0069": 0.6629
+  },
+  "reverify": {
+    "formulas": 51864,
+    "failed": 0,
+    "seconds": 891.4,
+    "run_seconds": 4678.0,
+    "worst_ratio": [
+      "0046",
+      2.503
+    ]
+  }
+}

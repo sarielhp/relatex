@@ -1,0 +1,135 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "children",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "inspection_key",
+        "source_hint"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "inspection_key": {
+          "type": "string"
+        },
+        "source_hint": {
+          "const": "unavailable"
+        }
+      }
+    },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "mathml": {
+      "type": "string"
+    },
+    "tex": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "unavailable"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "form": {
+          "enum": [
+            "inline",
+            "display",
+            "environment"
+          ]
+        },
+        "environment": {
+          "type": "string"
+        },
+        "row": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "group": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "difference": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "formula_tex": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "environment": {
+          "enum": [
+            "align*",
+            "gather*",
+            "flalign*",
+            "multline*",
+            "alignat*",
+            "eqnarray*"
+          ]
+        }
+      }
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "mathml_path": {
+      "type": "string"
+    },
+    "tag": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "const": null
+        }
+      ]
+    }
+  }
+}

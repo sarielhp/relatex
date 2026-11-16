@@ -1,0 +1,59 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-index}[2026/10/30 Index entries and the typeset index (decision 084)]
+% Observation only: the hooks emit records and set attributes, never nodes or ink.
+\directlua{ltd.index = require('relatex-index')}
+% Where an \index entry is written: the kernel's and makeidx's \@wrindex{key} (hyperref keeps
+% its signature), memoir's \@wrindexm@m{key} (its \@idxfile names the index) and imakeidx's
+% \@wrindex{index}{key}. Each runs inside the \index group, so the issue
+% attribute the write node takes ends with it.
+% The key as the entry writes it: \protected@write expands it with \thepage left alone (amsldoc's
+% \cn{above} is written \verb*+\above+). The issue attribute is set outside the expansion's group.
+\def\ltd@index@issue#1#2{%
+  \begingroup\let\thepage\relax\protected@edef\ltd@index@key{#1}%
+  \directlua{ltd.index.key('\luaescapestring{\detokenize\expandafter{\ltd@index@key}}')}\endgroup
+  \directlua{ltd.index.issue('\luaescapestring{#2}')}}
+\ExplSyntaxOn
+\cs_new:Npn \__ltd_index_signature:nn #1#2
+  { \bool_lazy_and_p:nn { \cs_if_exist_p:c {#1} } { \str_if_eq_p:ee { \exp_args:Nc \cs_argument_spec:N {#1} } {#2} } }
+\cs_new_protected:Npn \__ltd_index_install:
+  {
+    \bool_if:nT { \__ltd_index_signature:nn {@wrindex} { \c_hash_str 1 } }
+      {
+        \AddToHookWithArguments{cmd/@wrindex/before}[relatex-index]
+          { \ltd@index@issue{##1}{} }
+      }
+    % imakeidx lets \@wrindex be its \imki@wrindexunique{index}{key} (or ...split), which writes
+    % with \imki@wrindexentry...{index}{key}{page} directly.
+    \bool_if:nT { \__ltd_index_signature:nn {@wrindex} { \c_hash_str 1 \c_hash_str 2 } }
+      {
+        \AddToHookWithArguments{cmd/@wrindex/before}[relatex-index]
+          { \ltd@index@issue{##2}{##1} }
+      }
+    \bool_if:nT { \__ltd_index_signature:nn {@wrindexm@m} { \c_hash_str 1 } }
+      {
+        \AddToHookWithArguments{cmd/@wrindexm@m/before}[relatex-index]
+          { \ltd@index@issue{##1}{\ifdefined\@idxfile\@idxfile\fi} }
+      }
+  }
+\AddToHook{begindocument/end}[relatex-index]{\__ltd_index_install:}
+\ExplSyntaxOff
+% The typeset index: once theindex has set up its \item, each entry command marks its entry.
+\def\ltd@index@wrap{%
+  \let\ltd@index@item\item
+  \def\item{\directlua{ltd.index.item(1)}\ltd@index@item}%
+  \ifdefined\subitem
+    \let\ltd@index@subitem\subitem
+    \def\subitem{\directlua{ltd.index.item(2)}\ltd@index@subitem}%
+  \fi
+  \ifdefined\subsubitem
+    \let\ltd@index@subsubitem\subsubitem
+    \def\subsubitem{\directlua{ltd.index.item(3)}\ltd@index@subsubitem}%
+  \fi
+  \directlua{ltd.index.begin_index()}}
+\AddToHook{begindocument/end}[relatex-index]{%
+  \ifdefined\theindex\AddToHook{cmd/theindex/after}[relatex-index]{\ltd@index@wrap}\fi}
+\endinput

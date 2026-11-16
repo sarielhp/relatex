@@ -1,0 +1,48 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-theorems}{2026/10/14}{0.1.0}{Native theorem execution ownership}
+\prop_new:N \g__ltd_theorem_environments_prop
+\cs_new_protected:Npn \__ltd_theorem_leave: { \directlua{ltd.theorem_leave()} }
+\cs_new_protected:Npn \__ltd_theorem_begin:nn #1 #2
+  {
+    \str_if_eq:nnF {#1}{proof}
+      {
+        % The original literal theorem hooks keep the frozen M1 identities.
+        \str_if_eq:nnF {#2}{theorem}
+          {
+            \bool_lazy_or:nnTF { \str_if_eq_p:nn {#1}{amsthm} } { \str_if_eq_p:nn {#1}{kernel} }
+              {
+                % An amsthm or kernel theorem ends with the group its heading starts in: its
+                % \begin's, or thm-restate's around a restated \lemma ... \endlemma.
+                \int_compare:nNnTF { \tex_currentgrouplevel:D } > { 0 }
+                  {
+                    \directlua{ltd.theorem_enter('\luaescapestring{#2}')}
+                    \group_insert_after:N \__ltd_theorem_leave:
+                  }
+                  { \directlua{ltd.skip_theorem()} }
+              }
+              {
+                \directlua{ltd.theorem_enter('\luaescapestring{#2}')}
+                \prop_if_in:NnF \g__ltd_theorem_environments_prop {#2}
+                  {
+                    \prop_gput:Nnn \g__ltd_theorem_environments_prop {#2}{observed}
+                    \AddToHook{env/#2/after}[relatex-theorems]
+                      {\directlua{ltd.theorem_leave()}}
+                  }
+              }
+          }
+      }
+  }
+\cs_if_exist:NT \ParseLaTeXeTheoremlike
+  {
+    \AddToHookWithArguments{cmd/ParseLaTeXeTheoremlike/before}[relatex-theorems]
+      {\exp_args:Nee \__ltd_theorem_begin:nn {#1}{\@currenvir}}
+    \AddToHookWithArguments{cmd/ParseLaTeXeTheoremlike/after}[relatex-theorems]
+      {\str_if_eq:eeF {#1}{proof}
+        {\directlua{ltd.theorem_counter('\luaescapestring{\l__block_counter_tl}',
+          \bool_if:NTF\l__block_numbered_bool{true}{false})}}}
+  }
+\endinput

@@ -1,0 +1,156 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "row_count",
+    "column_count",
+    "cells"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "table-2"
+    },
+    "row_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1073741823
+    },
+    "column_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1073741823
+    },
+    "cells": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "row",
+          "column",
+          "rowspan",
+          "colspan",
+          "content"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "row": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "column": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "rowspan": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1073741823
+          },
+          "colspan": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1073741823
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "alignment": {
+            "enum": [
+              "l",
+              "c",
+              "r",
+              "left",
+              "center",
+              "right"
+            ]
+          },
+          "vertical_align": {
+            "enum": [
+              "top",
+              "middle",
+              "bottom"
+            ]
+          },
+          "width_sp": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1073741823
+          },
+          "height_sp": {
+            "type": "integer"
+          },
+          "depth_sp": {
+            "type": "integer"
+          },
+          "fill": {
+            "type": "string",
+            "pattern": "^#[0-9a-f]{6}$"
+          }
+        }
+      }
+    },
+    "width_sp": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1073741823
+    },
+    "column_widths_sp": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 1073741823
+      }
+    },
+    "native_fragments": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "header_rows": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "author_header_rows": {
+      "description": "The column header rows the author's table hint names (decision 131), as logical rows; present and empty when the author says the table has none.",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "author_header_columns": {
+      "description": "The row header columns the author's table hint names (decision 131), as logical columns; present and empty when the author says the table has none.",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "declared_header_rows": {
+      "description": "The tagging project's \\tagpdfsetup{table/header-rows=...} in force for this table (decision 111), as logical rows.",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "footer_rows": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    }
+  }
+}

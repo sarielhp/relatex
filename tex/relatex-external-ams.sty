@@ -1,0 +1,51 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-external-ams}[2026/10/15 Ordinary AMS execution evidence]
+% Observe scanned theorem arguments and native heading execution. No PDF writes.
+\let\ltd@external@ams\@empty
+% The default amsthm QED box (\openbox) is drawn from rules; observe it as one symbol.
+% acmart's own QED symbol keeps its observed ACM treatment.
+\@ifclassloaded{acmart}{}{\RequirePackage{relatex-proof}}
+\AddToHook{env/equation/begin}{\directlua{ltd.equation_begin('equation')}}
+\AddToHook{env/equation/after}{\directlua{ltd.equation_end()}}
+\AddToHook{env/equation*/begin}{\directlua{ltd.equation_begin('equation*')}}
+\AddToHook{env/equation*/after}{\directlua{ltd.equation_end()}}
+\AddToHook{env/subequations/begin}{\directlua{ltd.subequations_begin()}}
+\AddToHook{env/subequations/after}{\directlua{ltd.subequations_end()}}
+\directlua{ltd.external_equations = require('relatex-external-equations');ltd.external_equations.install(ltd)}
+\@for\ltd@env:=align,align*,multline,multline*,alignat,alignat*,flalign,flalign*,gather,gather*,eqnarray,eqnarray*\do{%
+  \expanded{\noexpand\AddToHook{env/\ltd@env/begin}{%
+    \noexpand\directlua{ltd.equation_begin('\ltd@env');ltd.external_equations.begin('\ltd@env')}}}%
+  \expanded{\noexpand\AddToHook{env/\ltd@env/after}{%
+    \noexpand\directlua{ltd.external_equations.finish();ltd.equation_end()}}}}
+\ExplSyntaxOn
+% amsthm's \@thm takes #1#2#3. cleveref replaces it with an argument-free dispatcher and
+% keeps the original as \cref@thmnoarg; a #2 hook on the dispatcher would stop the paper.
+% The title is purified first: a font switch in it ({\bf Proposition}) would expand inside
+% \directlua and stop the paper (second cohort 511).
+\cs_new_protected:Npn \__ltd_theorem_hook:n #1
+  {
+    \AddToHookWithArguments{cmd/#1/before}[relatex-external-ams]
+      {
+        \exp_args:Nee \__ltd_theorem_begin:nn {amsthm} {\@currenvir}
+        \directlua{ltd.theorem_context('\luaescapestring{\@currenvir}',
+          '\luaescapestring{##2}', '\luaescapestring{\text_purify:n {##3}}')}
+      }
+  }
+\cs_new:Npn \__ltd_theorem_signature:n #1
+  {
+    % No & here: a paper may have made it active before this file loads.
+    \bool_lazy_and_p:nn { \cs_if_exist_p:c {#1} }
+      { \str_if_eq_p:ee { \exp_args:Nc \cs_argument_spec:N {#1} } { \c_hash_str 1 \c_hash_str 2 \c_hash_str 3 } }
+  }
+\cs_if_exist:NT \thm@style
+  {
+    \bool_if:nTF { \__ltd_theorem_signature:n {@thm} }
+      { \__ltd_theorem_hook:n {@thm} }
+      { \bool_if:nT { \__ltd_theorem_signature:n {cref@thmnoarg} } { \__ltd_theorem_hook:n {cref@thmnoarg} } }
+  }
+\ExplSyntaxOff
+\endinput

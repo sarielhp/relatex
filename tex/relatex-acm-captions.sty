@@ -1,0 +1,53 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-acm-captions}{2026/10/15}{0.1.0}{Guarded ACM caption renderer preservation}
+% Native float initialization can replace caption.sty's class renderer with a
+% generic one, losing fonts, positioning and the public caption hooks. Restore
+% only that exact replacement when the caller retained the known class renderer.
+\bool_new:N \g__ltd_acm_caption_default_bool
+\cs_new:Npn \__ltd_acm_expected_package_caption:nn #1#2
+  {\caption@nobreak\caption@make@above\caption@nobreak
+   \caption@@make{#1}{#2}\caption@nobreak\caption@make@below\caption@nobreak}
+\cs_new:Npn \__ltd_acm_expected_native_caption:nn #1#2
+  {\UseHookWithArguments{cmd/@makecaption/before}{2}{#1}{#2}
+   \vskip\abovecaptionskip
+   \SuspendTagging{\@makecaption}
+   \sbox\@tempboxa{\UseSocket{caption/label}{#1}#2}
+   \ResumeTagging{\@makecaption}
+   \UseTaggingSocket{caption/begin}{\@current@float@struct}
+   \ifdim\wd\@tempboxa>\hsize
+     \UseTaggingSocket{caption/label/begin}
+     \UseSocket{caption/label}{#1}
+     \UseTaggingSocket{caption/label/end}
+     \UseTaggingSocket{para/begin}#2\par
+   \else
+     \global\@minipagefalse
+     \hb@xt@\hsize{\hfil
+       \UseTaggingSocket{caption/label/begin}
+       \UseSocket{caption/label}{#1}
+       \UseTaggingSocket{caption/label/end}
+       \UseTaggingSocket{para/begin}#2
+       \UseTaggingSocket{para/end}\hfil}
+   \fi
+   \UseTaggingSocket{caption/end}\vskip\belowcaptionskip}
+\cs_new:Npn \__ltd_acm_caption:nn #1#2
+  {\UseHookWithArguments{cmd/@makecaption/before}{2}{#1}{#2}
+   \UseTaggingSocket{caption/begin}{\@current@float@struct}
+   \caption@makecaption{#1}{#2}
+   \UseTaggingSocket{caption/end}}
+\cs_new_protected:Npn \__ltd_acm_check_caption:
+  {\cs_if_eq:NNT\@makecaption\caption@makecaption
+    {\cs_if_eq:NNT\caption@makecaption\__ltd_acm_expected_package_caption:nn
+      {\bool_gset_true:N\g__ltd_acm_caption_default_bool}}}
+\cs_new_protected:Npn \__ltd_acm_install_caption:
+  {\bool_if:NT\g__ltd_acm_caption_default_bool
+    {\cs_if_eq:NNT\@makecaption\__ltd_acm_expected_native_caption:nn
+      {\cs_set_eq:NN\@makecaption\__ltd_acm_caption:nn}}}
+\AddToHook{class/acmart/after}[relatex-acm-captions]
+  {\cs_if_exist:NT\@current@float@struct
+    {\AddToHook{begindocument/before}[relatex-acm-caption-check]{\__ltd_acm_check_caption:}
+     \AddToHook{begindocument/end}[relatex-acm-caption]{\__ltd_acm_install_caption:}}}
+\endinput

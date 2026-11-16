@@ -1,0 +1,238 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "qualified",
+    "pdf_sha256",
+    "helper_sha256",
+    "tables",
+    "font_encodings"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "table-paint-3"
+    },
+    "status": {
+      "const": "native_paint_verified"
+    },
+    "qualified": {
+      "const": false
+    },
+    "pdf_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "helper_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "color",
+          "grid_sha256",
+          "fragments"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "color": {
+            "const": "rgb(0, 0, 0)"
+          },
+          "grid_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "fragments": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "page",
+                    "trace_sha256",
+                    "glyphs",
+                    "rules",
+                    "maximum_error_bp",
+                    "origin_bp",
+                    "position_model",
+                    "maximum_residual_bp",
+                    "glyph_bindings",
+                    "rule_bindings"
+                  ],
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "trace_sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    "glyphs": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "rules": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "maximum_error_bp": {
+                      "minimum": 0
+                    },
+                    "origin_bp": {
+                      "type": "array"
+                    },
+                    "position_model": {
+                      "const": "luatex-horizontal-tj-1"
+                    },
+                    "maximum_residual_bp": {
+                      "minimum": 0,
+                      "maximum": 0.01
+                    },
+                    "glyph_bindings": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "native",
+                          "pdf"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "native": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "pdf": {
+                            "type": "object",
+                            "required": [
+                              "id",
+                              "text",
+                              "baseline",
+                              "width",
+                              "font",
+                              "size",
+                              "safe"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "text": {
+                                "type": "string"
+                              },
+                              "baseline": {
+                                "type": "array"
+                              },
+                              "width": {
+                              },
+                              "font": {
+                                "type": "string"
+                              },
+                              "size": {
+                                "minimum": 0
+                              },
+                              "safe": {
+                                "const": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "rule_bindings": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "native",
+                          "pdf"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "native": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "pdf": {
+                            "type": "object",
+                            "required": [
+                              "id",
+                              "rect",
+                              "safe"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "rect": {
+                                "type": "array"
+                              },
+                              "safe": {
+                                "const": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "page",
+                    "trace_sha256",
+                    "glyphs",
+                    "rules",
+                    "maximum_error_bp"
+                  ],
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "trace_sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    "glyphs": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "rules": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "maximum_error_bp": {
+                      "minimum": 0
+                    },
+                    "origin_bp": {
+                      "type": "array"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "font_encodings": {
+      "type": "object"
+    }
+  }
+}

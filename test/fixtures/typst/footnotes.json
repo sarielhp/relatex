@@ -1,0 +1,483 @@
+{
+  "schema_version": "paper-0.2",
+  "profile": "paper-reading-diagnostic-v2",
+  "status": "diagnostic",
+  "qualified": false,
+  "identity": {
+    "id": "corpus",
+    "input_sha256": "10ffabd4a218094a7ef6529cf492d822a02ac422ce7eb6d85bed1684c55f94ee"
+  },
+  "root": "n-35d84a1c242aed30d7a68b67ac20839cb01e4a43b566e580eead0a6c965dc5f8",
+  "nodes": {
+    "n-96c5e27e9081e8d23b38af3945eaf39083233c554547b4b7ec9e73777118c9b5": {
+      "id": "n-96c5e27e9081e8d23b38af3945eaf39083233c554547b4b7ec9e73777118c9b5",
+      "type": "section",
+      "children": [
+        "n-91ed473dfb4c2ff5064c7677e41f182cdd63c5cd1e8ba933f0825f0c6471a505",
+        "n-5e2bc89135cb2c39bbbd598f359e103e68ad76257fe83dcd1fddd8f01310020c"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:1",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-35d84a1c242aed30d7a68b67ac20839cb01e4a43b566e580eead0a6c965dc5f8": {
+      "id": "n-35d84a1c242aed30d7a68b67ac20839cb01e4a43b566e580eead0a6c965dc5f8",
+      "type": "document",
+      "children": [
+        "n-96c5e27e9081e8d23b38af3945eaf39083233c554547b4b7ec9e73777118c9b5"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:0",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-91ed473dfb4c2ff5064c7677e41f182cdd63c5cd1e8ba933f0825f0c6471a505": {
+      "id": "n-91ed473dfb4c2ff5064c7677e41f182cdd63c5cd1e8ba933f0825f0c6471a505",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b1",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "1 Notes",
+          "style": {
+            "generic": "serif",
+            "size_sp": 943718,
+            "font_name": "LMRoman12-Bold",
+            "font_id": 17,
+            "source": "nfss-font-id",
+            "series": "bx",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-5e2bc89135cb2c39bbbd598f359e103e68ad76257fe83dcd1fddd8f01310020c": {
+      "id": "n-5e2bc89135cb2c39bbbd598f359e103e68ad76257fe83dcd1fddd8f01310020c",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b2",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Text with a note.",
+          "style": {
+            "generic": "serif",
+            "size_sp": 655360,
+            "font_name": "LMRoman10-Regular",
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        },
+        {
+          "type": "note_reference",
+          "text": "1",
+          "target": "n-78aa480861ea5c58a47e8e9ec3aa6a49e6cb3d5f2182c18bf497eb1548d058c1",
+          "callsite": "n-2288688d166b0d6331de13b0c2c1f6a6baee39a8e700eb66818646cd0c73c42d",
+          "style": {
+            "generic": "serif",
+            "size_sp": 458752,
+            "font_name": "LMRoman7-Regular",
+            "font_id": 28,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        },
+        {
+          "type": "text",
+          "text": " More text.",
+          "style": {
+            "generic": "serif",
+            "size_sp": 655360,
+            "font_name": "LMRoman10-Regular",
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        },
+        {
+          "type": "note_reference",
+          "text": "2",
+          "target": "n-0ffef540d10b4899c7816a310ded786db52f9ccc15ce06147adb08e597e256a6",
+          "callsite": "n-f0f86513944534582224ebcd3715f32aeeb1ede45c6a651766e672f8317b0a43",
+          "style": {
+            "generic": "serif",
+            "size_sp": 458752,
+            "font_name": "LMRoman7-Regular",
+            "font_id": 28,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        },
+        {
+          "type": "text",
+          "text": " See note",
+          "style": {
+            "generic": "serif",
+            "size_sp": 655360,
+            "font_name": "LMRoman10-Regular",
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        },
+        {
+          "type": "reference",
+          "text": " 2",
+          "label": "fn:second",
+          "target": "n-6aadc6dbd5fb899fe6fdf164dae66271558c23ca2da0a217f8021acc0b974420",
+          "style": {
+            "generic": "serif",
+            "size_sp": 655360,
+            "font_name": "LMRoman10-Regular",
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        },
+        {
+          "type": "text",
+          "text": ". A mark",
+          "style": {
+            "generic": "serif",
+            "size_sp": 655360,
+            "font_name": "LMRoman10-Regular",
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        },
+        {
+          "type": "note_reference",
+          "text": "3",
+          "target": "n-b86db36fbfa2984b06f6fe60151e4cfc05d36bf5e33ad8922a6f25a1f9bc1852",
+          "callsite": "n-151616ef92c71113574c1c58a6644b949318a958342f1e39060993b6af18d90d",
+          "style": {
+            "generic": "serif",
+            "size_sp": 458752,
+            "font_name": "LMRoman7-Regular",
+            "font_id": 28,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        },
+        {
+          "type": "text",
+          "text": " set apart.",
+          "style": {
+            "generic": "serif",
+            "size_sp": 655360,
+            "font_name": "LMRoman10-Regular",
+            "font_id": 15,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        }
+      ]
+    },
+    "n-78aa480861ea5c58a47e8e9ec3aa6a49e6cb3d5f2182c18bf497eb1548d058c1": {
+      "id": "n-78aa480861ea5c58a47e8e9ec3aa6a49e6cb3d5f2182c18bf497eb1548d058c1",
+      "type": "note",
+      "children": [
+        "n-49d4ee3df68092bc7ff89fc869da68618be11cf80ef3e4ed925567482a231701"
+      ],
+      "provenance": {
+        "inspection_key": "1/structure:3",
+        "source_hint": "unavailable"
+      },
+      "number": "1",
+      "source_parent": 1,
+      "labels": [
+        {
+          "text": "1",
+          "style": {
+            "generic": "serif",
+            "size_sp": 393216,
+            "font_name": "LMRoman6-Regular",
+            "font_id": 36,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          },
+          "block": "n-49d4ee3df68092bc7ff89fc869da68618be11cf80ef3e4ed925567482a231701"
+        }
+      ],
+      "callsites": [
+        {
+          "id": "n-2288688d166b0d6331de13b0c2c1f6a6baee39a8e700eb66818646cd0c73c42d",
+          "block": "n-5e2bc89135cb2c39bbbd598f359e103e68ad76257fe83dcd1fddd8f01310020c"
+        }
+      ]
+    },
+    "n-49d4ee3df68092bc7ff89fc869da68618be11cf80ef3e4ed925567482a231701": {
+      "id": "n-49d4ee3df68092bc7ff89fc869da68618be11cf80ef3e4ed925567482a231701",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b3",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": " The first note.",
+          "style": {
+            "generic": "serif",
+            "size_sp": 524288,
+            "font_name": "LMRoman8-Regular",
+            "font_id": 29,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        }
+      ]
+    },
+    "n-0ffef540d10b4899c7816a310ded786db52f9ccc15ce06147adb08e597e256a6": {
+      "id": "n-0ffef540d10b4899c7816a310ded786db52f9ccc15ce06147adb08e597e256a6",
+      "type": "note",
+      "children": [
+        "n-6aadc6dbd5fb899fe6fdf164dae66271558c23ca2da0a217f8021acc0b974420"
+      ],
+      "provenance": {
+        "inspection_key": "2/structure:4",
+        "source_hint": "unavailable"
+      },
+      "number": "2",
+      "source_parent": 1,
+      "labels": [
+        {
+          "text": "2",
+          "style": {
+            "generic": "serif",
+            "size_sp": 393216,
+            "font_name": "LMRoman6-Regular",
+            "font_id": 36,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          },
+          "block": "n-6aadc6dbd5fb899fe6fdf164dae66271558c23ca2da0a217f8021acc0b974420"
+        }
+      ],
+      "callsites": [
+        {
+          "id": "n-f0f86513944534582224ebcd3715f32aeeb1ede45c6a651766e672f8317b0a43",
+          "block": "n-5e2bc89135cb2c39bbbd598f359e103e68ad76257fe83dcd1fddd8f01310020c"
+        }
+      ]
+    },
+    "n-6aadc6dbd5fb899fe6fdf164dae66271558c23ca2da0a217f8021acc0b974420": {
+      "id": "n-6aadc6dbd5fb899fe6fdf164dae66271558c23ca2da0a217f8021acc0b974420",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b4",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": " The second note, labelled.",
+          "style": {
+            "generic": "serif",
+            "size_sp": 524288,
+            "font_name": "LMRoman8-Regular",
+            "font_id": 29,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        }
+      ]
+    },
+    "n-b86db36fbfa2984b06f6fe60151e4cfc05d36bf5e33ad8922a6f25a1f9bc1852": {
+      "id": "n-b86db36fbfa2984b06f6fe60151e4cfc05d36bf5e33ad8922a6f25a1f9bc1852",
+      "type": "note",
+      "children": [
+        "n-2c8464cd3ec89c22c5b0a576c8bc013de2669d60633942b1c8f658e26ae1d708"
+      ],
+      "provenance": {
+        "inspection_key": "3/structure:5",
+        "source_hint": "unavailable"
+      },
+      "number": "3",
+      "source_parent": 1,
+      "labels": [
+        {
+          "text": "3",
+          "style": {
+            "generic": "serif",
+            "size_sp": 393216,
+            "font_name": "LMRoman6-Regular",
+            "font_id": 36,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          },
+          "block": "n-2c8464cd3ec89c22c5b0a576c8bc013de2669d60633942b1c8f658e26ae1d708"
+        }
+      ],
+      "callsites": [
+        {
+          "id": "n-151616ef92c71113574c1c58a6644b949318a958342f1e39060993b6af18d90d",
+          "block": "n-5e2bc89135cb2c39bbbd598f359e103e68ad76257fe83dcd1fddd8f01310020c"
+        }
+      ]
+    },
+    "n-2c8464cd3ec89c22c5b0a576c8bc013de2669d60633942b1c8f658e26ae1d708": {
+      "id": "n-2c8464cd3ec89c22c5b0a576c8bc013de2669d60633942b1c8f658e26ae1d708",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b5",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": " A note set with footnotetext.",
+          "style": {
+            "generic": "serif",
+            "size_sp": 524288,
+            "font_name": "LMRoman8-Regular",
+            "font_id": 29,
+            "source": "nfss-font-id",
+            "series": "m",
+            "encoding": "TU",
+            "family": "lmr",
+            "shape": "n"
+          }
+        }
+      ]
+    }
+  },
+  "main_block_order": [
+    "n-91ed473dfb4c2ff5064c7677e41f182cdd63c5cd1e8ba933f0825f0c6471a505",
+    "n-5e2bc89135cb2c39bbbd598f359e103e68ad76257fe83dcd1fddd8f01310020c"
+  ],
+  "note_order": [
+    "n-78aa480861ea5c58a47e8e9ec3aa6a49e6cb3d5f2182c18bf497eb1548d058c1",
+    "n-0ffef540d10b4899c7816a310ded786db52f9ccc15ce06147adb08e597e256a6",
+    "n-b86db36fbfa2984b06f6fe60151e4cfc05d36bf5e33ad8922a6f25a1f9bc1852"
+  ],
+  "block_order": [
+    "n-91ed473dfb4c2ff5064c7677e41f182cdd63c5cd1e8ba933f0825f0c6471a505",
+    "n-5e2bc89135cb2c39bbbd598f359e103e68ad76257fe83dcd1fddd8f01310020c",
+    "n-49d4ee3df68092bc7ff89fc869da68618be11cf80ef3e4ed925567482a231701",
+    "n-6aadc6dbd5fb899fe6fdf164dae66271558c23ca2da0a217f8021acc0b974420",
+    "n-2c8464cd3ec89c22c5b0a576c8bc013de2669d60633942b1c8f658e26ae1d708"
+  ],
+  "labels": {
+    "fn:second": {
+      "target": "n-6aadc6dbd5fb899fe6fdf164dae66271558c23ca2da0a217f8021acc0b974420",
+      "number": "2",
+      "status": "verified"
+    }
+  },
+  "metadata": {
+    "status": "unavailable"
+  },
+  "assets": {
+    "status": "unverified"
+  },
+  "unverified_requirements": [
+    "ordinary_fidelity",
+    "independent_content",
+    "independent_math",
+    "metadata",
+    "assets",
+    "typed_lists",
+    "citations",
+    "text_style"
+  ],
+  "citations": {
+    "status": "projected",
+    "qualified": false,
+    "entries": [
+
+    ],
+    "calls": [
+
+    ],
+    "links": [
+
+    ]
+  },
+  "external_links": {
+    "schema_version": "external-links-1",
+    "items": {
+    }
+  }
+}

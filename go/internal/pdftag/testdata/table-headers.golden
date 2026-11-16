@@ -1,0 +1,15 @@
+# bold_first_column
+TR: TH /O=/Table /Scope=/Column | TH /O=/Table /Scope=/Column | TH /O=/Table /Scope=/Column
+TR: TH /O=/Table /Scope=/Row | TD /O=/Table | TD /O=/Table
+TR: TH /O=/Table /Scope=/Row | TD /O=/Table | TD /O=/Table
+TR: TH /O=/Table /Scope=/Row | TD /O=/Table | TD /O=/Table
+# multicolumn_groups
+TR: TH /O=/Table /RowSpan=2 /Scope=/Column | TH /ColSpan=2 /O=/Table /Scope=/Column | TH /O=/Table /RowSpan=2 /Scope=/Column
+TR: TH /O=/Table /Scope=/Column | TH /O=/Table /Scope=/Column
+TR: TH /O=/Table /Scope=/Row | TD /O=/Table | TD /O=/Table | TD /O=/Table
+TR: TH /O=/Table /Scope=/Row | TD /O=/Table | TD /O=/Table | TD /O=/Table
+# rule_after_every_column
+TR: TD /O=/Table | TD /O=/Table | TD /O=/Table
+TR: TD /O=/Table | TD /O=/Table | TD /O=/Table
+TR: TD /O=/Table | TD /O=/Table | TD /O=/Table
+TR: TD /O=/Table | TD /O=/Table | TD /O=/Table

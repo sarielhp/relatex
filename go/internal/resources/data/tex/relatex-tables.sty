@@ -1,0 +1,51 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-tables}[2026/10/15 Native classic table evidence]
+\directlua{ltd=require('relatex');assert(ltd.flow,'Tables require bridge');ltd.tables=require('relatex-tables')}
+\protected\def\ltdTablesGroupEnd{\directlua{ltd.tables.end_group()}}
+% A class may redefine \endtabular at run time (aastex's deluxetable): the context also closes
+% when the group the tabular began in ends.
+\AddToHook{cmd/@tabular/before}{\directlua{ltd.tables.begin_table()}\aftergroup\ltdTablesGroupEnd}
+% Column specs are passed unexpanded: they may hold commands such as @{\hspace{5pt}}
+% whose expansion inside \directlua breaks the paper (4 cohort papers). The argument hooks
+% are installed after all packages load and only on the standard [#1]#2 signature: a
+% package such as arydshln redefines \@array without parameters, and a #2 hook on it
+% would stop the paper. Such tables keep no preamble and stay non-classic. The kernel
+% cannot retokenize mdwtab's \@array to patch a hook into it, so mdwtab tables do too.
+\ExplSyntaxOn
+\cs_new_protected:Npn \__ltd_preamble_hook:n #1
+  {
+    \cs_if_exist:cT {#1}
+      {
+        \str_if_eq:eeT { \exp_args:Nc \cs_argument_spec:N {#1} } { [ \c_hash_str 1 ] \c_hash_str 2 }
+          { \AddToHookWithArguments {cmd/#1/before}
+              { \directlua { ltd.tables.array('\luaescapestring{\unexpanded{##2}}') } } }
+      }
+  }
+% arydshln wraps \@array in a parameterless macro and keeps the kernel's own \@array, with its
+% standard signature, as \adl@array: the preamble hook goes on that saved copy (paper 167).
+\AddToHook{begindocument}
+  { \@ifpackageloaded{mdwtab}{}{\__ltd_preamble_hook:n {@array}\__ltd_preamble_hook:n {@@array}}
+    \__ltd_preamble_hook:n {adl@array}
+    \__ltd_preamble_hook:n {LT@array} }
+% caption (loaded before longtable, or with subcaption) wraps \LT@array in a parameterless macro and
+% calls longtable's own through ltcaption (\ltcaption@ORI@LT@array, saved when caption's begin-document
+% code has run), so the preamble hook goes on that copy then (second cohort 447).
+\AddToHook{begindocument/end}
+  { \__ltd_preamble_hook:n {ltcaption@ORI@LT@array} }
+\ExplSyntaxOff
+\AddToHook{cmd/endtabular/after}{\directlua{ltd.tables.end_table()}}
+\AddToHook{cmd/endtabular*/after}{\directlua{ltd.tables.end_table()}}
+\AddToHook{env/longtable/before}{\directlua{ltd.tables.begin_table('longtable')}}
+\AddToHook{env/longtable/after}{\directlua{ltd.tables.end_table()}}
+% caption's unnumbered longtable* (ltcaption) runs \longtable itself, not \begin{longtable}: hooked as its own
+% environment, it is a table like the numbered one (papers3 0655, a nomenclature list read cell by cell).
+\AddToHook{env/longtable*/before}{\directlua{ltd.tables.begin_table('longtable')}}
+\AddToHook{env/longtable*/after}{\directlua{ltd.tables.end_table()}}
+\@ifpackageloaded{array}{\RequirePackage{relatex-rich-tables}}{%
+  \RequirePackage{relatex-kernel-tables}%
+  \AddToHook{package/array/after}{\RequirePackage{relatex-rich-tables}}}
+\endinput

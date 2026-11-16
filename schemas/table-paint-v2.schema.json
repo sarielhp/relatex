@@ -1,0 +1,93 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "qualified",
+    "pdf_sha256",
+    "helper_sha256",
+    "tables"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "table-paint-2"
+    },
+    "status": {
+      "const": "native_paint_verified"
+    },
+    "qualified": {
+      "const": false
+    },
+    "pdf_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "helper_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "color",
+          "grid_sha256",
+          "fragments"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "color": {
+            "const": "rgb(0, 0, 0)"
+          },
+          "grid_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "fragments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "page",
+                "trace_sha256",
+                "glyphs",
+                "rules",
+                "maximum_error_bp"
+              ],
+              "properties": {
+                "page": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "trace_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "glyphs": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "rules": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "maximum_error_bp": {
+                  "minimum": 0
+                },
+                "origin_bp": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

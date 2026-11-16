@@ -1,0 +1,18 @@
+{
+  "schema_version": "math-accent-font-1",
+  "source_sha256": "6075562b771f8b82f0c179e363389684f2dd09de30038269e2628e504bd7be0f",
+  "sha256": "ebfecd3296c9369931d049ffeeb224cc26607a599ba568e08eb637cf2d8a54a3",
+  "family": "L2D Math Accents",
+  "aliases": {
+    "94": 770,
+    "710": 770,
+    "126": 771,
+    "732": 771,
+    "8254": 773,
+    "175": 773,
+    "95": 818
+  },
+  "glyphs": 41,
+  "builder_sha256": "560dce6d651f6c03bdc812089cd3531e11b5a9f7d1ebfd16cba4030582109a70",
+  "license_sha256": "2bd69affc3da00715116f713f57eab9707e96daf3562ad0215987b15b9c16f73"
+}

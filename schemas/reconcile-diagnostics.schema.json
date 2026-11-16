@@ -1,0 +1,36 @@
+{
+  "title": "03-reconcile diagnostics.json: what reconciling the paper could not keep, compiler-style",
+  "type": "object",
+  "required": ["schema_version", "counts", "entries"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "diagnostics-1" },
+    "counts": {
+      "type": "object",
+      "required": ["fatal", "error", "alert", "warning", "whatever"],
+      "additionalProperties": false,
+      "properties": {
+        "fatal": { "type": "integer", "minimum": 0 },
+        "error": { "type": "integer", "minimum": 0 },
+        "alert": { "type": "integer", "minimum": 0 },
+        "warning": { "type": "integer", "minimum": 0 },
+        "whatever": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "level", "message"],
+        "additionalProperties": false,
+        "properties": {
+          "code": { "type": "string" },
+          "level": { "enum": ["fatal", "error", "alert", "warning", "whatever"] },
+          "message": { "type": "string" },
+          "magnitude": { "description": "A measured deviation that chose the level" },
+          "location": { "type": "object" }
+        }
+      }
+    }
+  }
+}

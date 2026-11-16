@@ -1,0 +1,21 @@
+{
+  "papers": 100,
+  "statuses": {
+    "passed": 100
+  },
+  "compiled": 100,
+  "labels_latex": 3633,
+  "labels_checked": 6122,
+  "number_mismatches": 0,
+  "frozen_references": 5,
+  "unexpressed_citations": 3,
+  "formula_losses": 0,
+  "coverage_average": 0.9941,
+  "coverage_below_95": [
+
+  ],
+  "hash_labels": 0,
+  "compile_seconds_max": 1.99,
+  "failed": {
+  }
+}

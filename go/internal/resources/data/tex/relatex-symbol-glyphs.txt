@@ -1,0 +1,1134 @@
+# Symbol-font glyph names and the characters their glyphs paint, in glyphlist.txt's form:
+# NAME;HEX (one code point), or NAME;none for a glyph that paints no Unicode character.
+# Reviewed by the painted glyph, not the name: marvosym (marvosym.afm, OFL; book 0004's
+# \Football). MVDivision paints a slash, Congruent and NotCongruent three bars (≡ ≢), Rewind and
+# Forward one triangle; RightScissors is the mirrored scissors, HERMAPHRODITE, FEMALE and MALE the
+# filled gender signs. Doubtful but kept: Stopsign 🛑, Lightning ⚡, AngleSign ∡, PeaceDove 🕊
+# (in a disc), EMail 📧, Mundus 🌍, CircledA Ⓐ (the anarchy A), MineSign ⚒, Pluto ♇ (painted as
+# the orb-and-crescent form), ComputerMouse 🖱, Printer 🖨. Laundry-care, steel-profile, logo and
+# signage glyphs are none. Shared by every font that names a glyph so (tex/relatex-glyph-names.lua,
+# lib/relatex/native_glyph_names.rb); the format maps onto fixtounicode's mappings key.
+Stopsign;1F6D1
+Beam;none
+Bearing;none
+LooseBearing;none
+FixedBearing;none
+LeftTorque;none
+RightTorque;none
+MVLeftBracket;0028
+MVRightBracket;0029
+MVMultiplication;00D7
+MVPlus;002B
+MVComma;002C
+MVMinus;2212
+MVPeriod;002E
+MVDivision;002F
+MVZero;0030
+MVOne;0031
+MVTwo;0032
+MVThree;0033
+MVFour;0034
+MVFive;0035
+MVSix;0036
+MVSeven;0037
+MVEight;0038
+MVNine;0039
+MVRightArrow;2192
+Conclusion;21D2
+LessOrEqual;2264
+Corresponds;2259
+LargerOrEqual;2265
+Equivalence;21D4
+MVAt;0040
+Pickup;none
+Letter;2709
+CESign;none
+EurDig;20AC
+Lightning;26A1
+BOLogo;none
+BarOver;none
+Mobilefone;1F4F1
+Industry;none
+Estatically;none
+Coffeecup;2615
+Lineload;none
+BOLogoL;none
+BOLogoP;none
+HollowBox;2610
+ArrowOver;none
+LeftScissors;2702
+CuttingLine;none
+RightScissors;2702
+Telefon;260E
+ClockLogo;none
+CheckedBox;2611
+AngleSign;2221
+CrossedBox;2612
+YinYang;262F
+PointingHand;261E
+Divides;2223
+DividesNot;2224
+Congruent;2261
+NotCongruent;2262
+StrikingThrough;none
+Explosionsafe;none
+Laserbeam;none
+WritingHand;270D
+EurHv;20AC
+EurCr;20AC
+EurTm;20AC
+PeaceDove;1F54A
+barOver;none
+Biohazard;2623
+Info;2139
+Radioactivity;2622
+EMail;1F4E7
+MVArrowDown;2193
+Mundus;1F30D
+BSEFree;none
+Football;26BD
+arrowOver;none
+CutLeft;none
+CutLine;none
+CutRight;none
+fax;213B
+FAX;213B
+Fax;1F4E0
+Wheelchair;267F
+Gentsroom;1F6B9
+Ladiesroom;1F6BA
+EmailCT;none
+Neutral;none
+Male;2642
+Hermaphrodite;26A5
+Female;2640
+HERMAPHRODITE;26A5
+FEMALE;2640
+MALE;2642
+MaleMale;26A3
+FemaleFemale;26A2
+FemaleMale;26A4
+Cross;271D
+CeltCross;1F548
+Ankh;2625
+WashCotton;none
+WashSynthetics;none
+WashWool;none
+Heart;2661
+EstimatedSign;212E
+Tumbler;none
+NoTumbler;none
+OktoSteel;none
+HexaSteel;none
+SquareSteel;none
+RectSteel;none
+CircSteel;none
+FlatSteel;none
+SquarePipe;none
+RectPipe;none
+LSteel;none
+TTSteel;none
+CircPipe;none
+TSteel;none
+RoundedLSteel;none
+RoundedTTSteel;none
+RoundedTSteel;none
+Shilling;none
+Deleatur;none
+Pfund;none
+EUR;20AC
+Bouquet;none
+EyesDollar;none
+Frowny;2639
+NoChemicalCleaning;none
+Smiley;263A
+CircledA;24B6
+CleaningA;none
+CleaningP;none
+Bicycle;1F6B2
+ironing;none
+Ironing;none
+IRONING;none
+NoIroning;none
+MineSign;2692
+RewindToIndex;23EE
+RewindToStart;none
+Rewind;25C0
+Forward;25B6
+ForwardToEnd;none
+ForwardToIndex;23ED
+MoveUp;25B2
+MoveDown;25BC
+ToTop;none
+ToBottom;none
+CleaningF;none
+CleaningFF;none
+Sun;2609
+Moon;263D
+Mercury;263F
+Venus;2640
+Mars;2642
+Jupiter;2643
+Saturn;2644
+Uranus;2645
+Neptune;2646
+Pluto;2647
+Earth;2641
+Bleech;none
+NoBleech;none
+ComputerMouse;1F5B1
+SerialInterface;none
+Keyboard;2328
+SerialPort;none
+ParallelPort;none
+Printer;1F5A8
+AtNinetyFive;none
+ShortNinetyfive;none
+AtSixty;none
+ShortSixty;none
+ShortFifty;none
+AtForty;none
+ShortForty;none
+SpecialForty;none
+ShortThirty;none
+HandWash;none
+NoWash;none
+Recycling;2672
+PackingWaste;none
+Aries;2648
+Taurus;2649
+Gemini;264A
+Cancer;264B
+Leo;264C
+Virgo;264D
+Libra;264E
+Scorpio;264F
+Sagittarius;2650
+Capricorn;2651
+Aquarius;2652
+Pisces;2653
+Valve;none
+Florin;0192
+CleaningPP;none
+MultiplicationDot;22C5
+Bat;1F987
+WomanFace;none
+ManFace;none
+# bbding (bbding10.pfb, \usepackage{bbding}) names every glyph enc-SLOT, so its entries hold for
+# that font alone, in the backend's tfm:FONT/GLYPH form. Its glyphs follow Zapf Dingbats; reviewed
+# by bbding.sty's command names: a left-facing variant (ScissorLeft, PencilLeft, HandCuffLeftUp)
+# is its right-facing character, there being no mirrored one in Unicode. A slot the collector's
+# BBDING table maps (tex/relatex-text-symbols.lua) has that table's character here; the other slots
+# (hands, nibs, flowers, arrows, which the collector leaves without text) have their nearest
+# dingbat, since a tagged PDF must map every glyph it shows.
+tfm:bbding10/enc-0;2703
+tfm:bbding10/enc-1;2702
+tfm:bbding10/enc-2;2701
+tfm:bbding10/enc-3;2703
+tfm:bbding10/enc-4;2702
+tfm:bbding10/enc-5;2701
+tfm:bbding10/enc-6;2704
+tfm:bbding10/enc-7;2704
+tfm:bbding10/enc-8;260E
+tfm:bbding10/enc-9;260E
+tfm:bbding10/enc-10;2707
+tfm:bbding10/enc-11;2708
+tfm:bbding10/enc-12;2709
+tfm:bbding10/enc-13;261B
+tfm:bbding10/enc-14;261A
+tfm:bbding10/enc-15;261D
+tfm:bbding10/enc-16;261D
+tfm:bbding10/enc-17;261E
+tfm:bbding10/enc-18;261C
+tfm:bbding10/enc-19;261D
+tfm:bbding10/enc-20;261D
+tfm:bbding10/enc-21;270C
+tfm:bbding10/enc-22;270D
+tfm:bbding10/enc-23;270F
+tfm:bbding10/enc-24;270F
+tfm:bbding10/enc-25;2710
+tfm:bbding10/enc-26;2710
+tfm:bbding10/enc-27;270E
+tfm:bbding10/enc-28;270E
+tfm:bbding10/enc-29;2711
+tfm:bbding10/enc-30;2711
+tfm:bbding10/enc-31;2712
+tfm:bbding10/enc-32;2712
+tfm:bbding10/enc-33;2713
+tfm:bbding10/enc-34;2714
+tfm:bbding10/enc-35;2717
+tfm:bbding10/enc-36;2718
+tfm:bbding10/enc-37;2718
+tfm:bbding10/enc-38;2719
+tfm:bbding10/enc-39;271A
+tfm:bbding10/enc-40;271C
+tfm:bbding10/enc-41;271B
+tfm:bbding10/enc-42;271D
+tfm:bbding10/enc-43;271E
+tfm:bbding10/enc-44;271F
+tfm:bbding10/enc-45;271F
+tfm:bbding10/enc-46;2720
+tfm:bbding10/enc-47;2721
+tfm:bbding10/enc-48;2721
+tfm:bbding10/enc-49;2722
+tfm:bbding10/enc-50;2723
+tfm:bbding10/enc-51;2724
+tfm:bbding10/enc-52;2725
+tfm:bbding10/enc-53;2726
+tfm:bbding10/enc-54;2727
+tfm:bbding10/enc-55;2729
+tfm:bbding10/enc-56;2605
+tfm:bbding10/enc-57;2606
+tfm:bbding10/enc-58;272A
+tfm:bbding10/enc-59;272B
+tfm:bbding10/enc-60;272C
+tfm:bbding10/enc-61;272D
+tfm:bbding10/enc-62;272E
+tfm:bbding10/enc-63;272F
+tfm:bbding10/enc-64;2730
+tfm:bbding10/enc-65;2731
+tfm:bbding10/enc-66;2732
+tfm:bbding10/enc-67;2733
+tfm:bbding10/enc-68;2732
+tfm:bbding10/enc-69;2734
+tfm:bbding10/enc-70;2735
+tfm:bbding10/enc-71;2736
+tfm:bbding10/enc-72;2734
+tfm:bbding10/enc-73;2738
+tfm:bbding10/enc-74;2739
+tfm:bbding10/enc-75;273A
+tfm:bbding10/enc-76;273B
+tfm:bbding10/enc-77;273C
+tfm:bbding10/enc-78;273D
+tfm:bbding10/enc-79;273E
+tfm:bbding10/enc-80;273F
+tfm:bbding10/enc-81;2740
+tfm:bbding10/enc-82;2740
+tfm:bbding10/enc-83;2741
+tfm:bbding10/enc-84;2742
+tfm:bbding10/enc-85;2743
+tfm:bbding10/enc-86;2749
+tfm:bbding10/enc-87;2725
+tfm:bbding10/enc-88;2749
+tfm:bbding10/enc-89;274A
+tfm:bbding10/enc-90;274B
+tfm:bbding10/enc-91;273C
+tfm:bbding10/enc-92;2748
+tfm:bbding10/enc-93;2747
+tfm:bbding10/enc-94;2745
+tfm:bbding10/enc-95;2746
+tfm:bbding10/enc-96;2744
+tfm:bbding10/enc-97;25CF
+tfm:bbding10/enc-98;2B2D
+tfm:bbding10/enc-99;2B2C
+tfm:bbding10/enc-100;274D
+tfm:bbding10/enc-101;2B2D
+tfm:bbding10/enc-102;25A1
+tfm:bbding10/enc-103;25A0
+tfm:bbding10/enc-104;274F
+tfm:bbding10/enc-105;2750
+tfm:bbding10/enc-106;2750
+tfm:bbding10/enc-107;2751
+tfm:bbding10/enc-108;2752
+tfm:bbding10/enc-109;2752
+tfm:bbding10/enc-110;25B2
+tfm:bbding10/enc-111;25BC
+tfm:bbding10/enc-112;25C6
+tfm:bbding10/enc-113;2756
+tfm:bbding10/enc-114;25D7
+tfm:bbding10/enc-115;25D6
+tfm:bbding10/enc-116;2758
+tfm:bbding10/enc-117;2759
+tfm:bbding10/enc-118;275A
+tfm:bbding10/enc-119;27A0
+tfm:bbding10/enc-120;279A
+tfm:bbding10/enc-121;2798
+tfm:bbding10/enc-122;2799
+tfm:bbding10/enc-123;27B2
+# stmaryrd (stmary5–stmary10.pfb): its glyph names outside the Adobe Glyph List, with the
+# characters unicode-math gives its commands; sizes of one symbol (bigsqcap, hugesqcap) share it.
+shortleftarrow;2190
+shortrightarrow;2192
+shortuparrow;2191
+shortdownarrow;2193
+varcurlyvee;22CE
+varcurlywedge;22CF
+minuso;29B5
+sslash;2AFD
+varotimes;2297
+varoast;229B
+varobar;29B6
+varodot;2299
+varoslash;2298
+varobslash;29B8
+varocircle;229A
+varoplus;2295
+varominus;2296
+boxast;29C6
+boxbar;25EB
+boxslash;29C4
+boxbslash;29C5
+boxcircle;29C7
+boxbox;29C8
+boxempty;25A1
+lightning;21AF
+vartimes;00D7
+fatsemi;2A1F
+fatslash;29F8
+fatbslash;29F9
+lbag;27C5
+rbag;27C6
+Lbag;27C5
+Rbag;27C6
+varbigcirc;25EF
+nnwarrow;2196
+nnearrow;2197
+leftslice;2AA6
+rightslice;2AA7
+varolessthan;29C0
+varogreaterthan;29C1
+talloblong;2AFE
+interleave;2AF4
+obar;233D
+obslash;29B8
+olessthan;29C0
+ogreaterthan;29C1
+subsetplus;2ABF
+supsetplus;2AC0
+llbracket;27E6
+rrbracket;27E7
+llparenthesis;2987
+rrparenthesis;2988
+binampersand;0026
+bindnasrepma;214B
+trianglelefteqslant;22B4
+trianglerighteqslant;22B5
+ntrianglelefteqslant;22EC
+ntrianglerighteqslant;22ED
+arrownot;0338
+Arrownot;0338
+leftrightarrowtriangle;21FF
+leftarrowtriangle;21FD
+rightarrowtriangle;21FE
+bigtriangledown;25BD
+bigtriangleup;25B3
+bigcurlyvee;22CE
+bigcurlywedge;22CF
+bigsqcap;2A05
+bigbox;25A1
+bigparallel;2225
+biginterleave;2AFC
+hugetriangledown;25BD
+hugetriangleup;25B3
+hugecurlyvee;22CE
+hugecurlywedge;22CF
+hugesqcap;2A05
+hugebox;25A1
+hugeparallel;2225
+hugeinterleave;2AFC
+largellbracket;27E6
+Largellbracket;27E6
+LARGEllbracket;27E6
+hugellbracket;27E6
+largerrbracket;27E7
+Largerrbracket;27E7
+LARGErrbracket;27E7
+hugerrbracket;27E7
+# TeX's extensible pieces the kernel's glyphtounicode-cmex.tex leaves out (txfonts' txex in the
+# author's Ipe figures): the horizontal brace's extension is the horizontal line extension.
+bracehext;23AF
+# TS1's \texttildelow (tildelow, slot 126) paints the modifier letter low tilde ˷, the character the
+# collector gives the command (decision 104 item 3); by name, the tagged PDF's ToUnicode spells it too
+# (decision 105: slides 0018).
+tildelow;02F7
+# Decision 104 (tools/font_unicode_audit over scheme-medium, ranked by the store papers): the
+# glyph names of the most-used fonts that no list spells, reviewed by the command each glyph
+# serves (amssymb.sty, latexsym.sty, wasysym.sty, stmaryrd.sty, eufrak) and the character
+# unicode-math gives that command. Marks that paint no character of their own are none: OT1's
+# suppress (the stroke \L and \l overlay on their letter), the compound word marks, T1's
+# perthousandzero (\textperthousand's second zero), TS1's 2/3- and 3/4-em dashes, amsfonts'
+# ghost and the pieces of \dashrightarrow; in a text font such a glyph reads as nothing, in a symbol
+# font it stays unmapped with its name. Doubtful but kept: lasy's and wasy's \lhd \rhd as the
+# normal-subgroup triangles ⊲ ⊳ (unicode-math's reading), \leadsto as ⤳, msam's \centerdot
+# (squaresmallsolid) as ▪, TS1's tie accents as the combining double inverted breve, wasy's
+# \varint and display integrals as the plain ones. Left unmapped (no clear equivalent): wasy's
+# APL arrows-in-boxes but four, \pointer, \bell, \clock, \kreuz, stmaryrd's Y-shapes but \Yup,
+# its curly arrows and brackets, txfonts' txexa (txsyc and pxsyc are reviewed below, decision 105).
+suppress;none
+cwm;none
+compwordmark;none
+capitalcompwordmark;none
+ascendercompwordmark;none
+cwmcapital;none
+cwmascender;none
+perthousandzero;none
+anglearc;none
+twelveudash;none
+threequartersemdash;none
+ghost;none
+axisshort;none
+arrowaxisright;none
+arrowaxisleft;none
+Orogate;none
+orogate;none
+Mapstochar;none
+mapsfromchar;none
+Mapsfromchar;none
+lessornotsimilar;22E6
+greaterornotsimilar;22E7
+subsetornoteql;2ACB
+supersetornoteql;2ACC
+notshortbar;2224
+notshortparallel;2226
+barshort;2223
+parallelshort;2225
+notsimequal;2244
+squaresmallsolid;25AA
+dalt;0064
+dnos;0064
+falt;0066
+fnos;0066
+galt;0067
+kalt;006B
+talt;0074
+ualt;0075
+onealt;0031
+g1;0067
+y1;0079
+v1;0076
+w1;0077
+tieaccentlowercase;0361
+tieaccentcapital;0361
+tieaccentlowercase.new;0361
+tieaccentcapital.new;0361
+newtieaccentlowercase;0361
+newtieaccentcapital;0361
+lhd;22B2
+unlhd;22B4
+rhd;22B3
+unrhd;22B5
+recorder;2315
+phone;260E
+checked;2713
+eigthnote;266A
+halfnote;1D15E
+fullnote;1D15D
+twonotes;266B
+LHD;25C0
+RHD;25B6
+ascnode;260A
+descnode;260B
+invdiameter;29B0
+aries;2648
+invneg;2310
+varangle;2222
+diameter;2300
+CIRCLE;25CF
+Circle;25CB
+leftmoon;263E
+rightmoon;263D
+mercury;263F
+smiley;263A
+blacksmiley;263B
+frownie;2639
+agemO;2127
+Bowtie;22C8
+Box;25A1
+Diamond;25C7
+XBox;2612
+hexagon;2B21
+AC;223F
+leadsto;2933
+sqsubset;228F
+sqsupset;2290
+apprle;2272
+apprge;2273
+davidsstar;2721
+pentagon;2B20
+LEFTCIRCLE;25D6
+RIGHTCIRCLE;25D7
+Paragraph;00B6
+applecmd;2318
+conjunction;260C
+opposition;260D
+jupiter;2643
+saturn;2644
+uranus;2645
+neptun;2646
+pluto;2647
+taurus;2649
+gemini;264A
+cancer;264B
+virgo;264D
+libra;264E
+scorpio;264F
+sagittarius;2650
+capricorn;2651
+aquarius;2652
+pisces;2653
+permil;2030
+openo;0254
+APLuparrowbox;2350
+APLdownarrowbox;2357
+APLleftarrowbox;2347
+APLrightarrowbox;2348
+varint;222B
+iint;222C
+iiint;222D
+varoint;222E
+oiint;222F
+dispvarint;222B
+dispiint;222C
+dispiiint;222D
+dispvaroint;222E
+dispoiint;222F
+brokenvert;00A6
+APLinput;235E
+APLbox;2395
+APLcomment;235D
+Yup;2144
+baro;233D
+boxdot;22A1
+bbA;1D538
+bbB;1D539
+bbC;2102
+bbD;1D53B
+bbE;1D53C
+bbF;1D53D
+bbG;1D53E
+bbH;210D
+bbI;1D540
+bbJ;1D541
+bbK;1D542
+bbL;1D543
+bbM;1D544
+bbN;2115
+bbO;1D546
+bbP;2119
+bbQ;211A
+bbR;211D
+bbS;1D54A
+bbT;1D54B
+bbU;1D54C
+bbV;1D54D
+bbW;1D54E
+bbX;1D54F
+bbY;1D550
+bbZ;2124
+tfm:lasy5/a1;22B2
+tfm:lasy5/a2;22B4
+tfm:lasy5/a3;22B3
+tfm:lasy5/a4;22B5
+tfm:lasy5/a48;2127
+tfm:lasy5/a49;2A1D
+tfm:lasy5/a50;25A1
+tfm:lasy5/a51;25C7
+tfm:lasy5/a59;2933
+tfm:lasy5/a60;228F
+tfm:lasy5/a61;2290
+tfm:lasy6/a1;22B2
+tfm:lasy6/a2;22B4
+tfm:lasy6/a3;22B3
+tfm:lasy6/a4;22B5
+tfm:lasy6/a48;2127
+tfm:lasy6/a49;2A1D
+tfm:lasy6/a50;25A1
+tfm:lasy6/a51;25C7
+tfm:lasy6/a59;2933
+tfm:lasy6/a60;228F
+tfm:lasy6/a61;2290
+tfm:lasy7/a1;22B2
+tfm:lasy7/a2;22B4
+tfm:lasy7/a3;22B3
+tfm:lasy7/a4;22B5
+tfm:lasy7/a48;2127
+tfm:lasy7/a49;2A1D
+tfm:lasy7/a50;25A1
+tfm:lasy7/a51;25C7
+tfm:lasy7/a59;2933
+tfm:lasy7/a60;228F
+tfm:lasy7/a61;2290
+tfm:lasy8/a1;22B2
+tfm:lasy8/a2;22B4
+tfm:lasy8/a3;22B3
+tfm:lasy8/a4;22B5
+tfm:lasy8/a48;2127
+tfm:lasy8/a49;2A1D
+tfm:lasy8/a50;25A1
+tfm:lasy8/a51;25C7
+tfm:lasy8/a59;2933
+tfm:lasy8/a60;228F
+tfm:lasy8/a61;2290
+tfm:lasy9/a1;22B2
+tfm:lasy9/a2;22B4
+tfm:lasy9/a3;22B3
+tfm:lasy9/a4;22B5
+tfm:lasy9/a48;2127
+tfm:lasy9/a49;2A1D
+tfm:lasy9/a50;25A1
+tfm:lasy9/a51;25C7
+tfm:lasy9/a59;2933
+tfm:lasy9/a60;228F
+tfm:lasy9/a61;2290
+tfm:lasy10/a1;22B2
+tfm:lasy10/a2;22B4
+tfm:lasy10/a3;22B3
+tfm:lasy10/a4;22B5
+tfm:lasy10/a48;2127
+tfm:lasy10/a49;2A1D
+tfm:lasy10/a50;25A1
+tfm:lasy10/a51;25C7
+tfm:lasy10/a59;2933
+tfm:lasy10/a60;228F
+tfm:lasy10/a61;2290
+tfm:lasyb10/a1;22B2
+tfm:lasyb10/a2;22B4
+tfm:lasyb10/a3;22B3
+tfm:lasyb10/a4;22B5
+tfm:lasyb10/a48;2127
+tfm:lasyb10/a49;2A1D
+tfm:lasyb10/a50;25A1
+tfm:lasyb10/a51;25C7
+tfm:lasyb10/a59;2933
+tfm:lasyb10/a60;228F
+tfm:lasyb10/a61;2290
+# Decision 105's finishing of the fonts (route 2 over the slides store and the REVTeX pick, veraPDF
+# 8.4.5.8): txfonts' and pxfonts' symbolsC fonts (txsyc.pfb, pxsyc.pfb: the same glyph names),
+# reviewed by the command txfonts.sty declares at each slot (\re@DeclareMathSymbol ... {symbolsC})
+# and the character unicode-math gives that command. Names whose command has no character of its
+# own are left out and read U+FFFD in a tagged PDF: the mapsto/mapsfrom bar pieces, the colon
+# combinations without one (:≈ :∼ :−), the slashed relations Unicode has no precomposed form of
+# (\nprecsim \nlessapprox \nbumpeq \nll \nSubset \nsqsubset ...), the multimap and join variants
+# but \multimapinv ⟜ and \multimapboth ⧟, \strictif and kin, \Wr, \lambdabar, \sqcupplus and the
+# modal box and diamond arrows (128-152). Doubtful but kept: \varparallel stays the Adobe Glyph
+# List's ∥ (its name is parallel); the big bags as the plain ones (lbagbig ⟅).
+medcircle;26AA
+medbullet;26AB
+doteq;2250
+multimapinv;27DC
+multimapboth;29DF
+forcesextra;22AB
+simequal;2245
+precedesordblequal;2AB3
+followsordblequal;2AB4
+notlessorsimilar;2274
+notgreaterorsimilar;2275
+notprecedesorcurly;22E0
+notfollowsorcurly;22E1
+notgreaterorless;2279
+notlessorgreater;2278
+nequal;2260
+nequivasymptotic;226D
+nequivalence;2262
+nsimilar;2241
+napproxequal;2249
+npropersubset;2284
+npropersuperset;2285
+nsimilarequal;2244
+nelement;2209
+nowner;220C
+nsubsetsqequal;22E2
+nsupersetsqequal;22E3
+colonequal;2254
+equalcolon;2255
+Colonequal;2A74
+ampersandinv;214B
+lbagbig;27C5
+rbagbig;27C6
+oless;29C0
+ogreater;29C1
+circlebar;29B6
+circlebackslash;29B8
+Diamondsolid;25C6
+dashedarrowleft;21E0
+dashedarrowright;21E2
+squiggleleft;21DC
+notdblarrowheadright;2900
+notdblarrowheadleft;2B34
+squareasterisk;29C6
+squarebackslash;29C5
+squarebar;25EB
+squareslash;29C4
+lambdaslash;019B
+club1;2667
+diamond1;2666
+heart1;2665
+spade1;2664
+Arrownortheast;21D7
+Arrowsoutheast;21D8
+Arrownorthwest;21D6
+Arrowsouthwest;21D9
+Latticetop;2AEA
+Perpendicular;2AEB
+# newtxsf's sans math italic (zsfmia): the alternate quantifiers are the quantifiers. MnSymbol's
+# arrowvert is \arrowvert, the vertical line extension cmex's arrowvertex reads as.
+universalAlt;2200
+existentialAlt;2203
+arrowvert;23D0
+# MathType's Euclid Extra (figures exported from Word): its arrow without side bearings is the arrow,
+# the extender of its combining arrows the horizontal line extension (as bracehext).
+arrowrightnosp;2192
+combarrowextender;23AF
+# Mathematica's fonts in included figures (Mathematica1, Mathematica2): a PDF font that is no TeX
+# font is qualified by its base font name. LParen1, RParen1 and Slash1 are the larger sizes of ( ) /,
+# as cmex's parenleftbig is (; Star is \[Star], the star operator ⋆.
+tfm:Mathematica1/Minus;2212
+tfm:Mathematica1/Equal;003D
+tfm:Mathematica1/Star;22C6
+tfm:Mathematica2/LParen1;0028
+tfm:Mathematica2/RParen1;0029
+tfm:Mathematica2/Slash1;002F
+# pifont's Zapf Dingbats (pzdr; ZapfDingbats in a figure, embedded as URW's D050000L): every glyph
+# name (a1 ... a191, pzdr.afm) as the character the collector's DINGBATS slot table gives its slot
+# (tex/relatex-text-symbols.lua, the Zapf Dingbats glyph list), so a font of these names reads alike
+# by slot and by name. Font-qualified: lasy names its glyphs a1 ... too.
+tfm:pzdr/a1;2701
+tfm:pzdr/a2;2702
+tfm:pzdr/a202;2703
+tfm:pzdr/a3;2704
+tfm:pzdr/a4;260E
+tfm:pzdr/a5;2706
+tfm:pzdr/a119;2707
+tfm:pzdr/a118;2708
+tfm:pzdr/a117;2709
+tfm:pzdr/a11;261B
+tfm:pzdr/a12;261E
+tfm:pzdr/a13;270C
+tfm:pzdr/a14;270D
+tfm:pzdr/a15;270E
+tfm:pzdr/a16;270F
+tfm:pzdr/a105;2710
+tfm:pzdr/a17;2711
+tfm:pzdr/a18;2712
+tfm:pzdr/a19;2713
+tfm:pzdr/a20;2714
+tfm:pzdr/a21;2715
+tfm:pzdr/a22;2716
+tfm:pzdr/a23;2717
+tfm:pzdr/a24;2718
+tfm:pzdr/a25;2719
+tfm:pzdr/a26;271A
+tfm:pzdr/a27;271B
+tfm:pzdr/a28;271C
+tfm:pzdr/a6;271D
+tfm:pzdr/a7;271E
+tfm:pzdr/a8;271F
+tfm:pzdr/a9;2720
+tfm:pzdr/a10;2721
+tfm:pzdr/a29;2722
+tfm:pzdr/a30;2723
+tfm:pzdr/a31;2724
+tfm:pzdr/a32;2725
+tfm:pzdr/a33;2726
+tfm:pzdr/a34;2727
+tfm:pzdr/a35;2605
+tfm:pzdr/a36;2729
+tfm:pzdr/a37;272A
+tfm:pzdr/a38;272B
+tfm:pzdr/a39;272C
+tfm:pzdr/a40;272D
+tfm:pzdr/a41;272E
+tfm:pzdr/a42;272F
+tfm:pzdr/a43;2730
+tfm:pzdr/a44;2731
+tfm:pzdr/a45;2732
+tfm:pzdr/a46;2733
+tfm:pzdr/a47;2734
+tfm:pzdr/a48;2735
+tfm:pzdr/a49;2736
+tfm:pzdr/a50;2737
+tfm:pzdr/a51;2738
+tfm:pzdr/a52;2739
+tfm:pzdr/a53;273A
+tfm:pzdr/a54;273B
+tfm:pzdr/a55;273C
+tfm:pzdr/a56;273D
+tfm:pzdr/a57;273E
+tfm:pzdr/a58;273F
+tfm:pzdr/a59;2740
+tfm:pzdr/a60;2741
+tfm:pzdr/a61;2742
+tfm:pzdr/a62;2743
+tfm:pzdr/a63;2744
+tfm:pzdr/a64;2745
+tfm:pzdr/a65;2746
+tfm:pzdr/a66;2747
+tfm:pzdr/a67;2748
+tfm:pzdr/a68;2749
+tfm:pzdr/a69;274A
+tfm:pzdr/a70;274B
+tfm:pzdr/a71;25CF
+tfm:pzdr/a72;274D
+tfm:pzdr/a73;25A0
+tfm:pzdr/a74;274F
+tfm:pzdr/a203;2750
+tfm:pzdr/a75;2751
+tfm:pzdr/a204;2752
+tfm:pzdr/a76;25B2
+tfm:pzdr/a77;25BC
+tfm:pzdr/a78;25C6
+tfm:pzdr/a79;2756
+tfm:pzdr/a81;25D7
+tfm:pzdr/a82;2758
+tfm:pzdr/a83;2759
+tfm:pzdr/a84;275A
+tfm:pzdr/a97;275B
+tfm:pzdr/a98;275C
+tfm:pzdr/a99;275D
+tfm:pzdr/a100;275E
+tfm:pzdr/a101;2761
+tfm:pzdr/a102;2762
+tfm:pzdr/a103;2763
+tfm:pzdr/a104;2764
+tfm:pzdr/a106;2765
+tfm:pzdr/a107;2766
+tfm:pzdr/a108;2767
+tfm:pzdr/a112;2663
+tfm:pzdr/a111;2666
+tfm:pzdr/a110;2665
+tfm:pzdr/a109;2660
+tfm:pzdr/a120;2460
+tfm:pzdr/a121;2461
+tfm:pzdr/a122;2462
+tfm:pzdr/a123;2463
+tfm:pzdr/a124;2464
+tfm:pzdr/a125;2465
+tfm:pzdr/a126;2466
+tfm:pzdr/a127;2467
+tfm:pzdr/a128;2468
+tfm:pzdr/a129;2469
+tfm:pzdr/a130;2776
+tfm:pzdr/a131;2777
+tfm:pzdr/a132;2778
+tfm:pzdr/a133;2779
+tfm:pzdr/a134;277A
+tfm:pzdr/a135;277B
+tfm:pzdr/a136;277C
+tfm:pzdr/a137;277D
+tfm:pzdr/a138;277E
+tfm:pzdr/a139;277F
+tfm:pzdr/a140;2780
+tfm:pzdr/a141;2781
+tfm:pzdr/a142;2782
+tfm:pzdr/a143;2783
+tfm:pzdr/a144;2784
+tfm:pzdr/a145;2785
+tfm:pzdr/a146;2786
+tfm:pzdr/a147;2787
+tfm:pzdr/a148;2788
+tfm:pzdr/a149;2789
+tfm:pzdr/a150;278A
+tfm:pzdr/a151;278B
+tfm:pzdr/a152;278C
+tfm:pzdr/a153;278D
+tfm:pzdr/a154;278E
+tfm:pzdr/a155;278F
+tfm:pzdr/a156;2790
+tfm:pzdr/a157;2791
+tfm:pzdr/a158;2792
+tfm:pzdr/a159;2793
+tfm:pzdr/a160;2794
+tfm:pzdr/a161;2192
+tfm:pzdr/a163;2194
+tfm:pzdr/a164;2195
+tfm:pzdr/a196;2798
+tfm:pzdr/a165;2799
+tfm:pzdr/a192;279A
+tfm:pzdr/a166;279B
+tfm:pzdr/a167;279C
+tfm:pzdr/a168;279D
+tfm:pzdr/a169;279E
+tfm:pzdr/a170;279F
+tfm:pzdr/a171;27A0
+tfm:pzdr/a172;27A1
+tfm:pzdr/a173;27A2
+tfm:pzdr/a162;27A3
+tfm:pzdr/a174;27A4
+tfm:pzdr/a175;27A5
+tfm:pzdr/a176;27A6
+tfm:pzdr/a177;27A7
+tfm:pzdr/a178;27A8
+tfm:pzdr/a179;27A9
+tfm:pzdr/a193;27AA
+tfm:pzdr/a180;27AB
+tfm:pzdr/a199;27AC
+tfm:pzdr/a181;27AD
+tfm:pzdr/a200;27AE
+tfm:pzdr/a182;27AF
+tfm:pzdr/a201;27B1
+tfm:pzdr/a183;27B2
+tfm:pzdr/a184;27B3
+tfm:pzdr/a197;27B4
+tfm:pzdr/a185;27B5
+tfm:pzdr/a194;27B6
+tfm:pzdr/a198;27B7
+tfm:pzdr/a186;27B8
+tfm:pzdr/a195;27B9
+tfm:pzdr/a187;27BA
+tfm:pzdr/a188;27BB
+tfm:pzdr/a189;27BC
+tfm:pzdr/a190;27BD
+tfm:pzdr/a191;27BE
+# Unmapped symbol-font glyphs, reviewed by the painted glyph (rendered by slot, 2026-11-09), the
+# command that slot serves (txfonts.sty, wasysym.sty, stmaryrd.sty) and unicode-math's character.
+# txexa, txexs and txexas (newtx/txfonts big operators): the integrals and big operators whose
+# glyph is the Unicode operator itself; the sized brackets and bags as the plain ones (as lbagbig);
+# the A-sized paren pieces are the paren pieces (parenlefttp ...), barex the vertical line
+# extension (as cmex's arrowvertex), hat4-6 and tilde4-6 the wide accents (as hatwidest). Left
+# unmapped, no Unicode character of their own: the multiset/square plus operators, the idots and
+# clockwise double and triple contour integrals with arrows, the squared double and triple
+# integrals, the double bracket pieces, bardblex, the group tips.
+iintegtext;222C
+iintegdisplay;222C
+iiintegtext;222D
+iiintegdisplay;222D
+iiiintegtext;2A0C
+iiiintegdisplay;2A0C
+dblcontintegtext;222F
+dblcontintegdisplay;222F
+tplcontintegtext;2230
+tplcontintegdisplay;2230
+cntrclckwcontintegtext;2233
+cntrclckwcontintegdisplay;2233
+varcntrclckwcontintegtext;2233
+varcntrclckwcontintegdisplay;2233
+clckwcontintegtext;2232
+clckwcontintegdisplay;2232
+varclckwcontintegtext;2232
+varclckwcontintegdisplay;2232
+squarecontintegtext;2A16
+squarecontintegdisplay;2A16
+intersectionsqtext;2A05
+intersectionsqdisplay;2A05
+fIntegraltext;2A0F
+fIntegraldisplay;2A0F
+producttext1;2A09
+productdisplay1;2A09
+dblbracketleftbig;27E6
+dblbracketleftBig;27E6
+dblbracketleftbigg;27E6
+dblbracketleftBigg;27E6
+dblbracketrightbig;27E7
+dblbracketrightBig;27E7
+dblbracketrightbigg;27E7
+dblbracketrightBigg;27E7
+lbagBig;27C5
+lbagbigg;27C5
+lbagBigg;27C5
+lbagBiggg;27C5
+lbagBigggg;27C5
+lbagBiggggg;27C5
+rbagBig;27C6
+rbagbigg;27C6
+rbagBigg;27C6
+rbagBiggg;27C6
+rbagBigggg;27C6
+rbagBiggggg;27C6
+parenlefttpA;239B
+parenleftexA;239C
+parenleftbtA;239D
+parenrighttpA;239E
+parenrightexA;239F
+parenrightbtA;23A0
+barex;23D0
+hat4;02C6
+hat5;02C6
+hat6;02C6
+tilde4;02DC
+tilde5;02DC
+tilde6;02DC
+# txsyc: \nvarparallel and its inverse are the slashed parallel sign; \VvDash is ⊪; \Wr paints the
+# wreath product; \lambdabar is ƛ (as lambdaslash).
+nparallel;2226
+nparallel1;2226
+Forcesbar;22AA
+Wreathproduct;2240
+lambdabar;019B
+# wasy10: \wasypropto is the proportional sign; the filled up and down triangles are the black
+# triangles.
+varprop;221D
+UParrow;25B2
+DOWNarrow;25BC
+# stmaryrd: the names of the Type 1 programs at slots 36-38 are shifted against the glyphs (the
+# AFM says slot 36 is ssearrow, the glyph painted there, the TFM's \sswarrow, is the south-west
+# arrow, slot 37's glyph the south-east one; slot 38's, named sswarrow, is \curlywedgeuparrow).
+# By the painted glyph, qualified by every size: ↙ and ↘; the curly-wedge arrow has no character.
+tfm:stmary5/ssearrow;2199
+tfm:stmary5/curlywedgeuparrow;2198
+tfm:stmary6/ssearrow;2199
+tfm:stmary6/curlywedgeuparrow;2198
+tfm:stmary7/ssearrow;2199
+tfm:stmary7/curlywedgeuparrow;2198
+tfm:stmary8/ssearrow;2199
+tfm:stmary8/curlywedgeuparrow;2198
+tfm:stmary9/ssearrow;2199
+tfm:stmary9/curlywedgeuparrow;2198
+tfm:stmary10/ssearrow;2199
+tfm:stmary10/curlywedgeuparrow;2198
+# Accessibility round 2 (2026-11-13), the rest of txsyc, stmaryrd and wasy, each glyph rendered by
+# slot and read by its name, the command at its slot and a published reading of that command:
+# txsyc (and pxsyc, txbsyc, pxbsyc: the same names): \strictif and \strictfi are the fish tails
+# (lwarp's MathJax table, Unicode's RIGHT/LEFT FISH TAIL); \lJoin and \rJoin the left- and
+# right-closed bowties (lwarp; unicode-math's \ltimes is the "times sign, left closed"); \Join and
+# \lrtimes the join (unicode-math's \Join, lwarp's \lrJoin and \lrtimes); \openJoin and \opentimes
+# the open bowtie, greater-than overlapping less-than (lwarp); \varparallelinv the parallel sign,
+# as its slashed form nparallel1 and the Adobe Glyph List's parallel at slot 9.
+strict;297D
+strictinverse;297C
+multicloseleft1;22C9
+multicloseright1;22CA
+multicloseboth1;2A1D
+multicloseboth;2A1D
+multiopenboth1;2AA4
+multiopenboth;2AA4
+parallel1;2225
+# (lwarp reads \varparallelinv as U+244A by its shape; the name and command say parallel.)
+# stmaryrd: \bbslash, the double backslash operator (no parallel sign), paints two backslashes:
+# OCR DOUBLE BACKSLASH, the one character of that name and shape (\sslash is ⫽ by unicode-math).
+bbslash;244A
+# txsyc (and pxsyc, txbsyc, pxbsyc) slots 23 and 24, \multimapdotbothA and \multimapdotbothB
+# (txfonts.sty), rendered at 50 pt by slot: a hollow circle, a rule and a filled circle, then the
+# mirror image. STIX Two Math's \origof (U+22B6 ORIGINAL OF) and \imageof (U+22B7 IMAGE OF) draw
+# the same two figures in the same order; lwarp (lwarp-common-mathjax-nonunicode.sty) reads
+# \multimapdotbothA as U+22B6 and \multimapdotbothB as U+22B7. The glyph names say which end is
+# solid (rsolidmultimapboth: right). The other solid multimaps (slots 20-22, 149-152: a filled
+# circle at one end of a plain multimap, or at both, or set vertically) have no character.
+rsolidmultimapboth;22B6
+lsolidmultimapboth;22B7
+# wasy: the APL triangles \APLup and \APLdown are APL's delta and del (∆ ∇); \APLlog (logof) the
+# APL circle star; \pointer the rightwards white arrow; \bell the bell; \rightturn and \leftturn the
+# clockwise and anticlockwise open circle arrows; the four arrowheads the modifier-letter
+# arrowheads of the same names; \varhexagon the pointed-top white hexagon (WHITE HEXAGON's own
+# orientation); \hexstar and \varhexstar the light six-spoked asterisk, \APLstar (pentastar) the
+# light five-spoked one; the phonetic letters \zh, \inve and \dh are ezh, schwa and eth.
+APLup;2206
+APLdown;2207
+logof;235F
+pointer;21E8
+bell;1F514
+rightturn;21BB
+leftturn;21BA
+leftarrowhead;02C2
+rightarrowhead;02C3
+uparrowhead;02C4
+downarrowhead;02C5
+varhexagon;2B21
+hexstar;1F7B5
+varhexstar;1F7B5
+pentastar;1F7AF
+zh;0292
+inve;0259
+dh;00F0
+# Left unmapped after that review, no Unicode character of their own (a tagged PDF reads them
+# U+FFFD, the export names them): txsyc's mapsto/mapsfrom bar pieces and leadstoext, the colon
+# combinations, the solid and vertical multimaps, the slashed relations, \strictiff (two fish tails,
+# no one character), the circled wedge and vee, \nplus, \sqcupplus, \sqcapplus,
+# \dashleftrightarrow, the box, diamond and circle arrows; all 34 txexa names (multiset and square
+# big operators, \idotsint, the arrowed and squared multiple integrals, the double-bracket pieces);
+# stmaryrd's Y-shapes but \Yup, \moo, \merge, the curly arrows, \leftrightarroweq, the circled
+# vee and wedge, \oblong (a near-square box, no oblong shape), \inplus, \niplus, \nplus and its
+# big sizes, \subsetpluseq, \supsetpluseq, the double floors and ceilings and the huge double
+# bracket pieces; wasy's \clock (a clock face at one time, no plain clock), \kreuz (a cross
+# pattée), \octagon (no white octagon), \VHF, \Leftcircle, \Rightcircle (no outlined half disc),
+# the gluon pieces and \ataribox.
+# msam10's axisshort and arrowaxisright are the pieces of \dashrightarrow (axisshort twice, then the head): no glyph of its own paints ⇢ (decision 105: a per-glyph drawing set would need the codes in the content's marking); they stay none.

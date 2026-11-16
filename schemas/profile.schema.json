@@ -1,0 +1,82 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "version",
+    "oracle_origin",
+    "toolchain_fingerprint",
+    "cases"
+  ],
+  "properties": {
+    "id": {
+      "enum": [
+        "m1-frozen-fixtures-v1",
+        "m1-frozen-fixtures-v2",
+        "m1-user-texlive-fixtures-v1"
+      ]
+    },
+    "version": {
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "oracle_origin": {
+      "type": "string"
+    },
+    "toolchain_fingerprint": {
+      "type": "string"
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "fixture",
+          "disposition",
+          "input_sha256",
+          "inspection_sha256",
+          "diagnostic_codes"
+        ],
+        "properties": {
+          "fixture": {
+            "type": "string"
+          },
+          "disposition": {
+            "enum": [
+              "supported",
+              "unsupported"
+            ]
+          },
+          "input_sha256": {
+            "type": "string"
+          },
+          "inspection_sha256": {
+            "type": "object",
+            "required": [
+              "1",
+              "2"
+            ],
+            "properties": {
+              "1": {
+                "type": "string"
+              },
+              "2": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "diagnostic_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

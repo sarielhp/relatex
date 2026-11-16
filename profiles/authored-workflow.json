@@ -1,0 +1,143 @@
+{
+  "id": "authored-workflow-1",
+  "scope": "Exact authored workflow input: declared semantic assertions, JSON integrity, fresh HTML browser retention, and ordinary/collected PDF text and all rasters. Other output formats and synchronization are not qualified.",
+  "formats": [
+    "json",
+    "json.gz",
+    "html"
+  ],
+  "main": "main.tex",
+  "fixture": "test/feature-projects/workflow",
+  "title": "Authored workflow target",
+  "author": "Example Author",
+  "bibliography_heading": "References",
+  "headings": [
+    "Source and reading coverage",
+    "Second page"
+  ],
+  "labels": [
+    "sec:first",
+    "sec:second",
+    "th:workflow",
+    "eq:workflow",
+    "fig:workflow",
+    "tab:workflow"
+  ],
+  "structures": {
+    "theorem": 1,
+    "proof": 1,
+    "ordered_list": 1,
+    "unordered_list": 1,
+    "list_item": 3,
+    "figure_float": 1,
+    "table_float": 1
+  },
+  "prose": [
+    "The office affinity words exercise ligatures and synchronization.",
+    "Uniqueanchor occupies an unambiguous authored source span.",
+    "Echo echo: repeated repeated words remain separate visible occurrences.",
+    "Unicode café, naïve and résumé are authored text.",
+    "The macro generatedword emits text whose exact character origin is not asserted.",
+    "A paragraph has bold, italic and small caps.",
+    "Escaped literals & _ % # $ are text, and an authored link has one target.",
+    "A long unbreakable continuationword and",
+    "The synchronization word spans narrow lines.",
+    "is followed by ordinary text.",
+    "Outer first item with inline math",
+    "Inner item.",
+    "Outer second item with a note",
+    "Page two has the source anchor paginationword.",
+    "Workflow figure WORKFIG.",
+    "Workflow table WORKTABLE."
+  ],
+  "note_marker": "Workflow note WORKNOTE contains",
+  "external_link": {
+    "href": "https://example.org/",
+    "text": "an authored link"
+  },
+  "table_cells": [
+    [
+      "W11",
+      "W12"
+    ],
+    [
+      "W21",
+      "W22"
+    ]
+  ],
+  "asset": "assets/opaque.png",
+  "citation": {
+    "key": "workflow",
+    "text": [
+      "Example Writer",
+      "An independent authored workflow reference.",
+      "Authored Examples",
+      "2026"
+    ]
+  },
+  "math": [
+    {
+      "id": "abstract",
+      "text": "G∈Z",
+      "tags": {
+      },
+      "double_struck": "Z",
+      "owner": "abstract"
+    },
+    {
+      "id": "claim",
+      "text": "x≥0",
+      "tags": {
+      },
+      "owner": "theorem"
+    },
+    {
+      "id": "equation",
+      "text": "x+1x2+1=yi.",
+      "tags": {
+        "mfrac": 1,
+        "msqrt": 1,
+        "msup": 1,
+        "msub": 1
+      },
+      "owner": "equation"
+    },
+    {
+      "id": "inline-script",
+      "text": "xi2",
+      "tags": {
+        "msubsup": 1
+      },
+      "owner": "list_item"
+    },
+    {
+      "id": "note",
+      "text": "a+b",
+      "tags": {
+      },
+      "owner": "note"
+    }
+  ],
+  "generated_math": [
+    "•",
+    "◦"
+  ],
+  "required_checks": [
+    "source_model",
+    "metadata_structure",
+    "prose_styles",
+    "math",
+    "notes_references",
+    "assets_tables_citations",
+    "external_links",
+    "pdf_preservation",
+    "html_browser"
+  ],
+  "references": {
+    "eq:workflow": 1,
+    "sec:first": 1,
+    "th:workflow": 1,
+    "fig:workflow": 1,
+    "tab:workflow": 1
+  }
+}

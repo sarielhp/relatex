@@ -1,0 +1,62 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-ams-toc}{2026/10/15}{0.1.0}{Guarded AMS contents writer}
+\cs_new:Npn \__ltd_ams_expected_marks:nnnnn #1#2#3#4#5
+  {\tl_set:Nn\@currentlabelname{#4}
+   \IfBlankF{#2}{\__head_mark_cmd:n{#2}}
+   \IfBlankTF{#1}
+     {\IfBlankF{#3}
+       {\addcontentslinebookmark{toc}{\l__head_name_tl}
+         {\bool_if:NF\l__head_unnumbered_bool
+           {\protect\numberline{\use:c{the\l__head_name_tl}}}#3}}}
+     {\IfBlankT{#3}{\addcontentslinebookmarkOff}
+      \addcontentsline{toc}{\l__head_name_tl}
+        {\bool_if:NF\l__head_unnumbered_bool
+          {\protect\numberline{\use:c{the\l__head_name_tl}}}
+         \texorpdfstring{#1}{#3}}
+      \addcontentslinebookmarkReset}
+   \l__head_contents_extra_tl
+   \__head_debug_typeout:n{--->~label(s):~\exp_not:n{#5}}
+   #5}
+\cs_new_protected:Npn \__ltd_ams_write_toc:
+  {\int_compare:nNnF {\l__ltd_ams_level_int}>{\@m}
+    {\dim_compare:nNnTF {\l__ltd_ams_after_skip}>{0pt}
+      {\exp_args:NVV\@tocwrite\l__ltd_ams_name_tl\l__ltd_ams_title_tl}
+      {\group_begin:
+       \l__ltd_ams_decls_tl
+       \exp_args:NVV\@tocwrite\l__ltd_ams_name_tl\l__ltd_ams_title_tl
+       \group_end:}}}
+\cs_new:Npn \__ltd_ams_marks:nnnnn #1#2#3#4#5
+  {\bool_if:NTF \l__ltd_ams_legacy_heading_bool
+    {\bool_set_false:N \l__ltd_ams_legacy_heading_bool
+     \tl_set:Nn\@currentlabelname{#4}
+     \__ltd_ams_write_toc:
+     \l__head_contents_extra_tl
+     #5}
+    {\__ltd_ams_original_marks:nnnnn{#1}{#2}{#3}{#4}{#5}}}
+\cs_new_protected:Npn \__ltd_ams_role:nn #1#2
+  {\cs_if_exist:cF {l__tag_name_#1_tl}
+    {\NewStructureName{#1}\AssignStructureRole{#1}{#2}}}
+% Level 10000 takes the roles of level 1 (a section). LaTeX 2026-11-01 renamed
+% them (section, section-heading, heading-number) and added a fragment name.
+\cs_new_protected:Npn \__ltd_ams_section_role:n #1
+  {\cs_if_exist:cT {l__tag_name_sec/1#1_tl}
+    {\exp_args:Nnv \__ltd_ams_role:nn {sec/10000#1}{l__tag_name_sec/1#1_tl}}}
+\AddToHook{class/amsart/after}[relatex-ams-toc]
+  {\__ltd_ams_main_class:T
+    {\cs_if_exist:NT \ParseLaTeXeHeading
+    {% AMS uses level 10000 and an empty counter name for contents/list titles.
+     % Keep it unnumbered, with valid native section roles. Preamble choices
+     % can replace these roles; existing roles are preserved individually.
+     \__ltd_ams_section_role:n {}
+     \clist_map_function:nN {/title,/number,/fragment} \__ltd_ams_section_role:n
+     \__ltd_ams_role:nn {sec/10000/titleline}{Span}
+     \cs_if_eq:NNTF \__head_handle_marks_etc:nnnnn \__ltd_ams_expected_marks:nnnnn
+      {\cs_new_eq:NN \__ltd_ams_original_marks:nnnnn \__head_handle_marks_etc:nnnnn
+       \cs_set_eq:NN \__head_handle_marks_etc:nnnnn \__ltd_ams_marks:nnnnn}
+      {\PackageError{relatex-ams-toc}{Unsupported~native~heading~contents~writer}
+        {Use~the~qualified~native~definition.}}}}}
+\endinput

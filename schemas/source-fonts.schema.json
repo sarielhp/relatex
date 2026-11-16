@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "required": ["status", "qualified", "pdf_sha256", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "status": { "const": "document-fonts-1" },
+    "qualified": { "const": false },
+    "pdf_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["font_name", "origin", "families", "generic"],
+        "additionalProperties": false,
+        "properties": {
+          "font_name": { "type": "string" },
+          "origin": { "enum": ["tex", "file"] },
+          "families": { "type": "array", "items": { "type": "string" } },
+          "generic": { "enum": ["serif", "sans-serif", "monospace"] },
+          "postscript_name": { "type": "string" },
+          "postscript_names": { "type": "array", "items": { "type": "string" } },
+          "scales": { "type": "array", "items": { "type": "string" } },
+          "css_family": { "type": "string" },
+          "file": {
+            "type": "object",
+            "required": ["name", "sha256", "format", "bytes", "source"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string" },
+              "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+              "format": { "enum": ["truetype", "opentype"] },
+              "bytes": { "type": "integer", "minimum": 1 },
+              "source": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

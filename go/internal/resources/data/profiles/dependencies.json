@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "providers": [
+    {
+      "id": "eptcs-style",
+      "repository": "https://github.com/EPTCS/style",
+      "revision": "eb1acf70fd7a588ce90246e941d14478d99f8869",
+      "version": "eptcs.cls 2022/05/20 v1.7",
+      "license": "CC-BY-4.0",
+      "license_url": "https://github.com/EPTCS/style/blob/eb1acf70fd7a588ce90246e941d14478d99f8869/LICENSE",
+      "provides": ["eptcs.cls"],
+      "files": {
+        "eptcs.cls": "294afd5e4040a23858d0357da9abd3503240636485427a96ebda116f0011a020",
+        "LICENSE": "9e5f1b3c610b9c2da5c313bf81d577a7d1acec686bdb0384edefa6df0f90cd94",
+        "README.md": "f41d3c72cf7dbdeeb5b3c0c9c3de153a2a70ec58f316ccb2edddfd19de5ba1d9"
+      }
+    }
+  ]
+}

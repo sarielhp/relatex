@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Word-level PDF/source synchronization with explicit precision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "pdf_sha256",
+    "synctex_sha256",
+    "source_files",
+    "coordinates",
+    "words",
+    "precision_policy"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "source-map-1.0",
+        "source-map-1.1",
+        "source-map-1.2",
+        "source-map-2.0"
+      ]
+    },
+    "pdf_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "synctex_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "glyph_map_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["number", "width", "height"],
+        "properties": {
+          "number": {"type": "integer", "minimum": 1},
+          "width": {"type": "number"},
+          "height": {"type": "number"}
+        }
+      }
+    },
+    "source_files": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "coordinates": {
+      "type": "object"
+    },
+    "precision_policy": {
+      "type": "string"
+    },
+    "words": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "page",
+          "text",
+          "boxes",
+          "origins",
+          "source_precision"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "text": {
+            "type": "string"
+          },
+          "normalized_text": {
+            "type": "string"
+          },
+          "boxes": {
+            "type": "array",
+            "minItems": 1
+          },
+          "baseline": {
+            "type": "array"
+          },
+          "lines": {
+            "type": "array"
+          },
+          "continues": {
+            "type": "string"
+          },
+          "transform_unknown": {
+            "type": "boolean"
+          },
+          "letters": {
+            "type": "array"
+          },
+          "source_precision": {
+            "type": "string"
+          },
+          "origins": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "file",
+                "line",
+                "source_sha256",
+                "precision"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string"
+                },
+                "line": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "end_line": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "source_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "precision": {
+                  "enum": [
+                    "exact",
+                    "macro",
+                    "math",
+                    "line",
+                    "inferred_span"
+                  ]
+                },
+                "characters": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "byte_offsets": {
+                  "type": "array",
+                  "items": {"type": "integer", "minimum": 0},
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "native_hint": {
+                  "type": "object",
+                  "required": ["line", "column"],
+                  "properties": {
+                    "line": {"type": "integer", "minimum": 1},
+                    "column": {"type": "integer"}
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "object"
+    },
+    "logical_words": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["schema_version", "id", "text", "normalized_text", "display_text", "word_ids", "fragments", "origins"],
+        "properties": {
+          "schema_version": {"const": "source-word-group-1"},
+          "id": {"type": "string", "pattern": "^source-word-[0-9a-f]{24}$"},
+          "text": {"type": "string"},
+          "normalized_text": {"type": "string"},
+          "display_text": {"type": "string"},
+          "word_ids": {
+            "type": "array",
+            "items": {"type": "string"},
+            "minItems": 2,
+            "maxItems": 32,
+            "uniqueItems": true
+          },
+          "fragments": {"type": "array", "minItems": 2, "maxItems": 32},
+          "origins": {"type": "array", "minItems": 1}
+        }
+      }
+    },
+    "index": {
+      "type": "object"
+    },
+    "document_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id" xml:lang="en">
+<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+<dc:identifier id="pub-id">urn:uuid:a8cde882-22ab-5d5e-a46e-56b8d147ae06</dc:identifier>
+<dc:title>A small package</dc:title>
+<dc:creator>Ada Lovelace</dc:creator>
+<dc:language>en</dc:language>
+<dc:source id="print-source">fixture.pdf, SHA-256 0000000000000000000000000000000000000000000000000000000000000000</dc:source>
+<meta refines="#print-source" property="source-of">pagination</meta>
+<meta property="pageBreakSource">fixture.pdf, SHA-256 0000000000000000000000000000000000000000000000000000000000000000</meta>
+<meta property="dcterms:modified">1980-01-01T00:00:00Z</meta>
+<meta property="schema:accessMode">textual</meta>
+<meta property="schema:accessMode">visual</meta>
+<meta property="schema:accessModeSufficient">textual,visual</meta>
+<meta property="schema:accessModeSufficient">textual</meta>
+<meta property="schema:accessibilityFeature">tableOfContents</meta>
+<meta property="schema:accessibilityFeature">readingOrder</meta>
+<meta property="schema:accessibilityFeature">displayTransformability</meta>
+<meta property="schema:accessibilityFeature">structuralNavigation</meta>
+<meta property="schema:accessibilityFeature">MathML</meta>
+<meta property="schema:accessibilityFeature">alternativeText</meta>
+<meta property="schema:accessibilityFeature">longDescription</meta>
+<meta property="schema:accessibilityFeature">printPageNumbers</meta>
+<meta property="schema:accessibilityFeature">pageNavigation</meta>
+<meta property="schema:accessibilityHazard">none</meta>
+<meta property="schema:accessibilitySummary">Converted from LaTeX by relatex. The text is reflowable, in the reading order of the source, with a table of contents and navigation by headings. Its 2 formulas are written as MathML. The page numbers of the print edition (the PDF named as the source) are marked in the text and listed in a page list. Every figure has a text alternative. 1 figure has a long description after the figure, shown on demand. The publication conforms to EPUB Accessibility 1.1 - WCAG 2.2 Level AA, as established by the export's accessibility checks.</meta>
+<meta property="dcterms:conformsTo">EPUB Accessibility 1.1 - WCAG 2.2 Level AA</meta>
+<meta property="a11y:certifiedBy">relatex accessibility checks (axe-core and structural checks of the export)</meta>
+</metadata>
+<manifest>
+<item id="i-nav.xhtml" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
+<item id="i-style.css" href="style.css" media-type="text/css"/>
+<item id="i-index.xhtml" href="index.xhtml" media-type="application/xhtml+xml"/>
+<item id="i-section-1.xhtml" href="section-1.xhtml" media-type="application/xhtml+xml" properties="mathml"/>
+<item id="i-section-2.xhtml" href="section-2.xhtml" media-type="application/xhtml+xml" properties="mathml svg"/>
+<item id="i-figs_disk.svg" href="figs/disk.svg" media-type="image/svg+xml"/>
+</manifest>
+<spine>
+<itemref idref="i-index.xhtml"/>
+<itemref idref="i-section-1.xhtml"/>
+<itemref idref="i-section-2.xhtml"/>
+</spine>
+</package>

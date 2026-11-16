@@ -1,0 +1,137 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-ams-layout}{2026/10/15}{0.1.0}{Guarded AMS class defaults}
+% Loaded before metadata and class loading. Author preamble choices run later.
+\tl_new:N \g__ltd_main_class_tl
+\AddToHook{class/before}[relatex-main-class]
+  {\tl_if_empty:NT \g__ltd_main_class_tl
+    {\tl_gset:Ne \g__ltd_main_class_tl {\@currname}}}
+\prg_new_conditional:Npnn \__ltd_ams_main_class: {T,F,TF}
+  {\str_if_eq:VnTF \g__ltd_main_class_tl {amsart}
+    {\prg_return_true:}{\prg_return_false:}}
+\bool_new:N \g__ltd_ams_note_bool
+\cs_new_nopar:Npn \__ltd_ams_note_text: {\indent\@makefnmark}
+\cs_new_nopar:Npn \__ltd_ams_note_mark:
+  {\leavevmode\raise.9ex\hbox{\fontsize\sf@size\z@\normalfont\@thefnmark}}
+\cs_new_protected:Npn \__ltd_ams_expected_note:n #1
+  {\__fnote_debug_footnotetext:
+   \hook_use:n {fntext/before}
+   \tag_socket_use:n {fntext/begin}
+   \socket_use:nn {fntext/process}
+     {\hook_use:n {fntext}
+      \reset@font\footnotesize
+      \interlinepenalty\interfootnotelinepenalty
+      \splittopskip\footnotesep
+      \splitmaxdepth\dp\strutbox
+      \floatingpenalty\@MM
+      \hsize\columnwidth
+      \@parboxrestore
+      \UseTaggingSocket{para/restore}
+      \parindent 1em
+      \def\@currentcounter{footnote}
+      \protected@edef\@currentlabel{\p@footnote\@thefnmark}
+      \hook_use:n {fntext/para}
+      \color@begingroup
+        \socket_use:nn {fntext/make}
+          {\socket_use:n {fntext/begin}
+           \hook_use:n {fntext/begin}
+           \ignorespaces #1
+           \hook_use:n {fntext/end}
+           \socket_use:n {fntext/end}}
+        \par
+      \color@endgroup}
+   \tag_socket_use:n {fntext/end}
+   \hook_use:n {fntext/after}}
+\cs_new_protected:Npn \__ltd_ams_check_note:
+  {\cs_if_eq:NNT \@makefntext \__ltd_ams_note_text:
+    {\cs_if_eq:NNT \@makefnmark \__ltd_ams_note_mark:
+      {\socket_if_plug_assigned:nnT {fntext/make}{default}
+        {\socket_if_plug_assigned:nnT {fntext/process}{default}
+          {\dim_compare:nNnT {\footnotemargin} = {\maxdimen}
+            {\cs_if_eq:NNTF \fnote_footnotetext:n \__ltd_ams_expected_note:n
+              {\bool_gset_true:N \g__ltd_ams_note_bool}
+              {\PackageError{relatex-ams-layout}{Unsupported~native~AMS~footnote~paragraph}
+                {Use~the~qualified~native~definition.}}}}}}}}
+% Register the class default before the author's preamble hooks. Recheck the
+% actual class/native definitions before native begin-document patching. Later
+% author paragraph hooks still run after this default and retain precedence.
+\cs_new_protected:Npn \__ltd_ams_note_default:
+  {\cs_if_exist:NT \fnote_footnotetext:n
+    {\hook_if_empty:nT {fntext/para}
+      {\AddToHook{fntext/para}[relatex-ams-layout]
+        {\bool_if:NT \g__ltd_ams_note_bool {\parindent\normalparindent\sloppy}}
+       \AddToHook{begindocument/before}[relatex-ams-note]{\__ltd_ams_check_note:}}}}
+\cs_new_nopar:Npn \__ltd_ams_default_qed: {\openbox}
+\cs_new_nopar:Npn \__ltd_ams_expected_spacing:
+  {\thm@preskip=.5\baselineskip\@plus.2\baselineskip\@minus.2\baselineskip
+   \thm@postskip=\thm@preskip}
+\cs_new:Npn \__ltd_ams_expected_pagesize:
+  {\bool_lazy_all:nT
+    {{\cs_if_exist_p:N \stockheight}
+     {\cs_if_exist_p:N \stockwidth}
+     {\cs_if_exist_p:N \IfPDFManagementActiveTF}
+     {\IfPDFManagementActiveTF {\c_true_bool}{\c_false_bool}}
+     {\int_compare_p:nNn \tex_mag:D = {1000}}}
+    {\bool_lazy_and:nnTF
+      {\dim_compare_p:nNn \stockheight > {0pt}}
+      {\dim_compare_p:nNn \stockwidth > {0pt}}
+      {\__pdf_backend_pagesize_gset:nn \stockwidth \stockheight}
+      {\bool_lazy_or:nnF
+        {\dim_compare_p:nNn \stockheight < {0pt}}
+        {\dim_compare_p:nNn \stockwidth < {0pt}}
+        {\bool_lazy_and:nnT
+          {\dim_compare_p:nNn \paperheight > {0pt}}
+          {\dim_compare_p:nNn \paperwidth > {0pt}}
+          {\__pdf_backend_pagesize_gset:nn \paperwidth \paperheight}}}}}
+\cs_new_protected:Npn \__ltd_ams_pagesize:
+  {\bool_lazy_all:nF
+    {{\cs_if_exist_p:N \stockheight}
+     {\cs_if_exist_p:N \stockwidth}
+     {\dim_compare_p:nNn \stockheight = {0pt}}
+     {\dim_compare_p:nNn \stockwidth = {0pt}}}
+    {\__ltd_ams_expected_pagesize:}}
+\cs_new_protected:Npn \__ltd_ams_patch_pagesize:nnnw #1#2#3#4\q_stop
+  {\tl_set:Nn \l_tmpa_tl {#1{#2}{#3}}
+   \tl_set:No \l_tmpb_tl {\__ltd_ams_expected_pagesize:}
+   \tl_if_eq:NNTF \l_tmpa_tl \l_tmpb_tl
+     {\tl_gset:Nn \@kernel@before@begindocument {\__ltd_ams_pagesize: #4}}
+     {\PackageError{relatex-ams-layout}{Unsupported~native~page-size~initialization}
+       {Use~the~qualified~kernel~definition.}}}
+\cs_new_protected:Npn \__ltd_ams_release_qed:
+  {\__ltd_ams_main_class:T
+    {\cs_if_exist:NT \ParseLaTeXeTheoremlike
+    {\cs_if_eq:NNT \qedsymbol \__ltd_ams_default_qed:
+      {\cs_set_eq:NN \qedsymbol \scan_stop:}}}}
+\cs_new_protected:Npn \__ltd_ams_block:nn #1 #2
+  {\tl_set:Ne \l_tmpa_tl {\InstanceValue{block}{#1}{begin-vspace}}
+   \tl_set:Ne \l_tmpb_tl {\InstanceValue{block}{#1}{end-vspace}}
+   \tl_if_eq:NnT \l_tmpa_tl {#2}
+     {\tl_if_eq:NnT \l_tmpb_tl {\KeyValue{begin-vspace}}
+       {\EditInstance{block}{#1}
+         {begin-vspace=.5\baselineskip~plus.2\baselineskip~minus.2\baselineskip,
+          end-vspace=.5\baselineskip~plus.2\baselineskip~minus.2\baselineskip}}}}
+\cs_new_protected:Npn \__ltd_ams_defaults:
+  {\__ltd_ams_main_class:T
+    {\str_if_eq:eeF {\use:c{ver@amsart.cls}}{2020/05/29~v2.20.6}
+       {\PackageError{relatex-ams-layout}{Unsupported~AMS~class~version}
+         {Use~the~qualified~class~definition.}}
+     \cs_if_exist:NT \ParseLaTeXeTheoremlike
+      {\cs_if_eq:NNT \thm@space@setup \__ltd_ams_expected_spacing:
+       {\clist_map_inline:nn {1,2}
+         {\__ltd_ams_block:nn {thm-plain-##1}{\topsep}
+          \__ltd_ams_block:nn {thm-remark-##1}{0.5\topsep}}}}
+     \__ltd_ams_note_default:
+     % Ordinary AMS leaves backend page dimensions to the engine or packages.
+     % Metadata adds this automatic paper-size synchronization. Remove only
+     % that exact call; explicit stock-size and backend choices remain intact.
+     \exp_after:wN \__ltd_ams_patch_pagesize:nnnw \@kernel@before@begindocument \q_stop}}
+\AddToHook{class/amsart/before}[relatex-ams-layout]{\__ltd_ams_release_qed:}
+\AddToHook{class/amsart/after}[relatex-ams-layout]{\__ltd_ams_defaults:}
+\RequirePackage{relatex-ams-headings}
+\RequirePackage{relatex-ams-blocks}
+\RequirePackage{relatex-ams-display}
+\RequirePackage{relatex-hyperref}
+\endinput

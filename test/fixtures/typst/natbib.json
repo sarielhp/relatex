@@ -1,0 +1,512 @@
+{
+  "schema_version": "paper-0.2",
+  "profile": "paper-reading-diagnostic-v2",
+  "status": "diagnostic",
+  "qualified": false,
+  "identity": {
+    "id": "corpus",
+    "input_sha256": "8a8135d28b442a7de3a8651a52bcbd3a67ee1b4dc6001c2f3277c0e0ad41474f"
+  },
+  "root": "n-eb00f982c82f567513c938c53e36733d93ff81835f9bd9bffc141a497a7f7715",
+  "nodes": {
+    "n-8332e1aa470f6f44bf2d6a8887fada8118f4630162e8663450ac8b61ced87e91": {
+      "id": "n-8332e1aa470f6f44bf2d6a8887fada8118f4630162e8663450ac8b61ced87e91",
+      "type": "section",
+      "children": [
+        "n-b490801744343a19277a8de254391eadc8b17a07f02d77fa89e002d66a18af4e",
+        "n-fc387834cbf32d32c12dbd9d91614c96bb941dcb3e2988f8c69eda70e471c3f4"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:1",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-f893c9604bf7ac1ac1dd3d93b68d6a480edd5cbef7cc9bc82a0a87fe5ee886d7": {
+      "id": "n-f893c9604bf7ac1ac1dd3d93b68d6a480edd5cbef7cc9bc82a0a87fe5ee886d7",
+      "type": "section",
+      "children": [
+        "n-455842e7ff83b71c765b73544ba988e8be8e9e7c98376da4851dc065818d549b",
+        "n-f8fc8cf21d2ce0cf465d576b323053ada9486a6a61c566a55b94640ee95b0e3f",
+        "n-1c4d05519f01c51bd18c0242dd3eaecadfb9a5488702c3b8160d71eb062453e7",
+        "n-fd1ef7a9afa49041c06cff2d267623251ed61415fb2acc759080b6aeea85b39d"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:3",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 3,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-eb00f982c82f567513c938c53e36733d93ff81835f9bd9bffc141a497a7f7715": {
+      "id": "n-eb00f982c82f567513c938c53e36733d93ff81835f9bd9bffc141a497a7f7715",
+      "type": "document",
+      "children": [
+        "n-8332e1aa470f6f44bf2d6a8887fada8118f4630162e8663450ac8b61ced87e91",
+        "n-f893c9604bf7ac1ac1dd3d93b68d6a480edd5cbef7cc9bc82a0a87fe5ee886d7"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:0",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-b490801744343a19277a8de254391eadc8b17a07f02d77fa89e002d66a18af4e": {
+      "id": "n-b490801744343a19277a8de254391eadc8b17a07f02d77fa89e002d66a18af4e",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b1",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "1 Author-year",
+          "style": {
+            "font_id": 17,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 943718,
+            "encoding": "TU",
+            "font_name": "LMRoman12-Bold",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "bx"
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-fc387834cbf32d32c12dbd9d91614c96bb941dcb3e2988f8c69eda70e471c3f4": {
+      "id": "n-fc387834cbf32d32c12dbd9d91614c96bb941dcb3e2988f8c69eda70e471c3f4",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b2",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "As",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          }
+        },
+        {
+          "type": "text",
+          "text": " Smith (2020",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          },
+          "citation": 1,
+          "citation_link": 1
+        },
+        {
+          "type": "text",
+          "text": ")",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          },
+          "citation": 1
+        },
+        {
+          "type": "text",
+          "text": " showed, and as others found",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          }
+        },
+        {
+          "type": "text",
+          "text": " (",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          },
+          "citation": 2
+        },
+        {
+          "type": "text",
+          "text": "Jones, 2019",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          },
+          "citation": 2,
+          "citation_link": 2
+        },
+        {
+          "type": "text",
+          "text": ";",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          },
+          "citation": 2
+        },
+        {
+          "type": "text",
+          "text": " Lee et al., 2021",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          },
+          "citation": 2,
+          "citation_link": 3
+        },
+        {
+          "type": "text",
+          "text": ")",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          },
+          "citation": 2
+        },
+        {
+          "type": "text",
+          "text": ".",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          }
+        }
+      ]
+    },
+    "n-455842e7ff83b71c765b73544ba988e8be8e9e7c98376da4851dc065818d549b": {
+      "id": "n-455842e7ff83b71c765b73544ba988e8be8e9e7c98376da4851dc065818d549b",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b3",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "References",
+          "style": {
+            "font_id": 17,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 943718,
+            "encoding": "TU",
+            "font_name": "LMRoman12-Bold",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "bx"
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 3,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-f8fc8cf21d2ce0cf465d576b323053ada9486a6a61c566a55b94640ee95b0e3f": {
+      "id": "n-f8fc8cf21d2ce0cf465d576b323053ada9486a6a61c566a55b94640ee95b0e3f",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b4",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": " J. Jones. A paper. 2019.",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          },
+          "bibliography_entry": 1
+        }
+      ]
+    },
+    "n-1c4d05519f01c51bd18c0242dd3eaecadfb9a5488702c3b8160d71eb062453e7": {
+      "id": "n-1c4d05519f01c51bd18c0242dd3eaecadfb9a5488702c3b8160d71eb062453e7",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b5",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": " K. Lee, M. Park, and S. Kim. Another paper. 2021.",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          },
+          "bibliography_entry": 2
+        }
+      ]
+    },
+    "n-fd1ef7a9afa49041c06cff2d267623251ed61415fb2acc759080b6aeea85b39d": {
+      "id": "n-fd1ef7a9afa49041c06cff2d267623251ed61415fb2acc759080b6aeea85b39d",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b6",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": " S. Smith. A third paper. 2020.",
+          "style": {
+            "font_id": 15,
+            "shape": "n",
+            "generic": "serif",
+            "size_sp": 655360,
+            "encoding": "TU",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "family": "lmr",
+            "series": "m"
+          },
+          "bibliography_entry": 3
+        }
+      ]
+    }
+  },
+  "main_block_order": [
+    "n-b490801744343a19277a8de254391eadc8b17a07f02d77fa89e002d66a18af4e",
+    "n-fc387834cbf32d32c12dbd9d91614c96bb941dcb3e2988f8c69eda70e471c3f4",
+    "n-455842e7ff83b71c765b73544ba988e8be8e9e7c98376da4851dc065818d549b",
+    "n-f8fc8cf21d2ce0cf465d576b323053ada9486a6a61c566a55b94640ee95b0e3f",
+    "n-1c4d05519f01c51bd18c0242dd3eaecadfb9a5488702c3b8160d71eb062453e7",
+    "n-fd1ef7a9afa49041c06cff2d267623251ed61415fb2acc759080b6aeea85b39d"
+  ],
+  "note_order": [
+
+  ],
+  "block_order": [
+    "n-b490801744343a19277a8de254391eadc8b17a07f02d77fa89e002d66a18af4e",
+    "n-fc387834cbf32d32c12dbd9d91614c96bb941dcb3e2988f8c69eda70e471c3f4",
+    "n-455842e7ff83b71c765b73544ba988e8be8e9e7c98376da4851dc065818d549b",
+    "n-f8fc8cf21d2ce0cf465d576b323053ada9486a6a61c566a55b94640ee95b0e3f",
+    "n-1c4d05519f01c51bd18c0242dd3eaecadfb9a5488702c3b8160d71eb062453e7",
+    "n-fd1ef7a9afa49041c06cff2d267623251ed61415fb2acc759080b6aeea85b39d"
+  ],
+  "labels": {
+  },
+  "metadata": {
+    "status": "unavailable"
+  },
+  "assets": {
+    "status": "unverified"
+  },
+  "unverified_requirements": [
+    "ordinary_fidelity",
+    "independent_content",
+    "independent_math",
+    "metadata",
+    "assets",
+    "typed_lists",
+    "citations",
+    "text_style"
+  ],
+  "citations": {
+    "status": "projected",
+    "qualified": false,
+    "entries": [
+      {
+        "id": 1,
+        "key": "jones19",
+        "number": "1",
+        "blocks": [
+          "n-f8fc8cf21d2ce0cf465d576b323053ada9486a6a61c566a55b94640ee95b0e3f"
+        ]
+      },
+      {
+        "id": 2,
+        "key": "lee21",
+        "number": "2",
+        "blocks": [
+          "n-1c4d05519f01c51bd18c0242dd3eaecadfb9a5488702c3b8160d71eb062453e7"
+        ]
+      },
+      {
+        "id": 3,
+        "key": "smith20",
+        "number": "3",
+        "blocks": [
+          "n-fd1ef7a9afa49041c06cff2d267623251ed61415fb2acc759080b6aeea85b39d"
+        ]
+      }
+    ],
+    "calls": [
+      {
+        "id": 1,
+        "keys": [
+          "smith20"
+        ],
+        "targets": [
+          3
+        ]
+      },
+      {
+        "id": 2,
+        "keys": [
+          "jones19",
+          "lee21"
+        ],
+        "targets": [
+          1,
+          2
+        ]
+      }
+    ],
+    "links": [
+      {
+        "citation": 1,
+        "key": "smith20",
+        "number": "3",
+        "id": 1,
+        "entry": 3
+      },
+      {
+        "citation": 2,
+        "key": "jones19",
+        "number": "1",
+        "id": 2,
+        "entry": 1
+      },
+      {
+        "citation": 2,
+        "key": "lee21",
+        "number": "2",
+        "id": 3,
+        "entry": 2
+      }
+    ]
+  },
+  "external_links": {
+    "schema_version": "external-links-1",
+    "items": {
+    }
+  }
+}

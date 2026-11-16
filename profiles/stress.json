@@ -1,0 +1,826 @@
+{
+  "version": 1,
+  "medium_fraction": 0.125,
+  "fast_per_medium": 5,
+  "medium_per_full": 5,
+  "reuse_hours": 24,
+  "estimate_note": "Class-level estimates; 2026-10-16 additions measured once, completed stress timing reports update them",
+  "groups": [
+    {
+      "file": "test/acm_fidelity_test.rb",
+      "class": "AcmFidelityTest",
+      "category": "layout",
+      "estimated_seconds": 197
+    },
+    {
+      "file": "test/ams_blocks_test.rb",
+      "class": "AmsBlocksTest",
+      "category": "layout",
+      "estimated_seconds": 80
+    },
+    {
+      "file": "test/ams_display_test.rb",
+      "class": "AmsDisplayTest",
+      "category": "layout",
+      "estimated_seconds": 51
+    },
+    {
+      "file": "test/ams_footnote_layout_test.rb",
+      "class": "AmsFootnoteLayoutTest",
+      "category": "notes",
+      "estimated_seconds": 40
+    },
+    {
+      "file": "test/ams_hyperref_test.rb",
+      "class": "AmsHyperrefTest",
+      "category": "layout",
+      "estimated_seconds": 35
+    },
+    {
+      "file": "test/ams_layout_test.rb",
+      "class": "AmsLayoutTest",
+      "category": "layout",
+      "estimated_seconds": 90
+    },
+    {
+      "file": "test/ams_math_test.rb",
+      "class": "AMSMathTest",
+      "category": "math",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/ams_qed_test.rb",
+      "class": "AmsQedTest",
+      "category": "math",
+      "estimated_seconds": 75
+    },
+    {
+      "file": "test/proof_environments_test.rb",
+      "class": "ProofEnvironmentsTest",
+      "category": "math",
+      "estimated_seconds": 40
+    },
+    {
+      "file": "test/qed_marks_test.rb",
+      "class": "QedMarksTest",
+      "category": "math",
+      "estimated_seconds": 60
+    },
+    {
+      "file": "test/artifact_cache_test.rb",
+      "class": "ArtifactCacheTest",
+      "category": "isolation",
+      "estimated_seconds": 2
+    },
+    {
+      "file": "test/arydshln_tables_test.rb",
+      "class": "ArydshlnTablesTest",
+      "category": "layout",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/empty_paragraph_cells_test.rb",
+      "class": "EmptyParagraphCellsTest",
+      "category": "layout",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/multline_arrays_test.rb",
+      "class": "MultlineArraysTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/aastex_tablehead_test.rb",
+      "class": "AastexTableheadTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/align_picture_cell_test.rb",
+      "class": "AlignPictureCellTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/math_box_words_test.rb",
+      "class": "MathBoxWordsTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/align_cr_rows_test.rb",
+      "class": "AlignCrRowsTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/align_math_tag_test.rb",
+      "class": "AlignMathTagTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/foreign_space_test.rb",
+      "class": "ForeignSpaceTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/equation_tag_marker_test.rb",
+      "class": "EquationTagMarkerTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/longtable_star_test.rb",
+      "class": "LongtableStarTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/beamer_covered_test.rb",
+      "class": "BeamerCoveredTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/copied_running_heads_test.rb",
+      "class": "CopiedRunningHeadsTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/single_copy_leaders_test.rb",
+      "class": "SingleCopyLeadersTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/parbox_display_test.rb",
+      "class": "ParboxDisplayTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/rule_box_formula_test.rb",
+      "class": "RuleBoxFormulaTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/text_underline_test.rb",
+      "class": "TextUnderlineTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/soul_spaces_test.rb",
+      "class": "SoulSpacesTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/textblock_capture_test.rb",
+      "class": "TextblockCaptureTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/multispan_cells_test.rb",
+      "class": "MultispanCellsTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/nested_array_cells_test.rb",
+      "class": "NestedArrayCellsTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/float_box_capture_test.rb",
+      "class": "FloatBoxCaptureTest",
+      "category": "layout",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/table_cell_paint_test.rb",
+      "class": "TableCellPaintTest",
+      "category": "layout",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/caption_longtable_tables_test.rb",
+      "class": "CaptionLongtableTablesTest",
+      "category": "layout",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/caption_owners_test.rb",
+      "class": "CaptionOwnersTest",
+      "category": "layout",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/caption_compatibility_test.rb",
+      "class": "CaptionCompatibilityTest",
+      "category": "layout",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/mdwtab_tables_test.rb",
+      "class": "MdwtabTablesTest",
+      "category": "layout",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/cell_vdots_math_test.rb",
+      "class": "CellVdotsMathTest",
+      "category": "math",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/declared_math_symbols_test.rb",
+      "class": "DeclaredMathSymbolsTest",
+      "category": "math",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/document_language_test.rb",
+      "class": "DocumentLanguageTest",
+      "category": "pipeline",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/glyph_names_test.rb",
+      "class": "GlyphNamesTest",
+      "category": "pipeline",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/text_pictures_test.rb",
+      "class": "TextPicturesTest",
+      "category": "pipeline",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/source_descriptions_test.rb",
+      "class": "SourceDescriptionsTest",
+      "category": "pipeline",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/epub_package_test.rb",
+      "class": "EpubPackageTest",
+      "category": "pipeline",
+      "estimated_seconds": 25
+    },
+    {
+      "file": "test/draw12_completion_test.rb",
+      "class": "Draw12CompletionTest",
+      "category": "pipeline",
+      "estimated_seconds": 35
+    },
+    {
+      "file": "test/emphasis_layout_test.rb",
+      "class": "EmphasisLayoutTest",
+      "category": "text",
+      "estimated_seconds": 31
+    },
+    {
+      "file": "test/equation_aliases_test.rb",
+      "class": "EquationAliasesTest",
+      "category": "math",
+      "estimated_seconds": 45
+    },
+    {
+      "file": "test/pdf_preservation_test.rb",
+      "class": "PDFPreservationTest",
+      "category": "pipeline",
+      "estimated_seconds": 5
+    },
+    {
+      "file": "test/external_builds_test.rb",
+      "class": "ExternalBuildsTest",
+      "category": "pipeline",
+      "estimated_seconds": 60
+    },
+    {
+      "file": "test/external_labels_test.rb",
+      "class": "ExternalLabelsTest",
+      "category": "pipeline",
+      "estimated_seconds": 75
+    },
+    {
+      "file": "test/external_math_encoding_test.rb",
+      "class": "ExternalMathEncodingTest",
+      "category": "math",
+      "estimated_seconds": 23
+    },
+    {
+      "file": "test/footnote_layout_test.rb",
+      "class": "FootnoteLayoutTest",
+      "category": "notes",
+      "estimated_seconds": 55
+    },
+    {
+      "file": "test/glyph_decoding_test.rb",
+      "class": "GlyphDecodingTest",
+      "category": "text",
+      "estimated_seconds": 35
+    },
+    {
+      "file": "test/mirror_probe_execution_test.rb",
+      "class": "MirrorProbeExecutionTest",
+      "category": "isolation",
+      "estimated_seconds": 20
+    },
+    {
+      "file": "test/notes_test.rb",
+      "class": "NotesTest",
+      "category": "notes",
+      "estimated_seconds": 40
+    },
+    {
+      "file": "test/paper_check_test.rb",
+      "class": "PaperCheckTest",
+      "category": "pipeline",
+      "estimated_seconds": 20
+    },
+    {
+      "file": "test/paper_eligibility_test.rb",
+      "class": "PaperEligibilityTest",
+      "category": "pipeline",
+      "estimated_seconds": 50
+    },
+    {
+      "file": "test/engine_compatibility_test.rb",
+      "class": "EngineCompatibilityTest",
+      "category": "pipeline",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/t1text_typewriter_test.rb",
+      "class": "T1textTypewriterTest",
+      "category": "pipeline",
+      "estimated_seconds": 3
+    },
+    {
+      "file": "test/probe_compatibility_test.rb",
+      "class": "ProbeCompatibilityTest",
+      "category": "pipeline",
+      "estimated_seconds": 5
+    },
+    {
+      "file": "test/repacked_hyphens_test.rb",
+      "class": "RepackedHyphensTest",
+      "category": "text",
+      "estimated_seconds": 20
+    },
+    {
+      "file": "test/running_rules_test.rb",
+      "class": "RunningRulesTest",
+      "category": "layout",
+      "estimated_seconds": 28
+    },
+    {
+      "file": "test/scaled_rules_test.rb",
+      "class": "ScaledRulesTest",
+      "category": "layout",
+      "estimated_seconds": 22
+    },
+    {
+      "file": "test/section_arguments_test.rb",
+      "class": "SectionArgumentsTest",
+      "category": "text",
+      "estimated_seconds": 35
+    },
+    {
+      "file": "test/nested_math_test.rb",
+      "class": "NestedMathTest",
+      "category": "math",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/rendered_graphics_test.rb",
+      "class": "RenderedGraphicsTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/browser_screen_reader_test.rb",
+      "class": "BrowserScreenReaderTest",
+      "category": "pipeline",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/axe_run_test.rb",
+      "class": "AxeRunTest",
+      "category": "pipeline",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/a11y_reading_browser_test.rb",
+      "class": "A11yReadingBrowserTest",
+      "category": "pipeline",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/tagged_pdf_test.rb",
+      "class": "TaggedPdfTest",
+      "category": "pipeline",
+      "estimated_seconds": 40
+    },
+    {
+      "file": "test/tagged_book_pdf_test.rb",
+      "class": "TaggedPdfBookTest",
+      "category": "pipeline",
+      "estimated_seconds": 40
+    },
+    {
+      "file": "test/tagged_beamer_pdf_test.rb",
+      "class": "TaggedBeamerPdfTest",
+      "category": "pipeline",
+      "estimated_seconds": 20
+    },
+    {
+      "file": "test/review_copy_test.rb",
+      "class": "ReviewCopyTest",
+      "category": "pipeline",
+      "estimated_seconds": 5
+    },
+    {
+      "file": "test/tcolorbox_frame_test.rb",
+      "class": "TcolorboxFrameTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/picture_placement_test.rb",
+      "class": "PicturePlacementTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/picture_fractional_ink_test.rb",
+      "class": "PictureFractionalInkTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/picture_display_test.rb",
+      "class": "PictureDisplayTest",
+      "category": "layout",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/glyph_map_pictures_test.rb",
+      "class": "GlyphMapPicturesTest",
+      "category": "layout",
+      "estimated_seconds": 20
+    },
+    {
+      "file": "test/class_citations_test.rb",
+      "class": "ClassCitationsTest",
+      "category": "layout",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/page_flow_test.rb",
+      "class": "PageFlowTest",
+      "category": "layout",
+      "estimated_seconds": 4
+    },
+    {
+      "file": "test/class_notes_test.rb",
+      "class": "ClassNotesTest",
+      "category": "layout",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/class_tables_test.rb",
+      "class": "ClassTablesTest",
+      "category": "layout",
+      "estimated_seconds": 17
+    },
+    {
+      "file": "test/painted_content_test.rb",
+      "class": "PaintedContentTest",
+      "category": "layout",
+      "estimated_seconds": 20
+    },
+    {
+      "file": "test/legacy_fonts_test.rb",
+      "class": "LegacyFontsTest",
+      "category": "text",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/printed_symbols_test.rb",
+      "class": "PrintedSymbolsTest",
+      "category": "text",
+      "estimated_seconds": 20
+    },
+    {
+      "file": "test/source_date_test.rb",
+      "class": "SourceDateTest",
+      "category": "pipeline",
+      "estimated_seconds": 17
+    },
+    {
+      "file": "test/generated_fonts_test.rb",
+      "class": "GeneratedFontsTest",
+      "category": "pipeline",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/synctex_command_test.rb",
+      "class": "SynctexCommandTest",
+      "category": "pipeline",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/texinputs_test.rb",
+      "class": "TexinputsTest",
+      "category": "pipeline",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/bibstyle_compare_test.rb",
+      "class": "BibstyleCompareTest",
+      "category": "pipeline",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/bibstyle_sariel_test.rb",
+      "class": "BibstyleSarielTest",
+      "category": "pipeline",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/typst_bibliography_test.rb",
+      "class": "TypstBibliographyTest",
+      "category": "pipeline",
+      "estimated_seconds": 60
+    },
+    {
+      "file": "test/multline_display_test.rb",
+      "class": "MultlineDisplayTest",
+      "category": "math",
+      "estimated_seconds": 8
+    },
+    {
+      "file": "test/multline_page_break_test.rb",
+      "class": "MultlinePageBreakTest",
+      "category": "math",
+      "estimated_seconds": 16
+    },
+    {
+      "file": "test/beamer_blocks_test.rb",
+      "class": "BeamerBlocksTest",
+      "category": "layout",
+      "estimated_seconds": 25
+    },
+    {
+      "file": "test/beamer_markers_notes_test.rb",
+      "class": "BeamerMarkersNotesTest",
+      "category": "layout",
+      "estimated_seconds": 20
+    },
+    {
+      "file": "test/beamer_furniture_test.rb",
+      "class": "BeamerFurnitureTest",
+      "category": "layout",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/listing_table_cells_test.rb",
+      "class": "ListingTableCellsTest",
+      "category": "layout",
+      "estimated_seconds": 8
+    },
+    {
+      "file": "test/listing_code_blocks_test.rb",
+      "class": "ListingCodeBlocksTest",
+      "category": "layout",
+      "estimated_seconds": 6
+    },
+    {
+      "file": "test/listing_in_float_test.rb",
+      "class": "ListingInFloatTest",
+      "category": "layout",
+      "estimated_seconds": 16
+    },
+    {
+      "file": "test/beamer_drawn_title_test.rb",
+      "class": "BeamerDrawnTitleTest",
+      "category": "layout",
+      "estimated_seconds": 20
+    },
+    {
+      "file": "test/pgfpicture_figure_hook_test.rb",
+      "class": "PgfpictureFigureHookTest",
+      "category": "layout",
+      "estimated_seconds": 18
+    },
+    {
+      "file": "test/chess_diagram_test.rb",
+      "class": "ChessDiagramTest",
+      "category": "layout",
+      "estimated_seconds": 20
+    },
+    {
+      "file": "test/nested_displays_test.rb",
+      "class": "NestedDisplaysTest",
+      "category": "math",
+      "estimated_seconds": 8
+    },
+    {
+      "file": "test/root_index_alignment_test.rb",
+      "class": "RootIndexAlignmentTest",
+      "category": "math",
+      "estimated_seconds": 4
+    },
+    {
+      "file": "test/chapters_test.rb",
+      "class": "ChaptersTest",
+      "category": "text",
+      "estimated_seconds": 8
+    },
+    {
+      "file": "test/titlesec_chapters_test.rb",
+      "class": "TitlesecChaptersTest",
+      "category": "text",
+      "estimated_seconds": 5
+    },
+    {
+      "file": "test/koma_headings_test.rb",
+      "class": "KomaHeadingsTest",
+      "category": "text",
+      "estimated_seconds": 5
+    },
+    {
+      "file": "test/math_box_nesting_test.rb",
+      "class": "MathBoxNestingTest",
+      "category": "math",
+      "estimated_seconds": 5
+    },
+    {
+      "file": "test/math_arrow_shaft_test.rb",
+      "class": "MathArrowShaftTest",
+      "category": "math",
+      "estimated_seconds": 5
+    },
+    {
+      "file": "test/math_text_hyphen_test.rb",
+      "class": "MathTextHyphenTest",
+      "category": "math",
+      "estimated_seconds": 5
+    },
+    {
+      "file": "test/images_in_formulas_test.rb",
+      "class": "ImagesInFormulasTest",
+      "category": "math",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/colortbl_fills_test.rb",
+      "class": "ColortblFillsTest",
+      "category": "layout",
+      "estimated_seconds": 25
+    },
+    {
+      "file": "test/colortbl_highlight_test.rb",
+      "class": "ColortblHighlightTest",
+      "category": "layout",
+      "estimated_seconds": 25
+    },
+    {
+      "file": "test/table_protrusion_test.rb",
+      "class": "TableProtrusionTest",
+      "category": "layout",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/math_oracle_picture_test.rb",
+      "class": "MathOraclePictureTest",
+      "category": "math",
+      "estimated_seconds": 8
+    },
+    {
+      "file": "test/math_oracle_permission_test.rb",
+      "class": "MathOraclePermissionTest",
+      "category": "math",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/math_oracle_writes_test.rb",
+      "class": "MathOracleWritesTest",
+      "category": "math",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/math_oracle_qed_test.rb",
+      "class": "MathOracleQedTest",
+      "category": "math",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/prime_ligatures_test.rb",
+      "class": "PrimeLigaturesTest",
+      "category": "math",
+      "estimated_seconds": 15
+    },
+    {
+      "file": "test/primitive_footnote_mark_test.rb",
+      "class": "PrimitiveFootnoteMarkTest",
+      "category": "notes",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/oracle_eqref_mathtools_test.rb",
+      "class": "OracleEqrefMathtoolsTest",
+      "category": "math",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/math_oracle_displays_test.rb",
+      "class": "MathOracleDisplaysTest",
+      "category": "math",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/math_oracle_note_in_display_test.rb",
+      "class": "MathOracleNoteInDisplayTest",
+      "category": "math",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/tex_sandbox_test.rb",
+      "class": "TeXSandboxTest",
+      "category": "isolation",
+      "estimated_seconds": 2
+    },
+    {
+      "file": "test/theorem_environments_test.rb",
+      "class": "TheoremEnvironmentsTest",
+      "category": "layout",
+      "estimated_seconds": 35
+    },
+    {
+      "file": "test/toolchain_contracts_test.rb",
+      "class": "ToolchainContractsTest",
+      "category": "isolation",
+      "estimated_seconds": 2
+    },
+    {
+      "file": "test/verification_cache_test.rb",
+      "class": "VerificationCacheTest",
+      "category": "pipeline",
+      "estimated_seconds": 45
+    },
+    {
+      "file": "test/newtx_integrals_test.rb",
+      "class": "NewtxIntegralsTest",
+      "category": "math",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/footer_url_decoration_test.rb",
+      "class": "FooterUrlDecorationTest",
+      "category": "layout",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/collector_class_robustness_test.rb",
+      "class": "CollectorClassRobustnessTest",
+      "category": "layout",
+      "estimated_seconds": 30
+    },
+    {
+      "file": "test/external_named_lists_test.rb",
+      "class": "ExternalNamedListsTest",
+      "category": "layout",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/store_harness_test.rb",
+      "class": "StoreHarnessTest",
+      "category": "pipeline",
+      "estimated_seconds": 120
+    },
+    {
+      "file": "test/font_zoo_small_test.rb",
+      "class": "FontZooSmallTest",
+      "category": "text",
+      "estimated_seconds": 45
+    },
+    {
+      "file": "test/font_zoo_full_test.rb",
+      "class": "FontZooFullTest",
+      "category": "text",
+      "estimated_seconds": 6600
+    }
+  ]
+}

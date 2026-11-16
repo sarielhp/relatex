@@ -1,0 +1,408 @@
+{
+  "schema_version": "diagnostics-profile-1",
+  "levels": {
+    "fatal": "No output was produced.",
+    "error": "The output says something the paper does not: content lost, garbled or wrong.",
+    "alert": "All content is present, but a reader clearly notices the degradation.",
+    "warning": "Noticeable only on careful comparison with the PDF.",
+    "whatever": "Not visible, or informational; hidden by default."
+  },
+  "codes": {
+    "label.unresolved_owner": {
+      "level": "alert",
+      "summary": "The numbered element a label names was not found; references to it print as unlinked text."
+    },
+    "label.ambiguous": {
+      "level": "alert",
+      "summary": "A label is defined more than once; references to it print as unlinked text."
+    },
+    "label.unresolved_math_row": {
+      "level": "alert",
+      "summary": "The display-math row a label names was not found; references to it print as unlinked text."
+    },
+    "reference.unresolved": {
+      "level": "alert",
+      "summary": "A reference has no verified target or printed number; it prints as unlinked text."
+    },
+    "frontmatter.unsupported": {
+      "level": "alert",
+      "summary": "Title, authors and abstract were not typed; they remain in the body as ordinary text."
+    },
+    "sandbox.none": {
+      "level": "alert",
+      "summary": "TeX ran without an operating-system sandbox (Windows has none for it): only TeX's own limits applied (no shell escape, files read and written only below the run, openin_any and openout_any p), so a paper's code could still read the user's files."
+    },
+    "source.engine_compatibility": {
+      "level": "whatever",
+      "summary": "The source was written for pdfLaTeX or XeLaTeX; it was built under LuaLaTeX with a compatibility shim, and the export is checked against that build."
+    },
+    "source.settling_errors": {
+      "level": "whatever",
+      "summary": "The first TeX pass, before the aux files existed, reported errors that the later passes did not; the build is judged by its error-free final pass."
+    },
+    "source.author_hints_unread": {
+      "level": "warning",
+      "summary": "The author's hints (relatex/hints.json or hint comments, decision 122) could not be read; no speech hint applies, so math reads with its default intent."
+    },
+    "input.symlink_skipped": {
+      "level": "warning",
+      "summary": "A symbolic link in the source directory was left out of the snapshot: it dangles (an editor's lock file), leaves the source directory, or names a directory. Links to files inside the source are kept with their target's content."
+    },
+    "input.special_skipped": {
+      "level": "warning",
+      "summary": "A socket, FIFO or device in the source directory was left out of the snapshot."
+    },
+    "input.unsafe": {
+      "level": "fatal",
+      "summary": "A source file name cannot be stored on Windows (reserved device name, forbidden character, or trailing dot or space) or two figure stems differ only in case, so their files would overwrite each other on Windows and macOS; rename the file in the source."
+    },
+    "fonts.source_unavailable": {
+      "level": "warning",
+      "summary": "Source fonts could not be verified and linked; browser fonts substitute, so glyph shapes and widths differ."
+    },
+    "fonts.generated_metrics": {
+      "level": "whatever",
+      "summary": "TeX font metrics (.tfm) missing from TeX Live were generated on demand with mktextfm into the shared cache tree (decision 158)."
+    },
+    "accessibility.violations": {
+      "level": "whatever",
+      "summary": "axe-core found WCAG 2.x A/AA violations in the light or dark theme, or a structural check (alternatives, table headers, heading levels, language, images of text) has gaps; the export is not yet accessible. Phase 0 measures only (decision 080): the level rises to alert once phase 1 is done."
+    },
+    "accessibility.unmeasured": {
+      "level": "whatever",
+      "summary": "axe-core could not finish on the page (an exception, or longer than its time limit); the export carries no accessibility measurement."
+    },
+    "alt.unreviewed": {
+      "level": "warning",
+      "summary": "Figure descriptions from relatex/alt.toml are model drafts nobody has reviewed (decision 086); the page uses them as the figures' text alternatives, and the accessibility report counts them under image_drafts_reviewed until accepted."
+    },
+    "alt.stale": {
+      "level": "warning",
+      "summary": "An entry in relatex/alt.toml was written for other figure bytes than the paper has now: an author's or reviewed text is still used and should be checked; a model draft is left out until drafted again."
+    },
+    "alt.unmatched": {
+      "level": "whatever",
+      "summary": "relatex/alt.toml has entries for figure names the paper does not have (a figure removed or renamed); they are kept and unused."
+    },
+    "alt.too_long": {
+      "level": "warning",
+      "summary": "A figure description drafted by relatex alt draft is over the length limits (alternative 200 characters, long description 100 words) even after the describer was asked once to shorten it; the draft is kept whole, never cut, for the author to shorten in review."
+    },
+    "alt.invalid": {
+      "level": "alert",
+      "summary": "relatex/alt.toml could not be read (the message names the line); no figure description from it is used until it is fixed."
+    },
+    "pdfua.failed": {
+      "level": "alert",
+      "summary": "The tagged PDF (pdf-ua, decisions 097 and 105) was not written: route 2 could not tag the ordinary PDF (the message says why, for example a conversion without layout); the other outputs are unaffected."
+    },
+    "pdfua.invalid": {
+      "level": "alert",
+      "summary": "veraPDF rejects the tagged PDF as PDF/UA-2 (the message names the failed rules); the file is written, but it does not conform and pdf-ua/export.json says so."
+    },
+    "pdfua.figure_font": {
+      "level": "alert",
+      "summary": "An included figure's font makes veraPDF reject the tagged PDF; the message names the figure file, the font, the failed rule and the program that made the figure, so the author can re-export it. The claim is withdrawn as for pdfua.invalid."
+    },
+    "pdfua.font_unidentified": {
+      "level": "alert",
+      "summary": "An included figure's font subset has no character map (no cmap, post names or ToUnicode), and relatex could not identify some of its glyphs from the original font installed on the machine (decision 118): they read as U+FFFD in the tagged PDF. The message names the font; installing it lets relatex identify the glyphs."
+    },
+    "pdfua.font_cmap_added": {
+      "level": "warning",
+      "summary": "An included figure embedded a non-symbolic TrueType font whose program has only the Unicode platform's cmap subtable, which PDF/UA-2 (8.4.5.7) does not accept; the tagged PDF's copy names that same subtable as Microsoft Unicode (3,1) as well (glyphs, widths and outlines unchanged, the figure file untouched). The message names the figure and the font so the author can re-export."
+    },
+    "pdfua.font_unwrapped": {
+      "level": "warning",
+      "summary": "An included figure embedded a font as a whole TrueType collection, which PDF does not allow; the tagged PDF embeds the one face the font names instead (glyphs and their data unchanged, the figure file untouched). The message names the figure and the font so the author can re-export."
+    },
+    "pdfua.undescribed": {
+      "level": "warning",
+      "summary": "Graphics of the tagged PDF have no description in relatex/alt.toml; they are tagged with their file name as alternative text, which does not meet WCAG 1.1.1."
+    },
+    "pdfua.unverified": {
+      "level": "whatever",
+      "summary": "The tagged PDF was not validated: veraPDF is not installed (RELATEX_VERAPDF or verapdf on PATH) or gave no report."
+    },
+    "pdfua.claimed": {
+      "level": "alert",
+      "summary": "The tagged PDF does not conform, but relatex could not take the PDF/UA-2 identification out of its metadata (decision 112): the file states a conformance it did not earn; trust pdf-ua/export.json, not the file."
+    },
+    "pdfua.unfaithful": {
+      "level": "warning",
+      "summary": "Route 2's own checks fail for the tagged PDF: a page could not be bound to the layout and is all artifact, the structure does not read back as the document, or a page does not look as the ordinary PDF's; it is not called conforming."
+    },
+    "color.low_contrast": {
+      "level": "warning",
+      "summary": "A text colour of the PDF reads below 4.5:1 on the light page or on the author's fill behind it (WCAG 1.4.3); the light theme shows it with the smallest lightness change that reads, hue kept, and the document records each one (ink_adjustments)."
+    },
+    "browser.unverified": {
+      "level": "whatever",
+      "summary": "The browser timed out or could not be reached on every attempt; the export is published without its browser verification."
+    },
+    "split.chapters": {
+      "level": "whatever",
+      "summary": "The book is published as a contents page and one file per chapter, cut from the verified page and checked faithful to it (decision 081); the whole page stays in html/."
+    },
+    "split.whole": {
+      "level": "warning",
+      "summary": "The book could not be cut into chapter files (a reference that cannot cross files, an element to continue without an id); it is published as one page."
+    },
+    "split.unfaithful": {
+      "level": "error",
+      "summary": "The chapter files cut from the verified page differ from it; they are left out and the book is published as one page."
+    },
+    "layout.absent": {
+      "level": "alert",
+      "summary": "The page layout (each glyph bound to the paint that drew it in the PDF, and the page graphics) could not be proven; the export ships without it: no layout view, and no page-level evidence for the text."
+    },
+    "layout.incomplete": {
+      "level": "warning",
+      "summary": "MuPDF drew the pages past content it could not read (a shading whose function it does not support) and left that content out of every extraction alike: the glyphs are bound as ever, and the layout view's page graphics lack what it painted."
+    },
+    "synchronization.absent": {
+      "level": "alert",
+      "summary": "The source map (each PDF word bound to its place in the LaTeX source) could not be proven; the export ships without it: no source synchronization."
+    },
+    "language.undeclared": {
+      "level": "warning",
+      "summary": "The source declares no language (babel, polyglossia or a class option); the export is marked as English, which a screen reader may mispronounce (WCAG 3.1.1)."
+    },
+    "language.detected": {
+      "level": "warning",
+      "summary": "The source declares no language; relatex detected it from the text with certainty (decision 111) and marks the export with it. Declare it in the source (babel, polyglossia or \\DocumentMetadata lang) to make it the author's (WCAG 3.1.1)."
+    },
+    "language.unknown": {
+      "level": "warning",
+      "summary": "A language the source selects has no known BCP 47 tag; its text is not marked with a language (WCAG 3.1.1, 3.1.2)."
+    },
+    "text.paint_unverified": {
+      "level": "warning",
+      "summary": "The text colours could not be read from the PDF; the text renders in the default colour and its contrast is unchecked, and no source font is linked."
+    },
+    "table.paint_unverified": {
+      "level": "warning",
+      "summary": "A table's painted rules and text could not be bound to the PDF; it renders from its cell grid, so spacing may differ."
+    },
+    "text.unmapped_glyph": {
+      "level": "error",
+      "summary": "A glyph has no Unicode mapping; its character is lost and prints as U+FFFD."
+    },
+    "table.unmodeled": {
+      "level": "alert",
+      "summary": "A table's layout could not be modeled; its cells are read as plain text without the grid."
+    },
+    "figure.source_unsupported": {
+      "level": "warning",
+      "summary": "A picture whose source the converter cannot bind (a class's own image outside the paper, an unsupported format) is not reproduced."
+    },
+    "content.rule_omitted": {
+      "level": "warning",
+      "summary": "A painted rule (table border, separator or \\rule) is not reproduced."
+    },
+    "citation.unverified": {
+      "level": "alert",
+      "summary": "Citation evidence could not be verified; citations and bibliography entries are plain text, without links."
+    },
+    "citation.link_number_differs": {
+      "level": "warning",
+      "summary": "A citation link recorded a number other than its bibliography entry (natbib compressed ranges); the link uses the entry."
+    },
+    "citation.repeated_key": {
+      "level": "warning",
+      "summary": "A bibliography key names more than one item (a repeated or empty \\bibitem key); as in LaTeX, its citations link to the last of them."
+    },
+    "structure.displaced_block": {
+      "level": "warning",
+      "summary": "A block printed inside another section than the one that owns it (a page-1 affiliation note, a later section's rule) belongs to the section where it is printed."
+    },
+    "structure.proof_inferred": {
+      "level": "whatever",
+      "summary": "Proofs written without an environment, a paragraph opened by a styled Proof heading and a later paragraph of the same section ending in a QED mark, are marked as proofs (decision 177)."
+    },
+    "paragraph.interrupted": {
+      "level": "warning",
+      "summary": "A paragraph is split around material printed inside it (a float, a page break with other content); its text keeps its order."
+    },
+    "text.paragraph_incomplete": {
+      "level": "error",
+      "summary": "The end of a paragraph was not observed in the reading; that text is missing from the output."
+    },
+    "reference.page_unverified": {
+      "level": "alert",
+      "summary": "A page reference (\\pageref) prints a page that is not the printed number of a page its target is set on, or the page is unknown; it prints as unlinked text."
+    },
+    "reference.unlinked_in_math": {
+      "level": "warning",
+      "summary": "A reference inside a formula (\\eqref in math) prints its number in the formula but is not a link."
+    },
+    "table.hint_unmatched": {
+      "level": "warning",
+      "summary": "A table hint (relatex/hints.json or a %% relatex tables: comment) names no table of the document: neither a \\label in a table float nor the number a table's caption prints; it is not applied (decision 131)."
+    },
+    "figure.decorative_inferred": {
+      "level": "whatever",
+      "summary": "Images that show nothing to describe (at most 2 pt, or a drawn rule thinner than 2 pt and at least 20 pt long, or a drawn mark of at most 6 pt repeated three times or more, such as a theme's item bullet) are marked decorative with provenance inferred (decision 111); a sidecar entry replaces the mark."
+    },
+    "figure.icon_named": {
+      "level": "whatever",
+      "summary": "Small included icons are named by their file names (orcid* reads \"ORCID iD\", the cas templates' cas-email and cas-url read \"Email\" and \"URL\") with provenance inferred (decision 111, amendment 3); a sidecar entry replaces the name."
+    },
+    "heading.drawn_in_picture": {
+      "level": "warning",
+      "summary": "A beamer theme draws the frame title inside a picture (a TikZ node), so the title is not a heading: it stays text where the slide prints it (decision 128)."
+    },
+    "figure.rendered_from_pdf": {
+      "level": "warning",
+      "summary": "A figure without an inspectable source (such as a TikZ picture) is a crop of the PDF, drawn as in the paper; its labels are text only where figure.picture_text says so."
+    },
+    "figure.picture_text": {
+      "level": "whatever",
+      "summary": "Figures drawn by TeX (TikZ, PGF and other pictures cropped from the PDF) show their labels as SVG text in the document's fonts, checked against the crop's own drawing (decision 137)."
+    },
+    "figure.picture_text_fallback": {
+      "level": "warning",
+      "summary": "A figure drawn by TeX keeps its labels as outlines (a picture of the text): the text form did not render like the crop, or a glyph or font could not be read (decision 137)."
+    },
+    "note.number_differs": {
+      "level": "warning",
+      "summary": "A footnote mark could not be matched to its recorded number; the printed mark is kept and linked."
+    },
+    "float.body_missing": {
+      "level": "alert",
+      "summary": "A float keeps its caption, but its body (an image format or content the reading did not retain) is missing."
+    },
+    "float.split": {
+      "level": "warning",
+      "summary": "A float broken across pages (a figure in a beamer frame with allowframebreaks, its image on one slide and its caption on the next) is kept as its parts where they were set; its caption is not joined to its body."
+    },
+    "graphic.transform_unsupported": {
+      "level": "warning",
+      "summary": "A scale or rotation applied to a group of graphics is not reproduced; the graphics keep their natural size."
+    },
+    "note.uncalled": {
+      "level": "alert",
+      "summary": "A footnote body has no call in the text; the note is kept but nothing links to it."
+    },
+    "note.title_mark": {
+      "level": "warning",
+      "summary": "An author note whose mark the class prints in the author line; the note is kept, its mark is not linked."
+    },
+    "math.unmapped_glyph": {
+      "level": "error",
+      "summary": "A formula glyph has no Unicode mapping (its font has none); it prints as U+FFFD."
+    },
+    "table.span_flattened": {
+      "level": "warning",
+      "summary": "A table cell spanning the rows above it (\\multirow{-n}) prints in its own row instead."
+    },
+    "proof.qed_untyped": {
+      "level": "whatever",
+      "summary": "A customized end-of-proof mark prints as its own content (text, math or a rule) without the end-of-proof type."
+    },
+    "frontmatter.decoration_unowned": {
+      "level": "warning",
+      "summary": "Header or footer glyphs without a reading owner (a URL in a running foot) are not kept as page decorations."
+    },
+    "math.alignment_unrowed": {
+      "level": "warning",
+      "summary": "A display alignment row whose native row was not recognized reads as part of its formula, without its own row (a tag on it may not link)."
+    },
+    "list.context_unsupported": {
+      "level": "alert",
+      "summary": "A list in an unexpected environment (itemize inside center) reads without its list structure."
+    },
+    "table.inside_formula": {
+      "level": "warning",
+      "summary": "A table set inside a formula (a tabular in an equation) is read as part of the formula, not as a modeled table."
+    },
+    "structure.context_unclosed": {
+      "level": "warning",
+      "summary": "An environment's end was never observed; blocks after it may be nested inside it."
+    },
+    "note.unlinked_call": {
+      "level": "warning",
+      "summary": "A footnote call whose text never comes as a footnote (REVTeX footinbib puts it in the bibliography) prints its mark, unlinked."
+    },
+    "index.unstructured": {
+      "level": "alert",
+      "summary": "The typeset index does not read as the entries of its .ind file; it prints as plain paragraphs, its page numbers unlinked."
+    },
+    "index.page_unmatched": {
+      "level": "warning",
+      "summary": "An index page number has no anchor of its term issued on that page; it prints unlinked."
+    },
+    "index.locator_unplaced": {
+      "level": "warning",
+      "summary": "An index page number is not found in its entry's printed text; it prints unlinked."
+    },
+    "index.anchor_unplaced": {
+      "level": "warning",
+      "summary": "An index entry whose paragraph the reading did not keep has no anchor; its page links lead elsewhere or nowhere."
+    },
+    "link.unsupported": {
+      "level": "warning",
+      "summary": "A link whose target no reader can follow, or that wraps a graphic or another link, prints as its plain text."
+    },
+    "citation.unlinked_in_math": {
+      "level": "alert",
+      "summary": "Citations typeset inside a formula print there as text, without links to the bibliography."
+    },
+    "math.nothing_visible": {
+      "level": "warning",
+      "summary": "A formula has no visible nodes the reading could verify (its box holds a paragraph); it prints from its MathML."
+    },
+    "math.nodes_unread": {
+      "level": "warning",
+      "summary": "Some nodes of a formula were not met in the reading flow; the formula prints in full from its MathML."
+    },
+    "label.unowned_unreferenced": {
+      "level": "whatever",
+      "summary": "A label without a numbered owner (often a class's page label) that nothing references; nothing visible is lost."
+    },
+    "label.multiply_defined": {
+      "level": "warning",
+      "summary": "A label name is defined more than once; as in LaTeX, references use the last definition."
+    },
+    "frontmatter.abstract_missing": {
+      "level": "warning",
+      "summary": "The source declares an abstract that reads as empty; title and authors are typed without it, and the body keeps whatever is printed."
+    },
+    "math.formula_tex_unverified": {
+      "level": "whatever",
+      "summary": "Some formulas have no TeX written from their MathML: it did not typeset again, with amsmath, amssymb and bm alone, to the same MathML. They keep MathML only in the tagged PDF and the HTML annotation, and Markdown keeps its other math paths."
+    },
+    "math.source_missing": {
+      "level": "whatever",
+      "summary": "A formula has no recorded source position (math a class or bibliography typeset); Markdown keeps the TeX derived from its MathML."
+    },
+    "math.source_outside_paper": {
+      "level": "whatever",
+      "summary": "A formula was read from a file outside the paper (a class or package); Markdown keeps the TeX derived from its MathML."
+    },
+    "math.source_unlocated": {
+      "level": "whatever",
+      "summary": "A formula's text was not found uniquely at its recorded position; Markdown keeps the TeX derived from its MathML."
+    },
+    "math.source_rows_differ": {
+      "level": "whatever",
+      "summary": "An alignment's rows in the source do not match its typeset rows; Markdown keeps the TeX derived from its MathML."
+    },
+    "math.source_differs": {
+      "level": "whatever",
+      "summary": "The author's TeX, typeset again with standard packages and the kept macros, gives a different formula; Markdown keeps the TeX derived from its MathML."
+    },
+    "math.source_untested": {
+      "level": "whatever",
+      "summary": "The author's TeX was found but not verified; Markdown keeps the TeX derived from its MathML."
+    },
+    "typst.bibliography_literal": {
+      "level": "warning",
+      "summary": "The Typst style found for the bibliography did not print the paper's entries; the Typst export keeps literal entries, and the message names the style file and the entries that differ."
+    },
+    "typst.bibliography_unstyled": {
+      "level": "whatever",
+      "summary": "No Typst style was found for the bibliography's style along BSTINPUTS or in relatex's library, or its .bib files could not be read; the Typst export keeps literal entries."
+    }
+  }
+}

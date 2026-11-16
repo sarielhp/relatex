@@ -1,0 +1,209 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-graphics}[2026/10/16 Native media placement evidence]
+\directlua{ltd=require('relatex');assert(ltd.flow,'Graphics require bridge');ltd.graphics=require('relatex-graphics')}
+% Every PGF picture (tikzpicture, \tikz, tikzcd, pgfpicture) is one context; the picture's
+% final box is typeset just before \endpgfpicture closes its group.
+\newbox\ltd@graphics@imagebox
+\newcommand\ltd@graphics@pgflimits{%
+  % It opens the picture and binds it to the figure environment that holds it, so that the figure's
+% \relatexalt describes the picture as it describes an included graphic (decision 125, amendment
+% 2). Only a before hook: an after hook on \pgfpicture would split pgf's code while TeX still
+% scans a number (Beamer decks, slides/0013 and 0031).
+\AddToHook{cmd/pgfpicture/before}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.begin()
+  ltd.graphics.picture_figure(\ltd@graphics@figure)}}%
+  \AddToHook{cmd/endpgfpicture/after}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.finish_picture()}}%
+  % The image \pgfdeclareimage saved (a beamer \logo): a raster when its file is a PNG or JPEG
+  % (decision 162). The image index its rules carry is not the resource number \useimageresource
+  % names, so it is read from a rule set in a box that is discarded at once: no page holds it, and
+  % the PDF writes the image only where a page does. Not a hook on \pgfuseimage: beamer redefines
+  % it with an overlay argument, and a hook there broke slides/0013.
+  \AddToHook{cmd/pgfsys@defineimage/after}[relatex-graphic-limits]{\ifx\pgf@image\@undefined\else
+    \setbox\ltd@graphics@imagebox\hbox{\pgf@image}%
+    \directlua{ltd.graphics.pgf_image('\luaescapestring{\pgf@filename}', \number\ltd@graphics@imagebox)}%
+    \setbox\ltd@graphics@imagebox\box\voidb@x\fi}%
+  \AddToHook{cmd/pgfsys@clipnext/before}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.clip()}}%
+  % What the picture paints: a stroke, a fill, or an object (a shading, an image).
+  \@for\ltd@graphics@use:=stroke,fill,fillstroke,useobject\do{%
+    \AddToHook{cmd/pgfsys@\ltd@graphics@use/before}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.paint()}}}}
+\newcommand\ltd@graphics@svglimits{%
+  \AddToHook{cmd/includesvg/before}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.preprocess('SVG')}}}
+\@ifpackageloaded{pgf}{\ltd@graphics@pgflimits}{\AddToHook{package/pgf/after}{\ltd@graphics@pgflimits}}
+% An xy-pic picture (\xy...\endxy, \xymatrix) draws with font glyphs that have no text: it is
+% a graphic without an inspectable source, like a PGF picture.
+\newcommand\ltd@graphics@xylimits{%
+  \AddToHook{cmd/xy/before}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.begin('xy')}}%
+  \AddToHook{cmd/endxy/after}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.finish_picture()}}}
+% xy is often read with \input xy, not as a package; command hooks apply at \begin{document}.
+\ltd@graphics@xylimits
+% A QR code (package qrcode) is a grid of rules and spaces, a drawing without an inspectable source:
+% one picture context, recovered as a crop of the reference PDF (an SVG figure), never as rule paint.
+\AddToHook{cmd/qrcode@int/before}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.begin('picture')}}
+\AddToHook{cmd/qrcode@int/after}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.finish_picture()}}
+% A chess diagram (package chessboard, decision 163) is a drawing: its board is set in a diagram
+% font whose glyphs are squares and pieces, not text. One picture context around \chessboard, bound
+% to its figure; the first rank printed records the position (FEN) the board shows.
+\newcommand\ltd@graphics@chesslimits{%
+  \AddToHook{cmd/chessboard/before}[relatex-graphic-limits]{\directlua{ltd.graphics.chess_begin(\ltd@graphics@figure)}}%
+  \AddToHook{cmd/chessboard/after}[relatex-graphic-limits]{\directlua{ltd.graphics.chess_end()}}%
+  \AddToHook{cmd/board@do@printrank/before}[relatex-graphic-limits]{\directlua{ltd.graphics.chess_position()}}}
+\@ifpackageloaded{chessboard}{\ltd@graphics@chesslimits}{\AddToHook{package/chessboard/after}{\ltd@graphics@chesslimits}}
+% A LaTeX picture in text (\put, pict2e lines; \diagbox draws one) is a graphic of the same kind.
+% In math a picture is a symbol of the formula (an independence sign) and stays math.
+\AddToHook{env/picture/begin}[relatex-graphic-limits]
+  {\directlua{ltd.graphics.limits.begin_picture(\ifmmode true\else false\fi)}}
+\AddToHook{env/picture/after}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.end_picture()}}
+% \diagbox's picture only places its labels, typeset before it, and draws the diagonal: the line
+% is the cell's decoration and the labels read as the header cell's text (third cohort 0587).
+\AddToHook{cmd/diagbox@pict/before}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.frame_picture()}}
+\@ifpackageloaded{svg}{\ltd@graphics@svglimits}{\AddToHook{package/svg/after}{\ltd@graphics@svglimits}}
+% Every skin's drawing is the box's decoration: a skinned box (widget, enhanced, breakable parts)
+% draws shadows, fills and title bars around the text it typeset beforehand, and that text reads as
+% text, not as one rendered picture (fifth cohort 1187; images are the wrong fallback for boxes).
+\AddToHook{env/tcb@drawing/before}[relatex-graphic-limits]{\directlua{ltd.graphics.limits.frame_picture()}}
+\newcommand\ltd@graphics@include[1]{%
+  \AddToHookWithArguments{cmd/Ginclude@#1/before}[relatex-graphics]{%
+    \directlua{ltd.graphics.begin_use('\luaescapestring{##1}',
+      '\luaescapestring{##1 image\Gin@attr@hash}',\number\Gin@req@width,\number\Gin@req@height,
+      \ifGin@clip true\else false\fi,
+      {\Gin@llx,\Gin@lly,\Gin@urx,\Gin@ury})}%
+    \ltd@graphics@alternative}%
+  \AddToHook{cmd/Ginclude@#1/after}[relatex-graphics]{\directlua{ltd.graphics.end_use()}}}
+\newcommand\ltd@graphics@install{%
+  \AddToHook{cmd/Gin@setfile/before}[relatex-graphic-limits]{%
+    \directlua{ltd.graphics.limits.extension('\luaescapestring{\ifx\Gin@ext\relax\Gin@eext\else\Gin@ext\fi}',
+      '\luaescapestring{\Gin@base}')}}%
+  % The image read is wrapped, not given generic command hooks: LaTeX cannot retokenize
+  % \Gread@pdftex when a package changed character codes ("Generic hooks cannot be added").
+  % The wrap happens just before \begin{document}, over the read the paper will use.
+  \AddToHook{begindocument/before}[relatex-graphics]{%
+    \let\ltd@graphics@read\Gread@pdftex
+    \def\Gread@pdftex##1{%
+      \directlua{ltd.graphics.before_read(\number\lastsavedimageresourceindex)}%
+      \ltd@graphics@read{##1}%
+      \directlua{ltd.graphics.after_read('\luaescapestring{##1}',
+        '\luaescapestring{##1 image\Gin@attr@hash}',\number\lastsavedimageresourceindex,tex.box['@tempboxa'],
+        '\luaescapestring{\Gin@page}','\luaescapestring{\Gin@pagebox}')}}}%
+  \ltd@graphics@include{png}\ltd@graphics@include{jpg}\ltd@graphics@include{pdf}%
+  \AddToHook{cmd/GPT@DoClipEnd/before}[relatex-graphics]{%
+    \directlua{ltd.graphics.begin_clip()}}%
+  \AddToHook{cmd/GPT@DoClipEnd/after}[relatex-graphics]{%
+    \directlua{ltd.graphics.clip_form(\number\lastsavedboxresourceindex)}}%
+  \AddToHook{cmd/Grot@start/before}[relatex-graphics]{%
+    \directlua{ltd.graphics.transform('rotate',tex.box[0],
+      {cos=\Grot@cos,sin=\Grot@sin,origin_x=\number\Grot@x,origin_y=\number\Grot@y,
+       width=(\number\Grot@right)-(\number\Grot@left),height=\number\Grot@height,depth=-(\number\Grot@depth)})}}%
+  \AddToHook{cmd/Gscale@start/before}[relatex-graphics]{%
+    \directlua{ltd.graphics.transform('scale',tex.box[0],{x=\Gscale@x,y=\Gscale@y})}}}
+\@ifpackageloaded{graphics}{\ltd@graphics@install}{\AddToHook{package/graphics/after}{\ltd@graphics@install}}
+% What the author says about a graphic (decision 096): graphicx's alt, actualtext and artifact
+% keys (the LaTeX tagging project's), and acmart's \Description of the figure that holds it. The
+% keys are wrapped, not replaced, so tagging code that defines them still runs. Each value is
+% the text's purified form; a key given empty (alt={}) is recorded as given. The values are local
+% to \includegraphics' group, so the next graphic starts without them.
+\ExplSyntaxOn
+\cs_new_protected:Npn \ltd@graphics@purify #1#2 { \tl_set:Ne #1 { \text_purify:n {#2} } }
+\ExplSyntaxOff
+\def\ltd@graphics@alt{}\def\ltd@graphics@altgiven{false}\def\ltd@graphics@actual{}\def\ltd@graphics@artifact{false}
+\def\ltd@graphics@false{false}
+\newcommand\ltd@graphics@artifactvalue[1]{%
+  \edef\ltd@graphics@value{\detokenize{#1}}%
+  \ifx\ltd@graphics@value\ltd@graphics@false\def\ltd@graphics@artifact{false}\else\def\ltd@graphics@artifact{true}\fi}
+\newcommand\ltd@graphics@keys{%
+  \ifdefined\KV@Gin@alt
+    \let\ltd@graphics@altkey\KV@Gin@alt
+    \def\KV@Gin@alt##1{\ltd@graphics@purify\ltd@graphics@alt{##1}\def\ltd@graphics@altgiven{true}\ltd@graphics@altkey{##1}}%
+  \fi
+  \ifdefined\KV@Gin@actualtext
+    \let\ltd@graphics@actualkey\KV@Gin@actualtext
+    \def\KV@Gin@actualtext##1{\ltd@graphics@purify\ltd@graphics@actual{##1}\ltd@graphics@actualkey{##1}}%
+  \fi
+  \ifdefined\KV@Gin@artifact
+    \let\ltd@graphics@artifactkey\KV@Gin@artifact
+    \def\KV@Gin@artifact##1{\ltd@graphics@artifactvalue{##1}\ltd@graphics@artifactkey{##1}}%
+  \fi}
+\newcommand\ltd@graphics@alternative{%
+  \directlua{ltd.graphics.alternative('\luaescapestring{\ltd@graphics@alt}',\ltd@graphics@altgiven,
+    '\luaescapestring{\ltd@graphics@actual}',\ltd@graphics@artifact,\ltd@graphics@figure)}}
+% Each figure environment is numbered; its graphics and its \Description carry the number. A
+% subfigure inside a figure belongs to the figure. acmart's teaser figures are typeset by \@teaser.
+\newcount\ltd@graphics@figures
+\def\ltd@graphics@figure{0}
+\newcommand\ltd@graphics@enter{%
+  \global\advance\ltd@graphics@figures\@ne\edef\ltd@graphics@figure{\the\ltd@graphics@figures}}
+\AddToHook{env/figure/begin}[relatex-graphics]{\ltd@graphics@enter}
+\AddToHook{env/figure*/begin}[relatex-graphics]{\ltd@graphics@enter}
+\AddToHook{env/wrapfigure/begin}[relatex-graphics]{\ltd@graphics@enter}
+\AddToHook{env/marginfigure/begin}[relatex-graphics]{\ltd@graphics@enter}
+\newcommand\ltd@graphics@describe[2]{%
+  \begingroup
+    \ltd@graphics@purify\ltd@graphics@short{#1}\ltd@graphics@purify\ltd@graphics@long{#2}%
+    \directlua{ltd.graphics.description(\ltd@graphics@figure,'\luaescapestring{\ltd@graphics@short}',
+      '\luaescapestring{\ltd@graphics@long}')}%
+  \endgroup}
+\newcommand\ltd@graphics@acm{%
+  \ifdefined\@Description@presenttrue
+    \renewcommand\Description[2][]{\global\@Description@presenttrue\ltd@graphics@describe{##1}{##2}\ignorespaces}%
+  \fi
+  \ifdefined\@teaser
+    \AddToHook{cmd/@teaser/before}[relatex-graphics]{\ltd@graphics@enter}%
+    \AddToHook{cmd/@teaser/after}[relatex-graphics]{\def\ltd@graphics@figure{0}}%
+  \fi}
+% relatex's own description of the figure that holds it (decision 125, amendment 2):
+% \relatexalt{alt}{short}[details], the sidecar entry's alt, long and details written in the
+% source. It is defined over whatever the author's preamble gave it (the guide's no-op,
+% \ProvideDocumentCommand\relatexalt{m m o}{}), and like the no-op it typesets nothing, so the
+% page is the one the author's LaTeX makes. One per figure; a later one replaces an earlier one.
+\DeclareDocumentCommand\relatexalt{m m o}{%
+  \begingroup
+    \ltd@graphics@purify\ltd@graphics@macroalt{#1}\ltd@graphics@purify\ltd@graphics@macroshort{#2}%
+    \IfValueTF{#3}{\ltd@graphics@purify\ltd@graphics@macrodetails{#3}}{\def\ltd@graphics@macrodetails{}}%
+    \directlua{ltd.graphics.relatex_alt(\ltd@graphics@figure,'\luaescapestring{\ltd@graphics@macroalt}',
+      '\luaescapestring{\ltd@graphics@macroshort}','\luaescapestring{\ltd@graphics@macrodetails}')}%
+  \endgroup}
+% The same keys on a tikzpicture, \tikz or scope (decision 111): pgf defines alt, actualtext and
+% artifact as no-ops, and the tagging project's tikz module forwards them to its own setup. The
+% collector appends its record to whichever code they have, for the picture being drawn.
+\newcommand\ltd@graphics@picturekey[2]{%
+  \begingroup
+    \ltd@graphics@purify\ltd@graphics@value{#2}%
+    \directlua{ltd.graphics.picture_alternative('#1','\luaescapestring{\ltd@graphics@value}',\ltd@graphics@figure)}%
+  \endgroup}
+\newcommand\ltd@graphics@tikzkeys{%
+  \tikzset{alt/.append code={\ltd@graphics@picturekey{alt}{##1}},
+    actualtext/.append code={\ltd@graphics@picturekey{actualtext}{##1}},
+    artifact/.append code={\ltd@graphics@picturekey{artifact}{}}}}
+% The collector loads at begindocument/before, after graphicx, tikz and the class.
+\ltd@graphics@keys
+\ifdefined\tikzset\ltd@graphics@tikzkeys\fi
+\@ifclassloaded{acmart}{\ltd@graphics@acm}{}
+% ocgx2's ocgcolorlinks recolours each link's text in a screen-only layer, with literals that
+% clip to the link's glyphs and fill through them: link styling, not a figure. The attribute
+% set between its begin and end macros lets the graphic limits pass those literals. Wrapped
+% once the document begins, over the definitions ocgx2 chose for its options; when the
+% macros are missing nothing is wrapped and the literals stay unsupported.
+\newcommand\ltd@graphics@linkcolour[2]{%
+  \ifcsname #1\endcsname\ifcsname #2\endcsname
+    \expandafter\let\csname ltd@saved@#1\expandafter\endcsname\csname #1\endcsname
+    \expandafter\let\csname ltd@saved@#2\expandafter\endcsname\csname #2\endcsname
+    \expandafter\protected\expandafter\def\csname #1\endcsname
+      {\directlua{ltd.graphics.limits.link_colour(true)}\csname ltd@saved@#1\endcsname}%
+    \expandafter\protected\expandafter\def\csname #2\endcsname
+      {\csname ltd@saved@#2\endcsname\directlua{ltd.graphics.limits.link_colour(false)}}%
+  \fi\fi}
+% ocgx2 also sets a downscaled Dingbats space at each end of a colour link, so that an empty
+% link still clips to a glyph. It is link styling, not text: the reading leaves it out.
+\newcommand\ltd@graphics@linkspace{%
+  \ifcsname ocgxii_tiny_space_char:\endcsname
+    \expandafter\let\expandafter\ltd@saved@linkspace\csname ocgxii_tiny_space_char:\endcsname
+    \expandafter\protected\expandafter\def\csname ocgxii_tiny_space_char:\endcsname
+      {\directlua{ltd.graphics.limits.link_space(true)}\ltd@saved@linkspace\directlua{ltd.graphics.limits.link_space(false)}}%
+  \fi}
+\AddToHook{begindocument/end}[relatex-graphics]{%
+  \ltd@graphics@linkcolour{ocgxii_colourlink_begin:}{ocgxii_colourlink_end:}%
+  \ltd@graphics@linkcolour{ocgxii_colourlink_nobreak_begin:}{ocgxii_colourlink_nobreak_end:}%
+  \ltd@graphics@linkspace}
+\endinput

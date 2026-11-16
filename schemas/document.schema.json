@@ -1,0 +1,21 @@
+{
+  "title": "Bounded M2 document IR 0.1 (not the full planned IR v1)",
+  "type": "object",
+  "required": ["schema_version", "profile", "identity", "metadata", "root", "block_order", "nodes", "labels", "assets", "diagnostics", "losses"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "0.1"},
+    "profile": {"const": "m1-frozen-fixtures-v2"},
+    "identity": {"type": "object", "required": ["fixture", "input_sha256"], "additionalProperties": false,
+      "properties": {"fixture": {"type": "string"}, "input_sha256": {"type": "string"}}},
+    "metadata": {"type": "object", "required": ["status", "reason"], "additionalProperties": false,
+      "properties": {"status": {"const": "unavailable"}, "reason": {"type": "string"}}},
+    "root": {"type": "string"},
+    "block_order": {"type": "array", "items": {"type": "string"}},
+    "nodes": {"type": "object"},
+    "labels": {"type": "object"},
+    "assets": {"const": {}},
+    "diagnostics": {"const": []},
+    "losses": {"const": []}
+  }
+}

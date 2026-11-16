@@ -1,0 +1,136 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-ams-blocks}{2026/10/15}{0.1.0}{Guarded AMS block defaults}
+% Ordinary AMS commits author top spacing at the first item, after selecting
+% the author font. Native blocks commit it when the list opens instead.
+\cs_new_nopar:Npn \__ltd_ams_expected_authors:
+  {\begingroup
+   \def\thanks{\protect\thanks@warning}
+   \trivlist
+   \centering\footnotesize\@topsep30\p@\relax
+   \advance\@topsep by~ -\baselineskip
+   \item\relax
+   \author@andify\authors
+   \def\\{\protect\linebreak}
+   \MakeUppercase{\authors}
+   \ifx\@empty\contribs
+   \else ,\penalty-3~\space\@setcontribs\@closetoccontribs\fi
+   \endtrivlist
+   \endgroup}
+\NewDocumentEnvironment{__ltd_ams_expected_trivlist}{!O{}}
+  {\list[#1]{}
+    {\dim_zero:N\leftmargin
+     \dim_zero:N\labelwidth
+     \cs_set_eq:NN\makelabel\use:n}}
+  {\BlockEnvEnd}
+\NewDocumentEnvironment{__ltd_ams_expected_list}{O{}mm}
+  {\tl_set:Nn\l__block_legacy_env_params_tl
+    {\tl_set:Nn\@itemlabel{#2}#3}
+   \SimpleBlockEnv{list}{#1}}
+  {\BlockEnvEnd}
+\tl_const:Nn \c__ltd_ams_topsep_tl {\topsep}
+\tl_const:Nn \c__ltd_ams_partopsep_tl {\partopsep}
+\prg_new_protected_conditional:Npnn \__ltd_ams_author_space_default: {TF}
+  {\prop_get:cnN {\c__template_values_root_tl block/std-list-1}{begin-vspace}\l_tmpa_tl
+   \prop_get:cnN {\c__template_values_root_tl block/std-list-1}{begin-extra-vspace}\l_tmpb_tl
+   \bool_lazy_all:nTF
+     {{\int_compare_p:nNn\g_block_nesting_depth_int={0}}
+      {\tl_if_eq_p:NN\l_tmpa_tl\c__ltd_ams_topsep_tl}
+      {\tl_if_eq_p:NN\l_tmpb_tl\c__ltd_ams_partopsep_tl}}
+     {\prg_return_true:}{\prg_return_false:}}
+\prg_new_conditional:Npnn \__ltd_ams_author_protocol: {TF}
+  {\bool_lazy_all:nTF
+    {{\cs_if_eq_p:Nc\trivlist{environment~trivlist}}
+     {\cs_if_eq_p:Nc\list{environment~list}}
+     {\cs_if_eq_p:cc{environment~trivlist~code}{environment~__ltd_ams_expected_trivlist~code}}
+     {\cs_if_eq_p:cc{environment~list~code}{environment~__ltd_ams_expected_list~code}}}
+    {\prg_return_true:}{\prg_return_false:}}
+\tl_const:Nn \c__ltd_ams_author_start_tl
+  {\trivlist[begin-vspace=0pt,begin-extra-vspace=0pt]}
+\cs_new_protected:Npn \__ltd_ams_authors:
+  {\__ltd_ams_author_space_default:TF
+    {\__ltd_ams_author_protocol:TF
+      {\__ltd_ams_corrected_authors:}
+      {\PackageError{relatex-ams-blocks}{Unsupported~native~AMS~author~list}
+        {Use~the~qualified~native~list~protocol.}}}
+    {\__ltd_ams_expected_authors:}}
+\cs_new_protected:Npn \__ltd_ams_install_authors:
+  {\cs_if_eq:NNT \@setauthors \__ltd_ams_expected_authors:
+    {\tl_set:No\l_tmpa_tl{\__ltd_ams_expected_authors:}
+     \tl_replace_once:NnV\l_tmpa_tl{\trivlist}\c__ltd_ams_author_start_tl
+     \tl_replace_once:Nnn\l_tmpa_tl{\item\relax}{\addvspace\@topsep\item\relax}
+     \cs_gset_nopar:Npe\__ltd_ams_corrected_authors:{\exp_not:V\l_tmpa_tl}
+     \cs_set_eq:NN\@setauthors\__ltd_ams_authors:}}
+% Chained headings reproduce the class's deferred theorem/proof item. This is
+% a class default, installed before preamble choices, including new styles.
+\cs_new_protected:Npn \__ltd_ams_caption_default:nn #1#2
+  {\prop_get:cnN {\c__template_values_root_tl #1/#2}{caption-placement}\l_tmpa_tl
+   \tl_if_eq:NnT\l_tmpa_tl{unchained}
+     {\EditInstance{#1}{#2}{caption-placement=chained}}}
+\cs_new_protected:Npn \__ltd_ams_caption_template:nn #1#2
+  {\prop_get:cnN {\c__template_defaults_root_tl #1/#2}{caption-placement}\l_tmpa_tl
+   \tl_if_eq:NnT\l_tmpa_tl{unchained}
+     {\EditTemplateDefaults{#1}{#2}{caption-placement=chained}}}
+\cs_new_protected:Npn \__ltd_ams_list_label:n #1
+  {\clist_if_in:nVTF{enumerate,itemize}\l__block_env_name_tl{\upshape#1}{#1}}
+% LaTeX 2026-11-01 renamed the blockenv key legacy-code (run before the block
+% instance) to early-legacy-code; a late-legacy-code runs after it.
+\cs_new_protected:Npn \__ltd_ams_description_legacy:n #1
+  {\prop_get:cnN {\c__template_values_root_tl blockenv/description}{#1}\l_tmpa_tl
+   \tl_if_empty:NT\l_tmpa_tl
+     {\EditInstance{blockenv}{description}{#1=\advance\leftmargini6\p@}}}
+\cs_new_protected:Npn \__ltd_ams_description_default:
+  {\prop_if_in:cnTF {\c__template_values_root_tl blockenv/description}{early-legacy-code}
+     {\__ltd_ams_description_legacy:n {early-legacy-code}}
+     {\__ltd_ams_description_legacy:n {legacy-code}}
+   \int_step_inline:nn{6}
+     {\prop_get:cnN {\c__template_values_root_tl list/description-##1}{item-indent}\l_tmpa_tl
+      \tl_if_eq:NnT\l_tmpa_tl{\itemindent}
+        {\EditInstance{list}{description-##1}{item-indent=-12pt}}
+      \prop_get:cnN {\c__template_values_root_tl list/description-##1}{label-width}\l_tmpa_tl
+      \tl_if_eq:NnT\l_tmpa_tl{\labelwidth}
+        {\EditInstance{list}{description-##1}{label-width=0pt}}}
+   \prop_get:cnN {\c__template_values_root_tl item/description}{label-format}\l_tmpa_tl
+   \tl_if_eq:NnT\l_tmpa_tl{\normalfont\bfseries##1}
+     {\EditInstance{item}{description}{label-format=\descriptionlabel{##1}}}}
+% Ordinary AMS separates the proof caption with the caller's labelsep, a
+% dimension. The native elastic default moves justified proof text instead.
+% Replace only that exact default; preamble choices retain precedence.
+\dim_new:N \l__ltd_ams_proof_labelsep_dim
+\cs_new_protected:Npn \__ltd_ams_proof_space_default:
+  {\prop_get:cnN {\c__template_values_root_tl captionedtext/proof}{after-hspace}\l_tmpa_tl
+   \tl_if_eq:NnT\l_tmpa_tl{5ptplus1ptminus1pt}
+{\AddToHook{env/proof/begin}[relatex-ams-proof-space]
+   {\dim_set_eq:NN\l__ltd_ams_proof_labelsep_dim\labelsep}
+ \EditInstance{captionedtext}{proof}{after-hspace=\l__ltd_ams_proof_labelsep_dim}}}
+% LaTeX 2026-11-01 sets a theorem's body declarations (amsart's \itshape) at
+% its first paragraph. Under the chained caption above, a theorem that opens
+% with a list never runs that paragraph start (the list item sets its own),
+% so the whole list lost the body font. amsart sets it when the theorem
+% starts, and so did the kernel before; set it there too (it is idempotent).
+\cs_new_protected:Npn \__ltd_ams_chained_body:
+  {\bool_lazy_or:nnF {\g__block_label_unchained_bool}{\g__block_label_standalone_bool}
+     {\l__block_body_decls_tl}}
+\cs_new_protected:Npn \__ltd_ams_block_start:
+  {\str_if_eq:VnT \l__block_inner_instance_type_tl {captionedtext}
+     {\tl_put_left:Nn \l__block_final_code_tl {\__ltd_ams_chained_body:}}}
+\cs_new_protected:Npn \__ltd_ams_block_defaults:
+  {\__ltd_ams_main_class:T
+    {\cs_if_exist:NT \ParseLaTeXeTheoremlike
+      {\AddToHook{blockenv}[relatex-ams-blocks]{\__ltd_ams_block_start:}
+       \clist_map_inline:nn{plain,remark,definition,legacy2e}
+        {\__ltd_ams_caption_default:nn{thmstyle}{##1}}
+       \__ltd_ams_proof_space_default:
+       \__ltd_ams_caption_default:nn{captionedtext}{proof}
+       \__ltd_ams_caption_template:nn{thmstyle}{std}
+       \__ltd_ams_caption_template:nn{captionedtext}{proof}
+       \prop_get:cnN {\c__template_values_root_tl item/basic}{label-format}\l_tmpa_tl
+       \tl_if_eq:NnT\l_tmpa_tl{##1}
+         {\EditInstance{item}{basic}{label-format=\__ltd_ams_list_label:n{##1}}}
+       \__ltd_ams_description_default:
+       \AddToHook{begindocument/end}[relatex-ams-blocks]{\__ltd_ams_install_authors:}}}}
+\AddToHook{class/amsart/after}[relatex-ams-blocks]{\__ltd_ams_block_defaults:}
+\endinput

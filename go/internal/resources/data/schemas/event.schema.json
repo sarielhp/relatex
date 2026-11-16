@@ -1,0 +1,1127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Experimental per-pass events 0.1 through 0.6",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "protocol",
+        "collector",
+        "attempt",
+        "pass",
+        "input",
+        "engine",
+        "adapter"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "header"
+        },
+        "protocol": {
+          "enum": [
+            "0.1",
+            "0.2",
+            "0.3",
+            "0.4",
+            "0.5",
+            "0.6"
+          ]
+        },
+        "collector": {
+          "type": "string"
+        },
+        "attempt": {
+          "type": "string"
+        },
+        "pass": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "input": {
+          "type": "string"
+        },
+        "engine": {
+          "type": "string"
+        },
+        "adapter": {
+          "enum": [
+            "hooks",
+            "external",
+            "tagging",
+            "bridge"
+          ]
+        },
+        "extensions": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "notes-0.1",
+              "graphics-0.1",
+              "graphics-0.2",
+              "tables-0.1",
+              "tables-0.2",
+              "page-totals-0.1",
+              "external-math-0.1",
+              "text-style-0.1",
+              "lists-0.1",
+              "citations-0.1",
+              "external-links-0.1"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "entity",
+        "role"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "context"
+        },
+        "entity": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "role": {
+          "enum": [
+            "paragraph",
+            "section",
+            "theorem",
+            "proof",
+            "footnote",
+            "unordered_list",
+            "ordered_list",
+            "list_item",
+            "code"
+          ]
+        },
+        "parent": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "candidate",
+        "entity",
+        "role",
+        "group",
+        "text",
+        "glyphs"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "candidate"
+        },
+        "candidate": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "entity": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "role": {
+          "enum": [
+            "paragraph",
+            "section",
+            "theorem",
+            "proof",
+            "footnote",
+            "unordered_list",
+            "ordered_list",
+            "list_item",
+            "code"
+          ]
+        },
+        "group": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "glyphs": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "candidate",
+        "first",
+        "last",
+        "page"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "occurrence"
+        },
+        "candidate": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "first": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "last": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "name",
+        "number",
+        "entity"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "label"
+        },
+        "name": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "counter": {
+          "type": "string"
+        },
+        "anchor": {
+          "type": "string"
+        },
+        "formula": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "target_entity": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "math_environment": {
+          "type": "string"
+        },
+        "math_row": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "mathml",
+        "entity",
+        "retention",
+        "provenance"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "math"
+        },
+        "mathml": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retention": {
+          "const": "unresolved"
+        },
+        "provenance": {
+          "enum": [
+            "converted-hook",
+            "luamml-mlist",
+            "latex-lab-file"
+          ]
+        },
+        "formula": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "file",
+            "line",
+            "end_line"
+          ],
+          "properties": {
+            "file": {
+              "type": "string"
+            },
+            "line": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "end_line": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "group": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "environment": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "code"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "diagnostic"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "pages",
+        "records"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "end"
+        },
+        "pages": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "records": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "kind",
+        "seq",
+        "formula"
+      ],
+      "properties": {
+        "kind": {
+          "const": "math_candidate"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "formula": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "display": {
+          "type": "boolean"
+        },
+        "trial": {
+          "const": true
+        },
+        "trial_provenance": {
+          "const": "amsmath-ifmeasuring"
+        },
+        "entity": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "kind",
+        "seq",
+        "formula",
+        "fragment",
+        "nodes",
+        "trial"
+      ],
+      "properties": {
+        "kind": {
+          "const": "math_fragment"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "formula": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fragment": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "nodes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "trial": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "kind",
+        "seq",
+        "formula",
+        "fragment",
+        "first",
+        "last",
+        "page"
+      ],
+      "properties": {
+        "kind": {
+          "const": "math_occurrence"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "formula": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fragment": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "first": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "last": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "reference",
+        "target",
+        "selector"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "reference"
+        },
+        "reference": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "target": {
+          "type": "string"
+        },
+        "selector": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "owner",
+        "entity",
+        "role",
+        "group",
+        "items"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "flow_candidate"
+        },
+        "owner": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "entity": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "role": {
+          "enum": [
+            "paragraph",
+            "section",
+            "theorem",
+            "proof",
+            "footnote",
+            "unordered_list",
+            "ordered_list",
+            "list_item",
+            "code"
+          ]
+        },
+        "group": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "type",
+                  "space",
+                  "text"
+                ],
+                "properties": {
+                  "space": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "text"
+                  },
+                  "note_mark": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "note_number": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "style": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "font": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "space_style": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "citation": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "citation_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "bibliography_entry": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "table": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "table_cell": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "external_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "glyph_name": {
+                    "type": "string"
+                  },
+                  "decoration": {
+                    "enum": ["underline", "strike"]
+                  },
+                  "runin_title": {
+                    "const": true
+                  },
+                  "tag": {
+                    "const": true
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "type",
+                  "space",
+                  "formula",
+                  "fragment",
+                  "position"
+                ],
+                "properties": {
+                  "space": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "formula": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "fragment": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "position": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "type": {
+                    "const": "math"
+                  },
+                  "note_mark": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "note_number": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "citation": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "citation_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "bibliography_entry": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "table": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "table_cell": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "external_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "runin_title": {
+                    "const": true
+                  },
+                  "tag": {
+                    "const": true
+                  },
+                  "tag_style": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "type",
+                  "space",
+                  "text"
+                ],
+                "properties": {
+                  "space": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "unsupported"
+                  },
+                  "item_marker": {
+                    "enum": [
+                      "square",
+                      "disc"
+                    ]
+                  },
+                  "note_mark": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "note_number": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "citation": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "citation_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "bibliography_entry": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "table": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "table_cell": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "external_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "width": {
+                    "type": "integer"
+                  },
+                  "height": {
+                    "type": "integer"
+                  },
+                  "depth": {
+                    "type": "integer"
+                  },
+                  "runin_title": {
+                    "const": true
+                  },
+                  "tag": {
+                    "const": true
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "type",
+                  "space",
+                  "symbol",
+                  "width",
+                  "height",
+                  "depth",
+                  "rules"
+                ],
+                "properties": {
+                  "type": {
+                    "const": "symbol"
+                  },
+                  "space": {
+                    "type": "string"
+                  },
+                  "symbol": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "width": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "height": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "rules": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "object",
+                    "required": [
+                      "type",
+                      "use",
+                      "resource",
+                      "index",
+                      "width",
+                      "height",
+                      "depth"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "image"
+                      },
+                      "use": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "resource": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "width": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "height": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "depth": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "form": {
+                        "const": true
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "note_mark": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "note_number": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "citation": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "citation_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "bibliography_entry": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "table": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "table_cell": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "external_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "runin_title": {
+                    "const": true
+                  },
+                  "tag": {
+                    "const": true
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "type",
+                  "space",
+                  "graphic",
+                  "width",
+                  "height",
+                  "depth"
+                ],
+                "properties": {
+                  "type": {
+                    "const": "graphic"
+                  },
+                  "space": {
+                    "type": "string"
+                  },
+                  "graphic": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "width": {
+                    "type": "integer"
+                  },
+                  "height": {
+                    "type": "integer"
+                  },
+                  "depth": {
+                    "type": "integer"
+                  },
+                  "table": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "table_cell": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "external_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "type",
+                  "space",
+                  "use",
+                  "resource",
+                  "index",
+                  "width",
+                  "height",
+                  "depth"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "image"
+                  },
+                  "space": {
+                    "type": "string"
+                  },
+                  "use": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "resource": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "index": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "width": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "height": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "citation": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "citation_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "bibliography_entry": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "form": {
+                    "const": true
+                  },
+                  "table": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "table_cell": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "external_link": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "seq",
+        "kind",
+        "owner",
+        "first",
+        "last",
+        "page"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "const": "flow_occurrence"
+        },
+        "owner": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "first": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "last": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "kind",
+        "seq",
+        "symbol",
+        "name"
+      ],
+      "properties": {
+        "kind": {
+          "const": "symbol_candidate"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "symbol": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "enum": [
+            "qed_open_square",
+            "qed"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

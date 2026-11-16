@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "relatex accessibility report (accessibility.json, decision 080, plan accessibility 7.1)",
+  "type": "object",
+  "required": ["schema_version", "status", "target", "legal_bar", "claim", "structural", "open_items"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "accessibility-0.1"},
+    "status": {"enum": ["measured", "unmeasured", "unverified"]},
+    "reason": {"type": "string"},
+    "target": {"const": "WCAG 2.2 AA"},
+    "legal_bar": {"const": "WCAG 2.1 AA"},
+    "claim": {"description": "Written only when it is mechanically true (decision 080 item 5): axe-core measured both themes and found nothing, and every structural check passed; else null.", "enum": [null, "WCAG 2.2 Level AA"]},
+    "axe": {
+      "type": "object",
+      "required": ["axe", "tags", "themes"],
+      "additionalProperties": false,
+      "properties": {
+        "axe": {"type": "string"},
+        "tags": {"type": "array", "items": {"type": "string"}},
+        "themes": {
+          "type": "object",
+          "required": ["light", "dark"],
+          "additionalProperties": false,
+          "properties": {
+            "light": {"type": "array", "items": {"type": "object", "required": ["id", "impact", "tags", "help", "count", "nodes"], "additionalProperties": false,
+                      "properties": {"id": {"type": "string"}, "impact": {"type": "string"}, "tags": {"type": "array", "items": {"type": "string"}},
+                                     "help": {"type": "string"}, "count": {"type": "integer", "minimum": 1},
+                                     "nodes": {"type": "array", "items": {"type": "object", "required": ["target", "failure"],
+                                               "additionalProperties": false,
+                                               "properties": {"target": {"type": "array"}, "failure": {"type": "string"}}}}}}},
+            "dark": {"type": "array", "items": {"type": "object", "required": ["id", "impact", "tags", "help", "count", "nodes"], "additionalProperties": false,
+                      "properties": {"id": {"type": "string"}, "impact": {"type": "string"}, "tags": {"type": "array", "items": {"type": "string"}},
+                                     "help": {"type": "string"}, "count": {"type": "integer", "minimum": 1},
+                                     "nodes": {"type": "array", "items": {"type": "object", "required": ["target", "failure"],
+                                               "additionalProperties": false,
+                                               "properties": {"target": {"type": "array"}, "failure": {"type": "string"}}}}}}}
+          }
+        }
+      }
+    },
+    "structural": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["criterion", "check", "status", "count", "items"],
+        "additionalProperties": false,
+        "properties": {
+          "criterion": {"type": "string"},
+          "check": {"enum": ["language_declared", "language_parts", "image_alternatives", "image_drafts_reviewed", "formula_alternatives", "table_headers",
+                             "heading_levels", "images_of_text", "landmarks", "named_groups", "focus_visible",
+                             "reduced_motion", "forced_colors", "non_text_contrast", "use_of_color"]},
+          "status": {"description": "attested (use_of_color only, decision 188): every caption naming a colour is one the author attested, bound to its text; listed in attested, no gap.", "enum": ["pass", "gap", "attested"]},
+          "count": {"type": "integer", "minimum": 0},
+          "decorative": {"type": "integer", "minimum": 0},
+          "inferred": {"description": "image_alternatives: decorative marks relatex inferred (decision 111).", "type": "integer", "minimum": 0},
+          "source": {"description": "language_declared: where the document language came from (decision 111: detected counts).", "enum": ["babel", "polyglossia", "class_option", "metadata", "detected", "default"]},
+          "attested": {"description": "use_of_color: the captions that name colours which the author attested in relatex/hints.json colour_captions (decision 188), each with the key that holds and the sha256 of the caption text.", "type": "array", "items": {"type": "object"}},
+          "headers": {"description": "table_headers: how many tables have header rows, by how they are known (decision 111).", "type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+          "items": {"description": "The gaps. table_headers and use_of_color items also carry, where the conversion's source map knows them (decision 184, additive: the schema version stays), file and line (the float caption's place in the source), float (figure_float or table_float), number and label of the float, caption (clipped text) and, for a table, table and of (its position among the float's tables).",
+                    "type": "array", "items": {"type": "object"}}
+        }
+      }
+    },
+    "open_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "id", "count"],
+        "additionalProperties": false,
+        "properties": {
+          "source": {"enum": ["axe", "structural"]},
+          "id": {"type": "string"},
+          "criterion": {"type": "string"},
+          "count": {"type": "integer", "minimum": 0},
+          "themes": {"type": "array", "items": {"enum": ["light", "dark"]}}
+        }
+      }
+    }
+  }
+}

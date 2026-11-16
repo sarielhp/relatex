@@ -1,0 +1,58 @@
+{
+  "title": "03-reconcile provenance.json: the probe reinspected, its producer and this consumer",
+  "type": "object",
+  "required": ["id", "draw", "qualified", "artifact_manifest_sha256", "stream_sha256", "inspection_sha256", "input_sha256",
+               "archive_sha256", "pdf_page_count", "table_paint_directory", "source_fonts_directory", "text_paint_directory",
+               "producer", "consumer", "scope"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "draw": { "type": "integer", "minimum": 0 },
+    "qualified": { "const": false },
+    "artifact_manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "stream_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "inspection_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "input_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "archive_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "pdf_page_count": {
+      "oneOf": [
+        { "const": null },
+        {
+          "type": "object",
+          "required": ["helper", "pages", "pdf_sha256", "stage"],
+          "additionalProperties": false,
+          "properties": {
+            "helper": {
+              "type": "object",
+              "required": ["path", "realpath", "sha256", "version"],
+              "additionalProperties": false,
+              "properties": {
+                "path": { "type": "string" },
+                "realpath": { "type": "string" },
+                "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+                "version": { "type": "string" }
+              }
+            },
+            "pages": { "type": "integer", "minimum": 1 },
+            "pdf_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "stage": { "type": "object", "required": ["command", "exit", "seconds", "signal", "timeout"] }
+          }
+        }
+      ]
+    },
+    "table_paint_directory": { "oneOf": [{ "const": null }, { "type": "string" }] },
+    "source_fonts_directory": { "oneOf": [{ "const": null }, { "type": "string" }] },
+    "text_paint_directory": { "oneOf": [{ "const": null }, { "type": "string" }] },
+    "producer": { "type": "object" },
+    "consumer": {
+      "type": "object",
+      "required": ["version", "files"],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "type": "string" },
+        "files": { "type": "object" }
+      }
+    },
+    "scope": { "type": "string" }
+  }
+}

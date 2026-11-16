@@ -1,0 +1,53 @@
+# bold_first_column
+c0-0 th scope="col"
+c0-1 th scope="col"
+c0-2 th scope="col"
+c1-0 th scope="row"
+c1-1 td 
+c1-2 td 
+c2-0 th scope="row"
+c2-1 td 
+c2-2 td 
+c3-0 th scope="row"
+c3-1 td 
+c3-2 td 
+# multicolumn_groups
+c0-0 th scope="col"
+c0-1 th scope="col"
+c0-3 th scope="col"
+c1-1 th scope="col"
+c1-2 th scope="col"
+c2-0 th scope="row"
+c2-1 td 
+c2-2 td 
+c2-3 td 
+c3-0 th scope="row"
+c3-1 td 
+c3-2 td 
+c3-3 td 
+# rule_after_first_column
+c0-0 th scope="row"
+c0-1 td 
+c0-2 td 
+c1-0 th scope="row"
+c1-1 td 
+c1-2 td 
+c2-0 th scope="row"
+c2-1 td 
+c2-2 td 
+c3-0 th scope="row"
+c3-1 td 
+c3-2 td 
+# rule_after_every_column
+c0-0 td 
+c0-1 td 
+c0-2 td 
+c1-0 td 
+c1-1 td 
+c1-2 td 
+c2-0 td 
+c2-1 td 
+c2-2 td 
+c3-0 td 
+c3-1 td 
+c3-2 td 

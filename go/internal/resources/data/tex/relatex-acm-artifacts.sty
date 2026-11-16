@@ -1,0 +1,55 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-acm-artifacts}{2026/10/15}{0.1.0}{Observed ACM publisher material}
+% The separate manyfoot permission insert is publisher material, not an
+% ordinary author footnote. Keep every excluded glyph/rule in raw diagnostics.
+\cs_new_nopar:Npn \__ltd_acm_expected_permission:
+  {\MFL@fnoteplain{\footinscopyrightpermission}}
+\cs_new_nopar:Npn \__ltd_acm_expected_rule:
+  {\kern-3\p@\hrule\@width\columnwidth\kern2.6\p@}
+\cs_if_eq:NNTF \Footnotetextcopyrightpermission \__ltd_acm_expected_permission:
+  {\NewCommandCopy\__ltd_acm_permission:\Footnotetextcopyrightpermission
+   \RenewDocumentCommand\Footnotetextcopyrightpermission{+m +m}
+     {\directlua{ltd.page_begin('acmart-copyright')}
+      \__ltd_acm_permission:{#1}{#2}
+      \directlua{ltd.page_end()}}}
+  {\PackageError{relatex-acm-artifacts}{Unsupported~ACM~permission~insert}
+    {Use~the~qualified~manyfoot~permission~protocol.}}
+\cs_if_eq:NNTF \copyrightpermissionfootnoterule \__ltd_acm_expected_rule:
+  {\AddToHook{cmd/copyrightpermissionfootnoterule/before}
+     {\directlua{ltd.page_begin('acmart-copyright')}}
+   \AddToHook{cmd/copyrightpermissionfootnoterule/after}
+     {\directlua{ltd.page_end()}}}
+  {\PackageError{relatex-acm-artifacts}{Unsupported~ACM~permission~rule}
+    {Use~the~qualified~permission~rule.}}
+\cs_new_nopar:Npn \__ltd_acm_expected_note_rule:
+  {\kern-3\p@\hrule\@width4pc~\kern2.6\p@}
+\cs_if_eq:NNT \footnoterule \__ltd_acm_expected_note_rule:
+  {\AddToHook{cmd/footnoterule/before}{\directlua{ltd.page_begin()}}
+   \AddToHook{cmd/footnoterule/after}{\directlua{ltd.page_end()}}}
+% Public caption hooks bracket both measurement and retained caption boxes.
+% Their independent paragraph identity gives figure/table labels a real owner.
+\AtBeginCaption
+  {\directlua{ltd.caption_begin('\ifdefined\@captype\luaescapestring{\@captype}\else\ltd@listingcaption\fi',\ifcaption@star false\else true\fi)}}
+\AtEndCaption{\directlua{ltd.caption_end()}}
+% manyfoot snapshots the ordinary rule during begin-document initialization.
+% Observe that independently saved default after initialization as well.
+\AddToHook{begindocument/end}[relatex-acm-note-rule]
+  {\cs_if_eq:NNT \defaultfootnoterule \__ltd_acm_expected_note_rule:
+    {\cs_set_protected:Npn \defaultfootnoterule
+      {\directlua{ltd.page_begin()}
+       \__ltd_acm_expected_note_rule:
+       \directlua{ltd.page_end()}}}}
+\clist_map_inline:nn {figure,figure*,table,table*}
+  {\AddToHook{env/#1/begin}
+     {\directlua{ltd.float_begin('\str_if_eq:nnTF{#1}{figure*}{figure}{\str_if_eq:nnTF{#1}{table*}{table}{#1}}')}}
+   \AddToHook{env/#1/after}{\directlua{ltd.float_end()}}}
+\RequirePackage{relatex-other-floats}
+\endinput
+
+
+
+

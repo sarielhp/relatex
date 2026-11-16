@@ -1,0 +1,339 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-external}[2026/10/15 External evidence with ordinary PDF output]
+% No DocumentMetadata, latex-lab, tagpdf, layout repair or PDF literals.
+% Reuse the execution/context hooks and scalar node observer independently of
+% the historical native-tagging bridge. Evidence is not full-paper acceptance.
+% A \documentstyle paper runs in LaTeX 2.09 compatibility mode, which rejects LaTeX2e commands
+% (\newcommand with an optional argument, as etoolbox defines) in packages loaded after the class.
+% The collector is a LaTeX2e package: the check is off while it loads and on again after.
+\let\ltd@latexe@error\@latex@e@error
+\let\@latex@e@error\@gobble
+\RequirePackage{relatex}
+\@ifclassloaded{acmart}{}{\RequirePackage{relatex-external-floats}}
+\@ifclassloaded{beamer}{\RequirePackage{relatex-beamer}}{}
+\@ifpackageloaded{biblatex}{\RequirePackage{relatex-external-biblatex-citations}}{%
+\@ifpackageloaded{natbib}{\RequirePackage{relatex-external-citations}}{%
+  \RequirePackage{relatex-external-latex-citations}}}
+\@ifclassloaded{amsart}{\RequirePackage{relatex-external-ams}}{%
+  \@ifpackageloaded{amsthm}{\RequirePackage{relatex-external-ams}}{%
+    \@ifpackageloaded{amsmath}{\RequirePackage{relatex-external-ams}}{}}}
+% Without amsmath the kernel equation still owns its \label (the AMS package hooks it otherwise).
+\@ifundefined{ltd@external@ams}{%
+  \AddToHook{env/equation/begin}{\directlua{ltd.equation_begin('equation')}}%
+\AddToHook{env/equation/after}{\directlua{ltd.equation_end()}}%
+% The kernel eqnarray has rows to bind as the AMS alignments do.
+\directlua{ltd.external_equations = require('relatex-external-equations');ltd.external_equations.install(ltd)}%
+\@for\ltd@env:=eqnarray,eqnarray*\do{%
+  \expanded{\noexpand\AddToHook{env/\ltd@env/begin}{%
+    \noexpand\directlua{ltd.equation_begin('\ltd@env');ltd.external_equations.begin('\ltd@env')}}}%
+  \expanded{\noexpand\AddToHook{env/\ltd@env/after}{%
+    \noexpand\directlua{ltd.external_equations.finish();ltd.equation_end()}}}}}{}
+% Kernel \newtheorem (no amsthm) dispatches through \@thm{counter}{title}; observe it
+% as amsthm's \@thm is observed. cleveref's argument-free dispatcher fails the signature.
+% The title is purified first: a name set in a font switch ({\bf Proposition}) would expand the
+% switch inside \directlua and stop the paper (cohort 2: 477, 511).
+\ExplSyntaxOn
+\cs_if_exist:NF \thm@style
+  {
+    \str_if_eq:eeT { \cs_argument_spec:N \@thm } { \c_hash_str 1 \c_hash_str 2 }
+      {
+        \AddToHookWithArguments{cmd/@thm/before}[relatex-external-theorems]
+          {
+            \exp_args:Nee \__ltd_theorem_begin:nn {kernel} {\@currenvir}
+            \directlua{ltd.theorem_context('\luaescapestring{\@currenvir}',
+              '\luaescapestring{#1}', '\luaescapestring{\text_purify:n {#2}}')}
+          }
+      }
+  }
+% ntheorem's \@thm takes #1#2#3 (environment, counter, title) as amsthm's does, but ntheorem has
+% no \thm@style, so neither hook above observes it (book 0003: references to its theorems found
+% no theorem context). Its environments end with their \begin group as amsthm's do. cleveref
+% keeps the original as \cref@thmnoarg.
+\cs_new_protected:Npn \__ltd_ntheorem_hook:n #1
+  {
+    \AddToHookWithArguments{cmd/#1/before}[relatex-external-theorems]
+      {
+        \exp_args:Nee \__ltd_theorem_begin:nn {amsthm} {\@currenvir}
+        \directlua{ltd.theorem_context('\luaescapestring{\@currenvir}',
+          '\luaescapestring{##2}', '\luaescapestring{\text_purify:n {##3}}')}
+      }
+  }
+\cs_new:Npn \__ltd_ntheorem_signature:n #1
+  {
+    \bool_lazy_and_p:nn { \cs_if_exist_p:c {#1} }
+      { \str_if_eq_p:ee { \exp_args:Nc \cs_argument_spec:N {#1} } { \c_hash_str 1 \c_hash_str 2 \c_hash_str 3 } }
+  }
+\@ifpackageloaded{ntheorem}
+  {
+    \cs_if_exist:NF \thm@style
+      {
+        \bool_if:nTF { \__ltd_ntheorem_signature:n {@thm} }
+          { \__ltd_ntheorem_hook:n {@thm} }
+          { \bool_if:nT { \__ltd_ntheorem_signature:n {cref@thmnoarg} } { \__ltd_ntheorem_hook:n {cref@thmnoarg} } }
+      }
+  }
+  {}
+\ExplSyntaxOff
+% The footnote separator is drawn by the output routine's \@makecol, outside the
+% \@outputpage decoration bracket; keep it out of the reading (acmart observes its own).
+\@ifclassloaded{acmart}{}{%
+  \AddToHook{cmd/footnoterule/before}[relatex-external-note-rule]{\directlua{ltd.page_begin()}}%
+  \AddToHook{cmd/footnoterule/after}[relatex-external-note-rule]{\directlua{ltd.page_end()}}}
+\directlua{ltd.external_lists = require('relatex-external-lists');ltd.external_lists.install(ltd)}
+% The author's math source (decision 064): hooked only when the conversion asks for it.
+\directlua{ltd.math_source = require('relatex-math-source')}
+\AddToHook{begindocument/end}{\directlua{ltd.math_source.hook(ltd)}}
+\AddToHook{env/itemize/begin}{\directlua{ltd.external_lists.begin('itemize',\number\@listdepth)}}
+\AddToHook{env/itemize/after}{\directlua{ltd.external_lists.finish('itemize')}}
+\AddToHook{env/enumerate/begin}{\directlua{ltd.external_lists.begin('enumerate',\number\@listdepth)}}
+\AddToHook{env/enumerate/after}{\directlua{ltd.external_lists.finish('enumerate')}}
+\AddToHook{env/description/begin}{\directlua{ltd.external_lists.begin('description',\number\@listdepth)}}
+\AddToHook{env/description/after}{\directlua{ltd.external_lists.finish('description')}}
+% A list environment under another name (decision 046, amendment 1): its base kind is recorded
+% at each declaration (a later \renewlist may change it), its lifetime hooks are added once.
+\def\ltd@observe@list#1#2#3{%
+  \directlua{ltd.external_lists.alias('\luaescapestring{#1}','\luaescapestring{#2}'%
+    \if\relax\detokenize{#3}\relax\else,'\luaescapestring{#3}'\fi)}%
+  \ifcsname ltd@list@observed@#1\endcsname\else
+    \expandafter\let\csname ltd@list@observed@#1\endcsname\@empty
+    \AddToHook{env/#1/begin}[relatex-external-list]%
+      {\directlua{ltd.external_lists.begin('\luaescapestring{#1}',\number\@listdepth)}}%
+    \AddToHook{env/#1/after}[relatex-external-list]%
+      {\directlua{ltd.external_lists.finish('\luaescapestring{#1}')}}%
+  \fi}
+% paralist's compact lists are the standard ones with less space, numbered by enumi..enumiv;
+% its run-in lists (asparaenum, inparaenum) stay paragraph text.
+\@ifpackageloaded{paralist}{%
+  \ltd@observe@list{compactenum}{enumerate}{enum}%
+  \ltd@observe@list{compactitem}{itemize}{}%
+  \ltd@observe@list{compactdesc}{description}{}}{}
+% enumitem's \newlist{NAME}{TYPE}{DEPTH} and \renewlist (an inline TYPE ends with *), declared in
+% the preamble and kept by relatex-preamble.lua in order; a later one is observed at once.
+\directlua{
+  for _, list in ipairs(ltd_preamble and ltd_preamble.lists or {}) do
+    tex.sprint(luatexbase.registernumber('catcodetable@atletter'),
+      '\string\\ltd@observe@list{' .. list.name .. '}{' .. list.base .. '}{}')
+  end}
+\def\ltd@declare@list#1#2{\ltd@observe@list{#1}{#2}{}}
+\AddToHook{cmd/@item/before}{%
+  % An item without text leaves its label pending: \@item sets it in a paragraph of its own
+  % when the next item comes. Set it now, before the next item's context opens.
+  \if@noparitem\else\if@inlabel\indent\par\fi\fi
+  \directlua{ltd.external_lists.item('\luaescapestring{\@currenvir}',\number\@listdepth)}}
+\directlua{ltd.text_styles = require('relatex-text-styles');ltd.flow.text_styles = ltd.text_styles}
+\newcommand\ltd@observe@textstyle{%
+  \directlua{ltd.text_styles.observe('\luaescapestring{\f@encoding}',
+    '\luaescapestring{\f@family}', '\luaescapestring{\f@series}', '\luaescapestring{\f@shape}',
+    '\luaescapestring{\rmdefault}', '\luaescapestring{\sfdefault}', '\luaescapestring{\ttdefault}')}}
+\AddToHook{cmd/selectfont/after}[relatex-text-style]{\ltd@observe@textstyle}
+\AddToHook{cmd/@use@text@encoding/after}[relatex-text-style]{\ltd@observe@textstyle}
+% The kernel can activate the initial document font directly during startup.
+\AddToHook{begindocument/end}[relatex-text-style]{\ltd@observe@textstyle}
+\directlua{ltd.notes = require('relatex-notes');
+  ltd_external_notes = require('relatex-external-notes');ltd_external_notes.install(ltd.notes)}
+\AddToHook{cmd/@footnotemark/before}{\directlua{ltd_external_notes.mark_begin('\luaescapestring{\detokenize\expandafter{\@thefnmark}}')}}
+\AddToHook{cmd/@footnotemark/after}{\directlua{ltd_external_notes.mark_end()}}
+% REVTeX sets the call with its own \ltx@footmark (after setting \@thefnmark), not \@footnotemark.
+% With footinbib the mark is a citation of a bibliography note, not a footnote call.
+\AddToHook{cmd/ltx@footmark/before}{\footinbib@sw{}{\directlua{ltd_external_notes.mark_begin('\luaescapestring{\detokenize\expandafter{\@thefnmark}}')}}}
+\AddToHook{cmd/ltx@footmark/after}{\footinbib@sw{}{\directlua{ltd_external_notes.mark_end()}}}
+% An after hook is appended to the definition: it is safe only when \@footnotetext
+% takes its body itself (the kernel's #1). revtex's nofootinbib \@footnotetext hands
+% the body to an inner macro, which would read the hook code as that body.
+\ExplSyntaxOn
+\str_if_eq:eeT { \cs_argument_spec:N \@footnotetext } { \c_hash_str 1 }
+  {
+    \AddToHook{cmd/@footnotetext/before}{\directlua{ltd_external_notes.body_begin('\luaescapestring{\detokenize\expandafter{\@thefnmark}}')}}
+    \AddToHook{cmd/@footnotetext/after}{\directlua{ltd_external_notes.body_end()}}
+  }
+% AASTeX 5 (aastex.cls) reads the body after \@footnotetext, which takes no parameter: the
+% body is \close@footnotetext's own argument (its affiliations are such notes).
+\@ifclassloaded{aastex}
+  {
+    \str_if_eq:eeT { \cs_argument_spec:N \close@footnotetext } { \c_hash_str 1 }
+      {
+        \AddToHook{cmd/close@footnotetext/before}{\directlua{ltd_external_notes.body_begin('\luaescapestring{\detokenize\expandafter{\@thefnmark}}')}}
+        \AddToHook{cmd/close@footnotetext/after}{\directlua{ltd_external_notes.body_end()}}
+      }
+  }
+  {}
+% hyperref keeps copies of both, taken before these hooks apply, and sets with them the notes
+% of \maketitle (\thanks), \footnotetext[n], \footnotemark[n] and \footref. Their mark is passed as
+% stored, unexpanded: in a title it may hold font commands that do not expand.
+\AddToHook{begindocument/before}[relatex-hyperref-notes]
+  {
+    \cs_if_exist:NT \H@@footnotemark
+      {
+        \AddToHook{cmd/H@@footnotemark/before}{\directlua{ltd_external_notes.mark_begin('\luaescapestring{\detokenize\expandafter{\@thefnmark}}')}}
+        \AddToHook{cmd/H@@footnotemark/after}{\directlua{ltd_external_notes.mark_end()}}
+      }
+    \cs_if_exist:NT \H@@footnotetext
+      {
+        \str_if_eq:eeT { \cs_argument_spec:N \H@@footnotetext } { \c_hash_str 1 }
+          {
+            \AddToHook{cmd/H@@footnotetext/before}
+              {\directlua{ltd_external_notes.copy_body_begin('\luaescapestring{\detokenize\expandafter{\@thefnmark}}')}}
+            \AddToHook{cmd/H@@footnotetext/after}{\directlua{ltd_external_notes.body_end()}}
+          }
+      }
+  }
+\ExplSyntaxOff
+% A class that prints an author note's mark itself (JINST's \author[a,1], PoS's
+% \author*[a,\dagger]) sets only its body, in \maketitle: bodies set there are title notes.
+% Only a \maketitle without parameters is wrapped, so no argument is read across the wrapper.
+\ExplSyntaxOn
+\AddToHook{begindocument/end}[relatex-title-notes]
+  {
+    \token_if_macro:NT \maketitle
+      {
+        \str_if_eq:eeT { \cs_argument_spec:N \maketitle } { }
+          {
+            \cs_set_eq:NN \__ltd_maketitle: \maketitle
+            \cs_set:Npn \maketitle
+              {
+                \directlua{ltd_external_notes.title_begin()}
+                \__ltd_maketitle:
+                \directlua{ltd_external_notes.title_end()}
+              }
+          }
+      }
+  }
+% LaTeX can hook only a macro: a document that lets \@makefnmark to a primitive (\let\@makefnmark
+% \noindent, which sets no mark) would stop at \begin{document}. Such a command typesets no mark
+% to observe: its hooks are skipped and the log says so. The command is judged in the
+% begindocument hook, after every package set it and before generic hooks are patched in.
+\AddToHook{begindocument}[relatex-external-notes]
+  {
+    \token_if_macro:NTF \@makefnmark
+      {
+        \AddToHook{cmd/@makefnmark/before}[relatex-external]{\directlua{ltd_external_notes.number_begin()}}
+        \AddToHook{cmd/@makefnmark/after}[relatex-external]{\directlua{ltd_external_notes.number_end()}}
+      }
+      {
+        \iow_log:e
+          { relatex-external:~\token_to_str:N \@makefnmark \c_space_tl is~not~a~macro;~its~mark~hooks~are~skipped }
+      }
+  }
+\ExplSyntaxOff
+\directlua{ltd_external_math = require('relatex-external-math');ltd_external_math.install(ltd)}
+% listings sets a listing in a table cell (inner horizontal mode) as $\vcenter{...}$ (or \vtop,
+% \vbox by boxpos): that formula is layout, and the listing's lines stay code text.
+% A display listing (lstlisting, \lstinputlisting) not set in a box is a code block (decision 120):
+% its lines are one code context, from listings' PreInit (after the listing's top caption) to DeInit.
+% PreInit, not Init: the Init hooks build the frame and background box (\lst@framebox) that every
+% line copies, and a box built outside the code context would set the wrapped lines' background in
+% the enclosing float's paragraph, between the listing's lines (papers 14, papers4 1024).
+\@ifpackageloaded{listings}{%
+  \lst@AddToHook{BoxUnsafe}{\directlua{ltd_external_math.listing_box()}}%
+  \lst@AddToHook{PreInit}{\lst@ifbox\else\lst@ifdisplaystyle\directlua{ltd.listing_begin()}\fi\fi}%
+  \lst@AddToHook{DeInit}{\directlua{ltd.listing_end()}}}{}
+% Legacy math fonts without Unicode (MnSymbol, stmaryrd) map through their live declarations.
+\AddToHook{cmd/check@mathfonts/after}[relatex-math-remap]{\directlua{require('relatex-math-remap').install_once()}}
+% Read the actual NFSS family assignment when TeX initializes math fonts. This
+% observes declared encodings rather than inferring them from font names.
+\AddToHookWithArguments{cmd/getanddefine@fonts/before}[relatex-external-math]{%
+  \directlua{ltd_external_math.family(\number#1,'\luaescapestring{\string#2}')}}
+\AddToHookWithArguments{cmd/getanddefine@fonts/after}[relatex-external-alphabets]{%
+  \directlua{ltd_external_math.bind_fonts('\luaescapestring{\string#2}',
+    \fontid\textfont@name,\fontid\scriptfont@name,\fontid\font@name)}}
+\AddToHookWithArguments{cmd/@setref/before}[relatex-external-reference]{%
+  \directlua{ltd.flow.reference_begin('\luaescapestring{#3}', '\luaescapestring{\string#2}')}}
+\AddToHook{cmd/@setref/after}[relatex-external-reference]{\directlua{ltd.flow.reference_end()}}
+% cleveref prints \cref, \Cref and \crefrange itself: each label of the call names its own link,
+% in order, and the link's text ("fig. 3") is that label's use. The label queue is filled where
+% the call names its labels and drained by the links the formats open.
+\AddToHookWithArguments{cmd/@@@setcref/before}[relatex-external-reference]{%
+  \directlua{ltd.flow.cref_labels('\luaescapestring{#2}')}}
+\AddToHookWithArguments{cmd/@@@setcrefrange/before}[relatex-external-reference]{%
+  \directlua{ltd.flow.cref_labels('\luaescapestring{#2}', '\luaescapestring{#3}')}}
+% hyperref's \autoref prints "Figure 1": the number after the type word is the use of its label
+% (the same run \ref prints), so the patch opens the span around that number only. The label
+% is noted where \autoref names it: the patch has no parameter text to match.
+\RequirePackage{etoolbox}
+\AddToHookWithArguments{cmd/HyRef@autosetref/before}[relatex-external-autoref]{%
+  \directlua{ltd.flow.autoref_label('\luaescapestring{#2}')}}
+\def\ltd@autoref@begin{\directlua{ltd.flow.autoref_begin()}}
+\def\ltd@autoref@end{\directlua{ltd.flow.reference_end()}}
+\AddToHook{begindocument/end}[relatex-external-autoref]{%
+  \@ifundefined{HyRef@autosetref}{}{%
+    \patchcmd\HyRef@autosetref{\HyRef@currentHtag\expandafter\@firstoffive}%
+      {\HyRef@currentHtag\ltd@autoref@begin\expandafter\@firstoffive}{}{}%
+    \patchcmd\HyRef@autosetref{\@empty\@empty\@empty\null}%
+      {\@empty\@empty\@empty\ltd@autoref@end\null}{}{}}}
+\AddToHook{begindocument/end}[relatex-external-reference]{%
+  \@ifundefined{cref@hyperlink}{}{%
+    \let\ltd@cref@hyperlink\cref@hyperlink
+    \def\cref@hyperlink#1#2#3\@nil{%
+      \directlua{ltd.flow.cref_begin()}%
+      \ltd@cref@hyperlink{#1}{#2}#3\@nil
+      \directlua{ltd.flow.reference_end()}}}}
+% hyperref's \hyperref[label]{text} prints the author's own text ("Lemma 2.1" from a \ref* inside it):
+% the whole text is the use of the label, and the reader checks that it ends with the number.
+% \autopageref is \hyperref[label]{\pageautorefname~\pageref*{label}} ("page 7"): its use is
+% recorded with the selector \autopageref, and the reader checks that it ends with the page.
+\def\ltd@hyperref@selector{\string\hyperref}
+\AddToHook{begindocument/end}[relatex-external-hyperref]{%
+  \@ifundefined{label@hyperref}{}{%
+    \let\ltd@label@hyperref\label@hyperref
+    \def\label@hyperref[#1]#2{%
+      \directlua{ltd.flow.reference_begin('\luaescapestring{#1}', '\luaescapestring{\ltd@hyperref@selector}')}%
+      \ltd@label@hyperref[{#1}]{#2}%
+      \directlua{ltd.flow.reference_end()}}}%
+  \@ifundefined{HyRef@autopageref}{}{%
+    \let\ltd@HyRef@autopageref\HyRef@autopageref
+    \def\HyRef@autopageref#1{%
+      \def\ltd@hyperref@selector{\string\autopageref}%
+      \ltd@HyRef@autopageref{#1}%
+      \def\ltd@hyperref@selector{\string\hyperref}}}}
+% Text-mode \underline{X} is X in an \hbox over an \hrule (the kernel's \underline@text since
+% LaTeX 2025-11): X reads as underlined text and the rule as its decoration (relatex-flow,
+% text_underline). The wrapper only sets attributes; the box and the PDF are the kernel's.
+\AddToHook{begindocument/end}[relatex-external-underline]{%
+  \@ifundefined{underline@text}{}{%
+    \let\ltd@underline@text\underline@text
+    \protected\def\underline@text#1{%
+      \leavevmode
+      \begingroup
+        \directlua{ltd.flow.text_underline(2)}%
+        \ltd@underline@text{\directlua{ltd.flow.text_underline(1)}#1}%
+        \directlua{ltd.flow.text_underline_end()}%
+      \endgroup}}}
+% soul's \ul and \st (decision 134, extended by the author 2026-11-12): the words of \ul read as
+% underlined text (relatex.decoration 1), the words of \st as struck-out text (3). soul selects its
+% preamble in a setup macro (\SOUL@stsetup runs \SOUL@ulsetup first, \SOUL@hlsetup runs
+% \SOUL@stsetup first); the wrapper extends the preamble each setup leaves, which soul runs inside its
+% own group, so the mark ends with the command. \hl replaces the preamble last and stays unmarked
+% (a highlight, no decoration). Only attributes are set: boxes, leaders and the PDF are soul's.
+\AddToHook{begindocument/end}[relatex-external-soul]{%
+  \@ifundefined{SOUL@ulsetup}{}{%
+    \def\ltd@soul@decoration#1{%
+      \let\ltd@soul@preamble\SOUL@preamble
+      \def\SOUL@preamble{\ltd@soul@preamble\directlua{ltd.flow.text_underline(#1)}}}%
+    \let\ltd@SOUL@ulsetup\SOUL@ulsetup
+    \def\SOUL@ulsetup{\ltd@SOUL@ulsetup\ltd@soul@decoration{1}}%
+    \@ifundefined{SOUL@stsetup}{}{%
+      \let\ltd@SOUL@stsetup\SOUL@stsetup
+      \def\SOUL@stsetup{\ltd@SOUL@stsetup\ltd@soul@decoration{3}}}}}
+\RequirePackage{relatex-graphics}
+\RequirePackage{relatex-tables}
+\RequirePackage{relatex-external-links}
+\RequirePackage{relatex-index}
+\RequirePackage{relatex-page-totals}
+% Decision 066: every shipped glyph with its position and source lines, for synchronization.
+\directlua{ltd_external_glyph_map = require('relatex-glyph-map')}
+\AddToHook{shipout/before}[relatex-external-glyph-map]{%
+  \directlua{ltd_external_glyph_map.capture(tex.box['ShipoutBox'],
+    assert(os.getenv('RELATEX_STREAM')) .. '.glyphs.jsonl')}}
+% Some classes typeset front matter in begin-document hooks, before the core's
+% historical end hook. Start the external writer before those executions.
+\directlua{ltd.start()}
+% Footnote text the preamble typeset (PoS's \note) is read now, in footnote bodies.
+\directlua{if ltd_preamble then ltd_preamble.finish(\number\footins,
+  '\ifdefined\@thefnmark\luaescapestring{\detokenize\expandafter{\@thefnmark}}\fi', ltd, ltd_external_notes) end}
+\ltd@observe@textstyle
+\let\@latex@e@error\ltd@latexe@error
+\endinput

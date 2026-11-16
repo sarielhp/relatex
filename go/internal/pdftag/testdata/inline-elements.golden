@@ -1,0 +1,28 @@
+# content
+BT
+/F1 10 Tf
+1 0 0 1 0 0 Tm
+/P <</MCID 0>> BDC
+[<73656520>] TJ
+EMC
+/Formula <</MCID 1>> BDC
+[<78>] TJ
+EMC
+/P <</MCID 2>> BDC
+[<20>] TJ
+EMC
+/Link <</MCID 3>> BDC
+[<5B31325D>] TJ
+EMC
+/P <</MCID 4>> BDC
+[<206E6F77>] TJ
+EMC
+ET
+# P /K
+[map[/MCID:0 /Pg:8 0 R /Type:/MCR] 11 0 R map[/MCID:2 /Pg:8 0 R /Type:/MCR] 12 0 R map[/MCID:4 /Pg:8 0 R /Type:/MCR]]
+# Formula /K
+[map[/MCID:1 /Pg:8 0 R /Type:/MCR]]
+# Link /K
+[map[/MCID:3 /Pg:8 0 R /Type:/MCR] map[/Obj:20 0 R /Type:/OBJR]]
+# ParentTree
+[0 [10 0 R 11 0 R 10 0 R 12 0 R 10 0 R] 1 12 0 R]

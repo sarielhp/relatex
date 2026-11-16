@@ -1,0 +1,104 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-hyperref-defaults}{2026/10/15}{0.1.0}{Guarded legacy hyperlink defaults}
+% Expected native palette from hyperref-colorschemes.def (LaTeX Project, LPPL).
+\prop_const_from_keyval:Nn \c__ltd_hyp_expected_prop
+ {
+ linkcolor=[rgb]{0.50196,0,0.02353},filecolor=[rgb]{0.07451,0.09412,0.46667},
+ urlcolor=[rgb]{0.54118,0,0.52941},menucolor=[rgb]{0.44706,0.45882,0},
+ runcolor=[rgb]{0.07451,0.46667,0.46275},
+ linkbordercolor=[rgb]{0.701176,0.4,0.414118},filebordercolor=[rgb]{0.444706,0.456472,0.680002},
+ urlbordercolor=[rgb]{0.724708,0.4,0.717646},menubordercolor=[rgb]{0.668236,0.675292,0.4},
+ runbordercolor=[rgb]{0.444706,0.680002,0.67765}
+ }
+\prop_new:N \g__ltd_hyp_saved_prop
+\bool_new:N \g__ltd_hyp_initial_bool
+\cs_new_protected:Npn \__ltd_hyp_expected_map: {\exp_args:Nc \prop_map_inline:Nn}
+\seq_new:N \l__ltd_hyp_rgb_seq
+\cs_new_protected:Npn \__ltd_hyp_expected_color:nn #1#2
+ {
+  \tl_if_head_eq_charcode:nNTF {#2}[
+   {\__hyp_color_set_aux:nwn {#1}#2}
+   {\color_set:nn {#1}{#2}}
+ }
+\cs_new_protected:Npn \__ltd_hyp_rgb:nn #1#2
+ {
+  \regex_extract_once:nnNTF
+   {\A\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s+
+    ([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s+
+    ([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*\Z}
+   {#2}\l__ltd_hyp_rgb_seq
+   {\exp_args:Nne \__ltd_hyp_original_color:nn {#1}
+     {[rgb]{\seq_item:Nn\l__ltd_hyp_rgb_seq{2},
+            \seq_item:Nn\l__ltd_hyp_rgb_seq{3},\seq_item:Nn\l__ltd_hyp_rgb_seq{4}}}}
+   {\__ltd_hyp_original_color:nn {#1}{#2}}
+ }
+\cs_new_protected:Npn \__ltd_hyp_install_rgb:
+ {
+  \cs_if_eq:NNTF \__hyp_color_set:nn \__ltd_hyp_expected_color:nn
+   {
+    \cs_gset_eq:NN \__ltd_hyp_original_color:nn \__hyp_color_set:nn
+    \cs_gset_protected:Npn \__hyp_color_set:nn ##1##2
+     {\regex_match:nnTF {\A hyp/color/(?:link|url|file|menu|run|cite)border\Z}{##1}
+       {\__ltd_hyp_rgb:nn {##1}{##2}}
+       {\__ltd_hyp_original_color:nn {##1}{##2}}}
+   }
+   {\PackageError{relatex-hyperref-defaults}{Unsupported~color~setter}{Use~the~qualified~driver.}}
+ }
+\cs_new_protected:Npn \__ltd_hyp_restore:
+ {
+  \prop_gset_eq:NN \c__hyp_colorscheme_phelype_prop \g__ltd_hyp_saved_prop
+  \cs_gset_eq:NN \prop_map_inline:cn \__ltd_hyp_original_map:cn
+  \bool_gset_false:N \g__ltd_hyp_initial_bool
+  \__ltd_hyp_install_rgb:
+ }
+\cs_new_protected:Npn \__ltd_hyp_install:
+ {
+  \tl_if_eq:NNTF \c__hyp_colorscheme_phelype_prop \c__ltd_hyp_expected_prop
+   {
+    \cs_if_eq:NNTF \prop_map_inline:cn \__ltd_hyp_expected_map:
+     {
+      \prop_gset_eq:NN \g__ltd_hyp_saved_prop \c__hyp_colorscheme_phelype_prop
+      \cs_gset_eq:NN \__ltd_hyp_original_map:cn \prop_map_inline:cn
+      \prop_gset_from_keyval:Nn \c__hyp_colorscheme_phelype_prop
+       {linkcolor=red,filecolor=cyan,urlcolor=magenta,menucolor=red,runcolor=cyan,citecolor=green,
+        linkbordercolor=[rgb]{1,0,0},filebordercolor=[rgb]{0,.5,.5},urlbordercolor=[rgb]{0,1,1},
+        menubordercolor=[rgb]{1,0,0},runbordercolor=[rgb]{0,.7,.7},citebordercolor=[rgb]{0,1,0}}
+      \bool_gset_true:N \g__ltd_hyp_initial_bool
+      % Only the driver's initial palette lookup is intercepted. Restore before
+      % any class/package/user options are processed, including explicit schemes.
+      \cs_gset_protected:Npn \prop_map_inline:cn ##1##2
+       {
+        \__ltd_hyp_original_map:cn {##1}{##2}
+        \str_if_eq:nnT {##1}{c__hyp_colorscheme_phelype_prop}{\__ltd_hyp_restore:}
+       }
+     }
+     {\PackageError{relatex-hyperref-defaults}{Unsupported~property~mapper}{Use~the~qualified~kernel.}}
+   }
+   {\PackageError{relatex-hyperref-defaults}{Unsupported~native~palette}{Use~the~qualified~driver.}}
+ }
+\bool_new:N \g__ltd_hyp_palette_seen_bool
+\AddToHook{package/hyperref/before}
+ {
+  \cs_gset_eq:NN \__ltd_hyp_original_file_input:n \file_input:n
+  \cs_gset_protected:Npn \file_input:n #1
+   {
+    \__ltd_hyp_original_file_input:n {#1}
+    \str_if_eq:nnT {#1}{hyperref-colorschemes.def}
+     {
+      \cs_gset_eq:NN \file_input:n \__ltd_hyp_original_file_input:n
+      \bool_gset_true:N \g__ltd_hyp_palette_seen_bool
+      \__ltd_hyp_install:
+     }
+   }
+ }
+\AddToHook{package/hyperref/after}
+ {\cs_gset_eq:NN \file_input:n \__ltd_hyp_original_file_input:n
+  \bool_if:NF \g__ltd_hyp_palette_seen_bool
+   {\PackageError{relatex-hyperref-defaults}{Unobserved~native~palette}{Unsupported~driver.}}
+  \bool_if:NT \g__ltd_hyp_initial_bool
+   {\__ltd_hyp_restore:\PackageError{relatex-hyperref-defaults}{Unobserved~default~palette}{Driver~protocol~changed.}}}
+\endinput

@@ -1,0 +1,23 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-equation-aliases}[2026/10/14 v0.1.0 guarded equation aliases]
+% Opt-in adapter for the exact zero-argument \be/\ee pair. Collect the body
+% before latex-lab starts its literal \end{equation} scan. Do not expand math.
+\newcommand\LTDExpectedEquationBegin{\begin{equation}}
+\newcommand\LTDExpectedEquationEnd{\end{equation}}
+\AddToHook{begindocument/before}[relatex-equation-aliases]{%
+  \ifx\be\LTDExpectedEquationBegin
+    \ifx\ee\LTDExpectedEquationEnd
+      \long\def\be#1\ee{\begin{equation}#1\end{equation}}%
+    \else
+      \PackageError{relatex-equation-aliases}{Unexpected equation end alias}%
+        {The adapter requires the exact zero-argument equation aliases.}%
+    \fi
+  \else
+    \PackageError{relatex-equation-aliases}{Unexpected equation begin alias}%
+      {The adapter requires the exact zero-argument equation aliases.}%
+  \fi}
+\endinput

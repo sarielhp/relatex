@@ -1,0 +1,240 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "children",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "inspection_key",
+        "source_hint"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "inspection_key": {
+          "type": "string"
+        },
+        "source_hint": {
+          "const": "unavailable"
+        }
+      }
+    },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "align": {
+      "enum": [
+        "center",
+        "right"
+      ]
+    },
+    "mathml": {
+      "type": "string"
+    },
+    "tex": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "unavailable"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "form": {
+          "enum": [
+            "inline",
+            "display",
+            "environment"
+          ]
+        },
+        "environment": {
+          "type": "string"
+        },
+        "row": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "group": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "difference": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "formula_tex": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "environment": {
+          "enum": [
+            "align*",
+            "gather*",
+            "flalign*",
+            "multline*",
+            "alignat*",
+            "eqnarray*"
+          ]
+        }
+      }
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "mathml_path": {
+      "type": "string"
+    },
+    "tag": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "const": null
+        }
+      ]
+    },
+    "number": {
+      "type": "string"
+    },
+    "source_parent": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "text",
+          "block"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "style": {
+            "type": "object"
+          },
+          "text": {
+            "type": "string"
+          },
+          "block": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "callsites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "block"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "block": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100000
+    },
+    "source_label": {
+      "type": "string"
+    },
+    "anchor": {
+      "type": "string"
+    },
+    "pdf_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "marker": {
+      "type": "object",
+      "required": [
+        "shape"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "shape": {
+          "enum": [
+            "square",
+            "disc",
+            "circle"
+          ]
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9a-f]{6}$"
+        }
+      }
+    },
+    "semantics": {
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "heading",
+            "theorem",
+            "equation",
+            "float"
+          ]
+        }
+      }
+    }
+  }
+}

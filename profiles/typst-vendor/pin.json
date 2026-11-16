@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "comment": "Typst Universe packages vendored for the styled Typst bibliography (plans/typst-bibliography.md, decision D): Pergamon and citegeist with the packages Pergamon imports. Only the files typst compile needs and each LICENSE, verified byte for byte against the Universe tarballs. go/internal/typstvendor writes them to typst-source/vendor/NAME/ with @preview imports rewritten to relative paths. The vendored set stays under max_bytes; a larger set or a new series needs the author.",
+  "max_bytes": 1048576,
+  "packages": [
+    {
+      "name": "pergamon",
+      "version": "0.8.0",
+      "series": "~> 0.8.0",
+      "license": "MIT",
+      "entrypoint": "lib.typ",
+      "tarball_url": "https://packages.typst.org/preview/pergamon-0.8.0.tar.gz",
+      "tarball_sha256": "38b1ebd213bfa83cf7aac7e4b329125245435076944c3826aef6dea9c466aa32",
+      "files": {
+        "LICENSE": "96dbdfbca080a9dacdc76bca298e596aec1e2a14b8d4225fa06a474aeab5c5c9",
+        "lib.typ": "e5e730c77f481fa63d03bc1db353b8376bc92fe30bf1f5818af7f2c77aa1c503",
+        "src/bib-util.typ": "caeb6bf9a56c35498481de6b10e368a789203023b86c81d531d242e86e096f25",
+        "src/bibstrings.typ": "d71296128e5936655ffe5adf33850f881d2f33fbe07b67a00a7626ae75074bba",
+        "src/bibtypst.typ": "288ee76d3f30653ede07dfaee47b206a6687638608bc17051fb25a11b845f69b",
+        "src/citation-styles.typ": "55dd063935fda624003fc478e79bfd54e5c06ce5d64d85f5154bba3ccee541f3",
+        "src/content-to-string.typ": "f6c8ddc80b9f58fed25990bb92ed831c7515dc5e5edb36cc80b1f2f3868a02e2",
+        "src/dates.typ": "1d7206aa356b4820e7a7fa2c09e070b26dccd5c8230d3f44933dceab595600e8",
+        "src/names.typ": "7bfd187df06ba0fd14b474a4b6c089b8eb3b6230170aed7643cdfdb52d03a5a5",
+        "src/printfield.typ": "ddb3389a6164a1aa63d65e161cd6bd6a791b23963f923e8fedadfa8028c7ab65",
+        "src/reference-styles.typ": "bf6c6b2d4348ffee81b5e7ab59d4dc0381421484d9a37b79074a5378441c439c",
+        "src/style-bundles.typ": "9fac90e4516a92c9b6e3f4230537f0e884efbb6e695ce451af18e36a2fef50cd",
+        "src/templating.typ": "817e8971fef6ca288fb65b41362c90781577c92743a79dbe0df45d3a02ea1ffe",
+        "typst.toml": "269e32f89b0f6ac00361f4623de82a34c5da0e0f9625bbe1a1a0d3a71aee48fe"
+      }
+    },
+    {
+      "name": "citegeist",
+      "version": "0.2.2",
+      "series": "~> 0.2.0",
+      "license": "MIT",
+      "entrypoint": "lib.typ",
+      "tarball_url": "https://packages.typst.org/preview/citegeist-0.2.2.tar.gz",
+      "tarball_sha256": "ec58ede28eba3f6a563e7b0df02d501f9bef27e787ab2bb39a99c1f5fa010697",
+      "files": {
+        "LICENSE": "dde4bbc17e08597384b39412a67d33306e873f10f285300450f33bd51db44f63",
+        "citegeist.wasm": "0ee415c7224b7aa93b860fd63c225aa338ccc8fe9c760355b4025cc4214554f4",
+        "lib.typ": "9cd050774c6e86dacf971bb56bed2a7dd492277be4bdd46ab7da013573adce3c",
+        "typst.toml": "0077b4d79ee645ca079a611c69eee6d6caa27d6ec904eac386668db082290ec6"
+      }
+    },
+    {
+      "name": "bullseye",
+      "version": "0.1.0",
+      "series": "~> 0.1.0",
+      "license": "MIT",
+      "entrypoint": "src/lib.typ",
+      "tarball_url": "https://packages.typst.org/preview/bullseye-0.1.0.tar.gz",
+      "tarball_sha256": "4959a4fe67422a3f1ad3ebd208a90bcf262b19363834c4c769abb62908017571",
+      "files": {
+        "LICENSE": "83f05af161885ce28e6aa34313c5e3ce9fb3b4ab15afff07e16fcc9816c4b63c",
+        "src/html.typ": "0f14fb23e217ce1161b585f9e069e7b20517f41654b498d68d7a63fd2a2767d0",
+        "src/lib.typ": "f6cb1b88fa3e06aa6e11ff029c304fce1613e419092bc8ef95d41c5460beaaa9",
+        "typst.toml": "74b6230d54adf8d961eeb32dd83d487ee1545b173b459970a12379664672f46c"
+      }
+    },
+    {
+      "name": "oxifmt",
+      "version": "1.0.0",
+      "series": "~> 1.0.0",
+      "license": "MIT OR Apache-2.0 (MIT chosen)",
+      "entrypoint": "lib.typ",
+      "tarball_url": "https://packages.typst.org/preview/oxifmt-1.0.0.tar.gz",
+      "tarball_sha256": "7d17a1fc8ad01740ec3cb2b03c7360a4225ff9318e5710765fa98ea6fd59594f",
+      "files": {
+        "LICENSE": "36bb253818ac13761081556ff5c457d626da9df1eb4f56194d9ad3926c418a68",
+        "LICENSE-MIT": "14f5b5f40f5fbcf613fec86746979319afb7708e835776467c20b797b45864b5",
+        "lib.typ": "9d1ae81fffd85c20d1cbbc130200f32099615771fa146af36cc4a1e0f0242c2d",
+        "oxifmt.typ": "e3575b8760f158fca284a66cfefaf033a6b9e31a425f913686fd185e6ed2300a",
+        "typst.toml": "323397fd70c1830714bbd8a6f33951b5d2b04eb5841b4f524922279c1fb197fd"
+      }
+    },
+    {
+      "name": "nth",
+      "version": "1.0.1",
+      "series": "~> 1.0.0",
+      "license": "MIT-0",
+      "entrypoint": "nth.typ",
+      "tarball_url": "https://packages.typst.org/preview/nth-1.0.1.tar.gz",
+      "tarball_sha256": "18080af81631700eb288ec22bb3f580e9ec6808e9c1324c5f3400a341878fd56",
+      "files": {
+        "LICENSE": "7c6585682bb17e74d139f6182e69cb198cff7f22a136ba94576eed7accde1ff9",
+        "nth.typ": "f83e37b1bc084e82a9ec96f1a684e2e44ea5a8f157c0c94c9673a19d34c3b272",
+        "typst.toml": "429fa41ed1b7d06825e54749cf9e8ea3bbcc551d396a6f749a4f3dd790fe0be6"
+      }
+    }
+  ]
+}

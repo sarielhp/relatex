@@ -1,0 +1,100 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-proof}[2026/10/15 v0.6.0 guarded square and literal DONE QED observer]
+% These token comparisons restrict the semantic claim to the pinned default.
+% The actual rendering is always delegated to the document's original macros.
+\def\ltd@defaultqed{\openbox}
+% Accept exactly these zero-argument token lists, including their catcodes.
+% Literal DONE stays ordinary retained glyph text, not a synthetic square.
+\def\ltd@textqed{DONE}
+\long\def\ltd@longtextqed{DONE}
+\def\ltd@squareqed{\textsquare}
+\long\def\ltd@longsquareqed{\textsquare}
+\def\ltd@defaulttextsquare{\begingroup\usefont{U}{msa}{m}{n}\thr@@\endgroup}
+\edef\ltd@robusttextsquare{\noexpand\protect
+  \expandafter\noexpand\csname textsquare \endcsname}
+% The class's literal glyph uses the same live AMSa family as \square.
+% Observe the actual text font selection; math-font initialization has global
+% side effects on AMS footnote markers even inside a TeX group.
+\newcommand{\ltd@withsquaredefinition}[1]{%
+  \ifx\textsquare\ltd@robusttextsquare
+    \expandafter\ifx\csname textsquare \endcsname\ltd@defaulttextsquare
+      #1%
+    \else
+      \directlua{ltd.flow.unsupported_qed()}%
+    \fi
+  \else
+    \directlua{ltd.flow.unsupported_qed()}%
+  \fi}
+\newcommand{\ltd@checksquareqed}{%
+  \ifx\qedsymbol\ltd@squareqed
+    \ltd@withsquaredefinition{}%
+  \else
+    \ifx\qedsymbol\ltd@longsquareqed
+      \ltd@withsquaredefinition{}%
+    \else
+      \directlua{ltd.flow.unsupported_qed()}%
+    \fi
+  \fi}
+\newif\ifltd@squareactive
+\newcommand{\ltd@installsquareqed}{%
+  \AddToHook{cmd/usefont/after}{%
+    \ifltd@squareactive
+      \directlua{require('relatex-math-symbols').text_square_font()}%
+    \fi}%
+  \AddToHook{cmd/qedsymbol/before}{%
+    \ltd@squareactivefalse
+    \ltd@withsquaredefinition{%
+      \ltd@squareactivetrue
+      \directlua{require('relatex-math-symbols').text_square_begin()}}}%
+  \AddToHook{cmd/qedsymbol/after}{%
+    \ifltd@squareactive
+      \directlua{require('relatex-math-symbols').text_square_end()}%
+      \ltd@squareactivefalse
+    \fi}}
+\newcommand{\ltd@checktextqed}{%
+  \ifx\qedsymbol\ltd@textqed\else
+    \ifx\qedsymbol\ltd@longtextqed\else
+      \ltd@checksquareqed
+    \fi
+  \fi}
+\def\ltd@defaultopenbox{\leavevmode
+  \hbox to.77778em{%
+  \hfil\vrule
+  \vbox to.675em{\hrule width.6em\vfil\hrule}%
+  \vrule\hfil}}
+\newcommand{\ltd@qedbegin}{%
+  \ifx\openbox\ltd@defaultopenbox
+    \directlua{ltd.flow.symbol_begin(true)}%
+  \else
+    \directlua{ltd.flow.symbol_begin(false)}%
+  \fi}
+\newcommand{\ltd@installproof}{%
+  \@ifundefined{qedsymbol}{}{%
+    \ifx\qedsymbol\ltd@defaultqed
+      \AddToHook{cmd/qedsymbol/before}{\ltd@qedbegin}%
+      \AddToHook{cmd/qedsymbol/after}{\directlua{ltd.flow.symbol_end()}}%
+    \else
+      \ltd@checktextqed
+      \ifx\qedsymbol\ltd@squareqed
+        \ltd@installsquareqed
+      \else
+        \ifx\qedsymbol\ltd@longsquareqed
+          \ltd@installsquareqed
+        \fi
+      \fi
+    \fi
+    \let\ltd@observedqed\qedsymbol
+    \AddToHook{cmd/qed/before}{\ltd@checkqed}%
+    \AddToHook{cmd/qedhere/before}{\ltd@checkqed}%
+  }%
+}
+\newcommand{\ltd@checkqed}{%
+  \ifx\qedsymbol\ltd@observedqed\else
+    \ltd@checktextqed
+  \fi}
+\AddToHookNext{begindocument/end}{\ltd@installproof}
+\endinput

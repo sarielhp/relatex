@@ -1,0 +1,218 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-ams-headings}{2026/10/15}{0.1.0}{Guarded AMS legacy headings}
+% Native legacy instances omit the AMS number formatter and run-in punctuation.
+% Preserve native parsing, counters, tagging and author-created instances.
+\prop_new:N \g__ltd_ams_headings_prop
+\tl_new:N \l__ltd_ams_heading_tl
+\int_new:N \l__ltd_ams_level_int
+\skip_new:N \l__ltd_ams_after_skip
+\bool_new:N \l__ltd_ams_new_heading_bool
+\bool_new:N \l__ltd_ams_empty_title_bool
+\tl_new:N \l__ltd_ams_expected_title_tl
+\tl_new:N \l__ltd_ams_expected_current_title_tl
+\tl_new:N \l__ltd_ams_current_decls_tl
+\tl_new:N \l__ltd_ams_current_format_tl
+\tl_new:N \l__ltd_ams_runin_format_tl
+\tl_new:N \l__ltd_ams_name_tl
+\tl_new:N \l__ltd_ams_title_tl
+\tl_new:N \l__ltd_ams_decls_tl
+\bool_new:N \l__ltd_ams_legacy_heading_bool
+\bool_new:N \l__ltd_ams_nameref_bool
+\tl_new:N \l__ltd_ams_level_tokens_tl
+\tl_new:N \l__ltd_ams_class_level_tl
+\cs_new_nopar:Npn \__ltd_ams_expected_nameref:nnnnnnw #1#2#3#4#5#6[#7]#8
+  {\setcounter{section@level}{#2}
+   \NR@gettitle{#7}
+   \NR@sect{#1}{#2}{#3}{#4}{#5}{#6}[{#7}]{\Sectionformat{#8}{#2}}}
+\cs_new_nopar:Npn \__ltd_ams_expected_sect:nnnnnnw #1#2#3#4#5#6[#7]#8
+  {\edef\@toclevel{\ifnum#2=\@m 0\else\number#2\fi}
+   \ifnum #2>\c@secnumdepth \let\@secnumber\@empty
+   \else \@xp\let\@xp\@secnumber\csname the#1\endcsname\fi
+   \@tempskipa #5\relax
+   \ifnum #2>\c@secnumdepth \let\@svsec\@empty
+   \else
+     \refstepcounter{#1}
+     \edef\@secnumpunct{
+       \ifdim\@tempskipa>\z@ \@ifnotempty{#8}{.\@nx\enspace}
+       \else \@ifempty{#8}{.}{.\@nx\enspace}\fi}
+     \@ifempty{#8}{\ifnum #2=\tw@ \def\@secnumfont{\bfseries}\fi}{}
+     \protected@edef\@svsec{
+       \ifnum#2<\@m
+         \@ifundefined{#1name}{}{\ignorespaces\csname #1name\endcsname\space}
+       \fi
+       \@seccntformat{#1}}
+   \fi
+   \ifdim \@tempskipa>\z@
+     \begingroup #6\relax
+     \@hangfrom{\hskip #3\relax\@svsec}{\interlinepenalty\@M #8\par}
+     \endgroup
+     \ifnum#2>\@m \else \@tocwrite{#1}{#8}\fi
+   \else
+     \def\@svsechd{#6\hskip #3\@svsec
+       \@ifnotempty{#8}{\ignorespaces#8\unskip\@addpunct.}
+       \ifnum#2>\@m \else \@tocwrite{#1}{#8}\fi}
+   \fi
+   \global\@nobreaktrue
+   \@xsect{#5}}
+\cs_new:Npn \__ltd_ams_number:n #1
+  {\int_compare:nNnT {\l__head_level_int} < {\@m}
+     {\@ifundefined{#1name}{}{\ignorespaces\csname #1name\endcsname\space}}
+   \@seccntformat{#1}}
+\cs_new_protected:Npn \__ltd_ams_number_setup:n #1
+  {\@ifempty{#1}
+    {\dim_compare:nNnTF {\l__ltd_ams_after_skip}>{0pt}
+       {\cs_set_nopar:Npn \@secnumpunct {}}
+       {\cs_set_nopar:Npn \@secnumpunct {.}}
+     \int_compare:nNnT {\l__ltd_ams_level_int}={2}
+       {\cs_set_nopar:Npn \@secnumfont {\bfseries}}}
+    {\cs_set_nopar:Npn \@secnumpunct {.\enspace}}}
+\cs_new_protected:Npn \__ltd_ams_title:n #1
+  {\bool_if:NTF \l__ltd_ams_nameref_bool
+    {\exp_args:NnV\Sectionformat{#1}\l__ltd_ams_class_level_tl}
+    {#1}}
+\prg_new_protected_conditional:Npnn \__ltd_ams_class_heading: {T,F,TF}
+  {\bool_set_false:N \l__ltd_ams_nameref_bool
+   \cs_if_eq:NNTF \@sect \__ltd_ams_expected_sect:nnnnnnw
+     {\prg_return_true:}
+     {\cs_if_eq:NNTF \@sect \__ltd_ams_expected_nameref:nnnnnnw
+       {\cs_if_eq:NNTF \NR@sect \__ltd_ams_expected_sect:nnnnnnw
+         {\bool_set_true:N\l__ltd_ams_nameref_bool\prg_return_true:}
+         {\prg_return_false:}}
+       {\prg_return_false:}}}
+\bool_new:N \l__ltd_ams_runin_title_bool
+% LaTeX before 2026-11-01: the number and title formats and the number-title
+% separator are headformat keys; the number formatter receives the counter name.
+\cs_new_protected:Npn \__ltd_ams_install_previous:n #1
+  {% Read raw function tokens; expanding the formatter would lose the guard.
+   \prop_get:cnN {\c__template_values_root_tl heading/#1}{number-format}\l_tmpa_tl
+   \prop_get:cnN {\c__template_values_root_tl headformat/#1}{number-title-sep}\l_tmpb_tl
+   \tl_if_eq:NnT \l_tmpa_tl {\theheading}
+     {\tl_if_eq:NnT \l_tmpb_tl {1em}
+       {\prop_get:cnN {\c__template_values_root_tl headformat/#1}{title-format}\l_tmpa_tl
+        \tl_if_eq:NNT \l_tmpa_tl \l__ltd_ams_expected_title_tl
+          {\EditInstance{heading}{#1}{number-format=\__ltd_ams_number:n{##1}}
+           \EditInstance{headformat}{#1}{number-title-sep=0pt}
+           \bool_if:NT \l__ltd_ams_runin_title_bool
+             {\use:e {\exp_not:N\EditInstance{headformat}{\exp_not:n{#1}}
+               {title-format=\exp_not:V\l__ltd_ams_runin_format_tl{\exp_not:n{##1}}}}}
+           \prop_gput:Nnn \g__ltd_ams_headings_prop {#1}{observed}}}}}
+% LaTeX 2026-11-01: the title format is a heading key (a display title ends
+% with \par), the number formatter receives the number, and the number-title
+% space is the headformat separator-b. \@seccntformat sets AMS's own space.
+\cs_new:Npn \__ltd_ams_number_named:
+  {\exp_args:NV \__ltd_ams_number:n \l__head_name_tl}
+\cs_new_protected:Npn \__ltd_ams_install_current:n #1
+  {\prop_get:cnN {\c__template_values_root_tl heading/#1}{number-format}\l_tmpa_tl
+   \prop_get:cnN {\c__template_values_root_tl headformat/#1}{separator-b}\l_tmpb_tl
+   \tl_if_eq:NnT \l_tmpa_tl {##1}
+     {\tl_if_eq:NnT \l_tmpb_tl {\hspace{1em}}
+       {\prop_get:cnN {\c__template_values_root_tl heading/#1}{title-format}\l_tmpa_tl
+        \tl_if_eq:NNT \l_tmpa_tl \l__ltd_ams_expected_current_title_tl
+          {\EditInstance{heading}{#1}{number-format=\__ltd_ams_number_named:}
+           \EditInstance{headformat}{#1}{separator-b=}
+           \bool_if:NT \l__ltd_ams_runin_title_bool
+             {\use:e {\exp_not:N\EditInstance{heading}{\exp_not:n{#1}}
+               {title-format=\exp_not:V\l__ltd_ams_runin_format_tl{\exp_not:n{##1}}
+                 \dim_compare:nNnT {\l__ltd_ams_after_skip} > {0pt} {\exp_not:N\par}}}}
+           \prop_gput:Nnn \g__ltd_ams_headings_prop {#1}{observed}}}}}
+\cs_new_protected:Npn \__ltd_ams_parse:nnnn #1#2#3#4
+  {\bool_set_false:N \l__ltd_ams_legacy_heading_bool
+   \str_if_eq:VnT \l__ltd_ams_heading_tl {#1}
+     {\bool_if:NT \l__ltd_ams_new_heading_bool
+       {\bool_set:Nn \l__ltd_ams_runin_title_bool
+          {\bool_lazy_or_p:nn
+            {\bool_if_p:N\l__ltd_ams_nameref_bool}
+            {\dim_compare_p:n {\l__ltd_ams_after_skip <= 0pt}}}
+        \prop_if_in:cnTF {\c__template_values_root_tl headformat/#1}{separator-b}
+          {\__ltd_ams_install_current:n {#1}}
+          {\__ltd_ams_install_previous:n {#1}}}
+      \prop_if_in:NnT \g__ltd_ams_headings_prop {#1}
+        {\bool_set_true:N \l__ltd_ams_legacy_heading_bool
+         \tl_set:Nn \l__ltd_ams_title_tl {#4}
+         \IfBooleanTF{#2}
+           {\tl_set:Nn\l__ltd_ams_class_level_tl{\@m}}
+           {\tl_set_eq:NN\l__ltd_ams_class_level_tl\l__ltd_ams_level_tokens_tl}
+         \bool_if:NT\l__ltd_ams_nameref_bool
+           {\setcounter{section@level}{\l__ltd_ams_class_level_tl}
+            \tl_set:Ne\l__ltd_ams_title_tl
+              {\exp_not:N\Sectionformat{\exp_not:n{#4}}{\exp_not:V\l__ltd_ams_class_level_tl}}}
+         \edef\@toclevel{\IfBooleanTF{#2}{0}{\int_use:N\l__ltd_ams_level_int}}
+         \IfBooleanTF{#2}
+           {\cs_set_eq:NN \@secnumber \@empty}
+           {\int_compare:nNnTF {\l__ltd_ams_level_int}>{\c@secnumdepth}
+             {\cs_set_eq:NN \@secnumber \@empty}
+             {\cs_set_eq:Nc \@secnumber {the\l__ltd_ams_name_tl}}}
+         \exp_args:NV\@ifempty\l__ltd_ams_title_tl{\bool_set_true:N\l__ltd_ams_empty_title_bool}
+          {\bool_set_false:N\l__ltd_ams_empty_title_bool}
+         \IfBooleanF{#2}
+           {\int_compare:nNnF {\l__ltd_ams_level_int}>{\c@secnumdepth}
+              {\exp_args:NV\__ltd_ams_number_setup:n\l__ltd_ams_title_tl}}}
+      \tl_clear:N \l__ltd_ams_heading_tl}}
+\cs_new_protected:Npn \__ltd_ams_startsection:nnnnnn #1#2#3#4#5#6
+  {\__ltd_ams_class_heading:TF
+    {\if@noskipsec \leavevmode \fi
+     \tl_set:Nn \l__ltd_ams_heading_tl {#1-@startsection}
+     \tl_set:Nn \l__ltd_ams_name_tl {#1}
+     \tl_set:Nn \l__ltd_ams_decls_tl {#6}
+     \int_set:Nn \l__ltd_ams_level_int {#2}
+     \tl_set:Nn \l__ltd_ams_level_tokens_tl {#2}
+     \skip_set:Nn \l__ltd_ams_after_skip {#5}
+     \bool_set_false:N \l__ltd_ams_new_heading_bool
+     \tl_set:Nn \l__ltd_ams_expected_title_tl {#6{##1}}
+     \cs_if_exist:NTF \__head_prep_decls_and_format_from_tl:nNN
+       {\__head_prep_decls_and_format_from_tl:nNN {#6}\l__ltd_ams_current_decls_tl\l__ltd_ams_current_format_tl
+        \tl_set:Ne \l__ltd_ams_expected_current_title_tl
+          {\exp_not:o\l__ltd_ams_current_format_tl{\exp_not:n{##1}}
+           \dim_compare:nNnT {\l__ltd_ams_after_skip}>{0pt}{\exp_not:N\par}}}
+       {\tl_clear:N \l__ltd_ams_expected_current_title_tl}
+     \IfInstanceExistsF{heading}{#1-@startsection}
+       {\bool_set_true:N \l__ltd_ams_new_heading_bool}
+     \bool_if:NT\l__ltd_ams_new_heading_bool
+       {\cs_gset_protected:cpn {__ltd_ams_runin_#1:n} ##1
+          {#6\dim_compare:nNnTF {\l__ltd_ams_after_skip}>{0pt}
+            {\__ltd_ams_title:n{##1}}
+            {\bool_if:NF\l__ltd_ams_empty_title_bool{\ignorespaces\__ltd_ams_title:n{##1}\unskip\@addpunct.}}}
+        \tl_set:Ne \l__ltd_ams_runin_format_tl {\exp_not:c{__ltd_ams_runin_#1:n}}}
+     \__ltd_ams_original_startsection:{#1}{#2}{#3}{#4}{#5}{#6}}
+    {\__ltd_ams_original_startsection:{#1}{#2}{#3}{#4}{#5}{#6}}}
+\AddToHook{class/after}[relatex-ams-headings]
+  {\__ltd_ams_main_class:T
+    {\cs_if_exist:NT \ParseLaTeXeHeading
+      {\cs_if_exist:cT {@startsection~code}
+       {\cs_if_eq:ccT {@startsection~code}{kernel@startsection~code}
+        {\NewCommandCopy\__ltd_ams_original_startsection:\@startsection
+         \cs_set_eq:NN \@startsection \__ltd_ams_startsection:nnnnnn
+         \AddToHookWithArguments{cmd/ParseLaTeXeHeading/before}[relatex-ams-headings]
+           {\__ltd_ams_parse:nnnn{#1}{#2}{#3}{#4}}}}}}}
+\DeclareHookRule{class/after}{relatex-ams-headings}{after}{head/@startsection}
+% LaTeX 2026-11-01's amsart first aid replaces the class's sectioning commands
+% with native instances that print other headings than the class: no
+% "Appendix" before an appendix number, a period after an empty display title
+% and for an empty starred run-in title, another contents indentation. The
+% class's own commands reach \@startsection, whose instances the guard above
+% completes; keep them. Commands the first aid left alone stay as they are.
+\clist_const:Nn \c__ltd_ams_section_commands_clist
+  {part,section,specialsection,subsection,subsubsection,paragraph,subparagraph}
+\cs_new_protected:Npn \__ltd_ams_save_command:n #1
+  {\cs_set_eq:cc {__ltd_ams_class_#1:} {#1}}
+\cs_new_protected:Npn \__ltd_ams_restore_command:n #1
+  {\cs_if_eq:ccF {__ltd_ams_class_#1:} {#1}
+    {\exp_args:Nee \tl_if_in:nnT
+       {\exp_args:Nc \cs_replacement_spec:N {__ltd_ams_class_#1:}}
+       {\token_to_str:N \@startsection}
+       {\cs_set_eq:cc {#1} {__ltd_ams_class_#1:}}}}
+\AddToHook{class/amsart/after}[relatex-ams-headings/save]
+  {\__ltd_ams_main_class:T
+    {\clist_map_function:NN \c__ltd_ams_section_commands_clist \__ltd_ams_save_command:n}}
+\AddToHook{class/amsart/after}[relatex-ams-headings/restore]
+  {\__ltd_ams_main_class:T
+    {\cs_if_exist:NT \ParseLaTeXeHeading
+      {\clist_map_function:NN \c__ltd_ams_section_commands_clist \__ltd_ams_restore_command:n}}}
+\DeclareHookRule{class/amsart/after}{relatex-ams-headings/save}{before}{latex-lab-firstaid}
+\DeclareHookRule{class/amsart/after}{relatex-ams-headings/restore}{after}{latex-lab-firstaid}
+\RequirePackage{relatex-ams-toc}
+\endinput

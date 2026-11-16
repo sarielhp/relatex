@@ -1,0 +1,68 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-other-floats}[2026/10/18 Float types beyond figure and table]
+\ExplSyntaxOn
+% Other float types (algorithm, listing, \newfloat) start through the kernel's \@xfloat or
+% \@xdblfloat and end with \end@float or \end@dblfloat; some are not environments (a class's
+% \@float{noticebox} inside \maketitle).
+% A class may set a figure or table through the kernel's \@float itself, outside a figure or table
+% environment (aastex 5's deluxetable: \startdata runs \@float{table}, papers5/1245): it is a float of that
+% type all the same, as the source scan counts it; an environment's own float is opened by its hooks.
+\cs_new_protected:Npn \__ltd_class_float:n #1
+  {
+    \clist_if_in:noF { figure,figure*,table,table*,wrapfigure,wraptable } { \@currenvir }
+      { \directlua{ltd.class_float_begin('\luaescapestring{#1}')} }
+  }
+\cs_new_protected:Npn \__ltd_float:n #1
+  {
+    \clist_if_in:nnTF { figure,table } { #1 } { \__ltd_class_float:n {#1} }
+      {
+        \directlua{ltd.other_float_begin('\luaescapestring{#1}')}
+        % The float package (\newfloat, algorithm) has already selected this float's style:
+        % its caption is typeset by \@fs@capt, not \@makecaption. Observe it, inside the float.
+        % A kernel float (algorithm2e's algocf) has no such style: its box is read once
+        % \@endfloatbox has closed it (below).
+        \cs_if_exist:NF \@fs@capt { \cs_set:Npn \ltd@kernelfloatbox { } }
+        \cs_if_exist:NT \@fs@capt
+          {
+            \cs_set_eq:NN \__ltd_fs_capt:nn \@fs@capt
+            \cs_set:Npn \@fs@capt ##1##2
+              {
+                \directlua{ltd.style_caption_begin('\luaescapestring{#1}')}
+                \__ltd_fs_capt:nn {##1} {##2}
+                \directlua{ltd.style_caption_end()}
+              }
+          }
+      }
+  }
+\AddToHookWithArguments{cmd/@xfloat/before}[relatex-other-floats]{\__ltd_float:n {#1}}
+\AddToHookWithArguments{cmd/@xdblfloat/before}[relatex-other-floats]{\__ltd_float:n {#1}}
+% A complete float box (float.sty has made its style around the body) is read in its own context.
+\AddToHook{cmd/end@float/before}[relatex-other-floats]{\directlua{ltd.float_box(\number\@currbox)}}
+\AddToHook{cmd/end@dblfloat/before}[relatex-other-floats]{\directlua{ltd.float_box(\number\@currbox)}}
+% The kernel's \end@float completes the box itself, after the hook above: algorithm2e's ruled
+% style sets its rules in a \vtop that the output routine would otherwise read in whatever
+% context is open then (fourth cohort 1086: an algorithm's rules ahead of the floats before it).
+\AddToHook{cmd/@endfloatbox/after}[relatex-other-floats]
+  {\cs_if_exist:NT \ltd@kernelfloatbox {\directlua{ltd.float_box(\number\@currbox)}}}
+\AddToHook{cmd/end@float/after}[relatex-other-floats]{\directlua{ltd.other_float_end()}}
+\AddToHook{cmd/end@dblfloat/after}[relatex-other-floats]{\directlua{ltd.other_float_end()}}
+% float.sty's [H] placement sets the box in the text with \float@endH, not \end@float.
+\AddToHook{cmd/float@endH/after}[relatex-other-floats]{\directlua{ltd.other_float_end()}}
+\ExplSyntaxOff
+% With the caption package a listing's caption has no \@captype (caption.sty's \lst@makecaption
+% does not set one; third cohort 587): the caption observers name its type from this.
+\def\ltd@listingcaption{}
+\AddToHook{cmd/lst@MakeCaption/before}[relatex-other-floats]{\def\ltd@listingcaption{lstlisting}}
+% \lst@MakeCaption{t} runs the listing's \label before any caption of its own (cohort 73: a
+% captionpos=b label named the previous listing's caption); the label then names the next one.
+\AddToHook{cmd/lst@MakeCaption/before}[relatex-other-floats]{\directlua{ltd.forget_context('lstlisting')}}
+% A longtable's \caption is a row of the table, observed as its rich-table caption, not as a
+% caption context: its \label must not name the caption of the table float before it (cohort 73,
+% 161), but the caption row its anchor names.
+\AddToHook{env/longtable/begin}[relatex-other-floats]{\directlua{ltd.forget_context('table')}}
+\AddToHook{env/longtable*/begin}[relatex-other-floats]{\directlua{ltd.forget_context('table')}}
+\endinput

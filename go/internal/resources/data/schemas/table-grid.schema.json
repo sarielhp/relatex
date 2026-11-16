@@ -1,0 +1,194 @@
+{
+  "type": "object",
+  "required": [
+    "preamble",
+    "width_sp",
+    "rows",
+    "horizontal_borders"
+  ],
+  "properties": {
+    "preamble": {
+      "type": "string"
+    },
+    "width_sp": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1073741823
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "text",
+            "width_sp",
+            "borders",
+            "height_sp",
+            "depth_sp",
+            "font_size_sp"
+          ],
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "width_sp": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1073741823
+            },
+            "borders": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "width": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1073741823
+                  },
+                  "height": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1073741823
+                  },
+                  "depth": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1073741823
+                  },
+                  "x": {
+                    "type": "integer",
+                    "minimum": -1073741823,
+                    "maximum": 1073741823
+                  }
+                },
+                "required": [
+                  "width",
+                  "height",
+                  "depth",
+                  "x"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "height_sp": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1073741823
+            },
+            "depth_sp": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1073741823
+            },
+            "font_size_sp": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1073741823
+            },
+            "runs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "text"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "style": {
+                    "type": "object",
+                    "required": [
+                      "source",
+                      "font_id",
+                      "font_name",
+                      "size_sp",
+                      "encoding",
+                      "family",
+                      "series",
+                      "shape",
+                      "generic"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "source": {
+                        "enum": ["nfss-font-id", "unobserved-tex-font-id"]
+                      },
+                      "font_id": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "size_sp": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "font_name": {
+                        "type": "string"
+                      },
+                      "encoding": {
+                        "type": "string"
+                      },
+                      "family": {
+                        "type": "string"
+                      },
+                      "series": {
+                        "type": "string"
+                      },
+                      "shape": {
+                        "type": "string"
+                      },
+                      "generic": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "horizontal_borders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1073741823
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1073741823
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1073741823
+          },
+          "after_row": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1073741823
+          }
+        },
+        "required": [
+          "width",
+          "height",
+          "depth",
+          "after_row"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

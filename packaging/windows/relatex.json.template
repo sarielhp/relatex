@@ -1,0 +1,33 @@
+{
+    "version": "@VERSION@",
+    "description": "Converts LaTeX papers to HTML, EPUB 3, Markdown and Typst",
+    "homepage": "@HOMEPAGE@",
+    "license": "@LICENSE@",
+    "notes": [
+        "relatex needs TeX Live 2026 for Windows: https://tug.org/texlive/windows.html",
+        "Run 'relatex doctor' to check every program it starts."
+    ],
+    "depends": [
+        "mupdf",
+        "qpdf",
+        "poppler"
+    ],
+    "suggest": {
+        "Typst output": "typst",
+        "Cache compression": "zstd"
+    },
+    "architecture": {
+        "64bit": {
+            "url": "@URL_AMD64@",
+            "hash": "@SHA256_AMD64@"
+        },
+        "arm64": {
+            "url": "@URL_ARM64@",
+            "hash": "@SHA256_ARM64@"
+        }
+    },
+    "bin": [
+        "relatex.exe",
+        "rlx.exe"
+    ]
+}

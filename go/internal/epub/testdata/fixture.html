@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>A small package</title>
+<style>
+:root { color: #1a1a1a; background: #ffffff; }
+body { font-family: serif; line-height: 1.5; margin: 0 auto; max-width: 40em; padding: 0 1em; }
+a { color: #0645ad; }
+.skip-link { position: absolute; left: -10000px; }
+.skip-link:focus { position: static; }
+figure img { max-width: 100%; }
+table { border-collapse: collapse; }
+th, td { border: 1px solid #555555; padding: 0.2em 0.5em; }
+</style>
+<script src="preview.js" defer="defer"></script></head>
+<body><a class="skip-link" href="#main">Skip to main content</a><main id="main">
+<div id="root" data-structure="document" class="document">
+<h1 id="title" class="title">A small package</h1>
+<p id="author" class="author">Ada Lovelace</p>
+<section id="s1" data-structure="section"><h2 id="h1">1 First</h2>
+<p id="p-one">A formula <math alttext="x^2 + y^2 = z^2 = |w|"><semantics><mrow><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>y</mi><mn>2</mn></msup><mo>=</mo><msup><mi>z</mi><mn>2</mn></msup><mo>=</mo><mrow intent="absolute-value($w)"><mo>|</mo><mi arg="w">w</mi><mo>|</mo></mrow></mrow><annotation encoding="application/x-tex">x^2 + y^2 = z^2 = |w|</annotation></semantics></math> and a reference to <a href="#h2">Section 2</a>.<a id="call-1" href="#note-1" role="doc-noteref" aria-label="footnote 1">1</a></p>
+<figure id="figure-1"><img src="figs/disk.svg" alt="A circle of radius r centred at p, with p marked by a dot." width="120" height="120" aria-describedby="figure-1-description" aria-details="figure-1-details"/><details id="figure-1-details" data-kind="long-description" class="long-description"><summary>Description of the figure</summary><p id="figure-1-description">The point p is the centre; every point of the circle is at distance r from it.</p><details class="figure-details"><summary>More about this figure</summary><p>Drawn in two steps: first the centre p as a dot, then the circle of radius r around it.</p></details></details><figcaption id="caption-1">Figure 1: A disk.</figcaption></figure>
+</section>
+<section id="s2" data-structure="section"><h2 id="h2">2 Second</h2>
+<p id="p-two">The table lists two values.</p>
+<figure id="figure-2"><p id="p-picture"><svg viewBox="0 0 30 20" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" id="n-pic" data-kind="image" data-asset="abc" data-width-sp="1966080" data-height-sp="1310720" data-src="figs/fig-2.svg" style="width:39.850560px;height:26.567040px" role="img" aria-label="A segment from a to b."><g transform="matrix(1 0 0 1 0 0)"><svg height="20" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" preserveAspectRatio="none" viewBox="0 0 30 20" width="30">
+<defs><path d="M0 0H1V1Z" id="n-pic-font_1_1"/><clipPath id="n-pic-clip_1"><path d="M0 0H30V20H0Z"/></clipPath></defs>
+<g clip-path="url(#n-pic-clip_1)"><path d="M1 1H29" stroke="#000000"/><use xlink:href="#n-pic-font_1_1" fill="#000000"/><image width="1" height="1" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/></g>
+<text font-family="&quot;LM Roman 10&quot;, serif" font-size="10" xml:space="preserve" y="15"><tspan x="2">a</tspan><tspan x="7"> </tspan><tspan x="22">b</tspan></text>
+</svg></g></svg></p><figcaption id="caption-2">Figure 2: A segment.</figcaption></figure>
+<div id="display-1" class="display_math"><math display="block" alttext="\int_0^1 f(t)\,dt"><semantics><mrow><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><mi>f</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mspace width="0.167em"></mspace><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\int_0^1 f(t)\,dt</annotation></semantics></math></div>
+<table id="table-1"><caption>Table 1: Values.</caption><thead><tr><th scope="col">Name</th><th scope="col">Value</th></tr></thead>
+<tbody><tr><td><p id="cell-1">a</p></td><td>1</td></tr><tr><td>b</td><td>2</td></tr></tbody></table>
+<p id="p-three">Back to <a href="#h1">Section 1</a>.</p>
+<p id="b1"><span data-bibliography-entry="1">[1] A. Lovelace, Notes on the analytical engine, 1843.</span></p>
+</section></div>
+<aside id="note-1" data-note="1" aria-label="Footnote 1"><p>A note. <a href="#call-1" aria-label="back to text">↩</a></p></aside>
+</main>
+<nav id="contents" aria-label="Contents"><h2>Contents</h2><ol><li><a href="#h1">1 First</a></li><li><a href="#h2">2 Second</a></li></ol></nav>
+<script>window.preview = true;</script></body></html>

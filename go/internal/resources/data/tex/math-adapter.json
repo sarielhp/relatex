@@ -1,0 +1,42 @@
+{
+  "id": "latex-lab-retention",
+  "version": "0.6.2",
+  "interfaces": [
+    "mathml-AF socket plugs",
+    "g__math_math_total_int",
+    "ifmeasuring@",
+    "latex-lab MathML sidecar execution IDs",
+    "post_mlist_to_hlist_filter",
+    "l__math_attribute_class_tl",
+    "@setref reference selector and label key",
+    "@currentcounter and @currentHref",
+    "post_mlist_to_hlist_filter reverselist ordering",
+    "guarded default qedsymbol/openbox from latex-lab block replacement of amsthm",
+    "tagpdf activate/spaces public setup key",
+    "amsthm proof paragraph boundary before latex-lab block spacing",
+    "amsmath row@ at deferred label execution and @currenvir",
+    "outer align MathML mtr order and equation-label cell",
+    "tagpdf activate/mc public setup key, with independent MathML and retained-node extraction",
+    "ParseLaTeXeTheoremlike before/after preserves inherited partopsep",
+    "sec/title/hang plug with one number/title marked-content span",
+    "gather/gather* row@ before amsmath increments at row completion",
+    "exact zero-argument literal DONE QED tokens"
+  ],
+  "files": {
+    "latex.ltx": "19d3b75884681539e1ef7a427af472bfe80d9ff214b84b9ca45e790d3e89c5c4",
+    "latex-lab-math.ltx": "c4f42e2dd9a404a8452442ceaef4ee1a33c5fde319c30923c348dfe4524cef07",
+    "latex-lab-amsmath.ltx": "1b7397fc64224c0c2e04197600392d8e36157bfdfa8b3f8846a5f2d71d36ed74",
+    "luamml.sty": "8159bf3b1ef55f814defa767f11e4254313f7a8f4ac37a3cb7f8106e7772971c",
+    "luamml-tex.lua": "74e59fcc48d8c0a0d7826aec26c600715a594c35f5e46ad0b31c578e5e44179f",
+    "luamml-amsmath.lua": "2fddd8932a67ae28b1e17a07352c0bffc69fa25ef09fb953a6474f9f4f57ea33",
+    "ltluatex.lua": "eab6abcb337f88697af783d11ce26914d56d4762135acf219e9c5db811466612",
+    "tagpdf.sty": "d595590695dbe61b2bdb969bc9b2998d3a4841554cfdba916df8321d86ca9862",
+    "amsmath.sty": "8bf35130be39e123cbd0e4f0c09d3806d745d4c08ee391a543a8b9675191e6a7",
+    "amsthm.sty": "8d5e2bdb117297385971927b14fe4804314133dc0027b3171249a08280894626",
+    "latex-lab-testphase-block.sty": "fa76218436bdb74daaffdc2f31afebc48658ef28c31048bc8dfbd4b92a687ef5",
+    "tagpdf.lua": "93d728d81c295badca6151615360cc72543851c1a593ec4129cb124d14ed5655",
+    "tagpdf-mc-code-lua.sty": "6e32f6240c6e74a05fa7a10c0021aa8367c723ebb8ef5ef7c9cd3b1b3fb75d8f",
+    "luamml-structelemwriter.lua": "419ac402c27666a50a5416d5fc05654fe8b042d2a2c05c5dcd93963efe43dee4",
+    "latex-lab-testphase-sec.sty": "bfd17eb6d8c1201d788199a39b2ebda61dec4469d62d237dca23374f33ca8858"
+  }
+}

@@ -1,0 +1,3 @@
+The ORCID iD icon (go/internal/assets/orcid.pdf) is a trademark of ORCID, Inc. It is embedded
+in the PDF relatex writes beside an ORCID identifier, which ORCID's brand guidelines permit
+(https://info.orcid.org/brand-guidelines/): the iD icon may appear beside ORCID identifiers.

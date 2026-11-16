@@ -1,0 +1,167 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-rich-tables}[2026/10/16 Native array cell evidence]
+% The ordinary array hooks observe execution; no tagging sockets are activated.
+\directlua{ltd.tables.enable_modern()}
+\ExplSyntaxOn
+\AddToHookWithArguments{tbl/cell/begin}[relatex-rich-table]{
+  \ifmmode\else
+    \directlua{ltd.tables.modern.begin_cell(\int_eval:n{#1},\int_eval:n{#2},
+      '\luaescapestring{#3}',\int_eval:n{\g__tbl_span_tl},\number\col@sep)}
+  \fi
+}
+\AddToHook{tbl/cell/end}[relatex-rich-table]{\ifmmode\else\directlua{ltd.tables.modern.end_cell()}\fi}
+\ExplSyntaxOff
+\AddToHook{cmd/LT@get@widths/before}[relatex-rich-table]{%
+  \directlua{ltd.tables.modern.sections({first_head=tex.box['LT@firsthead'],repeat_head=tex.box['LT@head'],
+    repeat_foot=tex.box['LT@foot'],last_foot=tex.box['LT@lastfoot']})}}
+\AddToHook{cmd/LT@makecaption/after}[relatex-rich-table]{\directlua{ltd.tables.modern.caption()}}
+\@ifpackageloaded{multirow}{%
+  \AddToHookWithArguments{cmd/@xmultirow/before}[relatex-rich-table]{%
+    \directlua{ltd.tables.modern.multirow(tonumber('\luaescapestring{#2}'),'\luaescapestring{#1}')}}}{%
+  \AddToHook{package/multirow/after}{%
+    \AddToHookWithArguments{cmd/@xmultirow/before}[relatex-rich-table]{%
+      \directlua{ltd.tables.modern.multirow(tonumber('\luaescapestring{#2}'),'\luaescapestring{#1}')}}}}
+% REVTeX, with array loaded (dcolumn loads it), swaps in its own copy of old array internals
+% (\insert@column@array@new), which run none of the cell hooks. Its c/l/r cells are then
+% numbered by counting, as kernel tabulars are: the preamble is built with \xdef, so the
+% wrapped \insert@column counts its column and sets the cell's begin and end there.
+\ifdefined\ltdKernelCellBegin\else
+  \protected\def\ltdKernelCellBegin#1{\directlua{ltd.tables.modern.core_begin('#1',\number\dimexpr\tabcolsep\relax)}}
+  \protected\def\ltdKernelCellEnd{\directlua{ltd.tables.modern.core_end()}}
+\fi
+\AddToHook{begindocument/end}[relatex-revtex-tables]{%
+  \@ifundefined{insert@column@array@new}{}{%
+    \ifx\insert@column\insert@column@array@new
+      \let\ltd@revtex@insert\insert@column
+      \def\insert@column{\directlua{ltd.tables.modern.core_column()}%
+        \ltdKernelCellBegin{\ifcase\@chnum c\or l\or r\else l\fi}\ltd@revtex@insert\ltdKernelCellEnd}%
+      \let\ltd@revtex@mkpream\@mkpream
+      \def\@mkpream#1{\ltd@revtex@mkpream{#1}\directlua{ltd.tables.modern.core_preamble_end()}}%
+      \let\ltd@revtex@xarraycr\@xarraycr
+      \def\@xarraycr{\directlua{ltd.tables.modern.core_row_end()}\ltd@revtex@xarraycr}%
+      \let\ltd@revtex@multispan\@multispan
+      \def\@multispan#1{\ltd@revtex@multispan{#1}\directlua{ltd.tables.modern.core_span(\number#1)}}%
+    \fi}}
+% AASTeX 6's \tablehead: \zztablehead stores the head as \pt@head, which each deluxetable runs at the top of its
+% tabular. The head is bracketed by two row-level marks, so the rows between the class's spacer row and its closing
+% rule are the table's declared header rows (relatex-rich-tables.lua, class_head_begin).
+\def\ltd@aastex@head@begin{\noalign{\directlua{ltd.tables.modern.class_head_begin()}}}
+\def\ltd@aastex@head@end{\noalign{\directlua{ltd.tables.modern.class_head_end()}}}
+% A generic hook cannot patch \zztablehead (its body changes catcodes), so the class's macro is wrapped.
+\AddToHook{begindocument/end}[relatex-aastex-head]{%
+  \@ifundefined{zztablehead}{}{%
+    \let\ltd@aastex@zztablehead\zztablehead
+    \def\zztablehead#1{\ltd@aastex@zztablehead{#1}%
+      \expandafter\gdef\expandafter\pt@head\expandafter{\expandafter\ltd@aastex@head@begin\pt@head\ltd@aastex@head@end}}}}
+% A math array inside a table cell is no row of that table (relatex-rich-tables.lua, nested_array_begin).
+\AddToHook{env/array/begin}[relatex-nested-array]{\directlua{ltd.tables.modern.nested_array_begin()}}
+\AddToHook{env/array/end}[relatex-nested-array]{\directlua{ltd.tables.modern.nested_array_end()}}
+% memoir replaces array's \@addamp with its own (\m@m@addamp, which counts \@curtab), and so drops
+% the column step array puts after each &: every cell of a memoir tabular read as column 1, and
+% no row matched its declared cells (Geometric Approximation Algorithms). The step is put back;
+% it only advances the cell counters.
+\AddToHook{begindocument/end}[relatex-memoir-tables]{%
+  \@ifundefined{m@m@addamp}{}{%
+    \ifx\@addamp\m@m@addamp
+      \def\@addamp{%
+        \if@firstamp
+          \@firstampfalse
+          \global\@curtab\@ne
+        \else
+          \@addtopreamble{&\csname tbl_update_cell_data:\endcsname}%
+          \global\advance\@curtab\@ne
+        \fi}%
+    \fi}}
+% arydshln with array loaded (colortbl, xcolor's table option) makes its own \@addamp and
+% \multicolumn, which leave array's cell counters alone: every cell of a row reads as one column
+% (fifth cohort 1364). Where they are arydshln's own definitions, they also update the counters
+% as array's do; the typeset table is the same.
+\def\ltd@adl@addamp{\if@firstamp\@firstampfalse \else
+        \@addtopreamble{\global\advance\adl@currentcolumn\@ne &}%
+        \global\advance\adl@ncol\@ne \fi}
+\def\ltd@adl@multicolumn#1#2#3{\multispan{#1}\begingroup \begingroup
+        \def\adl@arrayrule{\adl@mcarrayrule{#1}}%
+        \def\adl@arraydashrule{\adl@mcarraydashrule{#1}}%
+        \def\adl@argarraydashrule{\adl@mcargarraydashrule{#1}}%
+        \let\@addamp\adl@mcaddamp
+        \@mkpream{#2}\@addtopreamble\@empty
+        \global\let\adl@preamble\@preamble \endgroup
+        \let\@preamble\adl@preamble
+        \def\@sharp{#3}\let\protect\relax
+        \adl@activatepbox
+        \adl@preaminit
+        \@arstrut \@preamble\hbox{}\endgroup
+        \global\advance\adl@currentcolumn#1\ignorespaces}
+\ExplSyntaxOn
+\cs_if_exist:NT \tbl_update_multicolumn_cell_data:n {
+  \cs_new_eq:NN \ltd@tbl@next \tbl_update_cell_data:
+  \cs_new_eq:NN \ltd@tbl@span \tbl_update_multicolumn_cell_data:n
+}
+\ExplSyntaxOff
+\def\ltd@adl@addamp@counted{\if@firstamp\@firstampfalse \else
+        \@addtopreamble{\global\advance\adl@currentcolumn\@ne &\ltd@tbl@next}%
+        \global\advance\adl@ncol\@ne \fi}
+\def\ltd@adl@multicolumn@counted#1#2#3{\multispan{#1}\begingroup \ltd@tbl@span{#1}\begingroup
+        \def\adl@arrayrule{\adl@mcarrayrule{#1}}%
+        \def\adl@arraydashrule{\adl@mcarraydashrule{#1}}%
+        \def\adl@argarraydashrule{\adl@mcargarraydashrule{#1}}%
+        \let\@addamp\adl@mcaddamp
+        \@mkpream{#2}\@addtopreamble\@empty
+        \global\let\adl@preamble\@preamble \endgroup
+        \let\@preamble\adl@preamble
+        \def\@sharp{#3}\let\protect\relax
+        \adl@activatepbox
+        \adl@preaminit
+        \@arstrut \@preamble\hbox{}\endgroup
+        \global\advance\adl@currentcolumn#1\ignorespaces}
+\AddToHook{begindocument/end}[relatex-arydshln-tables]{%
+  \ifdefined\ltd@tbl@span
+    \ifx\@addamp\ltd@adl@addamp \let\@addamp\ltd@adl@addamp@counted \fi
+    \ifx\multicolumn\ltd@adl@multicolumn \let\multicolumn\ltd@adl@multicolumn@counted \fi
+  \fi}
+% mdwtab replaces array's whole cell machinery: its column templates are built by \tab@commit from
+% \tab@midtext (the cell body, with the column's pre and post text around it). Each committed
+% column wraps its body in the cell begin and end, so the cells are native evidence, counted as
+% kernel cells are; the kind is read from the column's own text (\tab@bpar: paragraph, \hfil
+% before and after: centered, before only: right, else left). Paper 114.
+\AddToHook{begindocument/end}[relatex-mdwtab-tables]{%
+  \@ifpackageloaded{mdwtab}{\ltd@mdwtab@install}{}}
+\def\ltd@mdwtab@has#1#2{%
+  \edef\ltd@mdwtab@t{\noexpand\in@{\noexpand#1}{\unexpanded\expandafter{#2}}}\ltd@mdwtab@t}
+\def\ltd@mdwtab@kind{%
+  \edef\ltd@mdwtab@pre{\the\tab@pretext}\edef\ltd@mdwtab@post{\the\tab@posttext}%
+  \def\ltd@mdwtab@k{l}%
+  \ltd@mdwtab@has\tab@bpar\ltd@mdwtab@pre
+  \ifin@\def\ltd@mdwtab@k{p}\else
+    \ltd@mdwtab@has\hfil\ltd@mdwtab@pre
+    \ifin@
+      \ltd@mdwtab@has\hfil\ltd@mdwtab@post
+      \ifin@\def\ltd@mdwtab@k{c}\else\def\ltd@mdwtab@k{r}\fi
+    \fi
+  \fi}
+\def\ltd@mdwtab@install{%
+  \ifdefined\tab@commit\ltd@mdwtab@hooks\fi}
+\def\ltd@mdwtab@hooks{%
+  \let\ltd@mdwtab@commit\tab@commit
+  \def\tab@commit{%
+    \let\ltd@mdwtab@mid\tab@midtext
+    \ltd@mdwtab@kind
+    \edef\tab@midtext{\noexpand\ltdKernelCellBegin{\ltd@mdwtab@k}%
+      \unexpanded\expandafter{\ltd@mdwtab@mid}\noexpand\ltdKernelCellEnd}%
+    \directlua{ltd.tables.modern.core_column()}%
+    \ltd@mdwtab@commit
+    \let\tab@midtext\ltd@mdwtab@mid}%
+  \let\ltd@mdwtab@readpreamble\tab@readpreamble
+  \def\tab@readpreamble##1{\ltd@mdwtab@readpreamble{##1}%
+    \directlua{ltd.tables.modern.core_preamble_end()}}%
+  \let\ltd@mdwtab@array\@array
+  \def\@array[##1]##2{\directlua{ltd.tables.array('\luaescapestring{\unexpanded{##2}}')}\ltd@mdwtab@array[##1]{##2}}%
+  \let\ltd@mdwtab@mkpream\@mkpream
+  \def\@mkpream##1{\directlua{ltd.tables.array('\luaescapestring{\unexpanded{##1}}')}\ltd@mdwtab@mkpream{##1}}%
+  \AddToHookWithArguments{cmd/@multispan/after}[relatex-kernel-table]{%
+    \directlua{ltd.tables.modern.core_span(tonumber('\luaescapestring{##1}'))}}}
+\endinput

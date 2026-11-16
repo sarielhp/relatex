@@ -1,0 +1,71 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-acm-layout}{2026/10/15}{0.1.0}{Guarded ACM native heading defaults}
+% ACM's nameref shim applies case/punctuation through Sectionformat. Native
+% heading instances bypass that shim. Leave heading declarations (which need
+% the shim's empty argument) intact; correct only the exact title formatter.
+\cs_new_nopar:Npn \__ltd_acm_expected_adjust:n #1
+  {\begingroup
+   \expandafter\ifx\csname Sectionformat\endcsname\relax
+     \def\next{\endgroup #1}
+   \else
+     \def\next{\endgroup
+       \let\realSectionformat\Sectionformat
+       \def\ACM@sect@format@{#1}
+       \let\Sectionformat\ACM@NR@adjustedSectionformat
+       \let\real@adddotafter\@adddotafter
+       \let\@adddotafter\ACM@adddotafter
+       #1{}
+       \let\@adddotafter\real@adddotafter}
+   \fi\next}
+\cs_new:Npn \__ltd_acm_runin:n #1
+  {\str_if_eq:eeTF
+    {\prop_item:cn{\c__template_values_root_tl heading/#1}{from~template}}
+    {runin}{true}{false}}
+% #2 is the class declaration (\ACM@NRadjust and its font), #3 the font alone.
+% LaTeX before 2026-11-01 kept the whole declaration as the headformat title
+% format; correct it to the font.
+\cs_new_protected:Npn \__ltd_acm_title_previous:nnn #1#2#3
+  {\prop_get:cnN {\c__template_values_root_tl headformat/#1}{title-format}\l_tmpa_tl
+   \tl_if_eq:NnT \l_tmpa_tl {#2{##1}}
+     {\EditInstance{headformat}{#1}{title-format={#3{##1}}}}}
+% LaTeX 2026-11-01 splits the declaration into heading-decls, set before the
+% heading with no argument (a run-in \@adddotafter or a font ending in
+% \MakeUppercase then takes the next token), and an identity title format
+% (a display one ends with \par). The class applies the declaration to the
+% heading: give the shim its empty argument, as LaTeX did before, and set the
+% title with the font.
+\cs_new_protected:Npn \__ltd_acm_title_current:nnn #1#2#3
+  {\prop_get:cnN {\c__template_values_root_tl heading/#1}{heading-decls}\l_tmpa_tl
+   \tl_if_eq:NnT \l_tmpa_tl {#2}
+     {\prop_get:cnN {\c__template_values_root_tl heading/#1}{title-format}\l_tmpa_tl
+      \tl_if_eq:NnTF \l_tmpa_tl {\use:n{##1}}
+        {\EditInstance{heading}{#1}{heading-decls={#2{}},title-format={#3{##1}}}}
+        {\tl_if_eq:NnT \l_tmpa_tl {\use:n{##1}\par}
+          {\EditInstance{heading}{#1}{heading-decls={#2{}},title-format={#3{##1}\par}}}}}}
+\cs_new_protected:Npn \__ltd_acm_title:nnn #1#2#3
+  {\prop_if_in:cnTF {\c__template_values_root_tl headformat/#1}{title-format}
+     {\__ltd_acm_title_previous:nnn {#1}{#2}{#3}}
+     {\__ltd_acm_title_current:nnn {#1}{#2}{#3}}}
+\cs_new_protected:Npn \__ltd_acm_heading:n #1
+  {\cs_if_eq:NNT \ACM@NRadjust \__ltd_acm_expected_adjust:n
+    {\str_case:nn {#1}
+      {{section-@startsection}
+        {\__ltd_acm_title:nnn{#1}{\ACM@NRadjust\@secfont}{\@secfont}}
+       {subsection-@startsection}
+        {\__ltd_acm_title:nnn{#1}{\ACM@NRadjust\@subsecfont}{\@subsecfont}}
+       {subsubsection-@startsection}
+        {\__ltd_acm_title:nnn{#1}{\ACM@NRadjust{\@subsubsecfont\@adddotafter}}
+          {\@subsubsecfont\@adddotafter}}
+       {paragraph-@startsection}
+        {\__ltd_acm_title:nnn{#1}{\ACM@NRadjust{\@parfont\@adddotafter}}
+          {\@parfont\@adddotafter}}}}}
+\AddToHook{class/acmart/after}[relatex-acm-layout]
+  {\cs_if_exist:NT \ParseLaTeXeHeading
+    {\AddToHookWithArguments{cmd/ParseLaTeXeHeading/before}[relatex-acm-title]
+      {\__ltd_acm_heading:n{#1}}}}
+\RequirePackage{relatex-acm-captions}
+\endinput

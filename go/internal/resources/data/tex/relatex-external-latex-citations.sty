@@ -1,0 +1,133 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-external-latex-citations}[2026/10/15 Ordinary numeric citation evidence]
+\directlua{ltd.citations = require('relatex-external-latex-citations');ltd.flow.citations = ltd.citations}
+\newif\ifltd@native@bibentry
+% Keys of the cite package's superscript call awaiting its \@citess (\relax: none).
+\let\ltd@citew@keys\relax
+% Generic cmd hooks requested in the preamble activate only after the initial
+% auxiliary read. Wrap the current native declaration before that read instead.
+% The native macro still receives exactly its original two arguments.
+% babel's \bibcite replaces itself globally on its first use (\bbl@cite@choice): the
+% replacement is wrapped in turn.
+% A label may hold a macro the class defines only inside \cite (coling's \citename), which is
+% undefined while the auxiliary file is read and defined differently once a \cite has run. The observer's
+% label reads that wrapper as its argument, in a group, so both reads agree. Other macros (natbib's \natexlab) expand unchanged.
+% named.bst's \citeauthoryear (IJCAI/AAAI-style classes) is defined only by \cite, as a macro that
+% assigns, and by \@biblabel: the label reads it as \@biblabel prints it. Any other macro that is
+% undefined where the label is read is not expanded: the label is read as its source text. No
+% bibliography number matches an author-year label, and such citations stay plain text.
+\def\ltd@label@guard{\let\citename\@firstofone\def\citeauthoryear##1##2{##1, ##2}}
+\newif\ifltd@label@readable
+\newif\ifltd@label@typeset
+\newbox\ltd@labelbox
+% An author-year label (\citeauthoryear, \citename) holds layout commands (\bgroup \em .. \egroup)
+% that no source-text read can print: it is typeset in a box and its glyphs are the label's text,
+% as the citation prints it (\citename{Names}2018 reads Names, 2018). Numeric and alphabetic labels keep the source-text read.
+% \ltd@label@call{LUA CALL PREFIX}{LABEL} closes the call with the label as a Lua string.
+\def\ltd@label@call#1#2{%
+  \directlua{ltd.citations.label_readable()}{#2}%
+  \ifltd@label@typeset
+    \setbox\ltd@labelbox\hbox{\def\citename##1{##1, }#2}%
+    \directlua{#1ltd.citations.box_text(\number\ltd@labelbox))}%
+  \else\ifltd@label@readable
+    \directlua{#1'\luaescapestring{#2}')}%
+  \else
+    \directlua{#1'\luaescapestring{\detokenize{#2}}')}%
+  \fi\fi}
+\AddToHook{begindocument/before}[relatex-latex-bibcite]{%
+  \let\ltd@native@bibcite\bibcite
+  \def\ltd@bibcite#1#2{%
+    {\ltd@label@guard
+     \ltd@label@call{ltd.citations.native_label('\luaescapestring{#1}',}{#2}}%
+    \ltd@native@bibcite{#1}{#2}%
+    \ifx\bibcite\ltd@bibcite\else
+      \global\let\ltd@native@bibcite\bibcite
+      \global\let\bibcite\ltd@bibcite
+    \fi}%
+  \let\bibcite\ltd@bibcite}
+\AddToHook{begindocument/end}[relatex-latex-citations]{%
+  \AddToHookWithArguments{cmd/@citex/before}{%
+    \directlua{ltd.citations.begin('\luaescapestring{\detokenize{#2}}');%
+      ltd.citations.sorted('\luaescapestring{\detokenize{#2}}')}}%
+  \AddToHook{cmd/@citex/after}{\directlua{ltd.citations.finish_call()}}%
+  % The cite package's superscript mode sends an ordinary \cite through \@citew, which
+  % never reaches the kernel's \@citex: the call is observed at its own command. The
+  % package defines \@citew only in that mode, so the hook is added only where it exists.
+  % \@citew ends by peeking at the next token (\futurelet) to move trailing punctuation
+  % before the citation, and typesets the number afterwards through \@citess: any code after
+  % \@citew would be that token, and nothing would move (papers 124). Its hook only notes the
+  % keys; the call is observed around the \@citess it runs, after the punctuation has moved, so
+  % the moved punctuation is no citation text. \@citess also prints bibliography labels and
+  % notes no keys there: those print unobserved, as before.
+  \ifcsname @citew\endcsname
+    \AddToHookWithArguments{cmd/@citew/before}{\xdef\ltd@citew@keys{\detokenize{#1}}}%
+    \let\ltd@native@citess\@citess
+    \def\@citess#1{%
+      \ifx\ltd@citew@keys\relax
+        \ltd@native@citess{#1}%
+      \else
+        \directlua{ltd.citations.begin('\luaescapestring{\ltd@citew@keys}');%
+          ltd.citations.sorted('\luaescapestring{\ltd@citew@keys}')}%
+        \global\let\ltd@citew@keys\relax
+        \ltd@native@citess{#1}%
+        \directlua{ltd.citations.finish_call()}%
+      \fi}%
+  \fi
+  % The kernel's ordinary number formatter is exactly a braced hbox. Keep that
+  % operation intact, and scope only observer attributes around its execution.
+  \ifx\@cite@ofmt\hbox
+    \let\ltd@native@cite@ofmt\@cite@ofmt
+    \def\@cite@ofmt#1{%
+      \directlua{ltd.citations.native_link_begin(token.get_macro('@citeb'))}%
+      \ltd@native@cite@ofmt{#1}%
+      \directlua{ltd.citations.link_end()}}%
+  \else
+    \PackageError{relatex-external-latex-citations}{Unsupported ordinary citation formatter}{Use the ordinary kernel numeric citation formatter.}%
+  \fi
+  % The cite package prints each (sorted, compressed) number through \@cite@out{b@KEY}, never through
+  % the kernel's \@cite@ofmt: the link of hyperref sits in that label, so the number is observed
+  % there. The tag is expanded in the current group: the observer's attribute must outlive it.
+  \ifcsname @cite@out\endcsname
+    \let\ltd@native@cite@out\@cite@out
+    \def\@cite@out#1{%
+      \edef\ltd@cite@tag{#1}%
+      \directlua{ltd.citations.native_link_begin_tag('\luaescapestring{\detokenize\expandafter{\ltd@cite@tag}}')}%
+      \ltd@native@cite@out{#1}%
+      \directlua{ltd.citations.link_end()}}%
+  \fi
+  \AddToHookWithArguments{cmd/@bibitem/before}{%
+    \ltd@native@bibentrytrue
+    \directlua{ltd.citations.native_entry('\luaescapestring{#1}')}}%
+  \AddToHook{cmd/@bibitem/after}{%
+    \directlua{ltd.citations.native_fallback_anchor('\the\value{\@listctr}')}}%
+  \AddToHookWithArguments{cmd/@lbibitem/before}{%
+    \ltd@native@bibentrytrue
+    \directlua{ltd.citations.native_entry('\luaescapestring{#2}')}%
+    {\ltd@label@guard\ltd@label@call{ltd.citations.native_item_label(}{#1}}}%
+  % A class whose \@lbibitem prints no label (coling: \item[]) shows the author-year label only in
+  % its citations: the item is anchored with the label its own \bibitem[..] gives.
+  \AddToHook{cmd/@lbibitem/after}{%
+    \directlua{ltd.citations.native_recorded_anchor()}}%
+  % \@biblabel is wrapped by hand, not with a cmd hook: a class may define it with a nested macro
+  % parameter (coling: \def\citename##1), which the hook machinery cannot patch. The
+  % widest-label argument may contain unexpandable layout commands. It is measured before any
+  % item, so do not expand it merely to observe a label.
+  \let\ltd@native@biblabel\@biblabel
+  \def\@biblabel#1{%
+    \ifltd@native@bibentry
+      {\ltd@label@guard\ltd@label@call{ltd.citations.native_anchor(}{#1}}%
+    \fi
+    \ltd@native@biblabel{#1}}}
+\AddToHook{env/thebibliography/begin}{\ltd@native@bibentryfalse\directlua{ltd.citations.bibliography_begin()}}
+\AddToHook{env/thebibliography/after}{\ltd@native@bibentryfalse\directlua{ltd.citations.bibliography_end()}}
+% REVTeX's bibliographies (\begin{mcitethebibliography}, REVTeX 4's \begin{references}) call
+% \thebibliography directly.
+\AddToHook{env/references/begin}{\ltd@native@bibentryfalse\directlua{ltd.citations.bibliography_begin()}}
+\AddToHook{env/references/after}{\ltd@native@bibentryfalse\directlua{ltd.citations.bibliography_end()}}
+\AddToHook{env/mcitethebibliography/begin}{\ltd@native@bibentryfalse\directlua{ltd.citations.bibliography_begin()}}
+\AddToHook{env/mcitethebibliography/after}{\ltd@native@bibentryfalse\directlua{ltd.citations.bibliography_end()}}
+\endinput

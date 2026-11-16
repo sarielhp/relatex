@@ -1,0 +1,62 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-external-floats}[2026/10/16 Ordinary float and caption contexts]
+% acmart already installs its qualified public-caption observer.
+\ExplSyntaxOn
+% A definition the kernel cannot patch (csquotes with caption) leaves that command
+% unobserved; a collector hook must never stop the ordinary build.
+\msg_redirect_name:nnn { hooks } { cant-patch } { warning }
+\clist_map_inline:nn {figure,figure*,table,table*,wrapfigure,wraptable}
+  {\AddToHook{env/#1/begin}[relatex-external-float]
+     {\directlua{ltd.float_begin('\str_if_eq:nnTF{#1}{figure*}{figure}{\str_if_eq:nnTF{#1}{table*}{table}{\str_if_eq:nnTF{#1}{wrapfigure}{figure}{\str_if_eq:nnTF{#1}{wraptable}{table}{#1}}}}')}}
+   \AddToHook{env/#1/after}[relatex-external-float]{\directlua{ltd.float_end()}}}
+\ExplSyntaxOff
+\RequirePackage{relatex-other-floats}
+\newcommand\ltd@formattercaption[1]{%
+  \AddToHook{cmd/#1/before}[relatex-external-caption]{%
+    \ifdefined\@captype\directlua{ltd.style_caption_begin('\luaescapestring{\@captype}')}\fi}%
+  \AddToHook{cmd/#1/after}[relatex-external-caption]{%
+    \ifdefined\@captype\directlua{ltd.style_caption_end()}\fi}}
+% With the caption package a listing's caption has no \@captype (its \lst@makecaption does not
+% set one; third cohort 587): relatex-other-floats names it.
+\@ifpackageloaded{caption}{%
+  \AtBeginCaption{\directlua{ltd.caption_begin('\ifdefined\@captype\luaescapestring{\@captype}\else\ltd@listingcaption\fi',\ifcaption@star false\else true\fi)}}%
+  \AtEndCaption{\directlua{ltd.caption_end()}}%
+  % With an unknown class the caption package runs in compatibility mode and keeps the class's
+  % own \@makecaption (IEEEtran), which no caption-package hook sees (fifth cohort 1377).
+  \ltd@formattercaption{@makecaption}%
+}{%
+  % The native two-argument formatter encloses both measurement and retained
+  % caption boxes. No class definition or argument tokens are replaced.
+  % \@makecaption also runs outside floats (supertabular's \tablecaption), where there is
+  % no \@captype and nothing to observe.
+  \AddToHook{cmd/@makecaption/before}[relatex-external-caption]{%
+    \ifdefined\@captype
+      \directlua{ltd.caption_begin('\luaescapestring{\@captype}',true,'latex-native-caption-hooks-1')}%
+    \fi}%
+  \AddToHook{cmd/@makecaption/after}[relatex-external-caption]{%
+    \ifdefined\@captype\directlua{ltd.caption_end()}\fi}%
+  % Classes that \let\@makecaption to a per-type formatter at run time (elsart) bypass that
+  % hook; the formatters are observed themselves, once inside an open caption.
+  \ltd@formattercaption{@makefigurecaption}%
+  \ltd@formattercaption{@maketablecaption}%
+}
+% algorithm2e swaps \@makecaption for its own style formatter when an algorithm's \caption
+% runs, which bypasses the hooks above (with or without the caption package).
+\ltd@formattercaption{algocf@makecaption@plain}%
+\ltd@formattercaption{algocf@makecaption@boxed}%
+\ltd@formattercaption{algocf@makecaption@ruled}%
+% Classes whose float environments \let\@makecaption to a per-type formatter (mn2e's
+% \SFB@makefigurecaption) and Springer's \sidecaption (\@makesidecaption) bypass both the
+% kernel formatter and the caption package's hooks; a caption already open ignores them.
+\ltd@formattercaption{SFB@makefigurecaption}%
+\ltd@formattercaption{SFB@maketablecaption}%
+\ltd@formattercaption{@makesidecaption}%
+% aastex 5's deluxetable \let\@makecaption to \@makecaption@plano before its \tablecaption is set
+% (\startdata, papers5/1245). Its \@makecaption@plano@cont repeats the caption on a continued page and is
+% not observed: the float has one caption.
+\ltd@formattercaption{@makecaption@plano}%
+\endinput

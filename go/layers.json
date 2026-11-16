@@ -1,0 +1,34 @@
+{
+  "comment": "Package layers of the Go relatex (decision 102, plans/archive/modular_outputs.md section 2). tools/import_guard.rb fails on an import these rules forbid unless go/import_baseline.json lists it. Every package under go/internal and go/cmd is in exactly one layer, named relative to go/internal (cmd/... relative to go/). An output may import an output library and the packages of its own output group; never another output and never core.",
+  "may_import": {
+    "utilities": ["utilities"],
+    "model": ["model", "utilities"],
+    "core": ["core", "model", "utilities"],
+    "outputs": ["model", "utilities"],
+    "orchestration": ["orchestration", "core", "model", "outputs", "utilities"]
+  },
+  "output_libraries": ["glyphnames", "htmlkit", "mathexport", "pagetree", "pdffonts", "split"],
+  "output_groups": [["html", "split"], ["alttext", "figscan"]],
+  "layers": {
+    "utilities": [
+      "affine", "authordir", "bibclean", "bibstyle", "canonjson", "command", "confusables", "fspath", "gaplocate", "geometry", "inkdiff", "legacyinput", "lockfile", "ojson", "omap", "rec", "rubynum", "rubyuri", "schema", "stream", "texaccents", "typstvendor", "resourcestager", "tryarxiv",
+      "wcag", "xmltree", "zgzip"
+    ],
+    "model": [
+      "authortex", "authorhints", "bookindex", "bundle", "contrast", "diagnostics", "extlinks", "figdesc", "figures",
+      "fontmodel", "frontmatter", "glyphowner", "inline", "langtag", "language", "links", "mathintent", "mathml", "mathsource",
+      "mathtokens", "mediamodel", "nativetrace", "paintmodel", "paperdoc", "sourcealt", "sourcemap", "sourcetext",
+      "stylemodel", "svgoutline", "tablehints", "tablelayout", "tablelayout/tablefixture", "tablemodel"
+    ],
+    "core": [
+      "artifacts", "assets", "authormath", "engine", "evidence", "fontbinding", "formulatex", "input", "inspect",
+      "layout", "media", "notes", "papersource", "pdfpaint", "reading", "sourcefonts",
+      "structure", "synchronize", "tables", "texsandbox", "textstyle"
+    ],
+    "outputs": [
+      "a11ylint", "accessibility", "alttext", "browser", "epub", "figscan", "glyphnames", "html", "htmlkit", "mathexport", "pagetree", "pdffonts",
+      "pdftag", "pdfua", "semantic", "split", "syncdemo", "synctexout", "typstsource"
+    ],
+    "orchestration": ["a11yreport", "cli", "cmd/relatex", "cmd/stageresources", "cmd/try_arxiv", "exportwriter", "pipeline", "resources"]
+  }
+}

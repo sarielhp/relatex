@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Author hints for speech, alt text and table headers (decisions 122 and 131)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "speech": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "alt": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "colour_captions": {
+      "description": "Captions that name a colour and already say it with more than colour (decision 188): a float caption keyed by its \\label or the number its caption prints, with the sha256 (hex) of the caption text; an edited caption voids the entry.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-fA-F]{64}$"
+      }
+    },
+    "tables": {
+      "description": "Header cells of a table keyed by its \\label or caption number (decision 131): how many leading rows are column headers and how many leading columns are row headers.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "header_rows": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "header_columns": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}

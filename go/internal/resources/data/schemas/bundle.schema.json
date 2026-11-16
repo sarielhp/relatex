@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portable compressed or plain JSON document bundle",
+  "type": "object",
+  "required": ["schema_version", "payload", "sha256"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"enum": ["bundle-1.0", "bundle-1.1", "bundle-1.2"], "description": "bundle-1.2 keeps the layout pages in part files beside the bundle and stores a reference to them (decision 087), each part stored as bundle-1.1 stores its layout; bundle-1.1 stores the layout without what its page SVGs hold (decision 085): a measured glyph binding keeps use, paint and origin_binding, a derivable ink_quad is left out, and page SVGs are text (svg_text) with glyph outline definitions in svg_shared_paths; reading restores layout.schema.json exactly"},
+    "payload": {
+      "type": "object",
+      "required": ["document", "layout", "source_map", "losses", "capabilities"],
+      "additionalProperties": false,
+      "properties": {
+        "document": {"$ref": "paper-document.schema.json"},
+        "layout": {"oneOf": [{"type": "null"}, {"$ref": "layout.schema.json"}, {"$ref": "#/$defs/layout_parts"}]},
+        "source_map": {"oneOf": [{"type": "null"}, {"$ref": "source-map.schema.json"}]},
+        "losses": {"type": "array", "items": {"type": "object"}},
+        "capabilities": {"type": "object"}
+      }
+    },
+    "sha256": {
+      "type": "object",
+      "required": ["document", "layout", "source_map", "losses", "capabilities"],
+      "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    }
+  },
+  "$defs": {
+    "layout_parts": {
+      "description": "bundle-1.2: the layout without its pages, and its part files (layout/pages-FFFF-LLLL.json.gz beside the bundle, gzip of the canonical JSON {schema_version: layout-part-1, first_page, last_page, pages, svg_shared_paths}) covering pages 1 to page_count in order",
+      "type": "object",
+      "required": ["schema_version", "storage", "page_count", "parts"],
+      "not": {"required": ["pages"]},
+      "properties": {
+        "storage": {"const": "layout-parts-1"},
+        "page_count": {"type": "integer", "minimum": 1},
+        "parts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["file", "first_page", "last_page", "sha256", "bytes", "expanded_bytes"],
+            "additionalProperties": false,
+            "properties": {
+              "file": {"type": "string", "pattern": "^layout/pages-[0-9]{4,}-[0-9]{4,}\\.json\\.gz$"},
+              "first_page": {"type": "integer", "minimum": 1},
+              "last_page": {"type": "integer", "minimum": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "bytes": {"type": "integer", "minimum": 1},
+              "expanded_bytes": {"type": "integer", "minimum": 1}
+            }
+          }
+        }
+      }
+    }
+  }
+}

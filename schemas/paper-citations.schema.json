@@ -1,0 +1,115 @@
+{
+  "type": "object",
+  "required": [
+    "status",
+    "qualified",
+    "calls",
+    "entries",
+    "links"
+  ],
+  "properties": {
+    "status": {
+      "const": "projected"
+    },
+    "qualified": {
+      "const": false
+    },
+    "calls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "keys",
+          "targets"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "keys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "key",
+          "number",
+          "blocks"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "key": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "citation",
+          "key",
+          "number",
+          "entry"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "citation": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "key": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "entry": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,201 @@
+{
+  "id": "m1-frozen-fixtures-v2",
+  "version": 2,
+  "oracle_origin": "v1 unchanged cases plus independently checked stage-9 gather/text-QED experiments; docs/evidence/m1-negative-resolution; basic refrozen 2026-11-13 under the 2026-11-01 kernel (ids shift by one candidate, metadata_language added by decision 080; same text and structure)",
+  "toolchain_fingerprint": "16e0cda51309e7553d20fb68c952e4d38d1ddbe0eadea99f29b2052cf77f4b58",
+  "cases": [
+    {
+      "fixture": "basic",
+      "disposition": "supported",
+      "input_sha256": "86d53ff9feaa276df3e3d37045d9d425b81f5ebafbb2d8d3d0990d62fbef036b",
+      "inspection_sha256": {
+        "1": "2c7741abaeabb4d6702dc87d9ccec1e50af1380edd0de237bada3dc1f48490ce",
+        "2": "547e754b6e4200ea7e2df28cb38b05f04b3e4e0777e2828189eaf6aede33df4d"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "math_retention",
+      "disposition": "supported",
+      "input_sha256": "354adf810065cac56377253b25b33d7c1a7a0cc7cfaa99e91f0b8b0675015813",
+      "inspection_sha256": {
+        "1": "f2a029202e4c1ac97eb75042d570b4a16e123087f833fda9a0616b29fe58c0b9",
+        "2": "f2a029202e4c1ac97eb75042d570b4a16e123087f833fda9a0616b29fe58c0b9"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "math_rows",
+      "disposition": "supported",
+      "input_sha256": "9cb62a6e20b13f25c5ef155c5d1ea28e1dba45fac42d93380ea6be8688dea974",
+      "inspection_sha256": {
+        "1": "b9590fef60870cef2c852478a1d5d14c6ddb3a76591ea6e8dd69796d6dc48c31",
+        "2": "5a30f6580389ca7d218b6c58c4e77068876d14df62a019a4fd1145975eb41c7d"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "math_rows_unsupported",
+      "disposition": "supported",
+      "input_sha256": "ddab4c849bce8687c15507ee9ec92d28b46d479b4564f7fdcc4027766e0ff6f4",
+      "inspection_sha256": {
+        "1": "62fd3d3c08d51713e7a0a9e7fbcdf541448fb07295c57b51c3561a96731ebe83",
+        "2": "3d37b501438a1b61b755e6ac970f71e9ceb485718836b7ed0d4d24ba59f04112"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "profile_boundaries",
+      "disposition": "supported",
+      "input_sha256": "336e18c204a4157b57b870c5ebc7753115c9f12c818e64ba8a0727f55304bd7d",
+      "inspection_sha256": {
+        "1": "da9f302a9606f9938763b6b0e6f772117b996d6d9ff0928745aeff86314358d2",
+        "2": "558cc6894ca04b88f99fcc0990a1ea1c7f8e17a95873fa51b89f1f30383b03e3"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "proof_spacing",
+      "disposition": "supported",
+      "input_sha256": "017171ac8e8165080d53e5f6fae79d6834ec951e283cdf8ead9aa8c59b9e8859",
+      "inspection_sha256": {
+        "1": "5436f75353c47787a451545dfb41d7269903dee151bb3d43704d9d391a49e59f",
+        "2": "5436f75353c47787a451545dfb41d7269903dee151bb3d43704d9d391a49e59f"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "qed_custom",
+      "disposition": "supported",
+      "input_sha256": "b23cdd6e6ec05a3d27d1c76bab75bcae80f0ae685306e96802c5a8aee81d4316",
+      "inspection_sha256": {
+        "1": "eb092c27b711800c64584c52725d32153a007b58062debbdb9d3c8519caed01e",
+        "2": "eb092c27b711800c64584c52725d32153a007b58062debbdb9d3c8519caed01e"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "qed_symbols",
+      "disposition": "supported",
+      "input_sha256": "a44593f6498cc453fb270914fa98b4d0676a685d38b234e59c3d44d05ba3927b",
+      "inspection_sha256": {
+        "1": "6c79a5b2e99efb10d7bf7e827b6df1ed7bd0c8b725805bc5e8005b24008cd92c",
+        "2": "6c79a5b2e99efb10d7bf7e827b6df1ed7bd0c8b725805bc5e8005b24008cd92c"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "reading_order",
+      "disposition": "supported",
+      "input_sha256": "98fa7cd981b6be38f3110ca8c8e5915ae464eac6858a1dcc0a30070f3fbcd617",
+      "inspection_sha256": {
+        "1": "adb75bc097c16df09363638742746ea262faaec56990b1775a2bf899ce7c4a2f",
+        "2": "6c281644d02665d2ec93a6416a94c2de690f75032218553492f1868b3909d900"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "retention",
+      "disposition": "supported",
+      "input_sha256": "c4f2dfa6902fa27f3bf03e1812bc96bfe632bfe6988a2745d8e73495a7c1d1c3",
+      "inspection_sha256": {
+        "1": "16ef3951b17fa569e0085386a9ae5c67452e88193b6430f5ae7405f4e45a0c7f",
+        "2": "16ef3951b17fa569e0085386a9ae5c67452e88193b6430f5ae7405f4e45a0c7f"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "structure",
+      "disposition": "supported",
+      "input_sha256": "769b77c6faa7b4c3523ebdc58aeec73c8abc35af39300a46adfc1dccb68c2b0e",
+      "inspection_sha256": {
+        "1": "a7f5d392ab2a5a6c8863af0d5749168430f7e8282921ca5b34ede3c62b937290",
+        "2": "05bd0d0de8565e9e633776382923cc36564b415fc1f33a666fc8d1a1729a63fc"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "unicode",
+      "disposition": "supported",
+      "input_sha256": "1a9f635a60b67b3a95cc9e9f1f77874057db60b87b7f5714eaad9da282cfcdfc",
+      "inspection_sha256": {
+        "1": "1a136fd9e5505f53b0d8adb03c9a3ba12c13e1b33a50550e3f6fe91e054db19a",
+        "2": "1a136fd9e5505f53b0d8adb03c9a3ba12c13e1b33a50550e3f6fe91e054db19a"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "gather_rows",
+      "disposition": "supported",
+      "input_sha256": "3bfa8e99080a18ffdb9c99fb3296676e08db67b700b22e2b5b71aeae9b307236",
+      "inspection_sha256": {
+        "1": "3092875b4eac33bd60eb3e914acb88984db9ccb269dc34c4e85ca4846736cb5a",
+        "2": "d0969d6e54747f468b37fdf295bcef7d9c444173275d88cad562aa9137be544e"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "qed_text",
+      "disposition": "supported",
+      "input_sha256": "0907ead1c119af710598fe648a920c5bab0d2920e23ac474b3585a174e7cb419",
+      "inspection_sha256": {
+        "1": "78378ee5134ef8769b9c0e0c88e0b2f796b3ff63e8bf9f65ab93591b2f20fe0b",
+        "2": "78378ee5134ef8769b9c0e0c88e0b2f796b3ff63e8bf9f65ab93591b2f20fe0b"
+      },
+      "diagnostic_codes": [
+
+      ]
+    },
+    {
+      "fixture": "qed_unsupported",
+      "disposition": "unsupported",
+      "input_sha256": "e586759989fbe70541a1a56e37ee0e8d927e01fb4fc0dd072ce02d4fe58cb8a1",
+      "inspection_sha256": {
+        "1": "ef359f15711632625cef2a3a01ef39324f644cb90358600f7dbac40264328e59",
+        "2": "ef359f15711632625cef2a3a01ef39324f644cb90358600f7dbac40264328e59"
+      },
+      "diagnostic_codes": [
+        "unsupported_qed_definition"
+      ]
+    },
+    {
+      "fixture": "row_unsupported",
+      "disposition": "unsupported",
+      "input_sha256": "52b9079b509808ac6e8cac9eb5922ee81bdce0c8f556ea9aad0fa13d9b35b895",
+      "inspection_sha256": {
+        "1": "0231fc1cfbb4c4c4cf8f0a81337a2a8ffd2b541bcf7966d2e2a91acce063fe40",
+        "2": "14fa599e3ada8747d9622863e86640ea7b399073ed942e85a8bdef9414a31ebe"
+      },
+      "diagnostic_codes": [
+        "unresolved_math_row_target",
+        "unresolved_reference_use"
+      ]
+    }
+  ]
+}

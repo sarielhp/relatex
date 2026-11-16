@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ordinary PDF page graphics and word/glyph geometry",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "pdf_sha256",
+    "helper_sha256",
+    "coordinates",
+    "pages",
+    "reconstruction"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "layout-1.0",
+        "layout-1.1",
+        "layout-1.2"
+      ]
+    },
+    "measurement": {
+      "type": "object",
+      "required": [
+        "metric_options",
+        "ink_options",
+        "ink_extent",
+        "paint_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "metric_options": {
+          "const": "preserve-ligatures,preserve-whitespace,accurate-bboxes=no,clip=no"
+        },
+        "ink_options": {
+          "const": "preserve-ligatures,preserve-whitespace,accurate-bboxes=yes,accurate-side-bearings=no,clip=no"
+        },
+        "ink_extent": {
+          "enum": [
+            "MuPDF outline height with advance width; horizontal outline bounds are not measured",
+            "Unclipped glyph fill outlines from SVG curves; excludes stroke expansion, clipping, hinting and compositing"
+          ]
+        },
+        "paint_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "outline_contract": {
+          "const": "svg-glyph-outlines-1"
+        },
+        "recovered_errors": {
+          "description": "Content errors MuPDF drew the pages past, leaving out the operators that failed (a shading it cannot read): the page graphics lack what they painted",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "pdf_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "helper_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "coordinates": {
+      "type": "object",
+      "required": [
+        "unit",
+        "origin",
+        "source"
+      ],
+      "properties": {
+        "unit": {
+          "const": "bp"
+        },
+        "origin": {
+          "const": "top-left"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "reconstruction": {
+      "type": "string"
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "number",
+          "width",
+          "height",
+          "glyphs",
+          "words",
+          "svg",
+          "svg_sha256"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "number": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "width": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "height": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "glyphs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "line",
+                "text",
+                "metric_quad",
+                "ink_quad",
+                "baseline",
+                "font",
+                "size"
+              ]
+            }
+          },
+          "words": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "page",
+                "line",
+                "text",
+                "normalized_text",
+                "boxes",
+                "box_kind",
+                "baseline",
+                "characters_to_glyphs"
+              ]
+            }
+          },
+          "svg": {
+            "type": "string",
+            "contentEncoding": "base64",
+            "contentMediaType": "image/svg+xml"
+          },
+          "svg_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "layout-1.1"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "measurement"
+        ],
+        "properties": {
+          "measurement": {
+            "properties": {
+              "ink_extent": {
+                "const": "MuPDF outline height with advance width; horizontal outline bounds are not measured"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "layout-1.2"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "measurement"
+        ],
+        "properties": {
+          "measurement": {
+            "required": [
+              "outline_contract"
+            ],
+            "properties": {
+              "ink_extent": {
+                "const": "Unclipped glyph fill outlines from SVG curves; excludes stroke expansion, clipping, hinting and compositing"
+              }
+            }
+          },
+          "pages": {
+            "items": {
+              "properties": {
+                "glyphs": {
+                  "items": {
+                    "required": [
+                      "outline_binding"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesPackage{relatex-page-totals}[2026/10/15 Guarded document page totals]
+\directlua{ltd=require('relatex');assert(ltd.flow,'Page totals require bridge');ltd.page_totals=require('relatex-page-totals')}
+% Expected writer from TotPages 2.00, Copyright Wilhelm Mueller 2005, LPPL.
+% This separate adapter compares the writer; it does not replace its behavior.
+\def\ltd@pages@expected{%
+          \addtocounter{page}{-1}%
+          \begingroup
+            \let\@number\@firstofone
+            \ifHy@pageanchor
+              \ifHy@hypertexnames
+                \ifHy@plainpages
+                  \def\Hy@temp{\arabic{page}}%
+                \else
+                  \let\textlatin\@firstofone
+                  \edef\Hy@temp{\thepage}%
+                \fi
+              \else
+                \def\Hy@temp{\the\Hy@pagecounter}%
+              \fi
+            \fi
+            \immediate\write\@mainaux{%
+              \string\newlabel
+                {TotPages}{{\theTotPages}{\thepage}{}{%
+                  \ifHy@pageanchor page.\Hy@temp\fi}{}}%
+            }%
+          \endgroup
+          \addtocounter{page}{1}%
+        }
+\AddToHook{begindocument/end}{%
+ \@ifpackageloaded{totpages}{%
+  \ifx\TotPages@putlabel\ltd@pages@expected
+   \directlua{if ltd.page_totals.supported() then token.set_macro('ltd@pages@known','yes','global') end}%
+   \@ifundefined{ltd@pages@known}{\directlua{ltd.page_totals.unsupported()}}{%
+    \AddToHook{cmd/TotPages@putlabel/after}{%
+     \directlua{ltd.page_totals.observe(\number\value{TotPages},\getrefnumber{TotPages},
+       '\luaescapestring{\getrefbykeydefault{TotPages}{anchor}{}}')}}}%
+  \else\directlua{ltd.page_totals.unsupported()}\fi}{}}
+\endinput

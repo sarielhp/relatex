@@ -1,0 +1,3 @@
+index.xhtml: <span id="page-1" epub:type="pagebreak" role="doc-pagebreak" aria-label="i"></span><h1 id="title" class="title">A small pac
+section-2.xhtml: <span id="page-2" epub:type="pagebreak" role="doc-pagebreak" aria-label="1"></span><p id="cell-1">a</p></td><td>1</td></tr>
+section-2.xhtml: <span id="page-3" epub:type="pagebreak" role="doc-pagebreak" aria-label="2"></span></section></div>

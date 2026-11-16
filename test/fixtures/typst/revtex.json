@@ -1,0 +1,915 @@
+{
+  "schema_version": "paper-0.2",
+  "profile": "paper-reading-diagnostic-v2",
+  "status": "diagnostic",
+  "qualified": false,
+  "identity": {
+    "id": "corpus",
+    "input_sha256": "367efe6632370bfd91e24071caf8eb999659edd8e5cfb31ce25252ee5324d8d3"
+  },
+  "root": "n-0113fd1742f5ebd6fae2a8e57c4dcda3bf14e181da2ba5fae73dc3ad19cc74ca",
+  "nodes": {
+    "n-d232d13df0ec69eab85c648ec98b4511c88bc28f921e82ba60284901915db531": {
+      "id": "n-d232d13df0ec69eab85c648ec98b4511c88bc28f921e82ba60284901915db531",
+      "type": "section",
+      "children": [
+        "n-d53c1081e56b08d16f7c693e6cbb011ca2582027a305409b51e31fed6ad761b4",
+        "n-21ee8273957c28a74db0a4c9578d8cd8386a3e451a9edca20f9a45dfe822b9dd"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:1",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-4b448777c0dda06b7e1a3714a09264c33d16ae1208c6c73acac5ffddc5ef5de8": {
+      "id": "n-4b448777c0dda06b7e1a3714a09264c33d16ae1208c6c73acac5ffddc5ef5de8",
+      "type": "section",
+      "children": [
+        "n-c386647a6d35f6754a861d76681e5b97ac388ebb99179a2ec6226c5c4aa036df",
+        "n-7b9a39ae62ead8c97ef319c61c5f98f4d772115a812a6a26aee8d2d6cd43da86",
+        "n-09c1584f6dd37da45835d9b9fec6a987c5367c72f8a2addbd0ce578f0a8b597e"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:5",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 5,
+        "counter": "subsection",
+        "level": 2,
+        "runin": false
+      }
+    },
+    "n-f5e06a5531b9acedf9ab3403adfa571d7b12c951eb3fca42566429a8b7e4de5d": {
+      "id": "n-f5e06a5531b9acedf9ab3403adfa571d7b12c951eb3fca42566429a8b7e4de5d",
+      "type": "section",
+      "children": [
+        "n-7c5e49d9b04857a96eb491b862f495517a4ff002e56c69e8383a5055165f33aa",
+        "n-4b448777c0dda06b7e1a3714a09264c33d16ae1208c6c73acac5ffddc5ef5de8"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:3",
+        "source_hint": "unavailable"
+      },
+      "semantics": {
+        "kind": "heading",
+        "entity": 3,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-0113fd1742f5ebd6fae2a8e57c4dcda3bf14e181da2ba5fae73dc3ad19cc74ca": {
+      "id": "n-0113fd1742f5ebd6fae2a8e57c4dcda3bf14e181da2ba5fae73dc3ad19cc74ca",
+      "type": "document",
+      "children": [
+        "n-d2a09ded4d88b27e8fbdcd48d52cbf851a13e3e73fb5f46646ec3517aff7896d",
+        "n-036dbaa738d02954d5a70a4e977c3f7b76d134df6168f36a703032c25d7ff86f",
+        "n-d232d13df0ec69eab85c648ec98b4511c88bc28f921e82ba60284901915db531",
+        "n-f5e06a5531b9acedf9ab3403adfa571d7b12c951eb3fca42566429a8b7e4de5d"
+      ],
+      "provenance": {
+        "inspection_key": "main/structure:0",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-d2a09ded4d88b27e8fbdcd48d52cbf851a13e3e73fb5f46646ec3517aff7896d": {
+      "id": "n-d2a09ded4d88b27e8fbdcd48d52cbf851a13e3e73fb5f46646ec3517aff7896d",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b1",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "A REVTeX Paper",
+          "style": {
+            "font_id": 17,
+            "family": "lmr",
+            "font_name": "LMRoman12-Bold",
+            "source": "nfss-font-id",
+            "series": "bx",
+            "size_sp": 786432,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        }
+      ]
+    },
+    "n-036dbaa738d02954d5a70a4e977c3f7b76d134df6168f36a703032c25d7ff86f": {
+      "id": "n-036dbaa738d02954d5a70a4e977c3f7b76d134df6168f36a703032c25d7ff86f",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b2",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "A. Author",
+          "style": {
+            "font_id": 15,
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "series": "m",
+            "size_sp": 655360,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        }
+      ]
+    },
+    "n-d53c1081e56b08d16f7c693e6cbb011ca2582027a305409b51e31fed6ad761b4": {
+      "id": "n-d53c1081e56b08d16f7c693e6cbb011ca2582027a305409b51e31fed6ad761b4",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b3",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "I. INTRODUCTION",
+          "style": {
+            "font_id": 20,
+            "family": "lmr",
+            "font_name": "LMRoman9-Bold",
+            "source": "nfss-font-id",
+            "series": "bx",
+            "size_sp": 589824,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 1,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-21ee8273957c28a74db0a4c9578d8cd8386a3e451a9edca20f9a45dfe822b9dd": {
+      "id": "n-21ee8273957c28a74db0a4c9578d8cd8386a3e451a9edca20f9a45dfe822b9dd",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b4",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "See Section",
+          "style": {
+            "font_id": 15,
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "series": "m",
+            "size_sp": 655360,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        },
+        {
+          "type": "reference",
+          "text": " II",
+          "label": "sec:setup",
+          "target": "n-7c5e49d9b04857a96eb491b862f495517a4ff002e56c69e8383a5055165f33aa",
+          "style": {
+            "font_id": 15,
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "series": "m",
+            "size_sp": 655360,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        },
+        {
+          "type": "text",
+          "text": " and Sec.",
+          "style": {
+            "font_id": 15,
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "series": "m",
+            "size_sp": 655360,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        },
+        {
+          "type": "reference",
+          "text": " IIA",
+          "label": "sec:sub",
+          "target": "n-c386647a6d35f6754a861d76681e5b97ac388ebb99179a2ec6226c5c4aa036df",
+          "style": {
+            "font_id": 15,
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "series": "m",
+            "size_sp": 655360,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        },
+        {
+          "type": "text",
+          "text": ", and Table",
+          "style": {
+            "font_id": 15,
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "series": "m",
+            "size_sp": 655360,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        },
+        {
+          "type": "reference",
+          "text": " I",
+          "label": "tab:x",
+          "target": "n-c86e24d446fc549eb5e0ddbc7390d525b41521445af4f81e586d59487b88ed5e",
+          "style": {
+            "font_id": 15,
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "series": "m",
+            "size_sp": 655360,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        },
+        {
+          "type": "text",
+          "text": ".",
+          "style": {
+            "font_id": 15,
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "series": "m",
+            "size_sp": 655360,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        }
+      ]
+    },
+    "n-7c5e49d9b04857a96eb491b862f495517a4ff002e56c69e8383a5055165f33aa": {
+      "id": "n-7c5e49d9b04857a96eb491b862f495517a4ff002e56c69e8383a5055165f33aa",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b5",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "II. SETUP",
+          "style": {
+            "font_id": 20,
+            "family": "lmr",
+            "font_name": "LMRoman9-Bold",
+            "source": "nfss-font-id",
+            "series": "bx",
+            "size_sp": 589824,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 3,
+        "counter": "section",
+        "level": 1,
+        "runin": false
+      }
+    },
+    "n-c386647a6d35f6754a861d76681e5b97ac388ebb99179a2ec6226c5c4aa036df": {
+      "id": "n-c386647a6d35f6754a861d76681e5b97ac388ebb99179a2ec6226c5c4aa036df",
+      "type": "heading",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b6",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "A. A subsection",
+          "style": {
+            "font_id": 20,
+            "family": "lmr",
+            "font_name": "LMRoman9-Bold",
+            "source": "nfss-font-id",
+            "series": "bx",
+            "size_sp": 589824,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        }
+      ],
+      "semantics": {
+        "kind": "heading",
+        "entity": 5,
+        "counter": "subsection",
+        "level": 2,
+        "runin": false
+      }
+    },
+    "n-7b9a39ae62ead8c97ef319c61c5f98f4d772115a812a6a26aee8d2d6cd43da86": {
+      "id": "n-7b9a39ae62ead8c97ef319c61c5f98f4d772115a812a6a26aee8d2d6cd43da86",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b7",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Text.",
+          "style": {
+            "font_id": 15,
+            "family": "lmr",
+            "font_name": "LMRoman10-Regular",
+            "source": "nfss-font-id",
+            "series": "m",
+            "size_sp": 655360,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        }
+      ]
+    },
+    "n-c86e24d446fc549eb5e0ddbc7390d525b41521445af4f81e586d59487b88ed5e": {
+      "id": "n-c86e24d446fc549eb5e0ddbc7390d525b41521445af4f81e586d59487b88ed5e",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b8",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "TABLE I. A table.",
+          "style": {
+            "font_id": 18,
+            "family": "lmr",
+            "font_name": "LMRoman9-Regular",
+            "source": "nfss-font-id",
+            "series": "m",
+            "size_sp": 589824,
+            "shape": "n",
+            "encoding": "TU",
+            "generic": "serif"
+          }
+        }
+      ]
+    },
+    "n-7f751f354259f128df1234440e3326a69105c1c62a9a95a4127da98e033603c8": {
+      "id": "n-7f751f354259f128df1234440e3326a69105c1c62a9a95a4127da98e033603c8",
+      "type": "paragraph",
+      "children": [
+
+      ],
+      "provenance": {
+        "inspection_key": "b9",
+        "source_hint": "unavailable"
+      },
+      "content": [
+        {
+          "type": "table_grid",
+          "id": "n-b2dc738355ee06d1d2cdf42a5f9ad106c9533acbc6eeebb57c946be753f9ae3d",
+          "grid": {
+            "schema_version": "table-2",
+            "row_count": 2,
+            "column_count": 2,
+            "cells": [
+              {
+                "id": "n-b1dfb88d12b9fd4264b93d5f9f72fe7c9d68dc91e9cfb2cc2bcb5a306a15d716",
+                "row": 0,
+                "column": 0,
+                "rowspan": 1,
+                "colspan": 1,
+                "alignment": "l",
+                "vertical_align": "top",
+                "width_sp": 598935,
+                "height_sp": 481687,
+                "depth_sp": 206440,
+                "source_cell": 1,
+                "wrap": false,
+                "padding_sp": 131072,
+                "role": "body",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "a",
+                    "style": {
+                      "font_id": 18,
+                      "family": "lmr",
+                      "font_name": "LMRoman9-Regular",
+                      "source": "nfss-font-id",
+                      "series": "m",
+                      "size_sp": 589824,
+                      "shape": "n",
+                      "encoding": "TU",
+                      "generic": "serif"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "n-a5d696517106defc6a163be2d2e4aa43cf23b8e1dcf3bb693490c6d92f919bcd",
+                "row": 0,
+                "column": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "alignment": "c",
+                "vertical_align": "top",
+                "width_sp": 565314,
+                "height_sp": 481687,
+                "depth_sp": 206440,
+                "source_cell": 2,
+                "wrap": false,
+                "padding_sp": 131072,
+                "role": "body",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "1",
+                    "style": {
+                      "font_id": 18,
+                      "family": "lmr",
+                      "font_name": "LMRoman9-Regular",
+                      "source": "nfss-font-id",
+                      "series": "m",
+                      "size_sp": 589824,
+                      "shape": "n",
+                      "encoding": "TU",
+                      "generic": "serif"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "n-4644961be43b23fea24d982bf66ddc0573071248e99f96aec4aae97f06f0446b",
+                "row": 1,
+                "column": 0,
+                "rowspan": 1,
+                "colspan": 1,
+                "alignment": "l",
+                "vertical_align": "top",
+                "width_sp": 598935,
+                "height_sp": 481687,
+                "depth_sp": 206440,
+                "source_cell": 3,
+                "wrap": false,
+                "padding_sp": 131072,
+                "role": "body",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "b",
+                    "style": {
+                      "font_id": 18,
+                      "family": "lmr",
+                      "font_name": "LMRoman9-Regular",
+                      "source": "nfss-font-id",
+                      "series": "m",
+                      "size_sp": 589824,
+                      "shape": "n",
+                      "encoding": "TU",
+                      "generic": "serif"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "n-8eb37478bd4d0c8ddfc01a0ba5dd14e2c0a172de2da069bd274606b867996628",
+                "row": 1,
+                "column": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "alignment": "c",
+                "vertical_align": "top",
+                "width_sp": 565314,
+                "height_sp": 481687,
+                "depth_sp": 206440,
+                "source_cell": 4,
+                "wrap": false,
+                "padding_sp": 131072,
+                "role": "body",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "2",
+                    "style": {
+                      "font_id": 18,
+                      "family": "lmr",
+                      "font_name": "LMRoman9-Regular",
+                      "source": "nfss-font-id",
+                      "series": "m",
+                      "size_sp": 589824,
+                      "shape": "n",
+                      "encoding": "TU",
+                      "generic": "serif"
+                    }
+                  }
+                ]
+              }
+            ],
+            "column_widths_sp": [
+              598935,
+              565314
+            ],
+            "width_sp": 1164249,
+            "native_fragments": [
+              {
+                "page": 1,
+                "rows": [
+                  {
+                    "depth": 206440,
+                    "logical_row": 1,
+                    "table": 1,
+                    "cells": [
+                      {
+                        "borders": {
+                        },
+                        "depth": 206440,
+                        "glyphs": 1,
+                        "unowned_rules": 0,
+                        "rules": 0,
+                        "unowned_glyphs": 0,
+                        "font_size": 589824,
+                        "runs": [
+                          {
+                            "first": 1,
+                            "last": 1,
+                            "owner": 33
+                          }
+                        ],
+                        "cell": 1,
+                        "left": 0,
+                        "width": 598935,
+                        "height": 481687
+                      },
+                      {
+                        "borders": {
+                        },
+                        "depth": 206440,
+                        "glyphs": 1,
+                        "unowned_rules": 0,
+                        "rules": 0,
+                        "unowned_glyphs": 0,
+                        "font_size": 589824,
+                        "runs": [
+                          {
+                            "first": 2,
+                            "last": 2,
+                            "owner": 33
+                          }
+                        ],
+                        "cell": 2,
+                        "left": 598935,
+                        "width": 565314,
+                        "height": 481687
+                      }
+                    ],
+                    "preamble": "lc",
+                    "origin_sp": [
+                      14945485.0,
+                      12901198
+                    ],
+                    "page": 1,
+                    "width": 1164249,
+                    "height": 481687,
+                    "row": 0
+                  },
+                  {
+                    "depth": 206440,
+                    "logical_row": 2,
+                    "table": 1,
+                    "cells": [
+                      {
+                        "borders": {
+                        },
+                        "depth": 206440,
+                        "glyphs": 1,
+                        "unowned_rules": 0,
+                        "rules": 0,
+                        "unowned_glyphs": 0,
+                        "font_size": 589824,
+                        "runs": [
+                          {
+                            "first": 3,
+                            "last": 3,
+                            "owner": 33
+                          }
+                        ],
+                        "cell": 3,
+                        "left": 0,
+                        "width": 598935,
+                        "height": 481687
+                      },
+                      {
+                        "borders": {
+                        },
+                        "depth": 206440,
+                        "glyphs": 1,
+                        "unowned_rules": 0,
+                        "rules": 0,
+                        "unowned_glyphs": 0,
+                        "font_size": 589824,
+                        "runs": [
+                          {
+                            "first": 4,
+                            "last": 4,
+                            "owner": 33
+                          }
+                        ],
+                        "cell": 4,
+                        "left": 598935,
+                        "width": 565314,
+                        "height": 481687
+                      }
+                    ],
+                    "preamble": "lc",
+                    "origin_sp": [
+                      14945485.0,
+                      13589325
+                    ],
+                    "page": 1,
+                    "width": 1164249,
+                    "height": 481687,
+                    "row": 1
+                  }
+                ],
+                "glyphs": [
+                  {
+                    "char": 97,
+                    "font": "LMRoman9-Regular",
+                    "text": "a",
+                    "width_sp": 303170.0,
+                    "baseline_sp": [
+                      15076558.0,
+                      13382885
+                    ],
+                    "cell": 1,
+                    "size_sp": 589824
+                  },
+                  {
+                    "char": 49,
+                    "font": "LMRoman9-Regular",
+                    "text": "1",
+                    "width_sp": 303170.0,
+                    "baseline_sp": [
+                      15675492.0,
+                      13382885
+                    ],
+                    "cell": 2,
+                    "size_sp": 589824
+                  },
+                  {
+                    "char": 98,
+                    "font": "LMRoman9-Regular",
+                    "text": "b",
+                    "width_sp": 336790.0,
+                    "baseline_sp": [
+                      15076558.0,
+                      14071012
+                    ],
+                    "cell": 3,
+                    "size_sp": 589824
+                  },
+                  {
+                    "char": 50,
+                    "font": "LMRoman9-Regular",
+                    "text": "2",
+                    "width_sp": 303170.0,
+                    "baseline_sp": [
+                      15675492.0,
+                      14071012
+                    ],
+                    "cell": 4,
+                    "size_sp": 589824
+                  }
+                ],
+                "rules": [
+
+                ]
+              }
+            ],
+            "native_table": 1,
+            "source_version": "tables-0.2",
+            "sections": {
+              "body": [
+                0,
+                1
+              ]
+            },
+            "native_preamble": "lc",
+            "body_rows": [
+              0,
+              1
+            ],
+            "header_rows": [
+
+            ],
+            "footer_rows": [
+
+            ]
+          }
+        }
+      ]
+    },
+    "n-569d3cf4bfa66a1209c4dcc364657739c6d9da8c4dbbb8105e85e1365626c643": {
+      "id": "n-569d3cf4bfa66a1209c4dcc364657739c6d9da8c4dbbb8105e85e1365626c643",
+      "type": "float_caption",
+      "children": [
+        "n-c86e24d446fc549eb5e0ddbc7390d525b41521445af4f81e586d59487b88ed5e"
+      ],
+      "provenance": {
+        "inspection_key": "caption_context:49",
+        "source_hint": "unavailable"
+      }
+    },
+    "n-09c1584f6dd37da45835d9b9fec6a987c5367c72f8a2addbd0ce578f0a8b597e": {
+      "id": "n-09c1584f6dd37da45835d9b9fec6a987c5367c72f8a2addbd0ce578f0a8b597e",
+      "type": "table_float",
+      "children": [
+        "n-569d3cf4bfa66a1209c4dcc364657739c6d9da8c4dbbb8105e85e1365626c643",
+        "n-7f751f354259f128df1234440e3326a69105c1c62a9a95a4127da98e033603c8"
+      ],
+      "provenance": {
+        "inspection_key": "float_context:47",
+        "source_hint": "unavailable"
+      }
+    }
+  },
+  "main_block_order": [
+    "n-d2a09ded4d88b27e8fbdcd48d52cbf851a13e3e73fb5f46646ec3517aff7896d",
+    "n-036dbaa738d02954d5a70a4e977c3f7b76d134df6168f36a703032c25d7ff86f",
+    "n-d53c1081e56b08d16f7c693e6cbb011ca2582027a305409b51e31fed6ad761b4",
+    "n-21ee8273957c28a74db0a4c9578d8cd8386a3e451a9edca20f9a45dfe822b9dd",
+    "n-7c5e49d9b04857a96eb491b862f495517a4ff002e56c69e8383a5055165f33aa",
+    "n-c386647a6d35f6754a861d76681e5b97ac388ebb99179a2ec6226c5c4aa036df",
+    "n-7b9a39ae62ead8c97ef319c61c5f98f4d772115a812a6a26aee8d2d6cd43da86",
+    "n-c86e24d446fc549eb5e0ddbc7390d525b41521445af4f81e586d59487b88ed5e",
+    "n-7f751f354259f128df1234440e3326a69105c1c62a9a95a4127da98e033603c8"
+  ],
+  "note_order": [
+
+  ],
+  "block_order": [
+    "n-d2a09ded4d88b27e8fbdcd48d52cbf851a13e3e73fb5f46646ec3517aff7896d",
+    "n-036dbaa738d02954d5a70a4e977c3f7b76d134df6168f36a703032c25d7ff86f",
+    "n-d53c1081e56b08d16f7c693e6cbb011ca2582027a305409b51e31fed6ad761b4",
+    "n-21ee8273957c28a74db0a4c9578d8cd8386a3e451a9edca20f9a45dfe822b9dd",
+    "n-7c5e49d9b04857a96eb491b862f495517a4ff002e56c69e8383a5055165f33aa",
+    "n-c386647a6d35f6754a861d76681e5b97ac388ebb99179a2ec6226c5c4aa036df",
+    "n-7b9a39ae62ead8c97ef319c61c5f98f4d772115a812a6a26aee8d2d6cd43da86",
+    "n-c86e24d446fc549eb5e0ddbc7390d525b41521445af4f81e586d59487b88ed5e",
+    "n-7f751f354259f128df1234440e3326a69105c1c62a9a95a4127da98e033603c8"
+  ],
+  "labels": {
+    "sec:intro": {
+      "target": "n-d53c1081e56b08d16f7c693e6cbb011ca2582027a305409b51e31fed6ad761b4",
+      "number": "I",
+      "status": "verified"
+    },
+    "sec:setup": {
+      "target": "n-7c5e49d9b04857a96eb491b862f495517a4ff002e56c69e8383a5055165f33aa",
+      "number": "II",
+      "status": "verified"
+    },
+    "sec:sub": {
+      "target": "n-c386647a6d35f6754a861d76681e5b97ac388ebb99179a2ec6226c5c4aa036df",
+      "number": "II\\,A",
+      "status": "verified"
+    },
+    "tab:x": {
+      "target": "n-c86e24d446fc549eb5e0ddbc7390d525b41521445af4f81e586d59487b88ed5e",
+      "number": "I",
+      "status": "verified"
+    }
+  },
+  "metadata": {
+    "status": "unavailable"
+  },
+  "assets": {
+    "status": "unverified"
+  },
+  "unverified_requirements": [
+    "ordinary_fidelity",
+    "independent_content",
+    "independent_math",
+    "metadata",
+    "assets",
+    "typed_lists",
+    "citations",
+    "text_style"
+  ],
+  "citations": {
+    "status": "projected",
+    "qualified": false,
+    "entries": [
+
+    ],
+    "calls": [
+
+    ],
+    "links": [
+
+    ]
+  },
+  "external_links": {
+    "schema_version": "external-links-1",
+    "items": {
+    }
+  },
+  "frontmatter": {
+    "title": "A REVTeX Paper",
+    "authors": [
+      {
+        "name": "A. Author",
+        "affiliations": [
+
+        ],
+        "emails": [
+
+        ]
+      }
+    ],
+    "status": "source_bound",
+    "language": {
+      "status": "unavailable",
+      "reason": "No supported literal language declaration collected"
+    },
+    "source": {
+      "path": "paper.tex",
+      "sha256": "367efe6632370bfd91e24071caf8eb999659edd8e5cfb31ce25252ee5324d8d3"
+    },
+    "decorations": [
+
+    ],
+    "links": [
+
+    ]
+  }
+}

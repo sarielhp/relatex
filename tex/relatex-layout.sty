@@ -1,0 +1,49 @@
+% This file is part of relatex (https://github.com/sarielhp/relatex).
+% SPDX-License-Identifier: LPPL-1.3c
+% It may be distributed and/or modified under the conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later version (https://www.latex-project.org/lppl.txt).
+% This work has the LPPL maintenance status "author-maintained"; its current maintainer is the relatex author.
+\ProvidesExplPackage{relatex-layout}{2026/10/14}{0.1.0}{Guarded native footnote layout}
+\RequirePackage{relatex-hyperref-defaults}
+% Load before metadata so a later class/package can still select its own layout.
+\@ifpackageloaded{latex-lab-testphase-new-or-2}
+  {\PackageError{relatex-layout}{Layout~guard~loaded~too~late}{Load~before~DocumentMetadata.}}{}
+\tl_new:N \g__ltd_layout_column_tl
+\AddToHook{package/latex-lab-testphase-new-or-2/before}
+  {\socket_get_plug:nN {build/column/outputbox} \g__ltd_layout_column_tl}
+\AddToHook{package/latex-lab-testphase-new-or-2/after}
+  {\str_if_eq:VnT \g__ltd_layout_column_tl {footnotes-floats-legacy}
+    {\socket_if_plug_assigned:nnT {build/column/outputbox}{footnotes-floats}
+      {\AssignSocketPlug{build/column/outputbox}{footnotes-floats-legacy}}}}
+\cs_new:Npn \__ltd_layout_expected_class:n #1
+  {\parindent 1em\noindent\hb@xt@1.8em{\hss\@makefnmark}#1}
+\cs_new_protected:Npn \__ltd_layout_expected_native:n #1
+  {\noindent
+   \socket_use:n{fntext/mark/link}
+   \tag_socket_use:nnn{fntext/mark}{}{\socket_use:n{fntext/mark}}
+   \tag_socket_use:nnn{fntext/text}{}{\socket_use:nn{fntext/text}{#1}}}
+\cs_new_protected:Npn \__ltd_layout_standard_note:n #1
+  {\noindent
+   \socket_use:n{fntext/mark/link}
+   \tag_socket_use:nnn{fntext/mark}{}{\hb@xt@1.8em{\hss\@makefnmark}}
+   \tag_socket_use:nnn{fntext/text}{}{\socket_use:nn{fntext/text}{#1}}}
+% Native initialization freezes 1.8em at the surrounding document font size.
+% The standard class evaluates that width inside the footnote instead. Keep
+% native tagging/link sockets, but restore the class's dimension expression.
+% Custom class definitions, marker plugs, and explicit preamble margins do not
+% enter this branch. Later native layout customization is outside this profile.
+\cs_new_protected:Npn \__ltd_layout_default_margin:
+  {\socket_if_plug_assigned:nnT {fntext/mark}{default}
+    {\dim_compare:nNnT {\footnotemargin} = {\maxdimen}
+      {\cs_if_eq:NNTF \fnote_makefntext:n \__ltd_layout_expected_native:n
+        {\cs_set_eq:NN \fnote_makefntext:n \__ltd_layout_standard_note:n}
+        {\PackageError{relatex-layout}{Unsupported~native~footnote~layout}{Use~the~pinned~native~definition.}}}}}
+\cs_new_protected:Npn \__ltd_layout_note:
+  {\cs_if_exist:NT \fnote_makefntext:n
+    {\cs_if_eq:NNT \@makefntext \__ltd_layout_expected_class:n
+      {\__ltd_layout_default_margin:}}}
+\AddToHook{begindocument/before}{\__ltd_layout_note:}
+\RequirePackage{relatex-ams-layout}
+\RequirePackage{relatex-acm-layout}
+\RequirePackage{relatex-emphasis}
+\endinput
