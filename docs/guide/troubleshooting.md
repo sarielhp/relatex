@@ -93,7 +93,12 @@ undefined. Copy the `.bib` file into the paper directory. Alternatively ship the
 present, reLaTeX uses the `.bbl` and runs no BibTeX or Biber.
 
 **"Cannot tell which file is the main one".** Several `.tex` files could be the main file. Use
-`--main FILE` or `main.ignore` ([Converting a paper](converting.md#what-relatex-reads)).
+`--main FILE` or `main.ignore` ([Converting a paper](converting.md#what-relatex-reads)). Before it
+asks, reLaTeX narrows several documents by three rules, in this order, and takes the file that
+remains alone: the one top-level file of arXiv's own `00README.json` (or `00README.XXX`); the one
+that the others `\input` or `\include`; the only one in the paper's root directory. The choice is
+recorded as `selection` in the input manifest. A paper with its supplement (two top-level files
+in the README, or two documents in the root) is never decided for you.
 
 **"No .tex file begins a document".** No `.tex` file has `\begin{document}` outside a comment;
 check the directory, or name the file with `--main`.

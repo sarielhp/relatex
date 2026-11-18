@@ -103,9 +103,12 @@ func (p *Probe) prepareVariant(strategy string) build {
 			check(os.Rename(path, filepath.Join(output, "supplied."+extension)))
 		}
 	}
+	check(mirrorIncludeDirectories(p.workingIn(source), output))
+	b := build{strategy: strategy, source: source, output: output, collector: collector, job: job, working: p.workingIn(source)}
+	p.setAsideStaleBibliography(b)
 	check(os.WriteFile(filepath.Join(output, "inject.tex"), []byte(p.wrapper(strategy)), 0o644))
 	writeJSON(filepath.Join(output, "working-manifest.json"), artifacts.FileManifest(source))
-	return build{strategy: strategy, source: source, output: output, collector: collector, job: job, working: p.workingIn(source)}
+	return b
 }
 
 // workingIn is TeX's working directory in a copy of the source: the main file's directory.
@@ -141,7 +144,7 @@ func (p *Probe) wrapper(strategy string) string {
 				"\\AddToHook{shipout/before}{\\directlua{relatex_prof_mark(\"shipout\")}}\n" + prefix
 		}
 	}
-	return p.compatibilityLine() + p.slidePrefix() + prefix + "\\input{" + filepath.Base(p.main) + "}\n"
+	return p.compatibilityLine() + p.slidePrefix() + pstexRule + prefix + "\\input{" + filepath.Base(p.main) + "}\n"
 }
 
 func (p *Probe) minimumPasses() int {
@@ -181,6 +184,9 @@ func (p *Probe) compileVariant(b build) []rec.Map {
 		// version still needs the processor (paper 40).
 		log := readLog(filepath.Join(b.output, fmt.Sprintf("pass-%d.log", pass)))
 		rejected := shippedBibliography(b) && rejectedBibliography.MatchString(strings.ReplaceAll(log, "\n", ""))
+		if rejected {
+			p.setAsideRejectedBibliography(b)
+		}
 		honoured := shippedBibliography(b) && !rejected
 		// The seed's processor output was removed for the shipped one; its request alone runs nothing.
 		if rejected && bibliographyDigest(b) == "" {
@@ -239,6 +245,7 @@ func (p *Probe) runTexPass(b build, pass int) (rec.Map, bool, string) {
 	environment := p.environment(b, pass)
 	settling := !isFile(filepath.Join(b.output, b.job+".aux"))
 	arguments := p.texPassArguments(b, settling)
+	mirrorDirectories(b.working, b.output)
 	wrapped := p.doctor.WrapWith(arguments, b.source, b.output, b.working, environment, p.options.Host.mounts())
 	log := filepath.Join(b.output, fmt.Sprintf("pass-%d.log", pass))
 	stage := command.Run(wrapped, b.working, log, p.remaining(), environment)
@@ -383,12 +390,7 @@ func (p *Probe) diagnose(b build, stages []rec.Map) rec.Map {
 		dependencies = recordedDependencies(recorder, b.source, b.working)
 	}
 	writeJSON(filepath.Join(b.output, "dependencies.json"), dependencies)
-	errors := []any{}
-	for _, line := range lines(log) {
-		if logErrors.MatchString(line) && len(errors) < 12 {
-			errors = append(errors, rec.Strip(line))
-		}
-	}
+	errors := logErrorLines(log)
 	result := rec.Map{"compiled": compiled, "passes": int64(len(stages)), "unresolved_references_or_rerun": rerunRequest.MatchString(log),
 		"undefined_references": undefinedReferences.MatchString(log),
 		"errors":               errors}
@@ -438,6 +440,42 @@ func lines(text string) []string {
 		result = result[:len(result)-1]
 	}
 	return result
+}
+
+// luaError matches the line where a Lua error of a collector or package surfaces in the log
+// ("[12] [13]...working/_relatex_probe/relatex.lua:203: message"); TeX has cut the path to its tail.
+var luaError = regexp.MustCompile(`^(?:\[[0-9]+\] *)*(?:\S*/)?([A-Za-z0-9_.-]+\.lua:[0-9]+: .*)$`)
+
+// logWidth is the column at which TeX wraps its log lines.
+const logWidth = 79
+
+// maxLogErrors bounds the error lines kept per build.
+const maxLogErrors = 12
+
+// logErrorLines is the log's error lines in order: TeX errors (! lines), their source context
+// (l.N lines) and Lua errors (file:line and message, a line TeX wrapped joined) as
+// "! file.lua:N: message", so a failure that stops without a TeX error still names its cause.
+func logErrorLines(log string) []any {
+	errors := []any{}
+	all := lines(log)
+	for index, line := range all {
+		if len(errors) >= maxLogErrors {
+			break
+		}
+		trimmed := strings.TrimRight(line, "\r\n")
+		if match := luaError.FindStringSubmatch(trimmed); match != nil {
+			message := match[1]
+			if len(trimmed) >= logWidth && index+1 < len(all) {
+				message += strings.TrimRight(all[index+1], "\r\n")
+			}
+			errors = append(errors, "! "+rec.Strip(message))
+			continue
+		}
+		if logErrors.MatchString(line) {
+			errors = append(errors, rec.Strip(line))
+		}
+	}
+	return errors
 }
 
 // recordedDependencies is Evidence.dependencies: the files the recorder saw the build read

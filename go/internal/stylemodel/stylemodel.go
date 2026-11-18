@@ -63,10 +63,10 @@ func Validate(value any) rec.Map {
 		rec.Fail("Invalid observed text font")
 	}
 	if _, ok := Weights[style["series"].(string)]; !ok {
-		rec.Fail("Unsupported observed text style")
+		rec.Fail("Unsupported observed text style (series %v, shape %v)", style["series"], style["shape"])
 	}
 	if _, ok := Shapes[style["shape"].(string)]; !ok {
-		rec.Fail("Unsupported observed text style")
+		rec.Fail("Unsupported observed text style (series %v, shape %v)", style["series"], style["shape"])
 	}
 	if !slices.Contains([]any{"serif", "sans-serif", "monospace", "unknown"}, style["generic"]) {
 		rec.Fail("Invalid generic font family")

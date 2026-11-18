@@ -181,6 +181,19 @@
           }
       }
   }
+% A margin note (\marginpar) is a note body with no call: its text is typeset by \@savemarbox
+% (both boxes of \marginpar[left]{right}), wherever the page places it.
+\AddToHook{begindocument/before}[relatex-margin-notes]
+  {
+    \cs_if_exist:NT \@savemarbox
+      {
+        \str_if_eq:eeT { \cs_argument_spec:N \@savemarbox } { \c_hash_str 1 \c_hash_str 2 }
+          {
+            \AddToHook{cmd/@savemarbox/before}{\directlua{ltd_external_notes.margin_begin()}}
+            \AddToHook{cmd/@savemarbox/after}{\directlua{ltd_external_notes.margin_end()}}
+          }
+      }
+  }
 \ExplSyntaxOff
 % A class that prints an author note's mark itself (JINST's \author[a,1], PoS's
 % \author*[a,\dagger]) sets only its body, in \maketitle: bodies set there are title notes.

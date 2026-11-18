@@ -214,6 +214,35 @@ local function ams_layout()
   return ams_cached
 end
 
+-- mathabx (matha, mathb, mathx) has one fixed layout, which mathabx.dcl names slot by slot. Other commands
+-- share a slot: \backslash (a delimiter) and \setminus on matha "7A, \leqslant and \leq on "A4. Those votes
+-- disagree, so the slot stayed unmapped and read as the raw letter "z" or the Latin-1 characters U+00A4 and
+-- U+00A5 (partition, separator). The first command declared on a slot is the glyph's own name (\leq,
+-- \setminus); the later ones are aliases and delimiter forms.
+local mathabx_cached
+local function mathabx_layout()
+  if mathabx_cached then return mathabx_cached end
+  mathabx_cached = {matha = {}, mathb = {}, mathx = {}}
+  local path = kpse.find_file('mathabx.dcl')
+  local file = path and io.open(path, 'r')
+  if not file then return mathabx_cached end
+  local codes = {}
+  for _, entry in ipairs(commands()) do
+    if codes[entry[1]] == nil then codes[entry[1]] = entry[2] end
+  end
+  local seen = {matha = {}, mathb = {}, mathx = {}}
+  for line in file:lines() do
+    local name, font, hex = line:match('^\\DeclareMathSymbol{\\(%a+)}%s*{%d}{(math[abx])}{"(%x+)}')
+    local slot = name and tonumber(hex, 16)
+    if slot and not seen[font][slot] then
+      seen[font][slot] = true
+      mathabx_cached[font][slot] = codes[name] or false
+    end
+  end
+  file:close()
+  return mathabx_cached
+end
+
 -- Glyphs a font paints at a slot whatever command names it: newtxmath keeps the kernel's \star
 -- (letters "3F, unicode-math's star operator), but its math italic fonts (ntxmi, ntxbmi) paint a
 -- black star there, glyph "uni2605". Its \checkmark, \circledR and \maltese are \mathhexbox slots of
@@ -224,15 +253,33 @@ local NEWTX_STAR = {[0x3F] = 0x2605}
 -- ASCII codes they were digits and punctuation: \hfill $\Box$ ending a proof read "2" (papers2/0232).
 local LASY = {[0x01] = 0x22B2, [0x02] = 0x22B4, [0x03] = 0x22B3, [0x04] = 0x22B5, [0x30] = 0x2127, [0x31] = 0x2A1D,
   [0x32] = 0x25A1, [0x33] = 0x25C7, [0x3B] = 0x2933, [0x3C] = 0x228F, [0x3D] = 0x2290}
+-- esvect's vect fonts (vect5 to vect10) hold the pieces of \vv's arrow: the shaft ends (slots "20 and "23, \montraita
+-- and \montraitd) and the heads \fldr chooses from ("11 to "18). Read by their ASCII codes the arrow was "#" and a caron.
+local ESVECT = {[0x20] = 0x2212, [0x23] = 0x2212}
+for slot = 0x11, 0x18 do ESVECT[slot] = 0x2192 end
 local FONT_SLOTS = {ntxmi = NEWTX_STAR, ntxbmi = NEWTX_STAR, ntxsym = NEWTX_MARKS, ntxbsym = NEWTX_MARKS, lasy = LASY,
-  lasyb = LASY}
+  lasyb = LASY, vect = ESVECT}
 
 -- The fixed layout of a font by its TFM name (design sizes alike: ntxmi7 is ntxmi), or nil.
 function M.font_layout(name)
   -- tex.fontname spells a font loaded at another size "msam10 at 9.0pt".
   name = (name or ''):match('^%S*')
   return name:match('^msam%d+$') and ams_layout().AMSa or name:match('^msbm%d+$') and ams_layout().AMSb
+    or name:match('^math[abx]%d*$') and mathabx_layout()[name:match('^math[abx]')]
     or FONT_SLOTS[name:gsub('%d+$', '')]
+end
+
+-- A mathabx slot whose declared name has no Unicode character and that no alias or typed character
+-- settled would print its raw code (a Latin-1 letter, a control character): it reads U+FFFD instead, which
+-- the converter reports as math.unmapped_glyph.
+local function mark_unknown_slots(maps, family, layout)
+  for slot, code in pairs(layout or {}) do
+    local map = maps[family]
+    if code == false and not (map and map[slot]) then
+      maps[family] = map or {}
+      maps[family][slot] = 0xFFFD
+    end
+  end
 end
 
 local function font_layouts(maps)
@@ -245,6 +292,7 @@ local function font_layouts(maps)
         maps[family][slot] = code
       end
     end
+    if id and id > 0 and tex.fontname(id):match('^math[abx]%d') then mark_unknown_slots(maps, family, layout) end
   end
 end
 
@@ -418,6 +466,7 @@ local installed
 local function inside_url()
   return token.is_defined('Url@String')
 end
+M.inside_url = inside_url
 
 function M.install_once()
   if inside_url() then return end

@@ -58,6 +58,7 @@ func Alignment(lines, columns []Extent, room float64) string {
 	if len(lines) == 0 || justified(lines) {
 		return ""
 	}
+	narrowest := tightest(lines, columns)
 	for _, column := range columns {
 		if !within(lines, column) {
 			continue
@@ -71,13 +72,26 @@ func Alignment(lines, columns []Extent, room float64) string {
 		}) {
 			return Centred
 		}
-		if all(lines, func(line Extent) bool {
+		// A right margin is the right edge of the tightest column holding the lines: a wider extent shared by
+		// centred lines (one straddling the gutter) is no margin (ason V-C: a short bullet read as right-aligned).
+		if column == narrowest && all(lines, func(line Extent) bool {
 			return math.Abs(line.Right-column.Right) <= alignTolerance && line.Left-column.Left > room
 		}) && ragged(lines) {
 			return Right
 		}
 	}
 	return ""
+}
+
+// tightest is the narrowest of the columns holding all the lines (the zero Extent when none does).
+func tightest(lines, columns []Extent) Extent {
+	best := Extent{}
+	for _, column := range columns {
+		if within(lines, column) && (best == (Extent{}) || column.Right-column.Left < best.Right-best.Left) {
+			best = column
+		}
+	}
+	return best
 }
 
 func within(lines []Extent, column Extent) bool {

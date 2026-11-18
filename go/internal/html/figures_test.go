@@ -121,3 +121,31 @@ func TestWriteImageFilesToleratesAssetsWithoutItems(t *testing.T) {
 	document := rec.Map{"block_order": []any{}, "nodes": rec.Map{}, "assets": rec.Map{"status": "unverified"}}
 	WriteImageFiles(document, t.TempDir())
 }
+
+// Two figures whose names differ only in case (decision 129, amendment 5) are not refused: a file
+// with other bytes takes a number, identical bytes share the first name, and both are reported.
+func TestFigurePlanKeepsCaseTwinsApart(t *testing.T) {
+	document := figurePaper(figure("figs/Plot.pdf", "10"), figure("img/plot.pdf", "11"))
+	displayed, _ := figures.Plan(document)
+	if displayed[figureDigest(svgOf("10"))] != "figs/Plot.svg" || displayed[figureDigest(svgOf("11"))] != "figs/plot-2.svg" {
+		t.Errorf("different bytes: %v", displayed)
+	}
+	twins := figures.CaseTwins(document)
+	if len(twins) != 1 || twins[0].First != "figs/Plot.pdf" || twins[0].Second != "img/plot.pdf" || twins[0].Identical {
+		t.Errorf("twins = %+v", twins)
+	}
+}
+
+func TestFigurePlanGivesIdenticalCaseTwinsOneName(t *testing.T) {
+	first := figure("figs/Plot.pdf", "10")
+	second := figure("img/plot.pdf", "10")
+	second.span["asset"] = first.span["asset"]
+	document := figurePaper(first, second)
+	displayed, _ := figures.Plan(document)
+	if len(displayed) != 1 || displayed[figureDigest(svgOf("10"))] != "figs/Plot.svg" {
+		t.Errorf("identical bytes: %v", displayed)
+	}
+	if twins := figures.CaseTwins(document); len(twins) != 1 || !twins[0].Identical {
+		t.Errorf("twins = %+v", twins)
+	}
+}

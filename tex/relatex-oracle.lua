@@ -361,6 +361,8 @@ function M.output_page(state) in_page = state end
 -- as a front-matter decoration ('acmart-copyright', relatex-acm-artifacts.sty), never as the
 -- document's math.
 local in_permission = false
+-- url.sty sets a URL (\url, \path, \doi) in math mode only for its mathcodes: that math list is text, so
+-- it is furniture too (decision 194), recognised by \Url@String, defined only while a URL is typeset.
 function M.permission(state) in_permission = state end
 
 local encloses, orphan_top
@@ -580,7 +582,7 @@ function M.enable(path)
       qed_mark = qed_mark(head, style) or nil,
       intertext = intertext_math or nil,
       tag = (in_tag and suppressed_tag == 0) or nil,
-      furniture = (in_page or in_permission) or nil,
+      furniture = (in_page or in_permission or token.is_defined("Url@String")) or nil,
       in_picture = latex_picture_depth > 0 or nil,
       picture = style == "display" and draws_picture(head, false, 0) or nil}
     return true

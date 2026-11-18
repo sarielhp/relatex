@@ -22,6 +22,20 @@ import (
 // hints (decision 122) are given either in the document's math_speech, read by MacrosOf, or by
 // speech.
 func ProjectFormula(root *Node, node rec.Map, macros mathintent.Macros, speech ...mathintent.Speech) string {
+	return projectFormula(root, node, macros, speech).String()
+}
+
+// ProjectPage is ProjectFormula as the page draws it: fences of ordinary height are not stretchy (a
+// browser draws a stretchy fence padded; see softFences), and the numbers of alignments at the right
+// margin where the PDF prints them (labelsRight).
+func ProjectPage(root *Node, node rec.Map, macros mathintent.Macros) string {
+	projected := projectFormula(root, node, macros, nil)
+	softFences(projected)
+	labelsRight(projected)
+	return projected.String()
+}
+
+func projectFormula(root *Node, node rec.Map, macros mathintent.Macros, speech []mathintent.Speech) *Node {
 	tex := AuthorTeX(node)
 	copied := root.Clone()
 	applyVariant(copied, "", false)
@@ -35,7 +49,7 @@ func ProjectFormula(root *Node, node rec.Map, macros mathintent.Macros, speech .
 	if tex != "" {
 		ApplyIntent(copied, mathintent.Read(tex, macros, speech...))
 	}
-	return copied.String()
+	return copied
 }
 
 // intentRule finds the constructs of one concept; each placement gives one its intent.

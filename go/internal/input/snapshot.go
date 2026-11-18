@@ -100,6 +100,9 @@ func sourceFiles(input string, excluded []string) (files []string, skipped []any
 		}
 		if keep, reason := classify(input, path, entry); !keep {
 			skipped = append(skipped, skippedEntry(input, path, entry, reason))
+			if entry.IsDir() {
+				return filepath.SkipDir
+			}
 			return nil
 		}
 		entries++
@@ -118,7 +121,10 @@ func sourceFiles(input string, excluded []string) (files []string, skipped []any
 // skippedEntry is the record of a skipped entry: its relative path, diagnostic code and reason.
 func skippedEntry(input, path string, entry fs.DirEntry, reason string) rec.Map {
 	code := "input.special_skipped"
-	if entry.Type()&fs.ModeSymlink != 0 {
+	switch {
+	case unportableName(entry.Name()):
+		code = "input.name_skipped"
+	case entry.Type()&fs.ModeSymlink != 0:
 		code = "input.symlink_skipped"
 	}
 	return rec.Map{"path": fspath.Name(input, path), "code": code, "reason": reason}
@@ -129,6 +135,8 @@ func skippedEntry(input, path string, entry fs.DirEntry, reason string) rec.Map 
 func classify(input, path string, entry fs.DirEntry) (bool, string) {
 	mode := entry.Type()
 	switch {
+	case unportableName(entry.Name()):
+		return false, "file name with a backslash or control character cannot be stored portably in the snapshot"
 	case entry.IsDir() || mode.IsRegular():
 		return true, ""
 	case mode&fs.ModeSymlink == 0:
@@ -161,3 +169,7 @@ func verifyZIP(path string, expected map[string]string) {
 		}
 	}
 }
+
+// unportableName is a file name the snapshot ZIP cannot hold portably: a backslash or a control
+// character (readers rewrite the former as a slash).
+func unportableName(name string) bool { return unsafeName.MatchString(name) }

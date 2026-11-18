@@ -168,3 +168,13 @@ func TestNotesAreFootnotesNotLandmarks(t *testing.T) {
 		}
 	}
 }
+
+// A margin note (\marginpar) is a plain note named "Margin note", not a footnote.
+func TestMarginNoteRoleIsANamedNote(t *testing.T) {
+	if got := noteRole("marginpar"); got != ` role="note" aria-label="Margin note"` {
+		t.Errorf("margin note role %s", got)
+	}
+	if got := noteRole("2"); got != ` role="doc-footnote" aria-label="Footnote 2"` {
+		t.Errorf("footnote role %s", got)
+	}
+}

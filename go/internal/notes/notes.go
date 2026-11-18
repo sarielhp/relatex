@@ -16,7 +16,10 @@ import (
 
 const source = "latex-lab-footnote-sockets"
 
-var unmarkedNumbers = []string{"", `\@thefnmark`, `\relax`}
+// marginNumber is the number of a margin note (\marginpar): a body with no call.
+const marginNumber = "marginpar"
+
+var unmarkedNumbers = []string{"", `\@thefnmark`, `\relax`, marginNumber}
 
 // degradable: the note is complete and linked; only its printed mark or its call is unverified.
 var degradable = []string{"footnote_call_number_mismatch", "footnote_body_number_mismatch", "footnote_body_without_call",

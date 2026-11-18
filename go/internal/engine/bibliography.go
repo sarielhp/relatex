@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/sarielhp/relatex/internal/command"
 	"github.com/sarielhp/relatex/internal/rec"
@@ -103,18 +104,23 @@ func (p *Probe) runBibliography(b build, name string) {
 		arguments = []string{executable, "--output-directory", b.output, filepath.Join(b.output, b.job+".bcf")}
 	}
 	environment := p.environment(b, 1)
-	environment["BIBINPUTS"], environment["BSTINPUTS"] = searchPath(b.working, b.source, b.output), searchPath(b.working, b.source)
+	authorBib, authorBst := p.options.Host.bibliographyPaths()
+	environment["BIBINPUTS"] = bibliographyPath(authorBib, b.working, b.source, b.output)
+	environment["BSTINPUTS"] = bibliographyPath(authorBst, b.working, b.source)
 	// biber runs where TeX ran (the main file's directory), BibTeX in the output (its .aux).
 	working := b.output
 	if name == "biber" {
 		working = b.working
 	}
-	wrapped := p.doctor.WrapIn(arguments, b.source, b.output, working, environment)
+	wrapped := p.doctor.WrapWith(arguments, b.source, b.output, working, environment, p.options.Host.mounts())
 	receipts, err := filepath.Glob(filepath.Join(b.output, name+"-*.json"))
 	check(err)
 	log := filepath.Join(b.output, fmt.Sprintf("%s-%d", name, len(receipts)+1))
 	stage := command.Run(wrapped, working, log+".log", p.remaining(), environment)
 	command.WriteReceipt(log+".json", stage)
+	if name == "bibtex" {
+		p.repairBibtexUTF8(filepath.Join(b.output, b.job+".bbl"))
+	}
 	if !succeeded(stage) {
 		p.bibliographyErrors(b, name, stage, log)
 	}
@@ -138,8 +144,26 @@ func (p *Probe) bibliographyErrors(b build, name string, stage rec.Map, log stri
 		check(copyFile(supplied, written))
 		effect = "the paper's supplied " + b.job + ".bbl is typeset instead"
 	}
-	degradation := rec.Map{"layer": "engine", "level": "alert", "reason": name + " reported errors in the bibliography database",
-		"effect": effect}
+	p.addDegradation(rec.Map{"layer": "engine", "level": "alert", "reason": name + " reported errors in the bibliography database",
+		"effect": effect})
+}
+
+// repairBibtexUTF8 makes the .bbl BibTeX wrote valid UTF-8. BibTeX works on bytes: a first name
+// that begins with a multibyte letter (Željko) gets the letter's first byte as its initial, which
+// pdfLaTeX's inputenc passes on but LuaTeX refuses ("String contains an invalid utf-8 sequence").
+// The cut bytes become U+FFFD, the letter that is lost, and the loss is recorded.
+func (p *Probe) repairBibtexUTF8(written string) {
+	data, err := os.ReadFile(written)
+	if err != nil || utf8.Valid(data) {
+		return
+	}
+	check(os.WriteFile(written, []byte(strings.ToValidUTF8(string(data), "�")), 0o644))
+	p.addDegradation(rec.Map{"layer": "engine", "level": "alert", "reason": "bibtex cut a multibyte letter in the bibliography (an initial of a name that starts with an accented letter)",
+		"effect": "each cut letter is typeset as U+FFFD; use an ASCII-safe .bib or biber for such names"})
+}
+
+// addDegradation records a degradation once.
+func (p *Probe) addDegradation(degradation rec.Map) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	for _, existing := range p.degradations {

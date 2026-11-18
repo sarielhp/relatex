@@ -28,6 +28,13 @@
 %   hyperref  hyperref's DVI driver options (dvipdfmx, dvips, hypertex, ...), which stop LuaLaTeX in PDF mode,
 %             are dropped from hyperref's options with a warning; hyperref then picks its LuaTeX driver, as it
 %             does after the error (decision 143, amendment 1).
+%   fontawesome  fontawesome5 with its [pro] option, whose Pro fonts (commercial, not in TeX Live) LuaLaTeX loads
+%             when the package loads, where pdfLaTeX only needs them for an icon used: the Pro families are
+%             declared as the Free fonts, and an icon only Pro has is reported by the package as not found.
+%   psfig     psfig.sty, a LaTeX 2.09 package TeX Live no longer has: \psfig{figure=F,width=..} and \psfig{file=F} are
+%             epsfig's (graphicx's \includegraphics), and \psfigurepath adds a graphics search path (decision 194).
+%   ltexpprt  ltexpprt.sty, the SIAM proceedings option of LaTeX 2.09 (not in TeX Live): taken as loaded; the paper
+%             keeps its class's page layout (decision 194).
 % Every definition is made only where the name is still undefined; nothing changes for a name the
 % format or a package already provides.
 \NeedsTeXFormat{LaTeX2e}
@@ -40,6 +47,12 @@
 \newif\ifrelatex@compat@fontmap
 \newif\ifrelatex@compat@microtype
 \newif\ifrelatex@compat@hyperref
+\newif\ifrelatex@compat@fontawesome
+\newif\ifrelatex@compat@psfig
+\newif\ifrelatex@compat@ltexpprt
+\DeclareOption{psfig}{\relatex@compat@psfigtrue}
+\DeclareOption{ltexpprt}{\relatex@compat@ltexpprttrue}
+\DeclareOption{fontawesome}{\relatex@compat@fontawesometrue}
 \DeclareOption{pdftex}{\relatex@compat@pdftextrue}
 \DeclareOption{xetex}{\relatex@compat@xetextrue}
 \DeclareOption{fontspec}{\relatex@compat@fontspectrue}
@@ -140,6 +153,9 @@
   \RequirePackage{pdftexcmds}
   \relatex@compat@let\pdfstrcmp\pdf@strcmp
   \relatex@compat@let\pdfshellescape\pdf@shellescape
+  % graphicx's pdftex driver (\usepackage[pdftex]{graphicx}, which a pdfLaTeX source names even
+  % though LuaLaTeX has its own driver) asks \pdffilesize for each PDF figure: empty when missing.
+  \relatex@compat@let\pdffilesize\pdf@filesize
   \relatex@compat@let\pdfresettimer\pdf@resettimer
   \relatex@compat@let\pdfelapsedtime\pdf@elapsedtime
 \fi
@@ -255,4 +271,45 @@
       { \__relatex_compat_drop_dvi_drivers:c { opt@hyperref.sty } }
   }
 \ExplSyntaxOff
+
+% fontawesome5's Pro families as its Free fonts. Declaring the family and its shapes here keeps NFSS from reading
+% tufontawesomepro.fd, which names the Pro font files; the Free fd supplies the fonts they are substituted by.
+\ifrelatex@compat@fontawesome
+  \input{tufontawesomefree.fd}
+  \DeclareFontFamily{TU}{fontawesomepro}{}
+  \DeclareFontShape{TU}{fontawesomepro}{solid}{n}{<->ssub * fontawesomefree/solid/n}{}
+  \DeclareFontShape{TU}{fontawesomepro}{regular}{n}{<->ssub * fontawesomefree/regular/n}{}
+  \DeclareFontShape{TU}{fontawesomepro}{light}{n}{<->ssub * fontawesomefree/regular/n}{}
+  \DeclareFontShape{TU}{fontawesomepro}{duotone}{n}{<->ssub * fontawesomefree/solid/n}{}
+  \DeclareFontShape{TU}{fontawesomepro}{l}{n}{<->ssub * fontawesomepro/light/n}{}
+  \DeclareFontShape{TU}{fontawesomepro}{m}{n}{<->ssub * fontawesomepro/regular/n}{}
+  \DeclareFontShape{TU}{fontawesomepro}{b}{n}{<->ssub * fontawesomepro/solid/n}{}
+  \DeclareFontShape{TU}{fontawesomepro}{bx}{n}{<->ssub * fontawesomepro/solid/n}{}
+\fi
+
+% psfig.sty and ltexpprt.sty are missing from TeX Live: the package is marked as loaded, so \usepackage{psfig} reads nothing
+% and finds no file (decision 194). epsfig, which TeX Live has, implements \psfig; it loads when the document begins,
+% after the paper chose its graphicx options.
+\ifrelatex@compat@psfig
+  \expandafter\def\csname ver@psfig.sty\endcsname{2026/11/17 relatex psfig substitute}
+  \def\psfigurepath#1{\def\relatex@psfig@path{#1}}
+  \AddToHook{begindocument/before}{%
+    \RequirePackage{epsfig}%
+    \def\relatex@psfig@setpath#1{\graphicspath{{#1}{#1/}}}%
+    \ifdefined\relatex@psfig@path\expandafter\relatex@psfig@setpath\expandafter{\relatex@psfig@path}\fi
+    \let\psfigurepath\relatex@psfig@setpath}
+\fi
+\ifrelatex@compat@ltexpprt
+  \expandafter\def\csname ver@ltexpprt.sty\endcsname{2026/11/17 relatex ltexpprt substitute}
+  \def\relatex@siam@theorem#1#2{\@ifundefined{#1}{\newtheorem{#1}[theorem]{#2}}{}}
+  % The SIAM style's theorem-like environments (one shared counter) and proof, each only if the preamble left it undefined.
+  \AddToHook{begindocument/before}{%
+    \@ifundefined{theorem}{\newtheorem{theorem}{Theorem}}{}%
+      \relatex@siam@theorem{lemma}{Lemma}\relatex@siam@theorem{corollary}{Corollary}%
+    \relatex@siam@theorem{proposition}{Proposition}\relatex@siam@theorem{definition}{Definition}%
+    \relatex@siam@theorem{dfn}{Definition}\relatex@siam@theorem{claim}{Claim}\relatex@siam@theorem{conjecture}{Conjecture}%
+    \relatex@siam@theorem{observation}{Observation}\relatex@siam@theorem{fact}{Fact}%
+    \relatex@siam@theorem{remark}{Remark}\relatex@siam@theorem{example}{Example}%
+    \@ifundefined{proof}{\newenvironment{proof}{\par\noindent\textit{Proof.}\ }{\hfill\rule{.5em}{.5em}\par}}{}}
+\fi
 \endinput

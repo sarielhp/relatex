@@ -36,16 +36,21 @@ var (
 type Names struct {
 	stems   map[string]string
 	taken   map[string]string // file name, lower case, to the content that holds it
-	authors map[string]author // source stem, lower case, to the author file that took it
+	named   map[string]string // file name, lower case, to the spelling its first claim gave it
 	counter int
 }
 
-// author is the source file a stem was taken from (decision 129, amendment 2).
-type author struct{ stem, origin string }
+// Twin is two author files whose figure names differ only in case (decision 129, amendment 5):
+// they share one exported name when their bytes are identical, and the second takes a number
+// when they differ. First and Second are the source names as the paper writes them.
+type Twin struct {
+	First, Second, FirstAsset, SecondAsset string
+	Identical                              bool // the two files hold the same bytes (one asset)
+}
 
 // New is FigureNames.new.
 func New() *Names {
-	return &Names{stems: map[string]string{}, taken: map[string]string{}, authors: map[string]author{}}
+	return &Names{stems: map[string]string{}, taken: map[string]string{}, named: map[string]string{}}
 }
 
 // Occurrences is PaperImages.occurrences: the images of the reading order, rich cells in
@@ -98,29 +103,11 @@ func (n *Names) Stem(asset string, span rec.Map) string {
 		return stem
 	}
 	stem, named := SourceStem(span)
-	if named {
-		n.admit(stem, rec.FetchString(span, "source"))
-	} else {
+	if !named {
 		stem = n.nextNumber()
 	}
 	n.stems[asset] = stem
 	return stem
-}
-
-// admit refuses two author files whose figure stems differ only in case, such as Plot.pdf and
-// plot.pdf: in figs/ they would overwrite each other on a file system that ignores case
-// (Windows, macOS), so the export would not be portable (decision 129, amendment 2). Stems equal
-// in case are told apart by Claim's numbers, as before.
-func (n *Names) admit(stem, origin string) {
-	key := strings.ToLower(stem)
-	held, found := n.authors[key]
-	if !found {
-		n.authors[key] = author{stem: stem, origin: origin}
-	} else if held.stem != stem {
-		rec.Fail("input.unsafe: the figures %s and %s differ only in case, so their files would overwrite each "+
-			"other on Windows and macOS; rename one of them in the source",
-			rec.InspectString(held.origin), rec.InspectString(origin))
-	}
 }
 
 // Claim is FigureNames#claim: the first free name for this content, the candidates in order
@@ -135,6 +122,10 @@ func (n *Names) Claim(digest string, candidates ...string) string {
 			key := strings.ToLower(candidate)
 			if held, found := n.taken[key]; !found || held == digest {
 				n.taken[key] = digest
+				if first, named := n.named[key]; named {
+					return first
+				}
+				n.named[key] = candidate
 				return candidate
 			}
 		}

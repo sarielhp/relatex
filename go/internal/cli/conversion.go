@@ -374,6 +374,7 @@ func conversionOptions(options map[string]any, input, output, work string, exclu
 	if hermetic, _ := options["hermetic"].(bool); !hermetic {
 		o.TexInputs = os.Getenv("TEXINPUTS")
 		o.BstInputs = os.Getenv("BSTINPUTS")
+		o.BibInputs = os.Getenv("BIBINPUTS")
 	}
 	o.SnapshotExclusions = exclusions
 	o.Cache = rec.AsString(options["cache"])

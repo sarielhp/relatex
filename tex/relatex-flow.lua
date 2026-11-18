@@ -21,6 +21,7 @@ local tag_attr = luatexbase.new_attribute('relatex.flow.tag')
 local glyph, rule, glue, hlist, vlist, disc = node.id('glyph'), node.id('rule'), node.id('glue'), node.id('hlist'), node.id('vlist'), node.id('disc')
 local penalty = node.id('penalty')
 local kern = node.id('kern')
+local math_node = node.id('math')
 local margin_kern = node.id('margin_kern')
 local emit, math, character, owner, reference = nil, nil, nil, 0, 0
 local layout_discretionary
@@ -593,6 +594,51 @@ local function overlaid_row(n)
   return advance + following.height <= 0
 end
 
+-- The width a row sets before its first glyph, rule or formula: the left margin and the tab fields
+-- before it (tabbing's \+ and \=). Boxes holding text are entered, empty boxes count their width.
+local function leading_width(list)
+  local width = 0
+  for n in node.traverse(list) do
+    if n.id == glyph or n.id == rule or n.id == math_node then return width, true end
+    if n.id == glue or n.id == kern then
+      width = width + (n.width or n.kern or 0)
+    elseif (n.id == hlist or n.id == vlist) and n.head then
+      local inner, found = leading_width(n.head)
+      if found then return width + inner, true end
+      width = width + (n.width or 0)
+    end
+  end
+  return width, false
+end
+
+-- hlist subtype of a paragraph's broken line: those wrap. A row of a box (tabbing's rows, a box's rows set one
+-- under the other) has another subtype and is a line of its own.
+local line_subtype = 1
+
+-- The first glyph of a list that an owner has read, with its owner and slot.
+local function first_read(list)
+  for n in node.traverse(list) do
+    if n.id == glyph or n.id == rule then
+      local who, slot = node.has_attribute(n, owner_attr), node.has_attribute(n, slot_attr)
+      if who and slot then return who, slot end
+    elseif (n.id == hlist or n.id == vlist) and n.head then
+      local who, slot = first_read(n.head)
+      if who then return who, slot end
+    end
+  end
+  return nil
+end
+
+-- Whether a row of the vertical list comes before the row.
+local function row_before(n)
+  local m = n.prev
+  while m do
+    if m.id == hlist then return true end
+    m = m.prev
+  end
+  return false
+end
+
 -- Whether another line (an hlist) follows the line in its vertical list.
 local function following_line(head, n)
   local seen = false
@@ -677,6 +723,26 @@ local function item_marker(n)
   return marker ~= nil and node.has_attribute(n, marker) ~= nil
 end
 
+-- A formula an enclosing box reads again (a one-line caption is an \hbox around the formulas already
+-- captured) keeps the items of its own flow, which know no space before it: the word space ahead of
+-- its first glyph is recorded as a diagnostic for that item (the reading adds it) and consumed here,
+-- so it neither goes missing before the formula nor lands on the text after it ("of $d$ and $\alpha$.").
+-- The diagnostic is recorded even for an empty space: it tells the reading the formula sits inside that
+-- box, which a formula ending the box ("inside $S_j$") shows nowhere else.
+local recorded_math_space = {}
+local function space_before_captured_math(n, state)
+  local owner_id, slot = node.has_attribute(n, owner_attr), node.has_attribute(n, slot_attr)
+  local context = owner_contexts[owner_id]
+  local first = context and context.items and slot and context.items[slot]
+  if not (first and first.type == 'math' and first.position == 1) then return end
+  local key = owner_id .. ':' .. slot
+  if not recorded_math_space[key] or state.space ~= '' then
+    recorded_math_space[key] = true
+    emit('diagnostic', {code = 'math_space', owner = owner_id, slot = slot, space = state.space})
+  end
+  state.space, state.space_glue = '', nil
+end
+
 local function collect(head, state, overwrite, box)
   for n in node.traverse(head) do
     if n.id == glyph then state.font = n.font end
@@ -692,7 +758,7 @@ local function collect(head, state, overwrite, box)
       end
       -- A picture inside \href (\orcidlink's logo) names its link: an ORCID logo becomes the link.
       if M.external_links then M.external_links.identify(n, item) end
-      state.space = ''
+      state.space, state.gaps = '', 0
       state.items[#state.items + 1] = item
       node.set_attribute(n, owner_attr, owner)
       node.set_attribute(n, slot_attr, #state.items)
@@ -701,7 +767,7 @@ local function collect(head, state, overwrite, box)
         width = n.width, height = n.height, depth = n.depth, rules = count_rules(n.head)}
       if qed_ids[item.symbol] then M.qed_item(n, item) end
       if notes then notes.identify(n, item) end
-      state.space = ''
+      state.space, state.gaps = '', 0
       state.items[#state.items + 1] = item
       node.set_attribute(n, owner_attr, owner)
       node.set_attribute(n, slot_attr, #state.items)
@@ -779,10 +845,12 @@ local function collect(head, state, overwrite, box)
         if item.type == 'text' and item.space == ' ' and n.id == glyph then
           item.space_style = foreign_space_style(state.space_glue, n.font)
         end
-        state.space, state.space_glue = '', nil
+        state.space, state.space_glue, state.gaps = '', nil, 0
         state.items[#state.items + 1] = item
         node.set_attribute(n, owner_attr, owner)
         node.set_attribute(n, slot_attr, #state.items)
+      elseif math and math.identity(n) then
+        space_before_captured_math(n, state)
       end
     -- A box leader set once (acmart's affiliation comma, \cleaders\copy\@ACM@commabox) is that box's
     -- text; a fill that repeats its box (\dotfill) stays a gap (relatex-leaders).
@@ -795,7 +863,7 @@ local function collect(head, state, overwrite, box)
     -- is a hairline (an author mark's gap).
     elseif n.id == glue and (n.subtype == 13 or n.subtype == 0)
         and (n.width > hairline(state) or set_word_gap(n, state, box)) then
-      state.space = ' '
+      state.space, state.gaps = ' ', (state.gaps or 0) + 1
       state.space_glue = {width = n.width, font = state.font}
     elseif leader_word_space(n, state) then
       state.space = ' '
@@ -809,9 +877,13 @@ local function collect(head, state, overwrite, box)
     elseif n.id == penalty and n.penalty <= -10000 and state.group == 'paragraph' and not box then
       state.space = ' '
     elseif word_gap(n, state) then
-      state.space = ' '
+      state.space, state.gaps = ' ', (state.gaps or 0) + 1
+    -- A backspace takes back one word gap: where two gaps stand before it (acmsmall's theorem head: the
+    -- label's \enspace, then the \labelsep the item adds, which the head's \hskip-\labelsep cancels) the
+    -- other still separates the head from its body ("LEMMA 3.2. Let").
     elseif word_backspace(n, state) then
-      state.space = ''
+      state.gaps = (state.gaps or 1) - 1
+      if state.gaps <= 0 then state.space = '' end
     elseif n.id == hlist or n.id == vlist then
       -- A raised accent is the one glyph of a box set between its accent kerns.
       state.accent_box = n.id == hlist and n.head ~= nil and n.head.next == nil and n.head.id == glyph and accent_set(n)
@@ -821,6 +893,12 @@ local function collect(head, state, overwrite, box)
       state.positioned = positioned or (graphics and graphics.limits and graphics.limits.positioned(n))
       collect(n.head, state, overwrite, n)
       state.in_vlist, state.positioned = outer, positioned
+      -- A row of a box after another row starts a line: the item that opens it is recorded with the width the
+      -- row sets before its text (the tab indent), so the reading ends the line before it.
+      if vertical_line and n.subtype ~= line_subtype and row_before(n) then
+        local who, slot = first_read(n.head)
+        if who then emit('flow_row', {owner = who, slot = slot, indent = (leading_width(n.head))}) end
+      end
       state.accent_box = false
       -- A line of a vertical list (an \IEEEauthorblockA row, a broken line of a box) ends a word
       -- when another line follows it: a forced break (\\) leaves no glue to say so, unless the

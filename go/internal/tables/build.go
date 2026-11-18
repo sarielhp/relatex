@@ -223,7 +223,7 @@ func (e *rich) gridCell(entry rec.Map, logical []any, content map[string][]rec.M
 	return rec.Map{"id": "cell-" + tablemodel.Inspect(id), "row": row, "column": sub(rec.Fetch(declaration, "column"), int64(1)),
 		"rowspan": rec.Fetch(declaration, "rowspan"), "colspan": rec.Fetch(declaration, "colspan"), "alignment": alignments[kind],
 		"vertical_align": vertical, "width_sp": wholeSP(rec.Fetch(entry, "width")), "height_sp": wholeSP(rec.Fetch(entry, "height")),
-		"depth_sp": wholeSP(rec.Fetch(entry, "depth")), "source_cell": id, "wrap": kind == "p" || kind == "m" || kind == "b",
+		"depth_sp": wholeSP(rec.Fetch(entry, "depth")), "source_cell": id, "wrap": kind == "p" || kind == "m" || kind == "b" || e.wrapsInTeX(declaration),
 		"padding_sp": rec.Fetch(declaration, "padding_sp"), "role": e.role(id), "content": cellContent}
 }
 
@@ -420,4 +420,32 @@ func (e *rich) fragments(table any, rows []rec.Map, logical []any) []any {
 		result = append(result, rec.Map{"page": page, "rows": entries, "glyphs": glyphs, "rules": rules})
 	}
 	return result
+}
+
+// wrapsInTeX is true where TeX itself broke the cell's text over lines: a minipage or parbox cell in an
+// l, c or r column has a definite width in TeX, so its text wraps in the browser as well. Lines are
+// glyph rows of the cell's largest size at least 0.9 of that size apart (scripts sit closer).
+func (e *rich) wrapsInTeX(declaration rec.Map) bool {
+	table, id := rec.Fetch(declaration, "table"), rec.Fetch(declaration, "id")
+	var lines []float64
+	biggest := 0.0
+	for _, event := range e.events {
+		if event["code"] != "rich_table_glyphs" || !rec.Equal(rec.Fetch(event, "table"), table) {
+			continue
+		}
+		for _, value := range tablemodel.FetchList(event, "glyphs") {
+			glyph := rec.AsMap(value)
+			if !rec.Equal(glyph["cell"], id) {
+				continue
+			}
+			size := number(glyph["size_sp"])
+			if size > biggest {
+				biggest, lines = size, nil
+			}
+			if size == biggest {
+				lines = append(lines, number(rec.FetchList(glyph, "baseline_sp")[1]))
+			}
+		}
+	}
+	return len(lines) > 0 && slices.Max(lines)-slices.Min(lines) >= 0.9*biggest
 }

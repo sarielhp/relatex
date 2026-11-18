@@ -65,6 +65,7 @@ var degradable = map[string]string{"unresolved_label_owner": "label.unresolved_o
 	"unsupported_graphic_source":     "figure.source_unsupported",
 	"unsupported_external_link":      "link.unsupported",
 	"unclosed_structural_context":    "structure.context_unclosed",
+	"heading_inside_block":           "structure.heading_in_block",
 	"table_inside_formula":           "table.inside_formula",
 	"unsupported_external_alignment": "math.alignment_unrowed",
 	"unsupported_list_context":       "list.context_unsupported",

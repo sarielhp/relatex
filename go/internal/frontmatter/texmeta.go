@@ -165,7 +165,7 @@ func NewTexMetadata(source string) *TexMetadata {
 	// their bodies (a macro file's \newcommand{\hw}{\title{...}} sets no title here).
 	t.definitions = withoutComments(source)
 	t.macros = t.textMacros()
-	t.clean = t.withoutDefinitions(t.definitions)
+	t.clean = t.withoutSwitches(t.withoutDefinitions(t.definitions))
 	return t
 }
 
@@ -745,7 +745,7 @@ func (t *TexMetadata) expandMacros(value string) string {
 			text = text[:start] + substituteArgument(item.body, inner) + text[ending:]
 		}
 	}
-	return t.expandTextMacros(text)
+	return t.withoutSwitches(t.expandTextMacros(text))
 }
 
 // expandTextMacros is gsub(/\\([A-Za-z]+)\b(?:\{\})?/) { macros.fetch(name, match) }.

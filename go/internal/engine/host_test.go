@@ -12,7 +12,7 @@ func TestHostMountsExistingDirectoriesAndLocalTime(t *testing.T) {
 	directory := t.TempDir()
 	t.Setenv("TZ", "Europe/Paris")
 	host := NewHost(command.SearchList(directory+"//", filepath.Join(directory, "missing"), ".", ""), "/nowhere")
-	if host.LocalTime {
+	if LocalTime() || TimeZone() != "Europe/Paris" {
 		t.Fatal("a TZ passes as it is; /etc/localtime is not needed")
 	}
 	if got := host.mounts(); !slices.Equal(got, []string{directory}) {

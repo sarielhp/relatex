@@ -16,6 +16,10 @@ and from that record provides:
 
 Because every export comes from what TeX typeset, it says what your PDF says.
 
+> **Requirements.** The paper must compile on **LuaLaTeX with no errors**. Papers that work only with
+> xelatex, pdflatex or latex are not supported, and a TeX error stops the conversion. Build the paper with
+> `lualatex` first. Why: [docs/why-lualatex.md](docs/why-lualatex.md).
+
 **Status.** Version 0.1.x: it converts real papers well but is young; expect rough edges, and read the
 diagnostics. Linux is the supported platform; Windows and macOS builds exist but are less tested
 ([Windows](docs/guide/windows.md)).

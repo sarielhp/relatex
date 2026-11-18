@@ -17,7 +17,8 @@ import (
 const convertDescription = "Convert a paper (a ZIP, a directory or a .tex file) into Markdown, HTML and the other formats"
 
 const convertLong = "Defaults: input '.', Markdown and HTML, output/ holding only the formats asked for; the full product is kept in the project cache\n" +
-	"Main file: --main, else the only top-level .tex besides prefix.tex and prelim.tex, else the only .tex that begins a document\n" +
+	"Main file: --main, else the only top-level .tex besides prefix.tex and prelim.tex, else the only .tex that begins a document;\n" +
+	"among several documents: arXiv's 00README top-level file, one the others input, one in the root directory\n" +
 	"TeX search path: your TEXINPUTS, read from the main file's directory as lualatex reads it (--hermetic, or an archive input: the paper's own files and the TeX tree only)"
 
 // convertFlags is what a convert command line asked for: the options as the configuration reads

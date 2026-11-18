@@ -55,6 +55,7 @@ func (c *conversion) exportStage() {
 	c.pipeline.stage("export", ojson.Object{}, c.configuration(), false, func(root string) any {
 		c.exportRoot = root
 		c.applyAltText()
+		c.figureNameDiagnostics()
 		payload := c.payload()
 		bundle.Validate(payload)
 		// The bundle is marshalled and compressed beside the formats, which only read the payload;

@@ -3,6 +3,7 @@ package engine
 import (
 	"bytes"
 	"encoding/binary"
+	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -14,7 +15,48 @@ import (
 	"github.com/sarielhp/relatex/internal/rec"
 )
 
-var epsName = regexp.MustCompile(`(?i)\.eps\z`)
+var epsName = regexp.MustCompile(`(?i)\.(?:eps|pstex|ps|ipe)\z`)
+
+// epsPDFName is the PDF a figure's file converts to: FILE-eps-converted-to.pdf, FILE-ps-converted-to.pdf or
+// FILE-pstex-converted-to.pdf, the name epstopdf-base reads for the extension (.eps; .ps and xfig's .pstex through
+// pstexRule).
+func epsPDFName(path string) string {
+	extension := strings.ToLower(filepath.Ext(path))
+	return path[:len(path)-len(extension)] + "-" + extension[1:] + "-converted-to.pdf"
+}
+
+// namedPostScript reports whether a .ps file is one a paper includes: some .tex file names it with its extension
+// (\includegraphics{Figs/oneball.ps}). Other .ps files are print copies beside their .eps or .pdf, not converted.
+func namedPostScript(path string, sources []string) bool {
+	name := filepath.Base(path)
+	return slices.ContainsFunc(sources, func(text string) bool { return strings.Contains(text, name) })
+}
+
+// texTexts reads the .tex files under source.
+func texTexts(source string) []string {
+	texts := []string{}
+	_ = filepath.WalkDir(source, func(path string, entry os.DirEntry, err error) error {
+		if err == nil && !entry.IsDir() && strings.HasSuffix(strings.ToLower(path), ".tex") {
+			if data, readErr := os.ReadFile(path); readErr == nil {
+				texts = append(texts, string(data))
+			}
+		}
+		return nil
+	})
+	return texts
+}
+
+// pstexRule gives xfig's \includegraphics{X.pstex} and a plain \includegraphics{X.ps} (stock LaTeX names no graphics
+// rule for them: "Unknown graphics extension: .pstex", the paper needs dvips) the rule epstopdf-base gives an .eps, so
+// that they read the X-ps-converted-to.pdf or X-pstex-converted-to.pdf prepareEPS made beside them, named by it as an .eps is. Both builds
+// carry it, the control one included; a rule the paper declares itself stays.
+const pstexRule = `\makeatletter
+\AddToHook{package/epstopdf-base/after}{%
+  \@ifundefined{Gin@rule@.pstex}{\epstopdfDeclareGraphicsRule{.pstex}{pdf}{.pdf}{\ETE@epstopdf{#1}}}{}%
+  \@ifundefined{Gin@rule@.ps}{\epstopdfDeclareGraphicsRule{.ps}{pdf}{.pdf}{\ETE@epstopdf{#1}}}{}%
+  \@ifundefined{Gin@rule@.ipe}{\epstopdfDeclareGraphicsRule{.ipe}{pdf}{.pdf}{\ETE@epstopdf{#1}}}{}}
+\makeatother
+`
 
 // prepareEPS is SourceProbe#prepare_eps!: EPS figures converted once, before both builds,
 // in the sandbox.
@@ -34,6 +76,7 @@ func (p *Probe) prepareEPS() {
 		return command.Run(wrapped, files, filepath.Join(output, name+".log"), p.remaining(), environment)
 	}
 	assets := prepareEPSAssets(files, run)
+	p.ipeGraphics = ipeRecord(assets)
 	if len(assets) > 0 {
 		writeJSON(filepath.Join(p.Directory, "eps-assets.json"), assets)
 	}
@@ -44,15 +87,20 @@ func (p *Probe) prepareEPS() {
 func prepareEPSAssets(source string, run func(tool string, arguments []string, name string) rec.Map) []any {
 	assets := []any{}
 	for _, path := range epsFiles(source) {
-		converted := epsName.ReplaceAllString(path, "-eps-converted-to.pdf")
+		converted := epsPDFName(path)
 		if !exists(converted) {
-			if failure := convertEPS(path, converted, len(assets)+1, run); failure != "" {
+			how, failure := convertFigure(path, converted, len(assets)+1, run)
+			if failure != "" {
 				entry := asset(source, path, "input")
 				entry["conversion"] = failure + "; control determines whether this asset is required"
 				assets = append(assets, entry)
 				continue
 			}
-			assets = append(assets, merged(asset(source, path, "input"), asset(source, converted, "output")))
+			entry := merged(asset(source, path, "input"), asset(source, converted, "output"))
+			if how != "" {
+				entry["ipe"] = how
+			}
+			assets = append(assets, entry)
 		}
 		plain := epsName.ReplaceAllString(path, ".pdf")
 		if exists(plain) {
@@ -66,8 +114,82 @@ func prepareEPSAssets(source string, run func(tool string, arguments []string, n
 	return assets
 }
 
+// namedOnly reports whether a figure file is converted only when a .tex file names it: a .ps print copy beside an .eps
+// or .pdf, an .ipe drawing a paper reads some other way.
+func namedOnly(path string) bool {
+	extension := strings.ToLower(filepath.Ext(path))
+	return extension == ".ps" || extension == ".ipe"
+}
+
+// convertFigure is convertEPS for an .eps, .ps or .pstex, and convertIpe for an .ipe (decision 194); how names what an
+// .ipe held ("PDF", "EPS" or "placeholder"), "" for the others.
+func convertFigure(path, converted string, index int, run func(string, []string, string) rec.Map) (how, failure string) {
+	if strings.ToLower(filepath.Ext(path)) != ".ipe" {
+		return "", convertEPS(path, converted, index, run)
+	}
+	return convertIpe(path, converted, index, run), ""
+}
+
+// convertIpe makes the PDF of an Ipe graphic, which Ipe wrote as EPS (Ipe 5) or PDF and a paper named .ipe: a PDF is
+// copied, an EPS converted like an .eps, anything else (Ipe's XML, a mail message saved as the file) or an EPS that does
+// not convert becomes a placeholder box, so that the paper still builds. It returns what was made.
+func convertIpe(path, converted string, index int, run func(string, []string, string) rec.Map) string {
+	head := make([]byte, 1024)
+	if file, err := os.Open(path); err == nil {
+		count, _ := file.Read(head)
+		head = head[:count]
+		_ = file.Close()
+	}
+	switch {
+	case bytes.HasPrefix(head, []byte("%PDF-")):
+		check(copyFile(path, converted))
+		return "PDF"
+	case bytes.HasPrefix(head, []byte("%!PS")) && convertEPS(path, converted, index, run) == "":
+		return "EPS"
+	}
+	check(os.WriteFile(converted, placeholderPDF(), 0o644))
+	return "placeholder"
+}
+
+// placeholderPDF is a one-page PDF with a crossed box 144 by 108 points: a figure that could not be read.
+func placeholderPDF() []byte {
+	stream := "0.6 G 1 w 1 1 142 106 re S 1 1 m 143 107 l S 1 107 m 143 1 l S\n"
+	objects := []string{
+		"<< /Type /Catalog /Pages 2 0 R >>",
+		"<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+		"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 144 108] /Contents 4 0 R /Resources << >> >>",
+		"<< /Length " + itoa(len(stream)) + " >>\nstream\n" + stream + "endstream",
+	}
+	var out bytes.Buffer
+	out.WriteString("%PDF-1.4\n")
+	offsets := make([]int, len(objects))
+	for index, body := range objects {
+		offsets[index] = out.Len()
+		out.WriteString(itoa(index+1) + " 0 obj\n" + body + "\nendobj\n")
+	}
+	table := out.Len()
+	out.WriteString("xref\n0 " + itoa(len(objects)+1) + "\n0000000000 65535 f \n")
+	for _, offset := range offsets {
+		out.WriteString(fmt.Sprintf("%010d 00000 n \n", offset))
+	}
+	out.WriteString("trailer\n<< /Size " + itoa(len(objects)+1) + " /Root 1 0 R >>\nstartxref\n" + itoa(table) + "\n%%EOF\n")
+	return out.Bytes()
+}
+
+// ipeRecord is the report's ipe_graphics: each converted .ipe with what it held.
+func ipeRecord(assets []any) []any {
+	record := []any{}
+	for _, value := range assets {
+		if entry := rec.AsMap(value); entry["ipe"] != nil {
+			record = append(record, rec.Map{"path": entry["input"], "how": entry["ipe"]})
+		}
+	}
+	return record
+}
+
 func epsFiles(source string) []string {
 	found := []string{}
+	texts := texTexts(source)
 	err := filepath.WalkDir(source, func(path string, entry os.DirEntry, err error) error {
 		if err != nil {
 			return err
@@ -78,7 +200,7 @@ func epsFiles(source string) []string {
 			}
 			return nil
 		}
-		if epsName.MatchString(path) && isFile(path) {
+		if epsName.MatchString(path) && isFile(path) && (!namedOnly(path) || namedPostScript(path, texts)) {
 			found = append(found, path)
 		}
 		return nil

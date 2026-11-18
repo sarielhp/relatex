@@ -17,12 +17,12 @@ import (
 // A source whose plain build compiles never gets the layer.
 
 // compatibilityShims are the layer's options in the order the wrapper passes them.
-var compatibilityShims = []string{"pdftex", "xetex", "fontspec", "t1text", "inputenc", "textmap", "microtype", "hyperref"}
+var compatibilityShims = []string{"pdftex", "xetex", "fontspec", "t1text", "inputenc", "textmap", "microtype", "hyperref", "fontawesome", "psfig", "ltexpprt"}
 
 // pdfPrimitives are the pdfTeX names the pdftex shim defines.
 var pdfPrimitives = strings.Fields(`pdfoutput pdfpagewidth pdfpageheight pdfminorversion pdfcompresslevel
 	pdfobjcompresslevel pdfinfo pdfcatalog pdfpageattr pdfpagesattr pdfpageresources pdfadjustspacing pdfprotrudechars
-	pdfmapfile pdfmapline pdfsuppresswarningpagegroup pdfstrcmp pdfliteral pdfsavepos pdflastxpos pdflastypos
+	pdfmapfile pdfmapline pdfsuppresswarningpagegroup pdfstrcmp pdffilesize pdfliteral pdfsavepos pdflastxpos pdflastypos
 	pdfelapsedtime pdfresettimer pdfshellescape pdfpkresolution pdfdraftmode pdfinclusionerrorlevel pdfinclusioncopyfonts
 	pdfimageresolution pdfdecimaldigits pdfhorigin pdfvorigin pdfximage pdfrefximage pdflastximage pdfxform pdfrefxform
 	pdflastxform pdfannot pdfdest pdfobj pdfrefobj pdflastobj pdfuniformdeviate pdfnormaldeviate pdfrandomseed
@@ -51,6 +51,12 @@ var (
 		// hyperref's DVI driver options (dvipdfmx, dvips, hypertex): dropped from its options (decision 143,
 		// amendment 1).
 		{"hyperref", regexp.MustCompile("Package hyperref Error: Wrong DVI mode driver option `[a-z]+'")},
+		// fontawesome5's [pro] option: its commercial Pro fonts are not in TeX Live; Free stands in.
+		{"fontawesome", regexp.MustCompile(`! Font \\TU/fontawesomepro/[^\n]*`)},
+		// LaTeX 2.09 packages TeX Live no longer has: psfig (epsfig's \psfig) and ltexpprt (the SIAM proceedings
+		// option) are taken as loaded (decision 194).
+		{"psfig", regexp.MustCompile("LaTeX Error: File `psfig\\.sty' not found[^\n]*")},
+		{"ltexpprt", regexp.MustCompile("LaTeX Error: File `ltexpprt\\.sty' not found[^\n]*")},
 	}
 )
 

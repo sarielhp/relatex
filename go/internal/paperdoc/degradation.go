@@ -82,7 +82,11 @@ func degradation(row rec.Map) (string, []diagnostics.Place) {
 		}
 		return fmt.Sprintf("table read as plain text, without its rules (%s)", toS(reason)), place(row)
 	case "unsupported_graphic_source":
-		return fmt.Sprintf("a picture the converter cannot read is not reproduced (%s)", toS(rec.Fetch(row, "reason"))), place(row)
+		reason := toS(rec.Fetch(row, "reason"))
+		if image, named := row["image"].(string); named && image != "" {
+			reason += ": " + image
+		}
+		return fmt.Sprintf("a picture the converter cannot read is not reproduced (%s)", reason), place(row)
 	case "unsupported_external_alignment":
 		return fmt.Sprintf("a row of %s reads with its formula but not as a separate row", toS(rec.Fetch(row, "environment"))), nil
 	case "unsupported_list_context":
@@ -93,6 +97,9 @@ func degradation(row rec.Map) (string, []diagnostics.Place) {
 			contexts = append(contexts, toS(context))
 		}
 		return strings.Join(contexts, ", ") + " never closed; what follows may sit inside it", nil
+	case "heading_inside_block":
+		return fmt.Sprintf("a %s heading at %s:%s is set inside an open %s and stays text of it, outside the outline and contents",
+			toS(rec.Fetch(row, "counter")), toS(rec.Fetch(row, "file")), toS(rec.Fetch(row, "line")), toS(rec.Fetch(row, "block"))), nil
 	case "unsupported_external_link":
 		return fmt.Sprintf("a link to %s prints as plain text (%s)", toS(rec.Fetch(row, "href")), toS(rec.Fetch(row, "reason"))), nil
 	case "multiply_defined_label":

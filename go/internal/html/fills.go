@@ -29,6 +29,7 @@ func (p *Paper) spans(content []any) string {
 	p.runin = runinTitle{}
 	var builder strings.Builder
 	previous := ""
+	joins := joinRun{kept: p.identityKept}
 	for index, value := range content {
 		builder.WriteString(title.edge(index))
 		span := rec.AsMap(value)
@@ -37,7 +38,19 @@ func (p *Paper) spans(content []any) string {
 		if span["type"] == "table_grid" {
 			p.fill = base // a table starts on the list's base, not on a fill rule before it (099)
 		}
-		html := p.renderSpan(span)
+		html, split := joins.text(content, index, func(piece string, cont bool) string {
+			html := p.renderSpan(rec.Merge(span, rec.Map{"text": piece}))
+			if cont {
+				html = strings.Replace(html, "data-kind=", "data-join-cont data-kind=", 1)
+			}
+			return html
+		})
+		if !split {
+			html = p.renderSpan(span)
+		}
+		if span["type"] == "math" {
+			html = joins.formula(content, index, html)
+		}
 		if span["type"] == "text" {
 			previous, _ = span["text"].(string)
 		} else {
@@ -48,7 +61,12 @@ func (p *Paper) spans(content []any) string {
 		}
 		if p.fill != base && rules[index] == "" && span["type"] != "table_grid" {
 			// on a fill the PDF paints in its picture, not in a rule of the list: the span paints it (113)
-			html = strings.Replace(html, "data-kind=", "data-fill-box=\""+strings.TrimPrefix(p.fill, "#")+"\" data-kind=", 1)
+			mark := "data-fill-box=\"" + strings.TrimPrefix(p.fill, "#") + "\" data-kind="
+			if split {
+				html = strings.ReplaceAll(html, "data-kind=", mark) // each piece paints on the fill
+			} else {
+				html = strings.Replace(html, "data-kind=", mark, 1)
+			}
 		}
 		builder.WriteString(p.withIndexAnchors(html, span))
 	}

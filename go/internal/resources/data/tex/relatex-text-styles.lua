@@ -6,6 +6,7 @@
 -- Bind selected NFSS declarations to actual font IDs; copied boxes keep IDs.
 local M = {}
 local bindings, writer, missing = {}, nil, {}
+local function trim(text) return (text:gsub('^%s+', ''):gsub('%s+$', '')) end
 local function declaration(id, style)
   writer('diagnostic', {code = 'external_text_font', source = 'nfss-selectfont', font = id, style = style})
   local f = font.getfont(id)
@@ -24,6 +25,8 @@ function M.start(emit)
   for id, style in pairs(bindings) do declaration(id, style) end
 end
 function M.observe(encoding, family, series, shape, roman, sans, mono)
+  -- \fontseries{m<newline>} reaches NFSS as "m " (trailing space); the font is the same.
+  encoding, series, shape = trim(encoding), trim(series), trim(shape)
   local id = font.current()
   local f = font.getfont(id)
   local name = f and (f.fullname or f.psname or f.name)
@@ -62,6 +65,8 @@ function M.identity(n)
 end
 -- Whether a font is a declared text font.
 function M.identity_of(id) return bindings[id] ~= nil end
+-- Whether a declared text font is monospaced (\tt, \texttt).
+function M.is_monospaced(id) return bindings[id] ~= nil and bindings[id].generic == 'monospace' end
 -- The declared text font whose interword space sets a glue (sets(id)): an upright medium serif
 -- first (the \normalfont of the text around), then the lowest id; nil when none does.
 function M.space_font(sets)

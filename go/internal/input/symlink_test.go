@@ -90,3 +90,11 @@ func TestSymlinkToADirectoryIsSkipped(t *testing.T) {
 	})
 	onlySkip(t, archive, "loop", "input.symlink_skipped")
 }
+
+// A file whose name holds a backslash cannot be stored portably: skipped with a warning naming it.
+func TestBackslashNameIsSkipped(t *testing.T) {
+	archive := linkedSource(t, func(source, _ string) error {
+		return os.WriteFile(filepath.Join(source, `ignoring the wor\ETC.`), []byte("x\n"), 0o644)
+	})
+	onlySkip(t, archive, `ignoring the wor\ETC.`, "input.name_skipped")
+}

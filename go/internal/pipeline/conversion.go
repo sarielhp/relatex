@@ -73,6 +73,8 @@ type Options struct {
 	// BstInputs is the caller's BSTINPUTS ("" for none, or a hermetic run): the Typst bibliography's style is
 	// looked up along it as BibTeX finds a .bst (decision 172).
 	BstInputs string
+	// BibInputs is the caller's BIBINPUTS ("" for none, or a hermetic run): BibTeX finds the paper's databases there.
+	BibInputs string
 
 	// Capabilities is Capabilities.report(public: true), the bundle's capabilities.
 	Capabilities any
@@ -361,19 +363,21 @@ func (c *conversion) inputStage() {
 // caller's TEXINPUTS read from the main file's directory when the input is a directory, as lualatex run
 // there reads it (decision 103). An archive builds as shipped. Resolved once, after the input stage.
 func (c *conversion) host() *engine.Host {
-	if c.options.Host != nil || c.options.TexInputs == "" || c.archive == nil {
-		return c.options.Host
+	o := &c.options
+	if o.Host != nil || (o.TexInputs == "" && o.BibInputs == "") || c.archive == nil {
+		return o.Host
 	}
-	texinputs := c.options.TexInputs
-	c.options.TexInputs = ""
+	texinputs, bibinputs := o.TexInputs, o.BibInputs
+	o.TexInputs, o.BibInputs = "", ""
 	if directory := c.inputDirectory(); directory != "" {
 		main := filepath.FromSlash(rec.AsString(c.archive.Manifest["main"]))
-		c.options.Host = engine.SearchHost(texinputs, filepath.Join(directory, filepath.Dir(main)))
-		if !engine.Quiet {
-			fmt.Fprintf(os.Stderr, "Engine: TEXINPUTS %s (the caller's; --hermetic builds without it)\n", c.options.Host.Given)
+		where := filepath.Join(directory, filepath.Dir(main))
+		o.Host = engine.WithBibliography(engine.SearchHost(texinputs, where), bibinputs, o.BstInputs, where)
+		if o.Host != nil && o.Host.Given != "" && !engine.Quiet {
+			fmt.Fprintf(os.Stderr, "Engine: TEXINPUTS %s (the caller's; --hermetic builds without it)\n", o.Host.Given)
 		}
 	}
-	return c.options.Host
+	return o.Host
 }
 
 // sourceDate is the build date the engine takes from the environment: SOURCE_DATE_EPOCH, which with
@@ -409,12 +413,13 @@ func (c *conversion) engineStage() {
 	if c.options.ProductsOnly {
 		configuration = append(configuration, ojson.Pair{"external_only", true})
 	}
+	configuration = append(configuration, ojson.Pair{"time_zone", engine.TimeZone()})
 	if date := sourceDate(); len(date) > 0 {
 		configuration = append(configuration, ojson.Pair{"source_date", date})
 	}
 	if host := c.host(); host != nil {
 		configuration = append(configuration, ojson.Pair{"host", ojson.Object{{"texinputs", strings.Join(host.SearchPath, ":")},
-			{"local_time", host.LocalTime}, {"tz", os.Getenv("TZ")}, {"files", host.Fingerprint()}}})
+			{"files", host.Fingerprint()}}})
 	}
 	c.pipeline.stage("engine", ojson.Object{{"zip", zip}}, configuration, true, func(root string) any {
 		return engine.Run(options, root)

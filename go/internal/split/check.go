@@ -93,7 +93,7 @@ func (p *checkedPage) frame() {
 		p.before, p.after = p.body.Children, nil
 		return
 	}
-	p.before, p.after = p.body.Children[:index], p.body.Children[index+1:]
+	p.before, p.after = contentsToEnd(p.body.Children[:index], p.body.Children[index+1:])
 }
 
 // strip leaves out the navigation and the previews the split added.

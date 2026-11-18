@@ -41,6 +41,7 @@
 \newcommand{\ltd@chapterhead@wrap}[1]{%
   \expandafter\NewCommandCopy\csname ltd@orig@#1\expandafter\endcsname\csname #1\endcsname
   \expandafter\long\expandafter\def\csname #1\endcsname##1{%
+    \ltd@flushpar
     \directlua{ltd.heading('chapter',false,false)}%
     \csname ltd@orig@#1\endcsname{##1}%
     \directlua{ltd.heading('chapter',true,false)}}}
@@ -51,10 +52,14 @@
 % It runs before the heading is observed, so the title and authors are not read as the heading.
 \def\ltd@aastex@trigger{\maketitle@trigger}
 \newcommand{\ltd@pendingtitle}{\ifx\@startsection@hook\ltd@aastex@trigger\maketitle@trigger\fi}
+% A paragraph still open when a heading starts (a tabular ends in horizontal mode: array.sty \leavevmode)
+% ends before the heading is observed, so it belongs to the section that was open, not to the new one.
+\newcommand{\ltd@flushpar}{\ifhmode\par\fi}
 \newcommand{\ltd@sectionheadings}{%
   \NewCommandCopy\ltd@section\section
   \RenewDocumentCommand\section{s o m}{%
     \ltd@pendingtitle
+    \ltd@flushpar
     \directlua{ltd.section_begin()}%
     \IfBooleanTF{##1}
       {\ltd@section*{##3}}
@@ -65,6 +70,7 @@
 \newcommand{\ltd@titlesec@level}[1]{%
   \expandafter\NewCommandCopy\csname ltd@orig@#1\expandafter\endcsname\csname #1\endcsname
   \expandafter\RenewDocumentCommand\csname #1\endcsname{s o m}{%
+    \ltd@flushpar
     \directlua{ltd.section_begin('#1')}%
     \IfBooleanTF{##1}
       {\csname ltd@orig@#1\endcsname*{##3}}
@@ -116,19 +122,30 @@
       \directlua{ltd.heading('\luaescapestring{##1}',false,\csname __ltd_acm_runin:n\endcsname{##1})}}%
     \AddToHookWithArguments{cmd/ParseLaTeXeHeading/after}[relatex-section]{%
       \directlua{ltd.heading('\luaescapestring{##1}',true,\csname __ltd_acm_runin:n\endcsname{##1})}}}}
+% The sign of a \@startsection afterskip, read as the kernel reads it (an assignment to a skip register, in a
+% group): the argument may carry an assignment after its glue (sagej: 5pt\@afterindentfalse), which ends a
+% \glueexpr early and then breaks the \ifdim reading it. \ltd@afterskip@runin is true unless the skip is
+% positive, \ltd@afterskip@negative true when it is negative.
+\newcommand{\ltd@afterskip@sign}[1]{%
+  \begingroup
+  \@tempskipa#1\relax
+  \xdef\ltd@afterskip@runin{\ifdim\@tempskipa>\z@ false\else true\fi}%
+  \xdef\ltd@afterskip@negative{\ifdim\@tempskipa<\z@ true\else false\fi}%
+  \endgroup}
 \newcommand{\ltd@legacyacmheadings}{%
   \NewCommandCopy\ltd@startsection\@startsection
   \RenewDocumentCommand\@startsection{mmmmmm s o m}{%
     \ltd@pendingtitle
-    \directlua{ltd.heading('\luaescapestring{##1}-@startsection',false,
-      \ifdim\glueexpr##5\relax>\z@ false\else true\fi)}%
+    \ltd@flushpar
+    \ltd@afterskip@sign{##5}%
+    \directlua{ltd.heading('\luaescapestring{##1}-@startsection',false,\ltd@afterskip@runin)}%
     \IfBooleanTF{##7}
       {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}*{##9}}
       {\IfNoValueTF{##8}
         {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}{##9}}
         {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}[##8]{##9}}}%
-    \directlua{ltd.heading('\luaescapestring{##1}-@startsection',true,
-      \ifdim\glueexpr##5\relax>\z@ false\else true\fi)}}}
+    \ltd@afterskip@sign{##5}%
+    \directlua{ltd.heading('\luaescapestring{##1}-@startsection',true,\ltd@afterskip@runin)}}}
 % A class whose \section reaches \@startsection only through its own wrappers (cvpr:
 % \@ifstar\cvprsect) keeps the \section wrapper; its lower levels still go through the
 % kernel \@startsection, so those are observed there (a section level is not, or it would
@@ -138,15 +155,16 @@
     \NewCommandCopy\ltd@startsection\@startsection
     \RenewDocumentCommand\@startsection{mmmmmm s o m}{%
       \ltd@pendingtitle
-      \ifnum##2>\@ne\directlua{ltd.heading('\luaescapestring{##1}-@startsection',false,
-        \ifdim\glueexpr##5\relax>\z@ false\else true\fi)}\fi
+      \ltd@flushpar
+      \ifnum##2>\@ne\ltd@afterskip@sign{##5}\directlua{ltd.heading('\luaescapestring{##1}-@startsection',false,
+        \ltd@afterskip@runin)}\fi
       \IfBooleanTF{##7}
         {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}*{##9}}
         {\IfNoValueTF{##8}
           {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}{##9}}
           {\ltd@startsection{##1}{##2}{##3}{##4}{##5}{##6}[##8]{##9}}}%
-      \ifnum##2>\@ne\directlua{ltd.heading('\luaescapestring{##1}-@startsection',true,
-        \ifdim\glueexpr##5\relax>\z@ false\else true\fi)}\fi}}%
+      \ifnum##2>\@ne\ltd@afterskip@sign{##5}\directlua{ltd.heading('\luaescapestring{##1}-@startsection',true,
+        \ltd@afterskip@runin)}\fi}}%
   \@ifundefined{scr@startsection}{}{\ltd@komaheadings}}
 % KOMA-Script's classes set every level with their own \scr@startsection (the kernel's six
 % arguments; a negative afterskip runs in), which never reaches \@startsection (fourth cohort
@@ -154,15 +172,16 @@
 \newcommand{\ltd@komaheadings}{%
   \NewCommandCopy\ltd@scrstartsection\scr@startsection
   \RenewDocumentCommand\scr@startsection{mmmmmm s o m}{%
-    \ifnum##2>\@ne\directlua{ltd.heading('\luaescapestring{##1}-@startsection',false,
-      \ifdim\glueexpr##5\relax<\z@ true\else false\fi)}\fi
+    \ltd@flushpar
+    \ifnum##2>\@ne\ltd@afterskip@sign{##5}\directlua{ltd.heading('\luaescapestring{##1}-@startsection',false,
+      \ltd@afterskip@negative)}\fi
     \IfBooleanTF{##7}
       {\ltd@scrstartsection{##1}{##2}{##3}{##4}{##5}{##6}*{##9}}
       {\IfNoValueTF{##8}
         {\ltd@scrstartsection{##1}{##2}{##3}{##4}{##5}{##6}{##9}}
         {\ltd@scrstartsection{##1}{##2}{##3}{##4}{##5}{##6}[##8]{##9}}}%
-    \ifnum##2>\@ne\directlua{ltd.heading('\luaescapestring{##1}-@startsection',true,
-      \ifdim\glueexpr##5\relax<\z@ true\else false\fi)}\fi}}
+    \ifnum##2>\@ne\ltd@afterskip@sign{##5}\directlua{ltd.heading('\luaescapestring{##1}-@startsection',true,
+      \ltd@afterskip@negative)}\fi}}
 % A display's tag is marked as such (approved 2026-11-10): amsmath's \maketag@@@ (every \tag, \tag* and
 % automatic number) and the kernel's \@eqnnum (equation and eqnarray without amsmath). An \eqref formats its
 % number through \tagform@ as well; inside it nothing is marked. Wrapped once every package has set them.
@@ -248,6 +267,17 @@
   \directlua{if ltd then ltd.page_begin() end}}
 \AddToHook{cmd/@outputpage/after}[relatex-page-math]{%
   \directlua{if ltd then ltd.page_end() end}}
+% flowfram builds the page furniture itself: \@dothehead and \@dothefoot (the running head and
+% foot, with the folio) run while it fills its static frames, before its own \@outputpage, so the
+% \@outputpage bracket above never covers them and the folio read as body text
+% (frechet3d: bare page numbers between and inside paragraphs).
+\AddToHook{begindocument/end}[relatex-flowfram-furniture]{%
+  \@ifpackageloaded{flowfram}{%
+    \@for\ltd@ff@cs:=dothehead,dothefoot\do{%
+      \expandafter\ifx\csname @\ltd@ff@cs\endcsname\relax\else
+        \AddToHook{cmd/@\ltd@ff@cs/before}[relatex-page-math]{\directlua{if ltd then ltd.page_begin() end}}%
+        \AddToHook{cmd/@\ltd@ff@cs/after}[relatex-page-math]{\directlua{if ltd then ltd.page_end() end}}%
+      \fi}}{}}
 % lineno's margin numbers are page decoration, like a folio: each is set by \makeLineNumber in a
 % zero-width box beside its line, by the output routine (\MakeLineNo) or after an
 % \internallinenumbers paragraph (\makeinternalLinenumbers), outside \@outputpage, so their glyphs

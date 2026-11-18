@@ -10,6 +10,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 )
 
@@ -25,9 +26,8 @@ type Host struct {
 	// Given is the TEXINPUTS as the caller wrote it, the home directory shown as "~": what a run
 	// records to explain its result without naming the author's home.
 	Given string
-	// LocalTime shows the sandbox the host's /etc/localtime: without TZ, the author's build
-	// read its dates in the host's zone. TZ itself passes to the build as it is.
-	LocalTime bool
+	// BibPath and BstPath are the author's BIBINPUTS and BSTINPUTS, read the same way.
+	BibPath, BstPath []string
 }
 
 // NewHost is the host of a build run in directory with this TEXINPUTS ("" when unset), its time zone
@@ -37,7 +37,6 @@ func NewHost(texinputs, directory string) *Host {
 	if host == nil {
 		host = &Host{}
 	}
-	host.LocalTime = os.Getenv("TZ") == ""
 	return host
 }
 
@@ -116,7 +115,7 @@ func (h *Host) directories() (paths []string, recursive []bool) {
 	if h == nil {
 		return paths, recursive
 	}
-	for _, entry := range h.SearchPath {
+	for _, entry := range slices.Concat(h.SearchPath, h.BibPath, h.BstPath) {
 		path := strings.TrimPrefix(entry, "!!")
 		if !filepath.IsAbs(path) {
 			continue
@@ -133,10 +132,45 @@ func (h *Host) directories() (paths []string, recursive []bool) {
 // mounts are the directories the sandbox must show for the build to read what the author's read.
 func (h *Host) mounts() []string {
 	paths, _ := h.directories()
-	if h != nil && h.LocalTime && texsandbox.Sandboxed {
-		paths = append(paths, "/etc/localtime")
+	if LocalTime() && texsandbox.Sandboxed {
+		paths = append(paths, localTimeFile)
 	}
 	return paths
+}
+
+// localTimeFile is the host's time zone, which the sandbox shows the build when TZ is unset.
+const localTimeFile = "/etc/localtime"
+
+// LocalTime is whether the build reads its dates (\today, \time) in the host's zone from
+// /etc/localtime: TZ is unset and the file exists. A TZ passes to the build as it is. A pinned
+// build date (SOURCE_DATE_EPOCH: the cohort pins each paper to its reference date) reads in UTC, as
+// reproducible builds do, so the pinned date prints the same on every host and zone.
+func LocalTime() bool {
+	if os.Getenv("TZ") != "" || os.Getenv("SOURCE_DATE_EPOCH") != "" {
+		return false
+	}
+	_, err := os.Stat(localTimeFile)
+	return err == nil
+}
+
+// TimeZone names the zone a build reads its dates in, for its cache identity: TZ, else the zone
+// /etc/localtime links to (its content digest when it is a copy), else "UTC".
+func TimeZone() string {
+	if zone := os.Getenv("TZ"); zone != "" {
+		return zone
+	}
+	if !LocalTime() {
+		return "UTC"
+	}
+	if target, err := filepath.EvalSymlinks(localTimeFile); err == nil && target != localTimeFile {
+		return "local " + target
+	}
+	data, err := os.ReadFile(localTimeFile)
+	if err != nil {
+		return "UTC"
+	}
+	sum := sha256.Sum256(data)
+	return "local " + hex.EncodeToString(sum[:8])
 }
 
 // Fingerprint names what the search path's directories hold: every file TeX could read there, by

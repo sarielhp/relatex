@@ -25,6 +25,21 @@ func TestTeXFailureNamesTheFileAndLine(t *testing.T) {
 	}
 }
 
+func TestLuaErrorIsTheFailureSummary(t *testing.T) {
+	source := t.TempDir()
+	if err := os.WriteFile(filepath.Join(source, "paper.tex"), []byte("a\n\\subsection{September 15}\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	log := "[12] [13]...94619-z8tvxj/external/working/_relatex_probe/relatex.lua:203: Sectio\n" +
+		"n inside a list is unsupported\nstack traceback:\n\t[C]: in function 'assert'\n" +
+		"l.2 \\subsection{September 15}\n\n!  ==> Fatal error occurred, no output PDF file produced!\n"
+	errors := logErrorLines(log)
+	want := "LuaLaTeX failed on the paper: relatex.lua:203: Section inside a list is unsupported\n  at paper.tex:2: \\subsection{September 15}"
+	if got := describeTeXFailure(stringList(errors), source); got != want {
+		t.Fatalf("got %q from %q", got, errors)
+	}
+}
+
 func TestEngineFailureListsCollectorFailures(t *testing.T) {
 	results := rec.Map{"control": rec.Map{"compiled": true, "errors": []any{}},
 		"external": rec.Map{"compiled": false, "errors": []any{"relatex: unsupported graphic: x.ps", "relatex: unsupported graphic: x.ps"}}}

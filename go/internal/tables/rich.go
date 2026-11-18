@@ -523,7 +523,7 @@ func (e *rich) cellContent(spans []rec.Map) (map[string][]rec.Map, []string) {
 				rec.Fail("Repeated table cell changed retained content")
 			}
 		}
-		result[id] = trimCellContent(canonical)
+		result[id] = trimCellContent(e.rowLines(rec.Fetch(e.origin(canonical[0]), "cell"), canonical))
 	}
 	return result, order
 }

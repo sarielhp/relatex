@@ -9,7 +9,6 @@ import (
 
 	"github.com/sarielhp/relatex/internal/extlinks"
 	"github.com/sarielhp/relatex/internal/fontmodel"
-	"github.com/sarielhp/relatex/internal/frontmatter"
 	"github.com/sarielhp/relatex/internal/htmlkit"
 	"github.com/sarielhp/relatex/internal/inline"
 	"github.com/sarielhp/relatex/internal/paintmodel"
@@ -23,14 +22,14 @@ import (
 // The page inventories: PaperTextStyleBrowser, PaperCitationBrowser and
 // PaperFrontmatterBrowser's INVENTORY.
 const (
-	textStylesScript = `[...document.querySelectorAll('main [data-text-style]')].map(e => {
+	textStylesScript = `[...document.querySelectorAll('main [data-text-style]:not([data-join-cont])')].map(e => {
   const s = getComputedStyle(e);
   return {style: JSON.parse(e.dataset.textStyle), fontWeight: s.fontWeight,
           fontStyle: s.fontStyle, fontVariantCaps: s.fontVariantCaps,
           fontSize: parseFloat(s.fontSize), fontFamily: s.fontFamily,color:s.color,
           root: parseFloat(getComputedStyle(document.documentElement).fontSize)};
 })`
-	citationsScript = `[...document.querySelectorAll('main [data-block]')].flatMap(block => [...block.children].flatMap(c => c.classList.contains('runin-heading') ? [...c.children] : [c]).flatMap((e,index) => {
+	citationsScript = `[...document.querySelectorAll('main [data-block]')].flatMap(block => [...block.children].flatMap(c => c.classList.contains('runin-heading') ? [...c.children] : [c]).flatMap(c => c.hasAttribute('data-join') ? [...c.children] : [c]).filter(c => !c.hasAttribute('data-join-cont')).flatMap((e,index) => {
   const identities = {};
   for (const field of ['citation','citation_link','bibliography_entry']) {
     const value = e.getAttribute('data-' + field.replaceAll('_','-'));
@@ -65,7 +64,7 @@ const (
       ...(e.querySelector('math') ? {math_node:e.querySelector('math').id} : {
         block:e.closest('[data-block]')?.id || null,
         ...(e.closest('[data-rich-cell]') ? {cell:e.closest('[data-rich-cell]').dataset.richCell} : {}),
-        span:[...(e.closest('[data-cell-content]') || e.closest('[data-block]'))?.children || []].flatMap(c => c.classList.contains('runin-heading') ? [...c.children] : [c]).indexOf(e.parentElement),
+        span:[...(e.closest('[data-cell-content]') || e.closest('[data-block]'))?.children || []].flatMap(c => c.classList.contains('runin-heading') ? [...c.children] : [c]).flatMap(c => c.hasAttribute('data-join') ? [...c.children] : [c]).filter(c => !c.hasAttribute('data-join-cont')).indexOf(e.parentElement),
         start:textStart(e)}),rel:e.getAttribute('rel'),visible:visible(e)}))
   };
 })()`
@@ -94,15 +93,6 @@ func expectedStyles(document rec.Map) []styled {
 		}
 		for _, value := range rec.FetchList(rec.Node(nodes, id), "content") {
 			result = append(result, spanStyles(rec.AsMap(value))...)
-		}
-	}
-	decorations := frontmatter.Decorations(document)
-	for _, row := range decorations {
-		runs, _ := rec.AsMap(row)["runs"].([]any)
-		for _, run := range runs {
-			if math, _ := rec.AsMap(run)["math"].(bool); !math {
-				result = append(result, styled{style: rec.FetchMap(rec.AsMap(run), "style")})
-			}
 		}
 	}
 	return result
@@ -351,8 +341,8 @@ func fetchCatalog(catalog map[any]rec.Map, id any) rec.Map {
 	return row
 }
 
-// verifyFrontmatter is PaperFrontmatterBrowser.verify!: the decorations' ids.
-func verifyFrontmatter(inventory, document rec.Map) []string {
+// verifyFrontmatter is PaperFrontmatterBrowser.verify!.
+func verifyFrontmatter(inventory, document rec.Map) {
 	observed := rec.FetchMap(inventory, "frontmatter")
 	front, _ := document["frontmatter"].(rec.Map)
 	var metadata any
@@ -362,15 +352,10 @@ func verifyFrontmatter(inventory, document rec.Map) []string {
 	if !rec.Equal(rec.Fetch(observed, "metadata"), metadata) {
 		rec.Fail("Browser changed structured front matter")
 	}
-	decorations := frontmatter.Decorations(document)
-	expected := []any{}
-	ids := []string{}
-	for _, row := range decorations {
-		expected = append(expected, rec.Merge(rec.AsMap(row), rec.Map{"visible": true}))
-		ids = append(ids, rec.ToS(rec.Fetch(rec.AsMap(row), "id")))
-	}
-	if !rec.Equal(rec.Fetch(observed, "decorations"), expected) {
-		rec.Fail("Browser changed retained page decorations")
+	// The reading page shows no source page notices (decision 016, amendment 2026-11-17): the
+	// retained decorations stay in the model, and none may appear in the page.
+	if shown := rec.FetchList(observed, "decorations"); len(shown) > 0 {
+		rec.Fail("Browser page shows retained page decorations")
 	}
 	descriptors := extlinks.Descriptors(document, true)
 	for _, row := range descriptors {
@@ -386,7 +371,6 @@ func verifyFrontmatter(inventory, document rec.Map) []string {
 	if seen, wanted := sortByID(rec.FetchList(observed, "links")), sortByID(links); !rec.Equal(seen, wanted) {
 		rec.Fail("Browser changed external links or admitted unsafe targets: %s", firstDifference(seen, wanted))
 	}
-	return ids
 }
 
 // firstDifference names the first link the page shows otherwise than the document lists it.

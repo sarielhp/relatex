@@ -13,6 +13,12 @@
       "estimated_seconds": 197
     },
     {
+      "file": "test/afterskip_assignment_test.rb",
+      "class": "AfterskipAssignmentTest",
+      "category": "text",
+      "estimated_seconds": 5
+    },
+    {
       "file": "test/ams_blocks_test.rb",
       "class": "AmsBlocksTest",
       "category": "layout",
@@ -53,6 +59,24 @@
       "class": "AmsQedTest",
       "category": "math",
       "estimated_seconds": 75
+    },
+    {
+      "file": "test/boxed_minipage_test.rb",
+      "class": "BoxedMinipageTest",
+      "category": "layout",
+      "estimated_seconds": 5
+    },
+    {
+      "file": "test/flowfram_furniture_test.rb",
+      "class": "FlowframFurnitureTest",
+      "category": "layout",
+      "estimated_seconds": 16
+    },
+    {
+      "file": "test/math_link_overline_test.rb",
+      "class": "MathLinkOverlineTest",
+      "category": "math",
+      "estimated_seconds": 17
     },
     {
       "file": "test/proof_environments_test.rb",
@@ -255,6 +279,12 @@
     {
       "file": "test/glyph_names_test.rb",
       "class": "GlyphNamesTest",
+      "category": "pipeline",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/caption_macro_space_test.rb",
+      "class": "CaptionMacroSpaceTest",
       "category": "pipeline",
       "estimated_seconds": 10
     },
@@ -733,6 +763,12 @@
       "estimated_seconds": 15
     },
     {
+      "file": "test/margin_notes_test.rb",
+      "class": "MarginNotesTest",
+      "category": "notes",
+      "estimated_seconds": 20
+    },
+    {
       "file": "test/primitive_footnote_mark_test.rb",
       "class": "PrimitiveFootnoteMarkTest",
       "category": "notes",
@@ -773,6 +809,18 @@
       "class": "ToolchainContractsTest",
       "category": "isolation",
       "estimated_seconds": 2
+    },
+    {
+      "file": "test/setminus_class_test.rb",
+      "class": "SetminusClassTest",
+      "category": "math",
+      "estimated_seconds": 10
+    },
+    {
+      "file": "test/url_text_not_math_test.rb",
+      "class": "UrlTextNotMathTest",
+      "category": "math",
+      "estimated_seconds": 5
     },
     {
       "file": "test/verification_cache_test.rb",

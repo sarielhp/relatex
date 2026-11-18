@@ -51,6 +51,7 @@ func seedCachedEngine(t *testing.T, opts Options) {
 	if seed.options.ProductsOnly {
 		config = append(config, ojson.Pair{"external_only", true})
 	}
+	config = append(config, ojson.Pair{"time_zone", engine.TimeZone()})
 	if date := sourceDate(); len(date) > 0 {
 		config = append(config, ojson.Pair{"source_date", date})
 	}

@@ -25,7 +25,7 @@ var keptDiagnostics = []string{"unclassified_flow_glyph", "unsupported_qed_defin
 	"unsupported_graphic_transform", "unsupported_table_layout", "unsupported_document_page_total",
 	"unsupported_list_context", "unsupported_citation_retention",
 	"unsupported_citation_hook_context", "unsupported_external_alignment",
-	"unclosed_structural_context"}
+	"unclosed_structural_context", "heading_inside_block"}
 
 type ruleKey struct{ owner, slot any }
 
@@ -99,9 +99,13 @@ type Evidence struct {
 	textPaint map[ruleKey]string
 	// textLanguage is the BCP 47 tag of a glyph set in a language other than the document's.
 	textLanguage map[ruleKey]string
-	mainTag      string
-	symbolCount  int
-	origins      map[uintptr]rec.Map
+	// mathSpace is the word space ahead of a formula an enclosing box reads again (code math_space).
+	mathSpace map[ruleKey]string
+	// rowIndents is the leading width of the row of a box that a flow slot opens (rowlines.go).
+	rowIndents  map[ruleKey]int64
+	mainTag     string
+	symbolCount int
+	origins     map[uintptr]rec.Map
 	// registered keeps every span in origins reachable, so no other map takes its address.
 	registered  []rec.Map
 	blocks      []rec.Map
@@ -180,13 +184,21 @@ func New(records []rec.Map, retention rec.Map, proof any) *Evidence {
 	e.rulePaint = map[ruleKey][][]any{}
 	e.textPaint = map[ruleKey]string{}
 	e.textLanguage = map[ruleKey]string{}
+	e.mathSpace = map[ruleKey]string{}
+	e.rowIndents = map[ruleKey]int64{}
 	e.mainTag = rec.AsString(language.Read(records).Main["tag"])
 	for _, row := range records {
 		if row["kind"] == "context" {
 			e.parents[rec.Fetch(row, "entity")] = rec.Fetch(row, "parent")
 		}
+		if row["kind"] == "flow_row" {
+			e.rowIndents[ruleKey{row["owner"], row["slot"]}] = rec.AsInt(row["indent"])
+		}
 		if row["code"] == "text_paint" {
 			e.recordTextPaint(row)
+		}
+		if row["code"] == "math_space" {
+			e.mathSpace[ruleKey{row["owner"], row["slot"]}] = toS(row["space"])
 		}
 		if row["code"] == "text_language" {
 			e.recordTextLanguage(row)
@@ -391,6 +403,7 @@ func (e *Evidence) observeItems(owner rec.Map, first, last int64, record rec.Map
 		e.activeCell = item["table_cell"]
 		e.activeSlot = first + int64(index)
 		e.activeCopy = e.ownerUses[rec.Fetch(owner, "owner")]
+		e.breakRow(owner, e.activeSlot)
 		e.observeTitled(item, owner, rec.Fetch(record, "page"))
 		e.recordSlot(owner, rec.Fetch(record, "page"))
 	}
@@ -438,10 +451,13 @@ func (e *Evidence) besideOpenFormula(read func()) {
 }
 
 // paintedIntoBlock: a box holding only rules (a frame piece copied into each line of a
-// listing) paints into the block it ships in; it does not interrupt that paragraph.
+// listing) paints into the block it ships in; it does not interrupt that paragraph. A paragraph that
+// prints such rules between the lines of material nested in it (a listing with a background colour
+// inside a box: the box's paragraph holds one rule per listing line) reads them the same way: they
+// are painted into the line before, and the paragraph goes on after them without a block of its own.
 func (e *Evidence) paintedIntoBlock(owner rec.Map, first, last int64) bool {
 	block := e.lastBlocks[e.readingPartition(owner)]
-	if rec.Fetch(owner, "group") == "paragraph" || block == nil {
+	if block == nil || (rec.Fetch(owner, "group") == "paragraph" && !e.interruptedAt(owner, first)) {
 		return false
 	}
 	items := rec.FetchList(owner, "items")
@@ -461,7 +477,19 @@ func (e *Evidence) paintedIntoBlock(owner rec.Map, first, last int64) bool {
 	for index, size := range sizes {
 		e.appendRule(block, rec.AsMap(rec.Index(items, int(first)+index-1)), size)
 	}
+	if rec.Fetch(owner, "group") == "paragraph" {
+		e.ownerProgress.Set(rec.Fetch(owner, "owner"), last)
+	}
 	return true
+}
+
+// interruptedAt: the paragraph owner has read up to slot first-1 and the block read last belongs
+// to other material, printed inside it.
+func (e *Evidence) interruptedAt(owner rec.Map, first int64) bool {
+	id := rec.Fetch(owner, "owner")
+	progress, ok := e.ownerProgress.Get(id)
+	previous, read := e.lastKeys[e.readingPartition(owner)]
+	return ok && read && progress == first-1 && progress < int64(len(rec.FetchList(owner, "items"))) && !rec.Equal(previous.owner, id)
 }
 
 // neverShipped: slots no page ever ships (a trial typesetting, as IEEEtran measures a

@@ -57,6 +57,24 @@ function M.link_begin(key, number)
     record('unsupported_citation_hook_context', {key=key})
     return
   end
+  -- A formula is one span of the export, linkable once: the cite package's superscript prints
+  -- every number of a call inside one formula, and only its first number carries a link.
+  -- The numbers sit in an \hbox of the script, so the nearest enclosing math list names the formula.
+  local formula
+  for level = tex.nest and tex.nest.ptr or -1, 0, -1 do
+    local nest = tex.nest[level]
+    if nest and math.abs(nest.mode) == 267 then
+      formula = nest.head
+      break
+    end
+  end
+  if formula then
+    if call.math_head == formula then
+      link_stack[#link_stack + 1] = false
+      return
+    end
+    call.math_head = formula
+  end
   links = links + 1
   link_stack[#link_stack + 1] = {id=links, old=tex.getattribute(link_attr)}
   tex.setattribute(link_attr, links)

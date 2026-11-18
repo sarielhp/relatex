@@ -15,7 +15,7 @@ import (
 
 var (
 	// followUps are the lines TeX prints after the real error (TeXFailure::FOLLOW_UPS).
-	followUps = regexp.MustCompile(`\A! (?:==> Fatal error occurred|Emergency stop)`)
+	followUps = regexp.MustCompile(`\A!\s+(?:==> Fatal error occurred|Emergency stop)`)
 	// context is TeXFailure::CONTEXT: the line number and the text read so far.
 	context = regexp.MustCompile(`\Al\.(\d+)[ \t\n\v\f\r]?(.*)\z`)
 	// collectorFailure is PaperBuilds::COLLECTOR_FAILURE.

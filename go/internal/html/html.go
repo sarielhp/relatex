@@ -5,7 +5,6 @@
 package html
 
 import (
-	"fmt"
 	"slices"
 	"sort"
 	"strings"
@@ -15,7 +14,6 @@ import (
 	"github.com/sarielhp/relatex/internal/extlinks"
 	"github.com/sarielhp/relatex/internal/figures"
 	"github.com/sarielhp/relatex/internal/fontmodel"
-	"github.com/sarielhp/relatex/internal/frontmatter"
 	"github.com/sarielhp/relatex/internal/htmlkit"
 	"github.com/sarielhp/relatex/internal/inline"
 	"github.com/sarielhp/relatex/internal/mathexport"
@@ -57,6 +55,13 @@ p[data-toc-entry] { margin: .3rem 0; }
 [data-align="right"] { text-align: right; }
 [data-align="center"] > table { margin-left: auto; margin-right: auto; }
 [data-align="right"] > table { margin-left: auto; }
+[data-frame-hidden] { visibility: hidden; }
+[data-frame] { margin-block: 0; padding: 0 3pt; border: 0 solid currentColor; border-width: 0 .4pt; }
+[data-frame="first"] { border-top-width: .4pt; }
+[data-frame="last"] { border-bottom-width: .4pt; }
+[data-frame="box"], [data-frame="shadow"] { position: relative; overflow: hidden; margin-block: .6em; border-width: .4pt; width: fit-content; max-width: 100%; box-sizing: border-box; }
+[data-frame="shadow"] { box-shadow: 4pt 4pt 0 currentColor; margin-right: 4pt; }
+[data-frame="box"] [data-frame-hidden], [data-frame="shadow"] [data-frame-hidden] { position: absolute !important; top: 0; left: 0; }
 .display_math { margin: 1.5rem 0; overflow-x: auto; padding: .25rem; }
 .display_math:has(> [data-kind="text"]) > [data-kind="math"] { display: inline-block; width: calc(100% - 5rem); text-align: center; }
 .display_math > [data-kind="text"] { display: inline-block; width: 5rem; text-align: right; }
@@ -65,11 +70,12 @@ p[data-toc-entry] { margin: .3rem 0; }
 .display_math:has(> [data-kind="math"] > math:not([display="block"])) > [data-kind="math"]:has(> math[display="block"]) { flex: 1; }
 math { font-family: ` + mathexport.MathFontFamily + `; }
 mpadded { white-space: nowrap; }
-img, svg[data-kind="image"] { background: var(--figure-bg); }
+` + joinCSS + `img, svg[data-kind="image"] { background: var(--figure-bg); }
 svg[data-kind="image"] { font-style: normal; font-weight: normal; font-variant: normal; font-stretch: normal; letter-spacing: normal; word-spacing: normal; text-transform: none; text-decoration: none; }
 @keyframes target-fade { 0%, 60% { background: var(--target); } 100% { background: transparent; } }
 :target { animation: target-fade 12s ease-out forwards; scroll-margin-top: 2rem; }
 .preview-card { position: absolute; z-index: 2; max-width: min(60ch, 100vw - 1rem); max-height: 45vh; overflow: auto; padding: .5rem .75rem; background: var(--card); color: var(--ink); border: 1px solid var(--rule); border-radius: .4rem; box-shadow: 0 .3rem 1rem rgba(0, 0, 0, .35); }
+a[data-kind="note_reference"] { vertical-align: .4rem; line-height: 0; }
 [data-note-backref] { display: inline-block; min-width: 24px; min-height: 24px; text-align: center; }
 .long-description { margin: .25rem 0 .75rem; font-size: .9em; }
 .long-description summary { min-height: 24px; color: var(--muted); cursor: pointer; }
@@ -131,6 +137,10 @@ type Paper struct {
 	title         *string
 	// tocEntries are the paragraphs of a printed contents list (tocentries.go), read once.
 	tocEntries map[string]bool
+	// frameCuts are the rule spans of a rule frame's paragraphs that its border replaces (ruleframe.go).
+	frameCuts map[string]map[int]bool
+	// printedContents is whether the paper prints its own table of contents (contents.go), read once.
+	printedContents *bool
 	// runin is the run-in title the next content list opens with (runin.go).
 	runin runinTitle
 	// bibliography is the bibliography's section (decision 095), found once.
@@ -172,8 +182,8 @@ func (p *Paper) Render() string {
 		"<meta http-equiv=\"Content-Security-Policy\" content=\"" + p.contentSecurityPolicy() + "\"/>\n" +
 		"<title>Reading copy</title><style>" + p.stylesheet() + "</style>" +
 		previewScriptTag + "</head>\n" +
-		"<body>" + SkipLink + p.pageHeader() + "<main id=\"" + htmlkit.MainID + "\">" + p.RenderNode(rec.FetchString(p.document, "root")) +
-		p.afterMainContent() + "</main>" + p.contents() + "</body></html>\n"
+		"<body>" + SkipLink + p.pageHeader() + p.contentsAtTop() + "<main id=\"" + htmlkit.MainID + "\">" + p.RenderNode(rec.FetchString(p.document, "root")) +
+		p.afterMainContent() + "</main>" + p.contentsAtEnd() + "</body></html>\n"
 	front, ok := p.document["frontmatter"].(rec.Map)
 	if !ok {
 		return html
@@ -225,41 +235,21 @@ func (p *Paper) afterMainContent() string {
 	for _, id := range rec.FetchList(p.document, "note_order") {
 		builder.WriteString(p.RenderNode(rec.AsString(id)))
 	}
-	return builder.String() + p.pageDecorations()
-}
-
-func (p *Paper) pageDecorations() string {
-	rows := frontmatter.Decorations(p.document)
-	if len(rows) == 0 {
-		return ""
-	}
-	var builder strings.Builder
-	for _, value := range rows {
-		row := rec.AsMap(value)
-		text := ""
-		if runs, has := row["runs"]; has {
-			for _, run := range rec.AsList(runs) {
-				text += p.renderSpan(rec.Merge(rec.AsMap(run), rec.Map{"type": "text"}))
-			}
-		} else {
-			text = htmlkit.Escape(rec.FetchString(row, "text"))
-		}
-		fmt.Fprintf(&builder, `<p id="%s" data-page-decoration data-source-page="%s" data-decoration-source="%s" data-candidate="%s" data-glyphs="%s">%s</p>`,
-			toS(rec.Fetch(row, "id")), toS(rec.Fetch(row, "page")), toS(rec.Fetch(row, "source")), toS(rec.Fetch(row, "candidate")),
-			toS(rec.Fetch(row, "glyphs")), text)
-	}
-	return `<aside aria-label="Source page headers and publisher notices"><h2>Source page notices</h2>` + builder.String() + "</aside>"
+	return builder.String()
 }
 
 func (p *Paper) children(node rec.Map) string {
 	identifier, _ := node["id"].(string)
 	parent, first, last, run := p.bibliographyRun()
 	var builder strings.Builder
-	for index, child := range rec.FetchList(node, "children") {
+	children := rec.FetchList(node, "children")
+	frames := p.ruleFrames(children)
+	sides := frameSides(frames)
+	for index, child := range children {
 		if run && parent == identifier && index == first {
 			builder.WriteString(p.bibliographyOpen())
 		}
-		builder.WriteString(p.RenderNode(rec.AsString(child)))
+		builder.WriteString(markFrameSide(p.RenderNode(rec.AsString(child)), sides[index]))
 		if run && parent == identifier && index == last {
 			builder.WriteString("</div>")
 		}
@@ -333,7 +323,7 @@ func (p *Paper) plainNode(identifier string, node rec.Map, kind string) string {
 	if kind == "paragraph" {
 		p.runin = p.runinTitleOf(identifier, node)
 	}
-	content := p.spans(rec.FetchList(node, "content"))
+	content := p.spans(p.frameRules(identifier, rec.FetchList(node, "content")))
 	switch {
 	case kind == "heading":
 		tag, name = p.headingTag(identifier), headingName(node, content)
@@ -549,7 +539,7 @@ func (p *Paper) renderMath(identifier string) string {
 		element.SetAttribute("id", rec.AsString(child))
 	}
 	mathexport.FitToPage(math, p.base)
-	return mathexport.ProjectFormula(math, node, p.macros)
+	return mathexport.ProjectPage(math, node, p.macros)
 }
 
 func (p *Paper) externalLinkSpan(html string, span rec.Map) string {
@@ -692,7 +682,11 @@ func (p *Paper) ruleSpan(span rec.Map) string {
 		color += "data-margin-left-sp=\"" + toS(rec.Fetch(span, "margin_left_sp")) + "\" data-margin-right-sp=\"" +
 			toS(rec.Fetch(span, "margin_right_sp")) + "\" "
 	}
-	return "<span data-kind=\"rule\" data-width-sp=\"" + toS(rec.Fetch(span, "width_sp")) + "\" data-height-sp=\"" +
+	hidden := ""
+	if span["frame_hidden"] == true {
+		hidden = "data-frame-hidden "
+	}
+	return "<span data-kind=\"rule\" " + hidden + "data-width-sp=\"" + toS(rec.Fetch(span, "width_sp")) + "\" data-height-sp=\"" +
 		toS(rec.Fetch(span, "height_sp")) + "\" data-depth-sp=\"" + toS(rec.Fetch(span, "depth_sp")) + "\" " + color +
 		"style=\"" + htmlkit.RuleCSS(span) + "\"></span>"
 }

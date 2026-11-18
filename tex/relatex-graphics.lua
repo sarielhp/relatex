@@ -25,11 +25,21 @@ local function emit(code, fields)
   fields.code, fields.source = code, 'graphics-def-luatex-media'
   if writer then writer('diagnostic', fields) else pending[#pending + 1] = fields end
 end
-local function unsupported(reason)
-  emit('unsupported_graphic_source', {reason = reason})
+local function unsupported(reason, image)
+  emit('unsupported_graphic_source', {reason = reason, image = image})
+end
+-- An image kpathsea finds outside the source (the author's own TEXINPUTS, an absolute name) is
+-- not part of it: the export cannot carry it, and says so by name.
+local function outside_source(filename)
+  local read = filename:gsub('^%./', '')
+  local file = io.open(read, 'rb')
+  if file then file:close(); return false end
+  return kpse and kpse.find_file and (kpse.find_file(read, 'graphic/figure') or '') ~= ''
 end
 local function resource(cache)
-  return tonumber((token.get_macro(cache) or ''):match('^\\useimageresource%s+(%d+)$'))
+  -- The pdftex compatibility shim (decision 082) names the primitive \pdfrefximage, as pdftex.def wrote it.
+  local body = token.get_macro(cache) or ''
+  return tonumber(body:match('^\\useimageresource%s+(%d+)$') or body:match('^\\pdfrefximage%s+(%d+)$'))
 end
 -- A file of a TeX tree (a package's own image, such as doclicense's badge) is found by kpathsea
 -- under an absolute name: it is copied into the working directory (relatex-texmf/, named by its
@@ -61,6 +71,38 @@ local function copy_tree_file(read)
   output:write(bytes); output:close()
   return path
 end
+-- A graphic TeX read through the caller's TEXINPUTS (decision 103; the file is outside the source):
+-- it is part of the build, so it is copied into the working directory under the name the source
+-- asked for (relatex-texinputs/figs/x.pdf for \includegraphics{figs/x.pdf}) and exported like a
+-- figure of the source.
+-- Only a directory of the caller's TEXINPUTS counts: a file outside every tree and every search
+-- directory stays unbound.
+local function in_search_path(found)
+  for entry in (kpse.expand_var('$TEXINPUTS') or ''):gmatch('[^:]+') do
+    local root = entry:gsub('/+$', '')
+    if paths.is_absolute(root) and not root:find('%.%.') and
+      paths.comparable(found:sub(1, #root + 1)) == paths.comparable(root) .. '/' then
+      return true
+    end
+  end
+  return false
+end
+local function copy_search_file(read, found)
+  if not paths.is_absolute(found) or not in_search_path(found) or read:find('%.%.') or read:find('\\') or read:find('%z') or paths.is_absolute(read) then return nil end
+  local input = io.open(found, 'rb')
+  if not input then return nil end
+  local bytes = input:read(67108865); input:close()
+  if not bytes or #bytes > 67108864 then return nil end
+  local path = 'relatex-texinputs'
+  for part in read:gmatch('[^/]+') do
+    lfs.mkdir(path)
+    path = path .. '/' .. part
+  end
+  local output = io.open(path, 'wb')
+  if not output then return nil end
+  output:write(bytes); output:close()
+  return path
+end
 -- The image read from filename (relative to TeX's working directory), named as the source names it.
 local function fingerprint(filename)
   local read = filename:gsub('^%./', '')
@@ -79,6 +121,11 @@ local function fingerprint(filename)
   end
 if not file and kpse and kpse.find_file then
   local copy = copy_tree_file(kpse.find_file(read, 'graphic/figure') or '')
+  if copy then read, path = copy, source_name(copy); file = io.open(read, 'rb') end
+end
+if not file and kpse and kpse.find_file then
+  local found = kpse.find_file(read, 'graphic/figure') or ''
+  local copy = copy_search_file(read, found)
   if copy then read, path = copy, source_name(copy); file = io.open(read, 'rb') end
 end
 if not file then return nil end
@@ -130,7 +177,12 @@ function M.after_read(filename, cache, last, box, page, pagebox)
   local previous = assert(table.remove(read_stack), 'Unbalanced graphic resource read')
   local id = resource(cache)
   local image, read = fingerprint(filename)
-  if not id or not image then unsupported('unbound or unsupported image resource'); return end
+  if not id or not image then
+    local reason = outside_source(filename) and 'image found outside the source, through the TeX search path'
+      or 'unbound or unsupported image resource'
+    unsupported(reason, source_name((filename:gsub('^%./', ''))))
+    return
+  end
   local prior = sources[id]
   if prior then
     if prior.sha256 ~= image.sha256 or prior.filename ~= image.filename then unsupported('cached source changed') end
@@ -156,7 +208,7 @@ function M.begin_use(filename, cache, width, height, clip, viewport)
   local source = sources[id]
   local name = source_name((filename:gsub('^%./', '')))
   if not source or (source.filename ~= name and requested[id] ~= name) or width <= 0 or height <= 0 then
-    unsupported('unbound image placement'); return
+    unsupported('unbound image placement', name); return
   end
   local use = {use = uses, resource = id, index = source.index, width = width, height = height,
     clip = clip, viewport = viewport, transforms = {}}

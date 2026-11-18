@@ -230,6 +230,8 @@ end
 function M.extension(extension, base)
   local kind = ({['.eps']='EPS', ['.ps']='EPS', ['.svg']='SVG'})[extension:lower()]
   if kind == 'EPS' and base and lfs.isfile(base .. '-eps-converted-to.pdf') then return end
+  -- A plain .ps figure the build converted (decision 193): X-ps-converted-to.pdf, which the .ps rule reads.
+  if extension:lower() == '.ps' and base and lfs.isfile(base .. '-ps-converted-to.pdf') then return end
   if kind then M.preprocess(kind) end
 end
 function M.link_colour(on)

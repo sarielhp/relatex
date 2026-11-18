@@ -79,3 +79,23 @@ func TestPictureOnlyTargetFallsToBoxedCaption(t *testing.T) {
 		t.Errorf("target blocks %v, want the caption block of entity 5", got)
 	}
 }
+
+// A formula that ends a one-line caption ("inside $S_j$") joins the caption's block: the box has no
+// text left to read, but it recorded the formula (math_space), so the formula is its own.
+func TestFormulaEndingAnHboxJoinsTheHboxBlock(t *testing.T) {
+	host := rec.Map{"owner": int64(184), "group": "hbox", "entity": int64(15), "items": []any{1, 2, 3}}
+	math := rec.Map{"owner": int64(190), "group": "math", "entity": int64(15)}
+	caption := textBlock("b1", "paragraph", int64(15), "Figure 1.")
+	e := &Evidence{owners: omap.New[any, rec.Map](), ownerProgress: omap.New[any, int64](), scopes: newScopes(nil),
+		lastBlocks: map[partition]rec.Map{{}: caption}, lastKeys: map[partition]blockKey{{}: {int64(184), 0}},
+		mathSpace: map[ruleKey]string{{int64(190), int64(1)}: ""}, activeSlot: 1}
+	e.owners.Set(int64(184), host)
+	e.ownerProgress.Set(int64(184), 3)
+	if got := e.inlineMathBlock(math, int64(1)); rec.FetchString(got, "id") != "b1" {
+		t.Errorf("math block %v, want the hbox block b1", got)
+	}
+	delete(e.mathSpace, ruleKey{int64(190), int64(1)})
+	if e.insideReadAgainBox(math) {
+		t.Errorf("a formula the box never recorded is inside the finished box")
+	}
+}

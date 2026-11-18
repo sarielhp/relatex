@@ -56,7 +56,7 @@ func Definitions(rows []rec.Map) map[int64]rec.Map {
 		for key, value := range row {
 			copied[key] = value
 		}
-		href := strings.NewReplacer("[", "%5B", "]", "%5D").Replace(EncodedHref(rec.Strip(rec.FetchString(row, "href"))))
+		href := strings.NewReplacer("[", "%5B", "]", "%5D").Replace(EncodedHref(TargetHref(rec.Strip(rec.FetchString(row, "href")))))
 		copied["href"] = href
 		reason, err := SafeHref(href)
 		if err != nil {
@@ -68,6 +68,15 @@ func Definitions(rows []rec.Map) map[int64]rec.Map {
 		result[link] = copied
 	}
 	return result
+}
+
+var texEscapes = strings.NewReplacer(`\_`, "_", `\#`, "#", `\%`, "%", `\&`, "&", `\~`, "~", `\$`, "$", `\{`, "{", `\}`, "}")
+
+// TargetHref resolves the TeX escapes a link target keeps (\_, \#, \%, \&, \~, \$, \{, \}) to the
+// characters hyperref and url accept them for: a DOI written 10.1007/978-1-4684-2001-2\_9 in a
+// bibliography names the address ...2001-2_9, not a malformed one. The visible text is not touched.
+func TargetHref(href string) string {
+	return texEscapes.Replace(href)
 }
 
 // EncodedHref is PaperFrontmatter.encoded_href: control characters, space and DEL

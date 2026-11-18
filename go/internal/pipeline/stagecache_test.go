@@ -23,3 +23,19 @@ func TestExternalDependenciesIgnoreAShippedRecorder(t *testing.T) {
 		t.Fatalf("dependencies = %v, want %v", got, want)
 	}
 }
+
+func TestPadLastMissRestoresTheOmittedAnswer(t *testing.T) {
+	got := padLastMiss([]string{"/a.sty"}, 2)
+	if len(got) != 2 || got[1] != "" {
+		t.Fatalf("padLastMiss = %q, want the missing last name padded", got)
+	}
+	if got := padLastMiss([]string{"/a.sty", "/b.sty"}, 2); len(got) != 2 {
+		t.Fatalf("padLastMiss padded a complete answer: %q", got)
+	}
+}
+
+func TestLookupMismatchNamesTheReason(t *testing.T) {
+	if got := lookupMismatch(nil, 1, 2, 0); got == "" {
+		t.Fatal("lookupMismatch returned an empty reason")
+	}
+}

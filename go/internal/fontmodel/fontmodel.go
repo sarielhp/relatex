@@ -58,22 +58,27 @@ func Load(owner, root string, parts ...string) rec.Map {
 
 // Spans is SourceFonts.spans(document): the styled spans of the reading, note labels and
 // front-matter decorations.
-func Spans(document rec.Map) []rec.Map { return spans(document, flat) }
+func Spans(document rec.Map) []rec.Map { return spans(document, flat, true) }
 
 // PresentationSpans is SourceFonts.spans(document, presentation: true): rich cells in the
 // order the reading displays them.
 func PresentationSpans(document rec.Map) []rec.Map {
-	return spans(document, func(content []any) []rec.Map { return inline.Flat(content, true) })
+	return spans(document, func(content []any) []rec.Map { return inline.Flat(content, true) }, false)
 }
 
-func spans(document rec.Map, walk func([]any) []rec.Map) []rec.Map {
+func spans(document rec.Map, walk func([]any) []rec.Map, decorated bool) []rec.Map {
 	candidates := []rec.Map{}
 	nodes := rec.FetchMap(document, "nodes")
 	for _, id := range rec.FetchList(document, "block_order") {
 		candidates = append(candidates, NoteLabelSpans(document, id)...)
 		candidates = append(candidates, walk(rec.FetchList(rec.FetchMap(nodes, rec.AsString(id)), "content"))...)
 	}
+	// The reading page shows no page decorations (decision 016, amendment 2026-11-17): they name
+	// fonts but no presentation span.
 	for _, row := range frontmatter.Decorations(document) {
+		if !decorated {
+			break
+		}
 		runs, _ := rec.AsMap(row)["runs"].([]any)
 		for _, run := range runs {
 			candidates = append(candidates, rec.AsMap(run))

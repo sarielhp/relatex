@@ -88,7 +88,9 @@ const (
 	// textPaintScript is PDFTextPaint::INVENTORY.
 	textPaintScript = `[...document.querySelectorAll('main [data-kind="text"],main [data-kind="text"] *,main [data-kind="reference"],main [data-kind="reference"] *,main [data-kind="note_reference"],main math,main math *,main [data-page-decoration]')]
   .map(e => {const s=getComputedStyle(e);return {color:s.color,opacity:s.opacity}})`
-	platformFontsScript = "[...document.querySelectorAll('main [data-text-style]')]." +
+	// continuationsScript flags the styled nodes that are a continuation piece (data-join-cont), in node order.
+	continuationsScript = "[...document.querySelectorAll('main [data-text-style]')].map(e => e.hasAttribute('data-join-cont'))"
+	platformFontsScript = "[...document.querySelectorAll('main [data-text-style]:not([data-join-cont])')]." +
 		"some(e => getComputedStyle(e).fontFamily.startsWith('ltd-'))"
 )
 
@@ -193,10 +195,17 @@ func (c *Checker) platformFonts() any {
 	root := rec.FetchMap(document, "root")["nodeId"]
 	nodes := rec.AsMap(ojson.Plain(c.browser.Page("DOM.querySelectorAll",
 		rec.Map{"nodeId": root, "selector": "main [data-text-style]"})))
+	continuations, _ := c.browser.Evaluate(continuationsScript).([]any)
 	result := []any{}
-	for _, node := range rec.FetchList(nodes, "nodeIds") {
+	for index, node := range rec.FetchList(nodes, "nodeIds") {
 		fonts, _ := c.browser.Page("CSS.getPlatformFontsForNode", rec.Map{"nodeId": node}).(ojson.Object)
-		result = append(result, fonts.Get("fonts"))
+		faces := rec.AsList(ojson.Plain(fonts.Get("fonts")))
+		if joined, _ := continuations[index].(bool); joined && len(result) > 0 {
+			// a piece cut after a formula (data-join-cont) is part of the run before it
+			result[len(result)-1] = append(rec.AsList(result[len(result)-1]), faces...)
+			continue
+		}
+		result = append(result, faces)
 	}
 	return result
 }
@@ -257,7 +266,7 @@ func verifyPaper(inventory rec.Map, observedMath []any, document rec.Map) {
 	verifyPlatformFonts(inventory, document)
 	verifyTextPaint(inventory, document)
 	verifyCitations(inventory, document)
-	decorations := verifyFrontmatter(inventory, document)
+	verifyFrontmatter(inventory, document)
 	nodes := rec.FetchMap(document, "nodes")
 	blocks := []rec.Map{}
 	hidden, backdrops := contrast.Hidden(document), contrast.DocumentBackdrops(document)
@@ -279,7 +288,7 @@ func verifyPaper(inventory rec.Map, observedMath []any, document rec.Map) {
 	}
 	imageIDs, shownImages := validateImages(inventory, document)
 	tableIDs := validateTables(inventory, document)
-	ids := append(append(append(append(append(sortedKeys(nodes), callsites...), imageIDs...), tableIDs...), decorations...), pageAnchors(document)...)
+	ids := append(append(append(append(sortedKeys(nodes), callsites...), imageIDs...), tableIDs...), pageAnchors(document)...)
 	validateRendering(safeInventory(inventory, document, shownImages), ids)
 }
 
@@ -379,7 +388,7 @@ func mathInventory(node rec.Map, macros mathintent.Macros, base int64) ojson.Obj
 		root.SetAttribute("alttext", alt)
 	}
 	mathexport.FitToPage(root, base)
-	projected := mathexport.ParseRaw(mathexport.ProjectFormula(root, node, macros))
+	projected := mathexport.ParseRaw(mathexport.ProjectPage(root, node, macros))
 	return ojson.Object{{"id", rec.Fetch(node, "id")}, {"tree", mathTree(projected)},
 		{"rows", rec.Fetch(node, "children")}}
 }

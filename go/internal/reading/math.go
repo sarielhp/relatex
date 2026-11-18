@@ -126,7 +126,9 @@ func (e *Evidence) recordMathReference(item rec.Map, pending *pendingMath) {
 	reference := item["reference"]
 	printed, ok := item["text"].(string)
 	if !ok || printed == "" {
-		rec.Fail("Unsupported reference inside a formula without printed text")
+		// A piece of the reference that prints no text (the bar of an \overline linked by \hyperref inside
+		// $...$) adds nothing to its span; the formula keeps it, and the span is made from the glyphs that print text.
+		return
 	}
 	if position, seen := pending.referenceAt[reference]; seen {
 		span := pending.references[position]
@@ -241,6 +243,15 @@ func (e *Evidence) skipUnreadMathNodes(actual nodeKey) int {
 	return skipped
 }
 
+// spaceBeforeMath is the word space ahead of the formula at the active slot: its own item's, else the
+// one the box that reads the formula again recorded (math_space), as in a one-line caption.
+func (e *Evidence) spaceBeforeMath(item, owner rec.Map) string {
+	if space := rec.FetchString(item, "space"); space != "" {
+		return space
+	}
+	return e.mathSpace[ruleKey{rec.Fetch(owner, "owner"), e.activeSlot}]
+}
+
 func (e *Evidence) startMath(item, owner rec.Map, page any) {
 	occurrence := e.occurrence(e.mathIndex)
 	if !rec.Equal(rec.Fetch(occurrence, "formula"), rec.Fetch(item, "formula")) {
@@ -258,7 +269,7 @@ func (e *Evidence) startMath(item, owner rec.Map, page any) {
 		block = e.inlineMathBlock(owner, page)
 	}
 	citation := slice(item, citationFields...)
-	if space := rec.FetchString(item, "space"); !display && space != "" {
+	if space := e.spaceBeforeMath(item, owner); !display && space != "" {
 		e.appendText(block, rec.Merge(citation, rec.Map{"text": space, "space": ""}), spanPaint{}, e.ownerStyles[rec.Fetch(owner, "owner")])
 	}
 	span := rec.Merge(rec.Map{"type": "math", "occurrence": rec.Fetch(occurrence, "id"), "formula": rec.Fetch(item, "formula")},
@@ -285,11 +296,18 @@ func (e *Evidence) inlineMathBlock(owner rec.Map, page any) rec.Map {
 	}
 	host, found := e.owners.Get(key.owner)
 	progress, _ := e.ownerProgress.Get(key.owner)
-	if !found || rec.Fetch(host, "group") != "hbox" || progress >= int64(len(rec.FetchList(host, "items"))) {
+	if !found || rec.Fetch(host, "group") != "hbox" || (progress >= int64(len(rec.FetchList(host, "items"))) && !e.insideReadAgainBox(owner)) {
 		return e.proseBlock(owner, page)
 	}
 	last["pages"] = union(rec.FetchList(last, "pages"), page)
 	return last
+}
+
+// insideReadAgainBox: the box that reads this formula again recorded it (math_space), so the formula
+// is inside the box even when it is the box's last item and the box has no text left to read ("inside $S_j$").
+func (e *Evidence) insideReadAgainBox(owner rec.Map) bool {
+	_, ok := e.mathSpace[ruleKey{rec.Fetch(owner, "owner"), e.activeSlot}]
+	return ok
 }
 
 // displayTag is the printed number a flush-left display carries inside its formula, which reads

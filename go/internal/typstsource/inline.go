@@ -620,7 +620,8 @@ func (e *exporter) footnote(note rec.Map) string {
 	number := rec.Fetch(note, "number")
 	// A mark LaTeX left as code (amsart's title notes print \@thefnmark) prints no mark.
 	printed := toS(number)
-	if strings.Contains(printed, `\`) {
+	// A margin note (\marginpar, the number "marginpar") has no mark either.
+	if strings.Contains(printed, `\`) || printed == "marginpar" {
 		printed = ""
 	}
 	directive := e.footnotes.next(printed)

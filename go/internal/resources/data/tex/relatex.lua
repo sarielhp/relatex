@@ -197,10 +197,32 @@ function M.matter()
   M.context('paragraph', 0)
 end
 
+-- Headings skipped by section_begin: their section_end is skipped too.
+local skipped_headings = 0
+
+-- A heading skipped inside the open block: the diagnostic names the heading's command, the block and
+-- the source position (once per position, the heading's own wrappers may both observe it).
+local reported_headings = {}
+local function heading_inside_block(counter)
+  if not active then return end
+  local file = ((status.filename or tex.jobname or ''):gsub('^%./', ''))
+  local key = file .. ':' .. tex.inputlineno .. ':' .. counter
+  if reported_headings[key] then return end
+  reported_headings[key] = true
+  emit('diagnostic', {code = 'heading_inside_block', source = 'latex-heading-hooks', counter = counter,
+    block = context_stack[#context_stack].entered, file = file, line = tex.inputlineno})
+end
+
 function M.section_begin(counter, runin)
   counter = counter or 'section'
   local previous = named_contexts.section
-  assert(#context_stack == 0, 'Section inside a theorem/proof is unsupported')
+  -- A heading set inside an open block or list (a \subsection in an itemize is legal LaTeX) has no place
+  -- in the bounded structure: its title stays text of the enclosing block, and says so.
+  if #context_stack > 0 then
+    skipped_headings = skipped_headings + 1
+    heading_inside_block(counter)
+    return
+  end
   if os.getenv('RELATEX_STRATEGY') == 'external' then external_section(counter, runin); return end
   -- Subheadings own their title, while body/float scope remains the enclosing
   -- top-level section. Complete heading hierarchy is outside this bounded IR.
@@ -237,6 +259,7 @@ function M.runin_end()
 end
 
 function M.section_end()
+  if skipped_headings > 0 then skipped_headings = skipped_headings - 1; return end
   M.context('paragraph', section_id)
 end
 
@@ -252,9 +275,7 @@ function M.heading(name, ending, runin)
   -- A heading inside a theorem or proof (a proof split over several sections, second cohort 268)
   -- has no place in the bounded structure: its title stays text of the block, and says so.
   if #context_stack > 0 then
-    if not ending and active then
-      emit('diagnostic', {code = 'heading_inside_block', source = 'latex-heading-hooks', counter = counter})
-    end
+    if not ending then heading_inside_block(counter) end
     return
   end
   if ending then

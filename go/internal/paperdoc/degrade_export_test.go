@@ -37,14 +37,30 @@ func TestInvisibleMathDegradesToADiagnostic(t *testing.T) {
 	}
 }
 
+// A heading inside an open list (h_fit: \subsection in an itemize) stays text of it: the loss is
+// a warning naming the heading command, the block and the source position.
+func TestHeadingInsideBlockDegradesToAWarning(t *testing.T) {
+	if degradable["heading_inside_block"] != "structure.heading_in_block" {
+		t.Fatal("heading_inside_block must degrade")
+	}
+	b := degradeBuilder(t)
+	b.degrade(rec.Map{"code": "heading_inside_block", "counter": "subsection", "block": "list_item", "file": "h_fit.tex", "line": int64(1035)})
+	lines := strings.Join(b.diagnostics.Lines("whatever"), "\n")
+	for _, want := range []string{"structure.heading_in_block", "warning", "subsection", "list_item", "h_fit.tex:1035"} {
+		if !strings.Contains(lines, want) {
+			t.Fatalf("missing %q in %s", want, lines)
+		}
+	}
+}
+
 func TestUnsupportedGraphicSourceDegrades(t *testing.T) {
 	if degradable["unsupported_graphic_source"] != "figure.source_unsupported" {
 		t.Fatal("unsupported_graphic_source must degrade")
 	}
 	b := degradeBuilder(t)
-	b.degrade(rec.Map{"code": "unsupported_graphic_source", "reason": "unbound image placement"})
+	b.degrade(rec.Map{"code": "unsupported_graphic_source", "reason": "unbound image placement", "image": "figs/qed_duck.pdf"})
 	lines := strings.Join(b.diagnostics.Lines("whatever"), "\n")
-	if !strings.Contains(lines, "figure.source_unsupported") || !strings.Contains(lines, "unbound image placement") {
+	if !strings.Contains(lines, "figure.source_unsupported") || !strings.Contains(lines, "unbound image placement: figs/qed_duck.pdf") {
 		t.Fatalf("diagnostics: %s", lines)
 	}
 }

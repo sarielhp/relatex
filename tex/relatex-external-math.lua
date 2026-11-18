@@ -152,6 +152,15 @@ local function accent_text(text)
   return (text:gsub('[\18-\23\127]', function(char) return ACCENT_SLOTS[char:byte()] end))
 end
 
+-- Cmsy slot "6E is one glyph for \setminus (a binary operator) and \backslash (an ordinary symbol or delimiter), and
+-- LuaMML writes the ASCII backslash for both. The atom class settles it: the slot as a binary operator is U+2216
+-- SET MINUS. Runs on LuaMML's tree, before the tex: attributes (the class) are dropped.
+local function set_minus(tree)
+  if type(tree) ~= 'table' then return end
+  if tree[0] == 'mo' and tree[1] == '\\' and tree['tex:class'] == 'bin' then tree[1] = utf8.char(0x2216) end
+  for _, child in ipairs(tree) do set_minus(child) end
+end
+
 local function unicode_negations(tree)
   if type(tree) ~= 'table' then return end
   -- TeX sets a binary operator that opens a list (the minus of e^-) as an ordinary symbol; its
@@ -433,6 +442,9 @@ function M.install(collector)
     -- A formula inside a QED mark box is the mark's drawing (relatex-flow, decision 176).
     local qed_mark = core.flow and core.flow.in_qed()
     if equation_number or qed_mark or boxed_table(head) or listing_box(head) then frames[#frames + 1] = false; return true end
+    -- url.sty sets a URL (\url, \path, \doi) as math only to get its mathcodes: it is text, a link
+    -- whose characters read from the text font (never a formula of per-character mathrm).
+    if remap.inside_url() then frames[#frames + 1] = false; return true end
     -- A one-symbol formula in a proof's end code is its QED mark (relatex-flow, decision 176).
     if (styles[style] or 0) >= 2 and core.flow and core.flow.ending_mark(head) then frames[#frames + 1] = 'qed'; return true end
     if (styles[style] or 0) >= 2 and rule_box_formula(head) then frames[#frames + 1] = false; return true end
@@ -456,6 +468,7 @@ function M.install(collector)
       local tree = converter.make_root(remap.with_family_fonts(function()
         return converter.process(copied, numeric_style, families)
       end), numeric_style)
+      set_minus(tree)
       -- Never stop the build over a box the expansion cannot read: keep LuaMML's result.
       local expanded_ok, expanded = pcall(expand_vertical_boxes, tree)
       if expanded_ok then tree = expanded end

@@ -77,6 +77,9 @@ local function ligature(n, depth)
 end
 
 function M.character(n, depth)
+  -- Only a glyph has a character: math in a link (hyperref's \hyperref around \overline inside $...$) can hand
+  -- over a node without a font or a char, which no decoder can read.
+  if not n.font or not n.char then return nil end
   local f = font.getfont(n.font)
   local info = f and f.characters and f.characters[n.char]
   if info and info.tounicode ~= nil then return M.unicode(info.tounicode), 'font' end

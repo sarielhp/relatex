@@ -59,6 +59,14 @@ function M.body_end()
   notes.body_end()
   active = false
 end
+-- A margin note: a body with no mark, numbered by the word marginpar (an unmarked note). Its box is built in \@savemarbox, inside a note body it is part of that body.
+function M.margin_begin()
+  if active then depth = depth + 1 return end
+  bodies, active = bodies + 1, true
+  notes.body_enter('marginpar')
+  notes.body_bind(bodies, {}, false)
+end
+function M.margin_end() M.body_end() end
 function M.copy_body_begin(number)
   if active then depth = depth + 1 else M.body_begin(number) end
 end

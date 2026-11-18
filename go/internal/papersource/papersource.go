@@ -305,15 +305,41 @@ func (s *Source) settledPass(strategy string, pass, count int64, stage rec.Map) 
 	return !settlingFatal.MatchString(log)
 }
 
+// packageSubstitutes are the compatibility shims that stand in for a package TeX Live lacks, with what the
+// warning says (decision 194).
+var packageSubstitutes = map[string]string{
+	"psfig":    "psfig.sty is not in TeX Live: \\psfig is epsfig's \\includegraphics substitute",
+	"ltexpprt": "ltexpprt.sty (the LaTeX 2.09 SIAM proceedings style) is not in TeX Live: taken as loaded, the class's page layout stands",
+}
+
+// recordIpeGraphics reports each .ipe graphic the engine did not leave to LaTeX as it is (decision 194): converted
+// from the PostScript or PDF it holds (warning), or a placeholder box when it holds neither (alert).
+func (s *Source) recordIpeGraphics() {
+	graphics, _ := s.report["ipe_graphics"].([]any)
+	for _, value := range graphics {
+		entry := rec.AsMap(value)
+		if rec.ToS(entry["how"]) == "placeholder" {
+			s.diagnostics.Add("figure.ipe_placeholder", fmt.Sprintf("%s is an Ipe drawing in a format relatex cannot read (neither PDF nor EPS): a placeholder box stands in", rec.ToS(entry["path"])), nil)
+			continue
+		}
+		s.diagnostics.Add("figure.ipe_converted", fmt.Sprintf("%s is an Ipe graphic, read as the %s it holds", rec.ToS(entry["path"]), rec.ToS(entry["how"])), nil)
+	}
+}
+
 // recordCompatibility: the compatibility layer's shims and a settled first pass's errors, as
 // informational diagnostics (decision 082).
 func (s *Source) recordCompatibility() {
 	compatibility, _ := s.report["compatibility"].([]any)
 	for _, value := range compatibility {
 		request := rec.AsMap(value)
+		if substitute, ok := packageSubstitutes[rec.ToS(request["shim"])]; ok {
+			s.diagnostics.Add("source.package_substituted", fmt.Sprintf("%s (%s)", substitute, rec.ToS(request["cause"])), nil)
+			continue
+		}
 		s.diagnostics.Add("source.engine_compatibility", fmt.Sprintf("built under LuaLaTeX with the %s compatibility shim (%s)",
 			rec.ToS(request["shim"]), rec.ToS(request["cause"])), nil)
 	}
+	s.recordIpeGraphics()
 	reencoded, _ := s.report["reencoded_inputs"].([]any)
 	for _, value := range reencoded {
 		entry := rec.AsMap(value)

@@ -1099,6 +1099,37 @@
       "required": [
         "kind",
         "seq",
+        "owner",
+        "slot",
+        "indent"
+      ],
+      "properties": {
+        "kind": {
+          "const": "flow_row"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "owner": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "slot": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "indent": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "kind",
+        "seq",
         "symbol",
         "name"
       ],

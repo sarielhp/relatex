@@ -119,3 +119,32 @@ func rubyInspect(text string) string {
 	}
 	return string(encoded)
 }
+
+// CaseTwins are the author files of the document whose figure names differ only in case, with
+// whether their bytes are identical (one asset: they then share one name; decision 129,
+// amendment 5). Each name is compared with the first file that took it, whatever the extension.
+func CaseTwins(document rec.Map) []Twin {
+	type holder struct{ stem, origin, asset string }
+	held := map[string]holder{}
+	reported := map[[2]string]bool{}
+	twins := []Twin{}
+	for _, span := range Occurrences(document) {
+		stem, named := SourceStem(span)
+		if !named {
+			continue
+		}
+		origin, asset := rec.FetchString(span, "source"), rec.FetchString(span, "asset")
+		first, found := held[strings.ToLower(stem)]
+		if !found {
+			held[strings.ToLower(stem)] = holder{stem, origin, asset}
+			continue
+		}
+		pair := [2]string{first.origin, origin}
+		if first.stem != stem && !reported[pair] {
+			reported[pair] = true
+			twins = append(twins, Twin{First: first.origin, Second: origin, FirstAsset: first.asset, SecondAsset: asset,
+				Identical: first.asset == asset})
+		}
+	}
+	return twins
+}

@@ -3,6 +3,7 @@ package html
 import (
 	"slices"
 	"strings"
+	"unicode"
 
 	"github.com/sarielhp/relatex/internal/htmlkit"
 	"github.com/sarielhp/relatex/internal/rec"
@@ -78,8 +79,64 @@ func (p *Paper) contentsName(text string, id any) string {
 	return " aria-label=\"" + htmlkit.Escape(name) + "\""
 }
 
-// contentsLink is the line above the text that leads to the table of contents.
+// hasPrintedContents tells that the paper prints its own table of contents (\tableofcontents: a
+// "Contents" title, a paragraph or a heading (a book's \chapter*), followed by two or more short
+// paragraphs ending in page numbers).
+func (p *Paper) hasPrintedContents() bool {
+	if p.printedContents == nil {
+		found := p.findPrintedContents()
+		p.printedContents = &found
+	}
+	return *p.printedContents
+}
+
+func (p *Paper) findPrintedContents() bool {
+	titled, run := false, 0
+	for _, id := range rec.FetchList(p.document, "main_block_order") {
+		node := p.node(id)
+		var text string
+		switch node["type"] {
+		case "paragraph":
+			text = strings.TrimSpace(paragraphText(node))
+		case "heading":
+			text = strings.TrimSpace(p.headingText(node))
+		}
+		if titled && node["type"] == "paragraph" && len(text) < 200 && printedPage.MatchString(text) {
+			run++
+			continue
+		}
+		if run >= 2 {
+			return true
+		}
+		titled = text != "" && contentsTitles[strings.ToLower(strings.TrimRightFunc(text, unicode.IsPunct))]
+		run = 0
+	}
+	return run >= 2
+}
+
+// contentsAtTop is the generated contents when the paper prints its own table of contents (the
+// author, 2026-11-17, decision 095 amendment 3): it opens the page, before main.
+func (p *Paper) contentsAtTop() string {
+	if !p.hasPrintedContents() {
+		return ""
+	}
+	return p.contents()
+}
+
+// contentsAtEnd is the generated contents after the text, for a paper without a printed one.
+func (p *Paper) contentsAtEnd() string {
+	if p.hasPrintedContents() {
+		return ""
+	}
+	return p.contents()
+}
+
+// contentsLink is the line above the text that leads to the table of contents; a page whose
+// contents open it needs none.
 func (p *Paper) contentsLink() string {
+	if p.hasPrintedContents() {
+		return ""
+	}
 	if levels, _ := p.headings(); len(levels) == 0 {
 		return ""
 	}

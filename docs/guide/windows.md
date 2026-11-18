@@ -115,9 +115,10 @@ relatex C:\Users\me\papers\paper.zip --main paper.tex --html --epub
 - **Names Windows cannot store.** A paper with a file named `aux.tex`, `con.sty` or another device
   name, a name with `< > : " | ? *`, or a name that ends with a dot or a space is refused with an
   `input.unsafe` error naming the file. Two files whose names differ only in case are refused on
-  every platform, and so are two figures whose names differ only in case (`Plot.pdf` and
-  `plot.png`): their files would overwrite each other in `figs/`. Rename them in the source;
-  reLaTeX never renames a file, because TeX would then read another file than you wrote.
+  every platform. Two figures whose names differ only in case (`Plot.pdf` and `plot.pdf`) are exported
+  under distinct names with a `figures.case_twins` warning: identical bytes share the first name, a
+  different file takes a number (`plot-2.pdf`). reLaTeX never renames a source file, because TeX would
+  then read another file than you wrote.
 - **Long paths.** reLaTeX's own file access has no length limit, but TeX, MuPDF, qpdf and Poppler
   stop at 260 characters unless long paths are enabled (`LongPathsEnabled`, which
   `relatex doctor` reports; an administrator enables it in the registry or with a group policy).

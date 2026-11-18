@@ -659,7 +659,7 @@ func (e *exporter) paragraph(node rec.Map) string {
 	if len(e.bibliography[id]) > 0 {
 		return e.bibliographyItem(node)
 	}
-	text := e.abstractText(node, protectStart(rec.Strip(e.inline(content(node), node, 0, false))))
+	text := e.abstractText(node, protectStart(trimTrailingBreak(rec.Strip(e.inline(content(node), node, 0, false)))))
 	if text == "" {
 		return ""
 	}
@@ -672,6 +672,15 @@ func (e *exporter) paragraph(node rec.Map) string {
 	// Title-page lines are centered; a long paragraph before the first section is body text.
 	if slices.Contains(e.frontBlocks, id) && !slices.Contains(e.abstractBlocks, id) && len(fields(plain(node))) <= 40 {
 		return "#align(center)[" + text + "]"
+	}
+	return text
+}
+
+// trimTrailingBreak drops a line break that ends a paragraph: before a closing bracket it
+// would read as the escaped bracket and leave the content block unclosed.
+func trimTrailingBreak(text string) string {
+	for strings.HasSuffix(text, ` \`) {
+		text = rec.Strip(strings.TrimSuffix(text, ` \`))
 	}
 	return text
 }

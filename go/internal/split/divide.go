@@ -10,6 +10,7 @@ package split
 import (
 	"strings"
 
+	"github.com/sarielhp/relatex/internal/htmlkit"
 	"github.com/sarielhp/relatex/internal/pagetree"
 	"github.com/sarielhp/relatex/internal/rec"
 )
@@ -80,7 +81,8 @@ func Divide(document rec.Map, body *pagetree.Node) (*Division, string) {
 	if reason := shellable(wrapper, pieces); reason != "" {
 		return nil, reason
 	}
-	division := &Division{Before: body.Children[:mainIndex], After: body.Children[mainIndex+1:]}
+	before, after := contentsToEnd(body.Children[:mainIndex], body.Children[mainIndex+1:])
+	division := &Division{Before: before, After: after}
 	assigned := assignNotes(pieces, main.Children[wrapperIndex+1:])
 	names := newNamer()
 	for index, p := range pieces {
@@ -94,6 +96,21 @@ func Divide(document rec.Map, body *pagetree.Node) (*Division, string) {
 		division.Units = append(division.Units, Unit{Name: name, Title: title, Kind: p.kind, Main: shell})
 	}
 	return division, ""
+}
+
+// contentsToEnd moves the contents navigation that opens the page (a paper with a printed table
+// of contents, decision 095 amendment 3) from what precedes main to the front of what follows it:
+// the split's contents page shows it, the files repeat only the rest.
+func contentsToEnd(before, after []*pagetree.Node) (kept, following []*pagetree.Node) {
+	var moved []*pagetree.Node
+	for _, n := range before {
+		if id, _ := n.Attr("id"); n.Name == "nav" && id == htmlkit.ContentsID {
+			moved = append(moved, n)
+		} else {
+			kept = append(kept, n)
+		}
+	}
+	return kept, append(moved, after...)
 }
 
 // headingCounters are the sectioning counters of the main text's headings, by node id.

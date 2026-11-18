@@ -49,6 +49,21 @@ func TestCodeRefusesOtherChildren(t *testing.T) {
 	paper.RenderNode("c")
 }
 
+// A float printed between the lines of a listing (the page break gave it that place) is not a
+// line and not an error: the listing is written as runs of lines around it (2611.18363).
+func TestCodeHoldsAFloatBetweenItsLines(t *testing.T) {
+	nodes := codeNodes()
+	nodes["c"] = rec.Map{"id": "c", "type": "code", "children": []any{"l1", "f", "l2"}}
+	nodes["f"] = rec.Map{"id": "f", "type": "table_float", "children": []any{}, "content": []any{}}
+	paper := &Paper{document: rec.Map{"main_block_order": []any{"l1", "l2"}}, nodes: nodes}
+	got := paper.RenderNode("c")
+	float, first, second := strings.Index(got, `id="f"`), strings.Index(got, `id="l1"`), strings.Index(got, `id="l2"`)
+	if !strings.HasPrefix(got, `<div id="c" data-structure="code" class="code-split"><pre class="code"><code id="l1"`) ||
+		strings.Count(got, "<pre ") != 2 || float < first || float > second {
+		t.Fatalf("code = %s", got)
+	}
+}
+
 // The page keeps the listing's own fonts: pre and code inherit the font, and long lines wrap.
 func TestCodeStyleInheritsTheFont(t *testing.T) {
 	if !strings.Contains(pageStyle, "pre.code { font: inherit;") || !strings.Contains(pageStyle, "white-space: pre-wrap") {

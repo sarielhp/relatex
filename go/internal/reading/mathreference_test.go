@@ -1,7 +1,6 @@
 package reading
 
 import (
-	"strings"
 	"testing"
 
 	"github.com/sarielhp/relatex/internal/omap"
@@ -32,17 +31,19 @@ func TestRecordMathReferenceJoinsItsPrintedText(t *testing.T) {
 }
 
 // Without the glyph text the reader cannot prove which number the use printed: it must not
-// invent one from the label.
-func TestRecordMathReferenceRequiresPrintedText(t *testing.T) {
+// invent one from the label. A piece that prints nothing (an \overline's bar in a linked formula)
+// adds no span; the formula keeps the piece.
+func TestRecordMathReferenceInventsNothingWithoutPrintedText(t *testing.T) {
 	e := &Evidence{references: referenceDefinitions()}
-	defer func() {
-		recovered := recover()
-		failure, ok := recovered.(rec.Failure)
-		if !ok || !strings.Contains(failure.Message, "Unsupported reference inside a formula") {
-			t.Fatalf("recovered %v", recovered)
-		}
-	}()
-	e.recordMathReference(rec.Map{"reference": int64(7)}, &pendingMath{})
+	pending := &pendingMath{}
+	e.recordMathReference(rec.Map{"reference": int64(7)}, pending)
+	if len(pending.references) != 0 || e.referenceCnt != 0 {
+		t.Errorf("a span was invented: %v", pending.references)
+	}
+	e.recordMathReference(rec.Map{"reference": int64(7), "text": "e"}, pending)
+	if len(pending.references) != 1 || pending.references[0]["text"] != "e" {
+		t.Errorf("references %v", pending.references)
+	}
 }
 
 // A formula's reference span resolves like an ordinary one: the printed number must be the

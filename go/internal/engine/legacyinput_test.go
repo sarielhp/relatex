@@ -109,6 +109,25 @@ func TestCompatibilityRequestsReadMicrotypeAndOlderPdfTeXNames(t *testing.T) {
 	}
 }
 
+// graphicx's pdftex driver (\usepackage[pdftex]{graphicx}) fails on \pdffilesize under LuaLaTeX.
+func TestCompatibilityRequestsReadPdfFilesize(t *testing.T) {
+	log := "! Undefined control sequence.\n\\Gread@pdftex ...\\expandafter \\relax \\pdffilesize \n  {#1}\n"
+	if got := shimsOf(compatibilityRequests(log)); len(got) != 1 || got[0] != "pdftex" {
+		t.Fatalf("shims %v", got)
+	}
+}
+
+// fontawesome5's [pro] option needs fonts TeX Live does not carry; the layer asks for the Free stand-ins.
+func TestCompatibilityRequestsReadAMissingFontAwesomePro(t *testing.T) {
+	log := "! Font \\TU/fontawesomepro/solid/n/10=FontAwesome5Pro-Solid:script=latn; at 10pt\n not loadable: metric data not found or bad.\n"
+	if got := shimsOf(compatibilityRequests(log)); len(got) != 1 || got[0] != "fontawesome" {
+		t.Fatalf("shims %v", got)
+	}
+	if got := compatibilityRequests("! Font \\TU/lmr/m/n/10=x not loadable\n"); len(got) != 0 {
+		t.Fatalf("another font asks %v", got)
+	}
+}
+
 func TestWarningRequestsReadACharacterAnEightBitFontLacks(t *testing.T) {
 	log := "Missing character: There is no A (U+0041) in font ec-lmr10!\n"
 	if got := warningRequests(log); len(got) != 0 {

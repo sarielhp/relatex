@@ -36,7 +36,11 @@ func Try(ctx context.Context, client *Client, id, dest, relatex string) string {
 }
 
 func convert(ctx context.Context, id, dir, relatex string) string {
-	command := exec.CommandContext(ctx, relatex)
+	var arguments []string
+	if main := MainFile(dir); main != "" {
+		arguments = []string{"--main", main}
+	}
+	command := exec.CommandContext(ctx, relatex, arguments...)
 	command.Dir = dir
 	var output bytes.Buffer
 	command.Stdout, command.Stderr = &output, &output

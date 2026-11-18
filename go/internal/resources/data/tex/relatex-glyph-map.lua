@@ -21,7 +21,8 @@
 --   those of included PNG or JPEG images (decision 162).
 -- flags: 1 a word boundary follows, 2 hyphen added by a discretionary break, 4 last glyph of
 -- a typeset line, 8 inside a literal-drawn box (pgf/TikZ) or covered Beamer material: position not
--- known from TeX.
+-- known from TeX. 16, 32 and 64 mark the last glyph of a broken line of a paragraph by its skips (below): both
+-- skips fil (centred), the left alone (flush right), neither.
 --
 -- Glyphs carry no SyncTeX data, but interword spaces and user glue record the line on which
 -- TeX made them. A glyph gets two of those lines, which bracket the line it was read on:
@@ -42,6 +43,12 @@ local names = node.whatsits()
 -- userskip, spaceskip, xspaceskip: glue made from the author's input
 local SOURCE_GLUE = {[0] = true, [13] = true, [14] = true}
 local BOUNDARY, HYPHEN, LINE_END, UNKNOWN = 1, 2, 4, 8
+-- A broken line's skips (flags 16, 32, 64 on its last glyph), what TeX knew about its alignment: both of
+-- \leftskip and \rightskip stretch with fil glue (\centering, center), only \leftskip does (\raggedleft,
+-- flushright), or neither (a justified or \raggedright paragraph, its last line short). A box that is no
+-- broken line (\centerline's, a table's row) records none.
+local CENTER_SKIP, RIGHT_SKIP, PLAIN_SKIP = 16, 32, 64
+local LEFT_SKIP, RIGHT_SKIP_SUBTYPE = 8, 9
 -- An included graphic is a rule node of the image subtype, or of the box subtype when it is clipped (a form).
 local GRAPHIC = {}
 for id, name in pairs(node.subtypes('rule')) do if name == 'image' or name == 'box' then GRAPHIC[id] = true end end
@@ -334,6 +341,25 @@ local function walk_list(list, h, v, unknown, box)
   return h
 end
 
+-- Whether glue stretches with fil glue (any infinite order).
+local function infinite(glue)
+  return d.getfield(glue, 'stretch_order') > 0 and d.getfield(glue, 'stretch') ~= 0
+end
+
+-- The skip flag of a broken line, or nil for any other box.
+local function skip_class(box)
+  if d.getsubtype(box) ~= 1 then return nil end
+  local left, right
+  for n, id, sub in d.traverse(d.getlist(box)) do
+    if id == GLUE and sub == LEFT_SKIP then left = n end
+    if id == GLUE and sub == RIGHT_SKIP_SUBTYPE then right = n end
+  end
+  local fil_left, fil_right = left and infinite(left), right and infinite(right)
+  if fil_left and fil_right then return CENTER_SKIP end
+  if fil_left then return RIGHT_SKIP end
+  return PLAIN_SKIP
+end
+
 function hlist(box, h, v, unknown, line_box)
   graphic_box(box, h, v)
   unknown = unknown or literal_box(d.getlist(box))
@@ -355,6 +381,8 @@ function hlist(box, h, v, unknown, line_box)
     if line_box then
       mark(LINE_END)
       mark(BOUNDARY)
+      local class = skip_class(box)
+      if class then mark(class) end
     end
   end
 end

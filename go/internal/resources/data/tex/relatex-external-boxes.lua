@@ -114,6 +114,9 @@ local function piece(n, bridge, arrays, state, box)
   if n.id == glyph then
     local text = glyphs.character(n)
     if not text or text:find('[%z\1-\8\11\12\14-\31\127]') then return nil, 'unmapped native box glyph' end
+    -- A typewriter text (\text{\tt Foo}) keeps its font as \mathtt does: set in the proportional text face of the
+    -- page it is not as wide as the formula's fixed width and the space after it is lost (the thesis' figures 9.9-9.12).
+    if require('relatex-text-styles').is_monospaced(n.font) then text = require('relatex-external-alphabets').encode(text, 'monospace') end
     return {[0]='mtext', text}
   end
   if n.id == rule then

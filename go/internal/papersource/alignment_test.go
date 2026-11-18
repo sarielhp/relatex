@@ -25,11 +25,15 @@ func TestLineReaderGathersLinesByParagraph(t *testing.T) {
 	g.DX = []int64{100 * pt, 20 * pt, 10 * pt, 10 * pt, 10 * pt}
 	g.DY, g.Font, g.Char = make([]int64, 5), []int64{1, 1, 1, 1, 1}, []int64{65, 65, 65, 65, 65}
 	g.Formula, g.Owner, g.Slot = []int64{0, 7, 0, 0, 0}, []int64{3, 0, 3, 3, 3}, []int64{1, 0, 1, 1, 1}
-	g.Flags = []int64{0, 4, 0, 4, 0}
+	g.Flags = []int64{0, 4 + 16, 0, 4 + 64, 0}
 	reader.page(page)
 	got := reader.lines["n-par"]
 	want := []reading.Extent{{Left: 99.63, Right: 129.51}, {Left: 129.51, Right: 149.44}}
 	if !slices.Equal(got, want) {
 		t.Fatalf("lines %+v", reader.lines)
+	}
+	// The skips of each line come from the flags of its last glyph (16 centred, 64 plain).
+	if skips := reader.skips["n-par"]; !slices.Equal(skips, []int{reading.SkipCentre, reading.SkipPlain}) {
+		t.Fatalf("skips %v", skips)
 	}
 }

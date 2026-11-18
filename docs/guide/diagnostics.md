@@ -270,6 +270,9 @@ each group.
 | Code | Level | Meaning |
 |---|---|---|
 | `source.engine_compatibility` | whatever | The source was written for pdfLaTeX or XeLaTeX; it was built under LuaLaTeX with a compatibility shim, and the export is checked against that build. |
+| `source.package_substituted` | warning | A LaTeX 2.09-era package TeX Live no longer has (psfig, ltexpprt) was replaced by a built-in substitute; the message names it. Figures and text are kept, details of the old package's layout may differ. |
+| `figure.ipe_converted` | warning | An .ipe graphic is read as the PDF or EPS its file holds and converted like an .eps figure. |
+| `figure.ipe_placeholder` | alert | An .ipe graphic holds neither PDF nor EPS (an Ipe XML drawing); a placeholder box stands in for it. |
 | `source.settling_errors` | whatever | The first TeX pass, before the aux files existed, reported errors that the later passes did not; the build is judged by its error-free final pass. |
 
 ### `split`
@@ -285,6 +288,7 @@ each group.
 | Code | Level | Meaning |
 |---|---|---|
 | `structure.context_unclosed` | warning | An environment's end was never observed; blocks after it may be nested inside it. |
+| `structure.heading_in_block` | warning | A heading set inside an open list or block (a `\subsection` in an `itemize`) stays text of it, outside the outline and the contents. |
 | `structure.displaced_block` | warning | A block printed inside another section than the one that owns it (a page-1 affiliation note, a later section's rule) belongs to the section where it is printed. |
 
 ### `table`

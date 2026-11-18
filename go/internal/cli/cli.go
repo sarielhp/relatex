@@ -308,7 +308,7 @@ func helperPath(name string) string {
 // failureOutput is a failure as it is printed: for a person during a conversion that prints for one.
 func failureOutput(message string, colour bool) string {
 	if conversionHuman != nil {
-		return humanFailure(message, colour)
+		return withTeXNotice(message, humanFailure(message, colour), colour)
 	}
-	return failureText(message, colour)
+	return withTeXNotice(message, failureText(message, colour), colour)
 }

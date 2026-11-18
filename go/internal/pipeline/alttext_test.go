@@ -49,3 +49,25 @@ func TestAZipCarriesItsSidecarBesideTheMainFile(t *testing.T) {
 		t.Fatalf("the ZIP's sidecar was not read: codes %v", codes)
 	}
 }
+
+// Two figures whose names differ only in case give the warning figures.case_twins instead of
+// stopping the export (decision 129, amendment 5).
+func TestCaseTwinFiguresWarn(t *testing.T) {
+	root, err := filepath.Abs("../../..")
+	if err != nil {
+		t.Fatal(err)
+	}
+	profile, err := diagnostics.LoadProfile(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	image := func(source, asset string) rec.Map {
+		return rec.Map{"type": "image", "asset": asset, "source": source}
+	}
+	nodes := rec.Map{"n-1": rec.Map{"id": "n-1", "content": []any{image("figs/Plot.pdf", "a"), image("img/plot.pdf", "b")}}}
+	c := &conversion{diagnostics: diagnostics.New(profile, nil, false), document: rec.Map{"nodes": nodes, "block_order": []any{"n-1"}}}
+	c.figureNameDiagnostics()
+	if codes := c.diagnosticCodes(); codes.Get("figures.case_twins") != int64(1) {
+		t.Fatalf("codes %v", codes)
+	}
+}

@@ -19,10 +19,12 @@ const lineEnd = 4
 type lineReader struct {
 	index *ownerIndex
 	lines map[string][]reading.Extent
+	skips map[string][]int
 	order []string
 	// the line being read
 	left, right float64
 	node        string
+	skip        int
 	started     bool
 }
 
@@ -42,6 +44,7 @@ func (r *lineReader) page(page glyphMapPage) {
 			r.glyph(page, at, x)
 		}
 		if g.Flags[at]&lineEnd != 0 {
+			r.skip = lineSkip(g.Flags[at])
 			r.flush()
 		}
 	}
@@ -74,8 +77,12 @@ func (r *lineReader) flush() {
 			r.order = append(r.order, node)
 		}
 		r.lines[node] = append(r.lines[node], reading.Extent{Left: r.left, Right: r.right})
+		if r.skips == nil {
+			r.skips = map[string][]int{}
+		}
+		r.skips[node] = append(r.skips[node], r.skip)
 	}
-	r.started, r.node = false, ""
+	r.started, r.node, r.skip = false, "", reading.SkipUnknown
 }
 
 // alignParagraphs sets `align` on the document's paragraphs that are centred or right-aligned on
@@ -84,7 +91,7 @@ func (s *Source) alignParagraphs(document rec.Map) {
 	if _, inventoried := s.manifest[s.streamPath+".glyphs.jsonl"]; !inventoried || s.slotBlocks == nil {
 		return
 	}
-	reader := &lineReader{index: newOwnerIndex(document, s.retention, s.slotBlocks), lines: map[string][]reading.Extent{}}
+	reader := &lineReader{index: newOwnerIndex(document, s.retention, s.slotBlocks), lines: map[string][]reading.Extent{}, skips: map[string][]int{}}
 	s.eachGlyphPage(func(page glyphMapPage) bool {
 		reader.page(page)
 		return true
@@ -107,10 +114,30 @@ func (s *Source) alignParagraphs(document rec.Map) {
 		if holdsTable(node) {
 			lines, room = []reading.Extent{reading.Hull(lines)}, reading.TableRoom
 		}
-		if align := reading.Alignment(lines, columns, room); align != "" {
+		if align := reading.Confirm(reading.Alignment(lines, columns, room), reader.skips[id]); align != "" {
 			node["align"] = align
 		}
 	}
+}
+
+// The glyph map's flags for the skips of a broken line (tex/relatex-glyph-map.lua), on its last glyph.
+const (
+	centreSkip = 16
+	rightSkip  = 32
+	plainSkip  = 64
+)
+
+// lineSkip is the reading's skip class of a line whose last glyph has the flags.
+func lineSkip(flags int64) int {
+	switch {
+	case flags&centreSkip != 0:
+		return reading.SkipCentre
+	case flags&rightSkip != 0:
+		return reading.SkipRight
+	case flags&plainSkip != 0:
+		return reading.SkipPlain
+	}
+	return reading.SkipUnknown
 }
 
 // holdsTable: whether the paragraph's content has a table grid.

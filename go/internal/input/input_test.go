@@ -96,3 +96,35 @@ func TestAColonInsideANameIsSafe(t *testing.T) {
 		}
 	}
 }
+
+// Files differing only in letter case are distinct files (LuaLaTeX on Linux reads both): both
+// survive the snapshot, identical or not, instead of failing as a colliding ZIP path.
+func TestCaseDifferingFilesBothSurviveTheSnapshot(t *testing.T) {
+	root := t.TempDir()
+	source := filepath.Join(root, "paper")
+	files := map[string]string{"paper.tex": "\\documentclass{article}\n\\begin{document}x\\end{document}\n",
+		"styles/ieeetran.cls": "same\n", "styles/IEEEtran.cls": "same\n", "Fig.txt": "one", "fig.txt": "two"}
+	for name, text := range files {
+		path := filepath.Join(source, name)
+		if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(path, []byte(text), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	output := filepath.Join(root, "stage")
+	if err := os.MkdirAll(output, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	archive := Capture(source, output, "", nil, Companions)
+	for name, text := range files {
+		got, err := os.ReadFile(filepath.Join(archive.Directory, "files", name))
+		if err != nil || string(got) != text {
+			t.Fatalf("%s: %q %v", name, got, err)
+		}
+	}
+	if n := len(rec.FetchList(archive.Manifest, "files")); n != len(files) {
+		t.Fatalf("inventory has %d files, want %d", n, len(files))
+	}
+}

@@ -1,10 +1,7 @@
 package figures
 
 import (
-	"strings"
 	"testing"
-
-	"github.com/sarielhp/relatex/internal/rec"
 )
 
 // The expectations are FigureNames' (test/figure_names_test.rb): the LaTeX source name,
@@ -72,26 +69,25 @@ func TestClaimTriesAlternativesBeforeANumber(t *testing.T) {
 }
 
 // Two author files whose names differ only in case would overwrite each other in figs/ on
-// Windows and macOS: the export refuses them on every platform, naming both (decision 129,
-// amendment 2).
-func TestStemRefusesAuthorNamesThatDifferOnlyInCase(t *testing.T) {
+// Windows and macOS: byte-identical twins share one exported name, different ones are numbered,
+// and the twins are reported for a warning (decision 129, amendment 5).
+func TestCaseTwinsShareOrNumberTheirNames(t *testing.T) {
 	names := New()
 	names.Stem("upper", map[string]any{"source": "figs/Plot.pdf"})
 	if got := names.Stem("again", map[string]any{"source": "other/Plot.pdf"}); got != "Plot" {
 		t.Errorf("same-case stem = %q, want Plot (Claim numbers it)", got)
 	}
-	var err error
-	func() {
-		defer rec.Recover(&err)
-		names.Stem("lower", map[string]any{"source": "img/plot.png"})
-	}()
-	if err == nil {
-		t.Fatal("plot.png after Plot.pdf was accepted")
+	if got := names.Stem("lower", map[string]any{"source": "img/plot.pdf"}); got != "plot" {
+		t.Errorf("twin stem = %q, want plot", got)
 	}
-	for _, want := range []string{"input.unsafe", `"figs/Plot.pdf"`, `"img/plot.png"`} {
-		if !strings.Contains(err.Error(), want) {
-			t.Errorf("error %q lacks %s", err, want)
-		}
+	if got := names.Claim("a", "Plot.pdf"); got != "Plot.pdf" {
+		t.Fatalf("first claim = %q", got)
+	}
+	if got := names.Claim("a", "plot.pdf"); got != "Plot.pdf" {
+		t.Errorf("identical bytes = %q, want the first name Plot.pdf", got)
+	}
+	if got := names.Claim("b", "plot.pdf"); got != "plot-2.pdf" {
+		t.Errorf("different bytes = %q, want plot-2.pdf", got)
 	}
 }
 

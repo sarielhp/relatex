@@ -14,6 +14,10 @@ import (
 	"github.com/sarielhp/relatex/internal/rec"
 )
 
+// LineIndentKey is the table origin field of a row break's span (the reading puts the break
+// before a box's row in a cell, the grid reads it): the next row's leading width in sp.
+const LineIndentKey = "line_indent_sp"
+
 // Root is the repository root, where the table contracts (schemas/*.json) are read; the
 // stage binary sets it before projecting tables.
 var Root string

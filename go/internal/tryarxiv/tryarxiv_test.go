@@ -195,6 +195,43 @@ func TestRunDownloadsUnpacksAndConverts(t *testing.T) {
 	}
 }
 
+func TestMainFileIsArxivsSingleToplevelSource(t *testing.T) {
+	cases := map[string]struct {
+		readme string
+		files  []string
+		want   string
+	}{
+		"one top level":   {`{"sources":[{"usage":"toplevel","filename":"a.tex"},{"usage":"ignore","filename":"b.tex"}]}`, []string{"a.tex", "b.tex"}, "a.tex"},
+		"in a directory":  {`{"sources":[{"usage":"toplevel","filename":"sub/a.tex"}]}`, []string{"sub/a.tex"}, "sub/a.tex"},
+		"paper and supp":  {`{"sources":[{"usage":"toplevel","filename":"a.tex"},{"usage":"toplevel","filename":"b.tex"}]}`, []string{"a.tex", "b.tex"}, ""},
+		"file is missing": {`{"sources":[{"usage":"toplevel","filename":"a.tex"}]}`, nil, ""},
+		"not a .tex file": {`{"sources":[{"usage":"toplevel","filename":"a.md"}]}`, []string{"a.md"}, ""},
+		"parent escape":   {`{"sources":[{"usage":"toplevel","filename":"../a.tex"}]}`, nil, ""},
+		"unreadable json": {`{`, []string{"a.tex"}, ""},
+	}
+	for name, c := range cases {
+		dir := t.TempDir()
+		files := map[string]string{"00README.json": c.readme}
+		for _, f := range c.files {
+			files[f] = "x"
+		}
+		for f, text := range files {
+			if err := os.MkdirAll(filepath.Dir(filepath.Join(dir, f)), 0o755); err != nil {
+				t.Fatal(err)
+			}
+			if err := os.WriteFile(filepath.Join(dir, f), []byte(text), 0o644); err != nil {
+				t.Fatal(err)
+			}
+		}
+		if got := MainFile(dir); got != c.want {
+			t.Errorf("%s: MainFile = %q, want %q", name, got, c.want)
+		}
+	}
+	if got := MainFile(t.TempDir()); got != "" {
+		t.Errorf("no README: %q", got)
+	}
+}
+
 func TestRunRejectsBadIdentifiersBeforeAnyRequest(t *testing.T) {
 	client, seen := fakeArxiv(t, nil)
 	err := Run(context.Background(), client, Options{IDs: []string{"2401.00001", "../etc"}}, &bytes.Buffer{}, nil)

@@ -485,12 +485,27 @@ func (l *Layout) verticalSegment(native rec.Map, ruleX, width, rowTop, from, to 
 
 func (l *Layout) appendRule(cell rec.Map, axis, side string, start, finish, thickness, offset any) {
 	first, last := rubynum.RoundDigits(start, 9), rubynum.RoundDigits(finish, 9)
-	if !rubynum.Less(first, last) {
+	if !rubynum.Less(first, last) || l.hairline(cell, axis, first, last) {
 		return
 	}
 	id := rec.FetchString(cell, "id")
 	l.segments[id] = append(l.segments[id], rec.Map{"axis": axis, "side": side, "start": first, "end": last,
 		"thickness_sp": thickness, "offset_sp": offset})
+}
+
+// minimumRuleSP is the shortest rule a browser can paint: a layout unit, 1/64 CSS px (about 771 sp).
+const minimumRuleSP = 771
+
+// hairline: whether the rule between the fractions first and last of the cell edge is shorter than a layout
+// unit. It has no ink on the PDF page and a browser gives it no box (spite: a \cline of 4.6e-07 of its cell),
+// so it is not a rule of the layout.
+func (l *Layout) hairline(cell rec.Map, axis string, first, last any) bool {
+	rect := l.CellRect(cell)
+	extent := rubynum.Sub(rect[2], rect[0])
+	if axis == "vertical" {
+		extent = rubynum.Sub(rect[3], rect[1])
+	}
+	return rubynum.Float(rubynum.Mul(rubynum.Sub(last, first), extent)) < minimumRuleSP
 }
 
 func (l *Layout) legacyRules() {

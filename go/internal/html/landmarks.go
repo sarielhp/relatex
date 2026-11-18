@@ -25,8 +25,12 @@ var noteNumber = regexp.MustCompile(`^[0-9A-Za-z∗*⋆†‡§¶]{1,4}$`)
 
 // noteRole makes a note's aside a DPUB-ARIA footnote, not a complementary landmark: a page of
 // notes would otherwise hold many landmarks of one name (Ace's landmark-unique). Its name is
-// "Footnote N" when the number is plain, else "Footnote".
+// "Footnote N" when the number is plain, else "Footnote". A margin note (\marginpar, the number
+// "marginpar", decision 195) is a plain note named "Margin note".
 func noteRole(number string) string {
+	if number == "marginpar" {
+		return " role=\"note\" aria-label=\"Margin note\""
+	}
 	name := "Footnote"
 	if noteNumber.MatchString(number) {
 		name += " " + number

@@ -475,9 +475,7 @@ func (c *StageCache) texResolution(names []string) []any {
 			lines = append(lines, rec.Strip(line))
 		}
 	}
-	if len(names) == 1 && output.Len() == 0 {
-		lines = []string{""}
-	}
+	lines = padLastMiss(lines, len(names)) // kpsewhich prints no line for a missing last name
 	missing := 0
 	for _, line := range lines {
 		if line == "" {
@@ -492,6 +490,9 @@ func (c *StageCache) texResolution(names []string) []any {
 		detail := rec.Strip(errorOutput.String())
 		if runErr != nil && status == nil {
 			detail = runErr.Error()
+		}
+		if detail == "" {
+			detail = lookupMismatch(status, len(lines), len(names), missing)
 		}
 		rec.Fail("Cache dependency lookup failed: %s", detail)
 	}
@@ -684,4 +685,23 @@ func failureClass(recovered any) string {
 		return "Relatex::Failure"
 	}
 	return fmt.Sprintf("%T", recovered)
+}
+
+// lookupMismatch names why a kpsewhich answer was rejected when it printed nothing on stderr.
+func lookupMismatch(status *os.ProcessState, lines, names, missing int) string {
+	if status == nil || !status.Exited() {
+		return fmt.Sprintf("kpsewhich did not exit normally (%v)", status)
+	}
+	if lines != names {
+		return fmt.Sprintf("kpsewhich printed %d lines for %d names", lines, names)
+	}
+	return fmt.Sprintf("kpsewhich exit status %d, expected %d missing names", status.ExitCode(), missing%256)
+}
+
+// padLastMiss restores the empty answer kpsewhich leaves out for a missing last name.
+func padLastMiss(lines []string, names int) []string {
+	if len(lines) == names-1 {
+		return append(lines, "")
+	}
+	return lines
 }

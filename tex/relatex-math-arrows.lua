@@ -93,6 +93,40 @@ local function congruent(node)
   return texts[1] == '∼' and texts[2] == '='
 end
 
+-- esvect's \vv{x} is a two-row table like \overrightarrow: the arrow (a shaft end, a backed-up space and a head of the
+-- vect font) over the base (so is amsmath's \overrightarrow). It is the vector accent: the base under a U+2192 accent, as \vec reads.
+local function vector_arrow(node, state)
+  if type(node) ~= 'table' then return true end
+  if node[0] == 'mo' then
+    local text = text_of(node)
+    if text == '→' then
+      state.heads = state.heads + 1
+      return true
+    end
+    return text == '−'
+  end
+  if not WRAPPERS[node[0]] and node[0] ~= 'mpadded' and node[0] ~= 'mspace' then return false end
+  for _, child in ipairs(node) do
+    if type(child) == 'table' and not vector_arrow(child, state) then return false end
+  end
+  return true
+end
+
+local function vector_accent(node)
+  if type(node) ~= 'table' or node[0] ~= 'mtable' or #node ~= 2 then return nil end
+  local top, bottom = node[1], node[2]
+  if type(top) ~= 'table' or top[0] ~= 'mtr' or #top ~= 1 or type(bottom) ~= 'table' or bottom[0] ~= 'mtr' or #bottom ~= 1 then
+    return nil
+  end
+  local state = {heads = 0}
+  if not vector_arrow(top[1], state) or state.heads ~= 1 then return nil end
+  local base = bottom[1]
+  local content = {[0] = 'mrow'}
+  for _, child in ipairs(type(base) == 'table' and base or {}) do content[#content + 1] = child end
+  return {[0] = 'mover', accent = 'true', content,
+    {[0] = 'mo', '→', stretchy = 'true', [':nodes'] = {}}}
+end
+
 local PATTERNS = {
   -- amsmath's \leftrightarrowfill@ (\overleftrightarrow): two heads, each backed up 7mu, and a leader of
   -- \relbar between them that LuaMML does not read; the PDF paints the shaft, one minus as the
@@ -172,6 +206,11 @@ function M.compose(tree)
       index = compose_congruence(tree, index)
       matched = true
     end
+local vector = not matched and vector_accent(tree[index])
+if vector then
+  tree[index] = vector
+  matched = true
+end
     if not matched then
       for _, pattern in ipairs(PATTERNS) do
         local length, test, text = pattern[1], pattern[2], pattern[3]

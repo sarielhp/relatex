@@ -12,10 +12,21 @@ import "github.com/sarielhp/relatex/internal/rec"
 // reads as the space between the lines.
 
 // headingContinues: the owner is a paragraph of the heading entity whose block was the last one read
-// in this partition.
+// in this partition. A block holding a table is no heading: no line break joins text onto it.
 func headingContinues(last, owner rec.Map) bool {
 	return last != nil && rec.Fetch(last, "type") == "section" && rec.FetchString(owner, "role") == "section" &&
-		rec.Equal(rec.Fetch(last, "entity"), rec.Fetch(owner, "entity")) && len(rec.FetchList(last, "content")) > 0
+		rec.Equal(rec.Fetch(last, "entity"), rec.Fetch(owner, "entity")) && len(rec.FetchList(last, "content")) > 0 &&
+		!holdsTable(last)
+}
+
+// holdsTable: a span of the block is a table grid.
+func holdsTable(block rec.Map) bool {
+	for _, span := range rec.FetchList(block, "content") {
+		if m, ok := span.(rec.Map); ok && rec.FetchString(m, "type") == "table_grid" {
+			return true
+		}
+	}
+	return false
 }
 
 // lineBreak is the span between two lines of a heading; no later text merges into it.

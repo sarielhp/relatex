@@ -82,6 +82,8 @@ type Probe struct {
 	reencoded []any
 	// generatedFonts are TeX font metrics generated with mktextfm during the build (decision 158).
 	generatedFonts []string
+	// ipeGraphics are the .ipe figures prepareEPS converted, each with what the file held (decision 194).
+	ipeGraphics []any
 }
 
 // NewProbe is SourceProbe.new(archive:, work:, engine:, jobs:, inspect_stream: false,
@@ -219,7 +221,7 @@ func (p *Probe) Probe() rec.Map {
 		"equation_alias_adapter": false, "amsmath_adapter": false, "footnote_adapter": true, "graphics_adapter": true,
 		"table_adapter": true, "page_total_adapter": true, "source_repairs": int64(0), "results": results,
 		"layout_adapters": rec.Map{"classic_table_rules": false}, "compatibility": p.compatibilityRecord(), "reencoded_inputs": p.reencodedRecord(),
-		"generated_fonts": p.generatedFontsRecord(),
+		"generated_fonts": p.generatedFontsRecord(), "ipe_graphics": p.ipeGraphics,
 		"execution": rec.Map{"jobs": p.options.Jobs, "cache": "disabled for diagnostic paper probes",
 			"seconds": time.Since(started).Seconds()}}
 	writeJSON(filepath.Join(p.Directory, "probe.json"), report)

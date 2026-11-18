@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/sarielhp/relatex/internal/figdesc"
+	"github.com/sarielhp/relatex/internal/figures"
 	"github.com/sarielhp/relatex/internal/rec"
 )
 
@@ -68,4 +69,18 @@ func listed(names []string) string {
 		return strings.Join(names, ", ")
 	}
 	return strings.Join(names[:5], ", ") + fmt.Sprintf(" and %d more", len(names)-5)
+}
+
+// figureNameDiagnostics warns about each pair of figures whose source names differ only in case:
+// the export keeps both (identical bytes share one name, a different file is numbered) and the
+// paper keeps its names (decision 129, amendment 5).
+func (c *conversion) figureNameDiagnostics() {
+	for _, twin := range figures.CaseTwins(c.document) {
+		outcome := "they hold different bytes, so the second is numbered"
+		if twin.Identical {
+			outcome = "they hold the same bytes, so they share one exported name"
+		}
+		c.diagnostics.Add("figures.case_twins", fmt.Sprintf("the figures %s and %s differ only in case, which Windows and macOS "+
+			"cannot tell apart; %s", rec.InspectString(twin.First), rec.InspectString(twin.Second), outcome), nil)
+	}
 }

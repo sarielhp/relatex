@@ -116,3 +116,19 @@ func TestJustifiedEntriesAreNotRight(t *testing.T) {
 		}
 	}
 }
+
+// ason (V-C): five centred lines straddling the gutter share an extent that is no text column; a short
+// list item in the right column that happens to end at its right edge is not right-aligned.
+func TestAlignmentIgnoresAWiderExtentOfCentredLines(t *testing.T) {
+	var blocks [][]Extent
+	for range 6 {
+		blocks = append(blocks, []Extent{{47, 300}, {47, 300}, {312, 563}, {312, 563}, {151, 470}, {151, 470}})
+	}
+	columns := TextColumns(blocks)
+	if got := Alignment([]Extent{{332.8, 471}}, columns, ParagraphRoom); got != "" {
+		t.Errorf("short list item: %q, want flush left", got)
+	}
+	if got := Alignment([]Extent{{450, 562.5}}, columns, ParagraphRoom); got != Right {
+		t.Errorf("flush-right date in the right column: %q", got)
+	}
+}

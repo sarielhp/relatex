@@ -18,7 +18,7 @@ if (type === 'table_grid') {
   if (element.dataset.schema === 'table-2') {
     const copies = [...element.tBodies].flatMap(body => [...body.rows]).flatMap(row => [...row.cells]).map(cell => ({
       ...JSON.parse(cell.dataset.cellMeta),
-      content: [...cell.querySelector(':scope > [data-cell-content]').children].map(span),
+      content: spanList([...cell.querySelector(':scope > [data-cell-content]').children]),
       rules: [...cell.querySelectorAll(':scope > [data-rich-rule]')].map(rule => JSON.parse(rule.dataset.richRule))
     }));
     const unique = new Map();
@@ -123,7 +123,13 @@ if (type === 'image') return {type, id: element.id, asset: element.dataset.asset
     return result;
   };
   const pageBreak = e => e.getAttribute('role') === 'doc-pagebreak';
-  const blocks = [...document.querySelectorAll('main [data-block]')].map(e => ({id: e.id, type: e.dataset.block, content: [...e.children].flatMap(c => c.classList.contains('runin-heading') ? [...c.children] : [c]).map(span)}));
+  // A text piece cut after a formula's punctuation (data-join-cont) is part of the span before it: its text joins that span's.
+  // A nowrap wrapper (data-join) is no span either: its children are the list's.
+  const spanList = elements => elements.flatMap(c => c.hasAttribute('data-join') ? [...c.children] : [c]).reduce((out, c) => {
+    if (c.hasAttribute('data-join-cont') && out.length) out[out.length - 1].text += c.textContent; else out.push(span(c));
+    return out;
+  }, []);
+  const blocks = [...document.querySelectorAll('main [data-block]')].map(e => ({id: e.id, type: e.dataset.block, content: spanList([...e.children].flatMap(c => c.classList.contains('runin-heading') ? [...c.children] : [c]))}));
   // A figure's long description (decision 110) follows the block that holds the figure; it is no
   // node of the document.
   // A bibliography run's wrapper (decision 111) is no node of the document: its children are the

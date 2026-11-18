@@ -13,6 +13,8 @@ does reLaTeX read its log for one of these causes:
 | The log shows | Typical cause | Shim |
 |---|---|---|
 | `! Undefined control sequence.` for a pdfTeX primitive (`\pdfoutput`, `\pdfliteral`, `\pdfstrcmp`, …) | arXiv's customary `\pdfoutput=1`, or `xy` | `pdftex` |
+| `! Undefined control sequence.` for `\pdffilesize` | `\usepackage[pdftex]{graphicx}`, which names the pdfTeX graphics driver, reading a PDF figure | `pdftex` |
+| `! Font \TU/fontawesomepro/...` not loadable | `\usepackage[pro]{fontawesome5}`: LuaLaTeX loads the commercial Pro fonts at once, pdfLaTeX only when an icon is used | `fontawesome` (the Free fonts stand in) |
 | "pdfTeX version 1.40.0 or higher is needed" | the `xy` package's PDF driver | `pdftex` |
 | an undefined XeTeX primitive (`\XeTeXlinebreaklocale`, …) | XeLaTeX-only code | `xetex` |
 | "works only with XeTeX" | `xunicode` | `xetex` |
@@ -24,6 +26,8 @@ undefined:
 
 - `pdftex`: the pdfTeX primitive names mapped to their LuaTeX equivalents, without
   `\pdftexversion`, so `iftex` and `ifpdf` still see LuaTeX and take their LuaTeX branch;
+- `fontawesome`: the `fontawesomepro` families declared as `fontawesomefree` ones; an icon only Pro has is
+  reported by the package as not found;
 - `xetex`: XeTeX's parameters as inert registers and its other primitives as commands that do
   nothing; `xunicode` treated as loaded;
 - `fontspec`: the font commands load `fontspec` when first used.
@@ -49,6 +53,14 @@ an `.aux` file runs without `-halt-on-error`. If it fails but wrote its `.aux` f
 fatally, its errors are recorded and the build goes on. Every later pass must run without error,
 and the final pass must be clean. The recorded errors appear as the diagnostic
 `source.settling_errors` (level `whatever`).
+
+## BibTeX and multibyte letters
+
+BibTeX works on bytes: a first name that begins with an accented letter (Željko) gets the first
+byte of the letter as its initial. pdfLaTeX's `inputenc` lets that pass; LuaTeX stops with "String
+contains an invalid utf-8 sequence". reLaTeX makes the `.bbl` valid UTF-8 after BibTeX: each cut
+letter becomes U+FFFD (the letter itself is lost) and the engine alert says so. Biber, or a `.bib`
+with `{\v Z}` for such names, keeps the letter.
 
 ## What still does not work
 

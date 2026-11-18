@@ -42,7 +42,6 @@ var (
 	unsafeName = regexp.MustCompile(`[\\\x00-\x1f\x7f]|^[A-Za-z]:`)
 	// beginsDocument is /^[^%]*\\begin\s*\{document\}/n: no % before the \begin on its line.
 	beginsDocument = regexp.MustCompile(`(?m)^[^%\n]*\\begin[ \t\n\v\f\r]*\{document\}`)
-	fold           = cases.Fold()
 )
 
 // Archive is one checked snapshot: Directory holds source.zip, files/ and inventory.json.
@@ -310,7 +309,7 @@ func checkedName(entry centralEntry) string {
 	return path
 }
 
-// inventory is Archive#inventory!: safe names, no case-folded collisions, no file under a
+// inventory is Archive#inventory!: safe names, no NFC-equal duplicates (names differing only in letter case are distinct files, as on Linux where LuaLaTeX reads both), no file under a
 // file, the expanded size within the limit.
 func (a *Archive) inventory(entries []centralEntry) {
 	paths := map[string]bool{}
@@ -318,7 +317,7 @@ func (a *Archive) inventory(entries []centralEntry) {
 	total := int64(0)
 	for _, entry := range entries {
 		path := checkedName(entry)
-		key := fold.String(norm.NFC.String(path))
+		key := norm.NFC.String(path)
 		if _, seen := paths[key]; seen {
 			rec.Fail("Colliding ZIP path: %s", path)
 		}
@@ -446,6 +445,12 @@ func (a *Archive) SelectMain(requested string, ignore []string) string {
 		}
 	}
 	selected := chooseMain(requested, topLevel, candidates)
+	narrowed, reason := "", ""
+	pool := anyStrings(candidates)
+	if selected == "" && len(candidates) > 1 {
+		narrowed, reason, pool = a.narrowMain(files, pool, ignored)
+		selected = narrowed
+	}
 	besides := ""
 	if len(ignore) > 0 {
 		besides = " besides " + strings.Join(ignore, ", ")
@@ -453,7 +458,7 @@ func (a *Archive) SelectMain(requested string, ignore []string) string {
 	if selected == "" {
 		listed := topLevel
 		if len(candidates) > 0 {
-			listed = anyStrings(candidates)
+			listed = pool
 		}
 		rec.Fail("%s", ambiguousMain(listed, besides))
 	}
@@ -465,6 +470,8 @@ func (a *Archive) SelectMain(requested string, ignore []string) string {
 		selection = "explicit"
 	} else if len(topLevel) == 1 {
 		selection = "only top-level .tex file" + besides
+	} else if narrowed != "" {
+		selection = reason + " (several documents); not compilation evidence"
 	}
 	a.Manifest["main"], a.Manifest["main_candidates"], a.Manifest["selection"] = selected, candidates, selection
 	a.write()

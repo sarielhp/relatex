@@ -36,6 +36,18 @@
       "level": "whatever",
       "summary": "The source was written for pdfLaTeX or XeLaTeX; it was built under LuaLaTeX with a compatibility shim, and the export is checked against that build."
     },
+    "source.package_substituted": {
+      "level": "warning",
+      "summary": "A LaTeX 2.09-era package TeX Live no longer has (psfig, ltexpprt) was replaced by a built-in substitute; the message names it. Figures and text are kept, details of the old package's layout may differ."
+    },
+    "figure.ipe_converted": {
+      "level": "warning",
+      "summary": "An .ipe graphic is read as the PDF or EPS its file holds and converted like an .eps figure."
+    },
+    "figure.ipe_placeholder": {
+      "level": "alert",
+      "summary": "An .ipe graphic holds neither PDF nor EPS (an Ipe XML drawing); a placeholder box stands in for it."
+    },
     "source.settling_errors": {
       "level": "whatever",
       "summary": "The first TeX pass, before the aux files existed, reported errors that the later passes did not; the build is judged by its error-free final pass."
@@ -48,13 +60,21 @@
       "level": "warning",
       "summary": "A symbolic link in the source directory was left out of the snapshot: it dangles (an editor's lock file), leaves the source directory, or names a directory. Links to files inside the source are kept with their target's content."
     },
+    "input.name_skipped": {
+      "level": "warning",
+      "summary": "A file in the source directory has a name that cannot be stored portably in the snapshot (a backslash or control character) and was left out; if TeX reads it, the build fails with TeX's own error."
+    },
     "input.special_skipped": {
       "level": "warning",
       "summary": "A socket, FIFO or device in the source directory was left out of the snapshot."
     },
     "input.unsafe": {
       "level": "fatal",
-      "summary": "A source file name cannot be stored on Windows (reserved device name, forbidden character, or trailing dot or space) or two figure stems differ only in case, so their files would overwrite each other on Windows and macOS; rename the file in the source."
+      "summary": "A source file name cannot be stored on Windows (reserved device name, forbidden character, or trailing dot or space) (two figures whose names differ only in case are not refused: see figures.case_twins); rename the file in the source."
+    },
+    "figures.case_twins": {
+      "level": "warning",
+      "summary": "Two figures whose source names differ only in case (Plot.pdf and plot.pdf) would overwrite each other on Windows and macOS. Identical bytes share the first name; different ones take a number for the second (plot-2.pdf). The source is not renamed (decision 129, amendment 5)."
     },
     "fonts.source_unavailable": {
       "level": "warning",
@@ -319,6 +339,10 @@
     "structure.context_unclosed": {
       "level": "warning",
       "summary": "An environment's end was never observed; blocks after it may be nested inside it."
+    },
+    "structure.heading_in_block": {
+      "level": "warning",
+      "summary": "A heading set inside an open list or block stays text of it, outside the outline and the contents."
     },
     "note.unlinked_call": {
       "level": "warning",
